@@ -1,0 +1,9 @@
+### Send POST request with json body
+### Create MissingPerson
+POST http://localhost:8080/missingPerson
+Content-Type: application/json
+
+{
+  "name": "jongbinNho",
+  "missingAt": "2024-03-13T08:00:00"
+}
