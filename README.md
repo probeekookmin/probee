@@ -1,4 +1,4 @@
-# Welcome to GitHub
+# Welcome to GitHub..
 
 캡스톤 팀 생성을 축하합니다.
 
