@@ -3,19 +3,22 @@
 <div align="center"> 
 <p align="center">
 <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width="30%"/>
-</br>
-<a href="https://probee.co.kr">Pro-bee</a>
+<p><a href="https://probee.co.kr">Pro-bee</a></p>
 </p>
+<p>
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> 
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> 
-  <br/>
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+</p>
+<p>
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> 
   <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> 
   <img src="https://img.shields.io/badge/amazon S3-6DB33F?style=for-the-badge&logo=amazons3&logoColor=white"> 
   <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> 
-  <br/>
+</p>
+<p>
   <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"> 
+</p>
 </div>
 
 ## 1. 프로젝트 소개
@@ -36,6 +39,73 @@
 
 ### 중간 발표자료
 
-[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
+<div align="center">
+<a href = "https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09">
+<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9">
+</a>
+</div>
 
 ## 3. 팀 소개
+
+```markdown
+Name : 노종빈(팀장)
+ID : 20180891
+Email : nobin313@kookmin.ac.kr
+github: https://github.com/begong313
+Role:
+
+-   Backend
+-   CCTV 개발
+```
+
+```markdown
+Name : 김지원
+ID : 20180812
+Email : livelim313@gmail.com
+github : https://github.com/KJW988
+Role:
+
+-   AI
+-   Yolo
+```
+
+```markdown
+Name : 정수환
+ID : 20191663
+Email : wjdtnghks123@kookmin.ac.kr
+github : https://github.com/su-hwani
+
+Role:
+
+-   Backend
+-   AWS
+```
+
+```markdown
+Name : 신채원
+ID : 20213021
+Email : mirageciel@kookmin.ac.kr
+github : https://github.com/mirageciel
+Role:
+
+-   AI
+```
+
+```markdown
+Name : 안채영
+ID : 20213024
+Email : tory912@gmail.com
+github : https://github.com/ancy0
+Role:
+
+-   Frontend
+-   디자인
+```
+
+## 4. 사용법
+
+추후 업로드 예정
+
+## 5. 기타
+
+추가적인 내용은 자유롭게 작성하세요.
