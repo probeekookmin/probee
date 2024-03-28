@@ -1,10 +1,10 @@
 # Pro_bee
 
 <div align="center"> 
-<p align = "center">
-<img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
+<p align="center">
+<img src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width="30%"/>
 </br>
-<a href = "https://probee.co.kr">Pro-bee<a>
+<a href="https://probee.co.kr">Pro-bee</a>
 </p>
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> 
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
@@ -39,61 +39,3 @@
 [<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
 
 ## 3. 팀 소개
-
-```
-Name : 노종빈(팀장)
-ID : 20180891
-Email : nobin313@kookmin.ac.kr
-github: https://github.com/begong313
-Role:
- - Backend
- - CCTV 개발
-```
-
-```
-Name : 김지원
-ID : 20180812
-Email : livelim313@gmail.com
-github : https://github.com/KJW988
-Role:
- - AI
- - Yolo
-```
-
-```
-Name : 정수환
-ID : 20191663
-Email : wjdtnghks123@kookmin.ac.kr
-github : https://github.com/su-hwani
-
-Role:
- - Backend
- - AWS
-```
-
-```
-Name : 신채원
-ID : 20213021
-Email : mirageciel@kookmin.ac.kr
-github : https://github.com/mirageciel
-Role:
- - AI
-```
-
-```
-Name : 안채영
-ID : 20213024
-Email : tory912@gmail.com
-github : https://github.com/ancy0
-Role:
- - Frontend
- - 디자인
-```
-
-## 4. 사용법
-
-추후 업로드 예정
-
-## 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
