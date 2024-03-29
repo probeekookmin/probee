@@ -171,6 +171,30 @@ def detect(save_img=False):
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
         print(f"Results saved to {save_dir}{s}")
 
+    # ==== annotation Json 파일 생성 ==== #
+    file_dir = os.path.join(save_dir, 'crops')
+    annotation_idx = 0
+    for filename in os.listdir(file_dir):
+        id = re.sub(r'\D', '', filename)
+        annotation = {
+            "image_id": annotation_idx,
+            "id": id,
+            "file_path": f"{save_dir}/crops/{filename}",
+            "sentence": "",
+            "onehot": []
+            }
+        categories.append(id)
+        annotations.append(annotation)
+        annotation_idx += 1
+
+    data = {"categories": categories, "annotations": annotations}
+
+    with open(f"{file_dir}/annotations.json", "w") as f:
+        json.dump(data, f)
+    print("Save Json file.")
+    
+    print(f'Done. ({time.time() - t0:.3f}s)')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
