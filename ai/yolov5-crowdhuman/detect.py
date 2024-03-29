@@ -8,10 +8,10 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-
 import argparse
 import time
-from pathlib import Path
+import json
+import re
 
 import cv2
 import torch
@@ -26,6 +26,7 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 from ultralytics.utils.plotting import Annotator, colors, save_one_box
 from utils.dataloaders import IMG_FORMATS, VID_FORMATS
+from datetime import datetime,timedelta
 
 
 def detect(save_img=False):
@@ -44,6 +45,7 @@ def detect(save_img=False):
     set_logging()
     device = select_device(opt.device)
     half = device.type != 'cpu'  # half precision only supported on CUDA
+    
 
     # Load model
     model = attempt_load(weights, map_location=device)  # load FP32 model
@@ -59,7 +61,6 @@ def detect(save_img=False):
         modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model']).to(device).eval()
 
     # Set Dataloader
-    vid_path, vid_writer = None, None
     if webcam:
         view_img = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
@@ -68,17 +69,22 @@ def detect(save_img=False):
         save_img = True
         # dataset = LoadImages(source, img_size=imgsz, stride=stride)
         # model.warmup(imgsz=(1 if model.pt or model.triton else 1, 3, *imgsz))  # warmup
-        dataset = LoadImages(source, img_size=imgsz, stride=stride, vid_stride=50)  # frame-rate 입력
+        dataset = LoadImages(source, img_size=imgsz, stride=stride)  # frame-rate 입력
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
     # Run inference
     if device.type != 'cpu':
         model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
     t0 = time.time()
+    prev_path = ''
+    categories = []
+    annotations = []
     for path, img, im0s, vid_cap in dataset:
+        if path != prev_path:
+            nfps = 0
+        fps = vid_cap.get(cv2.CAP_PROP_FPS)
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -105,12 +111,15 @@ def detect(save_img=False):
                 p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            save_path = str(save_dir / p.name)  # img.jpg
-            txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
+            date_obj = datetime.strptime(p.stem, '%Y%m%d-%H%M%S')  # 탐색 시작 시간
             s += '%gx%g ' % img.shape[2:]  # print string
-            gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
-            imc = im0.copy()
-            # annotator = Annotator(im0, line_width=3, example=str(names))
+
+            if fps < 10:
+                date_obj += nfps * timedelta(seconds=10)
+            else:
+                date_obj += nfps * timedelta(seconds=2)
+            img_name = date_obj.strftime('%Y-%m-%d %H-%M-%S ')
+
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
@@ -131,7 +140,10 @@ def detect(save_img=False):
                             save_one_box(xyxy, im0, file=save_dir / "crops" / f"{p.stem}.jpg", BGR=True)
                         if 'person' in label and opt.person:
                             # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-                            save_one_box(xyxy, im0, file=save_dir / "crops" / f"{p.stem}.jpg", BGR=True)
+                            # ==== 이미지 저장 ==== #
+                            # print(frame)
+                            save_one_box(xyxy, im0, file=save_dir / "crops" / f"{img_name}.jpg", BGR=True)
+                            # 검출 정확도 향상을 위해 h < w인 이미지 삭제 (검출 이미지 특성을 고려)
                             file_dir = os.path.join(save_dir, 'crops')
                             for filename in os.listdir(file_dir):
                                 file_path = os.path.join(file_dir, filename)
@@ -139,6 +151,7 @@ def detect(save_img=False):
                                 h, w = img.shape[:2]
                                 if h < w:
                                     os.remove(file_path)
+
                     else:
                         # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                         break
@@ -150,34 +163,18 @@ def detect(save_img=False):
                 cv2.imshow(str(p), im0)
                 cv2.waitKey(0)  # 1 millisecond
 
-            # Save results (image with detections)
-            if save_img:
-                if dataset.mode == 'image':
-                    cv2.imwrite(save_path, im0)
-                else:  # 'video'
-                    if vid_path != save_path:  # new video
-                        vid_path = save_path
-                        if isinstance(vid_writer, cv2.VideoWriter):
-                            vid_writer.release()  # release previous video writer
+        nfps += 1
+        prev_path = path
 
-                        fourcc = 'mp4v'  # output video codec
-                        fps = vid_cap.get(cv2.CAP_PROP_FPS)
-                        w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-                        h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*fourcc), fps, (w, h))
-                    vid_writer.write(im0)
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
         print(f"Results saved to {save_dir}{s}")
 
-    print(f'Done. ({time.time() - t0:.3f}s)')
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
-    # parser.add_argument('--source', type=str, default='data/images', help='source')  # file/folder, 0 for webcam
     parser.add_argument("--source", type=str, default=ROOT / "data/images", help="file/dir/URL/glob/screen/0(webcam)")
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
@@ -195,7 +192,6 @@ if __name__ == '__main__':
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--person', action='store_true', help='displays only person')
     parser.add_argument('--heads', action='store_true', help='displays only person')
-    # parser.add_argument('--vid-stride', type=int, default=1, help="video frame-rate stride")
 
     opt = parser.parse_args()
     print(opt)

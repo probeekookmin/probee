@@ -121,7 +121,7 @@ class _RepeatSampler(object):
 
 class LoadImages:  # for inference
     # video frame rate 조절 code 추가
-    def __init__(self, path, img_size=640, stride=32, vid_stride=1):  # stride 조절
+    def __init__(self, path, img_size=640, stride=32):  # stride 조절
         p = str(Path(path).absolute())  # os-agnostic absolute path
         if '*' in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -142,7 +142,7 @@ class LoadImages:  # for inference
         self.nf = ni + nv  # number of files
         self.video_flag = [False] * ni + [True] * nv
         self.mode = 'image'
-        self.vid_stride = vid_stride  # video frame-rate stride
+        # self.vid_stride = vid_stride  # video frame-rate stride
         if any(videos):
             self.new_video(videos[0])  # new video
         else:
@@ -162,7 +162,11 @@ class LoadImages:  # for inference
         if self.video_flag[self.count]:
             # Read video
             self.mode = 'video'
-            for _ in range(self.vid_stride):  # stride 조절
+            if self.cap.get(cv2.CAP_PROP_FPS) < 10:
+                vid_stride = int(self.cap.get(cv2.CAP_PROP_FPS) * 10)
+            else:
+                vid_stride = int(self.cap.get(cv2.CAP_PROP_FPS) * 2)
+            for _ in range(vid_stride):  # stride 조절
                 self.cap.grab()
             ret_val, img0 = self.cap.retrieve()
             # ret_val, img0 = self.cap.read()
@@ -199,7 +203,13 @@ class LoadImages:  # for inference
         self.frame = 0
         self.cap = cv2.VideoCapture(path)
         # self.nframes = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        self.nframes = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / self.vid_stride)
+        # self.nframes = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / self.vid_stride)
+        if self.cap.get(cv2.CAP_PROP_FPS) < 10:
+            vid_stride = self.cap.get(cv2.CAP_PROP_FPS) * 10
+        else:
+            vid_stride = self.cap.get(cv2.CAP_PROP_FPS) * 2
+        self.nframes = round(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / vid_stride)
+
 
     def __len__(self):
         return self.nf  # number of files
