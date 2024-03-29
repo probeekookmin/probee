@@ -1,76 +1,99 @@
-# Welcome to GitHub
+# Pro_bee
 
-캡스톤 팀 생성을 축하합니다.
+<div align="center"> 
+<p align = "center">
+<img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
+</br>
+<a href = "https://probee.co.kr">Pro-bee<a>
+</p>
+  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> 
+  <br/>
+  <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> 
+  <img src="https://img.shields.io/badge/amazon S3-6DB33F?style=for-the-badge&logo=amazons3&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> 
+  <br/>
+  <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"> 
+</div>
 
-## 팀소개 및 페이지를 꾸며주세요.
+## 1. 프로젝트 소개
 
-- 프로젝트 소개
-  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
-  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
+프로젝트(이하, Pro_bee)의 목표는 실종자 인상착의 정보(text)를 통해 CCTV에서 유사한 인물을 찾아내는, 지능형 실종자 검출 시스템을 만드는 것이다.
 
-- 팀페이지 꾸미기
-  - 프로젝트 소개 및 팀원 소개
-  - index.md 예시보고 수정.
+해당 프로젝트는 아래와 같은 이유로 기획되었다.
+<br/>
+실종자 경보 문자(이하, 경보 문자)는 실종 사건 발생 시 국민 제보를 활성화하고자 생겨난 제도로, 문자를 받은 시민의 제보를 수사에 활용한다. 이를 통해 발견 시간이 7분의 1로 단축되기도 하는 등 경보 문자는 실제 실종자 수사 과정에 도움을 주고 있다.
 
-- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
-  - Source를 marster branch
-  - Theme Chooser에서 태마선택
-  - 수정후 팀페이지 확인하여 점검.
+## 2. 소개 영상, 사진
 
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
+### 시스템 아키텍처
 
-**예시)** 2023년 0조  https://kookmin-sw.github.io/capstone-2023-00/
+<div align="center">
+<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1be85776-331d-4d50-9cbd-1d9e4537dfad">
+</div>
 
+### 중간 발표자료
 
-## 내용에 아래와 같은 내용들을 추가하세요.
+[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
 
-### 1. 프로잭트 소개
+## 3. 팀 소개
 
-프로젝트
-
-### 2. 소개 영상
-
-프로젝트 소개하는 영상을 추가하세요
-
-### 3. 팀 소개
-
-팀을 소개하세요.
-
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
-
-### 4. 사용법
-
-소스코드제출시 설치법이나 사용법을 작성하세요.
-
-### 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
-
-
-## Markdown을 사용하여 내용꾸미기
-
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+Name : 노종빈(팀장)
+ID : 20180891
+Email : nobin313@kookmin.ac.kr
+github: https://github.com/begong313
+Role:
+ - Backend
+ - CCTV 개발
 ```
 
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```
+Name : 김지원
+ID : 20180812
+Email : livelim313@gmail.com
+github : https://github.com/KJW988
+Role:
+ - AI
+ - Yolo
+```
 
-### Support or Contact
+```
+Name : 정수환
+ID : 20191663
+Email : wjdtnghks123@kookmin.ac.kr
+github : https://github.com/su-hwani
 
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
+Role:
+ - Backend
+ - AWS
+```
+
+```
+Name : 신채원
+ID : 20213021
+Email : mirageciel@kookmin.ac.kr
+github : https://github.com/mirageciel
+Role:
+ - AI
+```
+
+```
+Name : 안채영
+ID : 20213024
+Email : tory912@gmail.com
+github : https://github.com/ancy0
+Role:
+ - Frontend
+ - 디자인
+```
+
+## 4. 사용법
+
+추후 업로드 예정
+
+## 5. 기타
+
+추가적인 내용은 자유롭게 작성하세요.
