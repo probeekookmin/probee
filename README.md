@@ -53,9 +53,13 @@
 ## 디자인
 
 <div align="center">
-<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/d953a9f3-a72b-4f57-ae8f-039836c8c608">
+<img width="80%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/11cbc5ec-88fb-4bcd-9fb2-91dfe5cbcb90">
+
 <img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/dd207740-bfdc-4ac6-8783-d40adec67500">
-<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/743274d7-88bc-417e-a85f-d3af1f355d52">
+<img width="80%" alt="스크린샷 2024-03-30 오후 8 23 55" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/c8ca7460-ef8c-4add-a932-fe98f57c8b4d">
+
+![KakaoTalk_Video_2024-03-30-20-29-51](https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c)
+
 </div>
 
 ## 팀원 소개
@@ -147,7 +151,7 @@
 ## 시스템 구조도
 
 <div align="center">
-<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1be85776-331d-4d50-9cbd-1d9e4537dfad">
+<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1dce6e6b-d384-4f5f-aa12-a23d9f028871">
 </div>
 
 ## 작업방식
