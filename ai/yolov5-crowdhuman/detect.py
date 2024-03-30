@@ -10,15 +10,13 @@ import re
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-import numpy as np
 
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, check_file
-from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
-from ultralytics.utils.plotting import Annotator, colors, save_one_box
+from ultralytics.utils.plotting import save_one_box
 from utils.dataloaders import IMG_FORMATS, VID_FORMATS
 from datetime import datetime,timedelta
 
@@ -65,10 +63,7 @@ def detect(save_img=False):
         cudnn.benchmark = True  # set True to speed up constant image size inference
         dataset = LoadStreams(source, img_size=imgsz, stride=stride)
     else:
-        save_img = True
-        # dataset = LoadImages(source, img_size=imgsz, stride=stride)
-        # model.warmup(imgsz=(1 if model.pt or model.triton else 1, 3, *imgsz))  # warmup
-        dataset = LoadImages(source, img_size=imgsz, stride=stride)  # frame-rate 입력
+        dataset = LoadImages(source, img_size=imgsz, stride=stride)
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
@@ -113,6 +108,7 @@ def detect(save_img=False):
             date_obj = datetime.strptime(p.stem, '%Y%m%d-%H%M%S')  # 탐색 시작 시간
             s += '%gx%g ' % img.shape[2:]  # print string
 
+            # FPS에 따라 객체 탐지 프레임 조정
             if fps < 10:
                 date_obj += nfps * timedelta(seconds=10)
             else:
@@ -130,12 +126,10 @@ def detect(save_img=False):
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
-                    # if save_img or view_img:  # Add bbox to image
                     label = f'{names[int(cls)]}'  # 정확도 제거
                     if opt.heads or opt.person:
                         if 'head' in label and opt.heads:
-                            # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-                            save_one_box(xyxy, im0, file=save_dir / "crops" / f"{p.stem}.jpg", BGR=True)
+                            save_one_box(xyxy, im0, file=save_dir / f"{p.stem}.jpg", BGR=True)
                         if 'person' in label and opt.person:
                             # ==== 이미지 저장 ==== #
                             # 1) 바운딩 박스 비율 (3:5) 조정
@@ -164,11 +158,10 @@ def detect(save_img=False):
                             xyxy = [x1, y1, x2, y2]
 
                             # 검출된 이미지 저장 
-                            save_one_box(xyxy, im0, file=save_dir / "crops" / f"{img_name}.jpg", BGR=True)
+                            save_one_box(xyxy, im0, file=save_dir / f"{img_name}.jpg", BGR=True)
                             
-                            file_dir = os.path.join(save_dir, 'crops')
-                            for filename in os.listdir(file_dir):
-                                file_path = os.path.join(file_dir, filename)
+                            for filename in os.listdir(save_dir):
+                                file_path = os.path.join(save_dir, filename)
                                 img = cv2.imread(file_path)
                                 h, w = img.shape[:2]
 
@@ -178,7 +171,6 @@ def detect(save_img=False):
                                 
                                 # 종횡비 안 맞는 이미지 한 번 더 삭제
                                 elif int(w/h * 10) / 10 != target_ratio:
-                                    print("remove: ", int(w/h * 10) / 10)
                                     os.remove(file_path)
 
             # Print time (inference + NMS)
@@ -188,15 +180,14 @@ def detect(save_img=False):
         prev_path = path
 
 
-    # ==== annotation Json 파일 생성 ==== #
-    file_dir = os.path.join(save_dir, 'crops')
+    # ==== 2-stage 모델을 위한 annotation Json 파일 생성 ==== #
     annotation_idx = 0
-    for filename in os.listdir(file_dir):
+    for filename in os.listdir(save_dir):
         id = re.sub(r'\D', '', filename)
         annotation = {
             "image_id": annotation_idx,
             "id": id,
-            "file_path": f"{save_dir}/crops/{filename}",
+            "file_path": f"{save_dir}/{filename}",
             "sentence": "",
             "onehot": []
             }
@@ -206,7 +197,7 @@ def detect(save_img=False):
 
     data = {"categories": categories, "annotations": annotations}
 
-    with open(f"{file_dir}/annotations.json", "w") as f:
+    with open(f"{save_dir}/annotations.json", "w") as f:
         json.dump(data, f)
     print("Save Json file.")
     
