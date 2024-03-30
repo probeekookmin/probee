@@ -2,12 +2,6 @@ import sys
 import os
 from pathlib import Path
 
-FILE = Path(__file__).resolve()
-ROOT = FILE.parents[0]  # YOLOv5 root directory
-if str(ROOT) not in sys.path:
-    sys.path.append(str(ROOT))  # add ROOT to PATH
-ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
-
 import argparse
 import time
 import json
@@ -16,7 +10,7 @@ import re
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-from numpy import random
+import numpy as np
 
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
@@ -28,6 +22,11 @@ from ultralytics.utils.plotting import Annotator, colors, save_one_box
 from utils.dataloaders import IMG_FORMATS, VID_FORMATS
 from datetime import datetime,timedelta
 
+FILE = Path(__file__).resolve()
+ROOT = FILE.parents[0]  # YOLOv5 root directory
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))  # add ROOT to PATH
+ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz = str(opt.source), opt.weights, opt.view_img, opt.save_txt, opt.img_size
@@ -37,6 +36,7 @@ def detect(save_img=False):
     is_url = source.lower().startswith(("rtsp://", "rtmp://", "http://", "https://"))
     if is_url and is_file:
         source = check_file(source)  # download
+
     # Directories
     save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
@@ -45,7 +45,6 @@ def detect(save_img=False):
     set_logging()
     device = select_device(opt.device)
     half = device.type != 'cpu'  # half precision only supported on CUDA
-    
 
     # Load model
     model = attempt_load(weights, map_location=device)  # load FP32 model
@@ -133,43 +132,61 @@ def detect(save_img=False):
                 for *xyxy, conf, cls in reversed(det):
                     # if save_img or view_img:  # Add bbox to image
                     label = f'{names[int(cls)]}'  # 정확도 제거
-                    # annotator.box_label(xyxy, label, color=(255, 0, 0))
                     if opt.heads or opt.person:
                         if 'head' in label and opt.heads:
                             # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                             save_one_box(xyxy, im0, file=save_dir / "crops" / f"{p.stem}.jpg", BGR=True)
                         if 'person' in label and opt.person:
-                            # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
                             # ==== 이미지 저장 ==== #
-                            # print(frame)
+                            # 1) 바운딩 박스 비율 (3:5) 조정
+                            target_ratio = 3 / 5
+
+                            x1, y1, x2, y2 = xyxy
+                            width = x2 - x1
+                            height = y2 - y1
+
+                            current_ratio = torch.round(width / height * 10) / 10
+
+                            if current_ratio > target_ratio:
+                                # 현재 비율이 목표 비율보다 가로가 더 길다면 세로를 늘려줌 
+                                new_height = width / target_ratio
+                                y_center = (y1 + y2) / 2
+                                y1 = y_center - (new_height // 2)
+                                y2 = y_center + new_height - (new_height // 2)
+                            elif current_ratio < target_ratio:
+                                # 현재 비율이 목표 비율보다 세로가 더 길다면 가로를 늘려줌
+                                new_width = height * target_ratio
+                                x_center = (x1 + x2) / 2
+                                x1 = x_center - new_width // 2
+                                x2 = x_center + new_width - (new_width // 2)
+                                                                
+                            # 수정된 좌표 정정
+                            xyxy = [x1, y1, x2, y2]
+
+                            # 검출된 이미지 저장 
                             save_one_box(xyxy, im0, file=save_dir / "crops" / f"{img_name}.jpg", BGR=True)
-                            # 검출 정확도 향상을 위해 h < w인 이미지 삭제 (검출 이미지 특성을 고려)
+                            
                             file_dir = os.path.join(save_dir, 'crops')
                             for filename in os.listdir(file_dir):
                                 file_path = os.path.join(file_dir, filename)
                                 img = cv2.imread(file_path)
                                 h, w = img.shape[:2]
-                                if h < w:
+
+                                # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
+                                if h <= w:
+                                    os.remove(file_path)
+                                
+                                # 종횡비 안 맞는 이미지 한 번 더 삭제
+                                elif int(w/h * 10) / 10 != target_ratio:
+                                    print("remove: ", int(w/h * 10) / 10)
                                     os.remove(file_path)
 
-                    else:
-                        # plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
-                        break
             # Print time (inference + NMS)
             print(f'{s}Done. ({t2 - t1:.3f}s)')
-
-            # Stream results
-            if view_img:
-                cv2.imshow(str(p), im0)
-                cv2.waitKey(0)  # 1 millisecond
 
         nfps += 1
         prev_path = path
 
-
-    if save_txt or save_img:
-        s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
-        print(f"Results saved to {save_dir}{s}")
 
     # ==== annotation Json 파일 생성 ==== #
     file_dir = os.path.join(save_dir, 'crops')
