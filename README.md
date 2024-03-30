@@ -28,9 +28,9 @@
 
 ## 목차
 
-1. [프로젝트 소개](#-프로젝트-소개)
-2. [주요기능](#주요-기능)
-3. [소개영상](#소개-영상)
+1. [프로젝트 소개](#프로젝트-소개)
+2. [주요기능](#주요기능)
+3. [소개영상](#소개영상)
 4. [디자인](#디자인)
 5. [팀원소개](#팀원-소개)
 6. [시스템 구조도](#시스템-구조도)
@@ -48,7 +48,7 @@
 
 ## 주요기능
 
-## 소개 영상
+## 소개영상
 
 ## 디자인
 
@@ -58,11 +58,7 @@
 <img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/743274d7-88bc-417e-a85f-d3af1f355d52">
 </div>
 
-### 중간 발표자료
-
-[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
-
-## 👩🏻‍💻 팀원 소개
+## 팀원 소개
 
 <table>
     <tr align="center">
@@ -154,12 +150,12 @@
 <img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1be85776-331d-4d50-9cbd-1d9e4537dfad">
 </div>
 
-<div align="center">
-<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1be85776-331d-4d50-9cbd-1d9e4537dfad">
-</div>
-
 ## 작업방식
 
 ## 기대효과
 
 ## 관련문서
+
+### 중간 발표자료
+
+[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
