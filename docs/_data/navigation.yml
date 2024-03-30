@@ -4,13 +4,13 @@
 #   highlight: false
 - name: Blog
   link: https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74
-  new_window: false
+  new_window: true
   highlight: false
 - name: Team
   link: /about/
   new_window: false
   highlight: false
-- name: Contact
+- name: Docs
   link: /contact/
   new_window: false
   highlight: false
