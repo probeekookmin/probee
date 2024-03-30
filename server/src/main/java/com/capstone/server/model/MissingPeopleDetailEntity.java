@@ -7,41 +7,35 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "MissingPeopleDetail")
+@Entity(name = "missing_people_detail")
 public class MissingPeopleDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MissingPeopleDetailId;
+    @Column(name = "missing_people_detail_id")
+    private Long id;
 
-    @NotBlank
     private String topCategory;
 
-    @NotBlank
     private String topColor;
 
-    @NotBlank
     private String bottomCategory;
 
-    @NotBlank
     private String bottomColor;
 
-    @NotBlank
     private String bagCategory;
 
-    @NotBlank
     private String bagColor;
 
-    @NotBlank
     private String shoeCategory;
 
-    @NotBlank
     private String shoeColor;
 
-    @NotBlank
     private String hairLength;
+
+    @OneToOne
+    @JoinColumn(name = "missing_people_id")
+    private MissingPeopleEntity missingPeopleEntity;
 
     private LocalDateTime createdAt;
 

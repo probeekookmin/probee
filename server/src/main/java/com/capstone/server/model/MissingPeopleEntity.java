@@ -9,53 +9,45 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "MissingPeople")
+@Entity(name = "missing_people")
 public class MissingPeopleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long missingPeopleId;
+    @Column(name = "missing_people_id")
+    private Long id;
 
     @NotBlank
-    private String missingPeopleName;
+    private String name;
 
-    @NotBlank
-    private LocalDateTime missingPeopleBirthdate;
+    @PastOrPresent
+    private LocalDateTime birthdate;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
-    private Gender missingPeopleGender;
+    private Gender gender;
 
-    @NotBlank
+    @Past
     private LocalDateTime missingAt;
 
+    @PastOrPresent
     private LocalDateTime registrationAt;
 
     @NotBlank
     private String missingLocation;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private PoliceStation policeStation;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
-    private Status missingPeopleStatus;
+    private Status status;
 
-    // 1:1 단방향 관계 매핑
-    @OneToOne
-    @JoinColumn(name = "guardianId")
+    @OneToOne(mappedBy = "guardianEntity", cascade = CascadeType.ALL)
     private GuardianEntity guardianEntity;
 
-    // 1:1 단방향 관계 매핑
-    @OneToOne
-    @JoinColumn(name = "missingPeopleDetailId")
+    @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private MissingPeopleDetailEntity missingPeopleDetailEntity;
 
-    // N:1 양방향 관계 매핑
-    @OneToMany(mappedBy = "missingPeopleEntity")
+    @OneToMany(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private List<SearchHistoryEntity> searchHistoryEntities;
   
     private LocalDateTime createdAt;
