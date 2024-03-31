@@ -6,42 +6,39 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import com.capstone.server.model.enums.*;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "MissingPeopleDetail")
+@Entity(name = "missing_people_detail")
 public class MissingPeopleDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MissingPeopleDetailId;
+    @Column(name = "missing_people_detail_id")
+    private Long id;
 
-    @NotBlank
-    private String topCategory;
+    private HairStyle hairStyle;
 
-    @NotBlank
-    private String topColor;
+    private TopType topType;
 
-    @NotBlank
-    private String bottomCategory;
+    private Color topColor;
 
-    @NotBlank
-    private String bottomColor;
+    private BottomType bottomType;
 
-    @NotBlank
-    private String bagCategory;
+    private Color bottomColor;
 
-    @NotBlank
-    private String bagColor;
+    private BagType bagType;
 
-    @NotBlank
-    private String shoeCategory;
+    private Color bagColor;
 
-    @NotBlank
-    private String shoeColor;
+    private Color shoesColor;
 
-    @NotBlank
-    private String hairLength;
+    // TODO: 빼는 게 나을지도
+    private Boolean stripes;
+
+    @OneToOne
+    @JoinColumn(name = "missing_people_id")
+    private MissingPeopleEntity missingPeopleEntity;
 
     private LocalDateTime createdAt;
 

@@ -7,23 +7,26 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "Guardian")
+@Entity(name = "guardian")
 public class GuardianEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long guardianId;
+    @Column(name = "guardian_id")
+    private Long id;
 
     @NotBlank
-    private String guardianName;
+    private String name;
 
     @NotBlank
-    private String guardianPhoneNumber;
+    private String phoneNumber;
 
     @NotBlank
-    private String guardianRelationship;
+    private String relationship;
+
+    @OneToOne
+    @JoinColumn(name = "missing_people_id")
+    private MissingPeopleEntity missingPeopleEntity;
 
     private LocalDateTime createdAt;
 

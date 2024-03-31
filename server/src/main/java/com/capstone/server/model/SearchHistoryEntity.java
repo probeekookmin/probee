@@ -5,43 +5,44 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "SearchHistory")
+@Entity(name = "search_history")
 public class SearchHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long searchHistoryId;
+    @Column(name = "search_history_id")
+    private Long id;
 
-    private LocalDateTime searchStartTime;
+    @FutureOrPresent
+    private LocalDateTime startTime;
     
-    private LocalDateTime searchEndTime;
+    @Future
+    private LocalDateTime endTime;
 
     @NotBlank
-    private BigDecimal searchLatitude;
+    private BigDecimal latitude;
 
     @NotBlank
-    private BigDecimal searchLongitude;
+    private BigDecimal longitude;
 
-    @NotBlank
+    @Enumerated(EnumType.STRING)
     private SearchStatus searchStatus;
 
-    @NotBlank
-    private Long searchRadius;
+    @Builder.Default
+    private Integer searchRadius = 1; // 1km
 
-    // N:1 양방향 관계 매핑
-    @ManyToOne
-    @JoinColumn(name = "missingPeopleId")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "missing_people_id")
     private MissingPeopleEntity missingPeopleEntity;
 
-    // N:1 양방향 관계 매핑
-    @OneToMany(mappedBy = "searchHistoryEntity")
+    @OneToMany(mappedBy = "searchHistoryEntity", cascade = CascadeType.ALL)
     private List<SearchResultEntity> searchResultEntities;
 
     private LocalDateTime createdAt;
@@ -52,7 +53,7 @@ public class SearchHistoryEntity {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        searchStartTime = LocalDateTime.now();
+        startTime = LocalDateTime.now();
     }
 
     @PreUpdate 

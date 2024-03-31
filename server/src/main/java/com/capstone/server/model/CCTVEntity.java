@@ -9,23 +9,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity(name = "CCTVInfo")
-public class CCTVInfoEntity {
+@Entity(name = "cctv")
+public class CCTVEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cctvInfoId;
+    @Column(name = "cctv_id")
+    private Long id;
 
     @NotBlank
-    private BigDecimal cctvLatitude;
+    private BigDecimal latitude;
 
     @NotBlank
-    private BigDecimal cctvLogitude;
+    private BigDecimal logitude;
 
     // N:1 양방향 관계 매핑
-    @OneToMany(mappedBy = "cctvInfoEntity")
+    @OneToMany(mappedBy = "cctvEntity", cascade = CascadeType.ALL)
     List<SearchResultEntity> searchResultEntities;
 
     private LocalDateTime createdAt;
