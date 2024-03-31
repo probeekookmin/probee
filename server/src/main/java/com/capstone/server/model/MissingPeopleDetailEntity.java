@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import com.capstone.server.model.enums.*;
+
 @Data
 @Builder
 @Entity(name = "missing_people_detail")
@@ -15,23 +17,24 @@ public class MissingPeopleDetailEntity {
     @Column(name = "missing_people_detail_id")
     private Long id;
 
-    private String topCategory;
+    private HairStyle hairStyle;
 
-    private String topColor;
+    private TopType topType;
 
-    private String bottomCategory;
+    private Color topColor;
 
-    private String bottomColor;
+    private BottomType bottomType;
 
-    private String bagCategory;
+    private Color bottomColor;
 
-    private String bagColor;
+    private BagType bagType;
 
-    private String shoeCategory;
+    private Color bagColor;
 
-    private String shoeColor;
+    private Color shoesColor;
 
-    private String hairLength;
+    // TODO: 빼는 게 나을지도
+    private Boolean stripes;
 
     @OneToOne
     @JoinColumn(name = "missing_people_id")
