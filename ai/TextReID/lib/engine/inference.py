@@ -12,7 +12,7 @@ from lib.utils.comm import all_gather, is_main_process, synchronize
 
 from lib.utils.caption import Caption
 
-from encoding import encode
+from lib.data.encode.encoding import encode
 
 
 def compute_on_dataset(model, data_loader, cap, device):

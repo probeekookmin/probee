@@ -130,21 +130,6 @@ def evaluation(
         similarity = torch.matmul(text_global, image_global.t())
 
         writer = SummaryWriter()
-        """# 행렬 전체에 대해 top 10 results 반환
-        flatten_sim = similarity.view(-1)
-        top_k = 10
-        sorted_indices = torch.argsort(flatten_sim, descending=True)
-        sorted_values = flatten_sim[sorted_indices]
-        print(cap[0])
-        images = []
-        for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
-            img, caption, idx, query = dataset.__getitem__(index)
-            images.append(img)
-            if value < 0.6:
-                break
-            print(f"Index: {index}, Similarity: {value}")
-        writer.add_image(f"Image", images)
-        writer.add_text(f"Caption", cap[0])"""
         # top 10 results 반환
         for i in range(4):
             sorted_indices = torch.argsort(similarity[i], descending=True)
@@ -163,60 +148,3 @@ def evaluation(
             writer.add_image(f"Image Grid for Query {i}", grid_img)
             writer.add_text(f"Captions for Query {i}", cap[i])
         writer.close()
-
-
-
-        """
-        if rerank:
-            rtn_mat = k_reciprocal(image_global, text_global)
-            rvn_mat = k_reciprocal(text_global, image_global)
-
-        if save_data:
-            if not rerank:
-                np.savez(
-                    data_dir,
-                    image_pid=image_pid.cpu().numpy(),
-                    text_pid=text_pid.cpu().numpy(),
-                    similarity=similarity.cpu().numpy(),
-                )
-            else:
-                np.savez(
-                    data_dir,
-                    image_pid=image_pid.cpu().numpy(),
-                    text_pid=text_pid.cpu().numpy(),
-                    similarity=similarity.cpu().numpy(),
-                    rvn_mat=rvn_mat.cpu().numpy(),
-                    rtn_mat=rtn_mat.cpu().numpy(),
-                )
-
-    topk = torch.tensor(topk)
-
-    if rerank:
-        i2t_cmc, i2t_mAP, _ = rank(
-            similarity.t(), image_pid, text_pid, topk, get_mAP=True
-        )
-        t2i_cmc, t2i_mAP, _ = rank(similarity, text_pid, image_pid, topk, get_mAP=True)
-        re_i2t_cmc, re_i2t_mAP, _ = rank(
-            rtn_mat + similarity.t(), image_pid, text_pid, topk, get_mAP=True
-        )
-        re_t2i_cmc, re_t2i_mAP, _ = rank(
-            rvn_mat + similarity, text_pid, image_pid, topk, get_mAP=True
-        )
-        cmc_results = torch.stack([topk, t2i_cmc, re_t2i_cmc, i2t_cmc, re_i2t_cmc])
-        mAP_results = torch.stack(
-            [torch.zeros_like(t2i_mAP), t2i_mAP, re_t2i_mAP, i2t_mAP, re_i2t_mAP]
-        ).unsqueeze(-1)
-        results = torch.cat([cmc_results, mAP_results], dim=1)
-        results = results.t().cpu().numpy().tolist()
-        results[-1][0] = "mAP"
-        logger.info(
-            "\n"
-            + table_log(results, headers=["topk", "t2i", "re-t2i", "i2t", "re-i2t"])
-        )
-    else:
-        t2i_cmc, _ = rank(similarity, text_pid, image_pid, topk, get_mAP=False)
-        i2t_cmc, _ = rank(similarity.t(), image_pid, text_pid, topk, get_mAP=False)
-        results = torch.stack((topk, t2i_cmc, i2t_cmc)).t().cpu().numpy()
-        logger.info("\n" + table_log(results, headers=["topk", "t2i", "i2t"]))
-    return t2i_cmc[0]
-"""

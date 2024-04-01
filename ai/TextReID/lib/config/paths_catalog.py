@@ -3,33 +3,18 @@ import os
 
 class DatasetCatalog:
     DATA_DIR = "datasets"
-    # DATA_DIR = "datasets/runs/detect/exp55"
-    """DATASETS = {
-        "cuhkpedes_train": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations/train.json",
-        },
-        "cuhkpedes_val": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations/val.json",
-        },
-        "cuhkpedes_test": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations/test.json",
-        },
-    }"""
     DATASETS = {
         "cuhkpedes_train": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations2/annotations.json",
+            "img_dir": "",
+            "ann_file": "annotations/annotations.json",
         },
         "cuhkpedes_val": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations2/annotations.json",
+            "img_dir": "",
+            "ann_file": "annotations/annotations.json",
         },
         "cuhkpedes_test": {
-            "img_dir": "cuhkpedes",
-            "ann_file": "cuhkpedes/annotations2/annotations.json",
+            "img_dir": "",
+            "ann_file": "annotations/annotations.json",
         },
     }
 
