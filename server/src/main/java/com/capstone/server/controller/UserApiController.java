@@ -30,14 +30,12 @@ public class UserApiController {
 
     @Autowired
     private UserService userService;
-    private HttpServletRequest request;
 
     @GetMapping("/all")
     public ResponseEntity<?> getUsers() {
         List<UserEntity> userEntities = userService.getAllUsers();
-        // return ResponseEntity.ok().body(userEntities);
-        int port = request.getLocalPort();
-        return ResponseEntity.ok().body(port);
+        int port = 3000;
+        return ResponseEntity.ok().body(new SuccessResponse(port));
     }
 
     @PostMapping("/create")
