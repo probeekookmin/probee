@@ -9,6 +9,9 @@ import com.capstone.server.exception.UserException;
 import com.capstone.server.model.UserEntity;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +30,14 @@ public class UserApiController {
 
     @Autowired
     private UserService userService;
+    private HttpServletRequest request;
 
     @GetMapping("/all")
     public ResponseEntity<?> getUsers() {
         List<UserEntity> userEntities = userService.getAllUsers();
-        return ResponseEntity.ok().body(userEntities);
+        // return ResponseEntity.ok().body(userEntities);
+        int port = request.getLocalPort();
+        return ResponseEntity.ok().body(port);
     }
 
     @PostMapping("/create")
