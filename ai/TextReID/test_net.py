@@ -111,14 +111,6 @@ def main():
         )
         synchronize()
 
-    print("finish")
-    print(len(data_loaders_val))
-
-    for i in data_loaders_val:
-        print("asdf")
-        #print(len(images), len(captions), len(image_ids))
-        break
-
 
 if __name__ == "__main__":
     main()

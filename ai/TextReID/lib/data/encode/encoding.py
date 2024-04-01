@@ -4,7 +4,7 @@ import random
 
 
 def encode(query):
-    file_path = "./datasets/cuhkpedes/annotations/test.json"
+    file_path = "./lib/data/encode/word_dict/test.json"
     with open(file_path, "r") as file:
         data = json.load(file)
 
@@ -26,11 +26,9 @@ def encode(query):
         try:
             output.append(word_dict[w.lower()])
         except KeyError as e:
-            print("Key %s not found in the dictionary."%{e.args[0]})
-            """word_dict[max_onehot+1] = e.args[0]
-            word_dict[e.args[0]] = max_onehot + 1
-            output.append(word_dict[w.lower()])"""
-            output.append("None")
+            print("Key %s not found in the dictionary."%{w})
+            word_dict[w.lower()] = max_onehot + 1
+            output.append(word_dict[w.lower()])
             max_onehot += 1
 
     # print(word_dict)
