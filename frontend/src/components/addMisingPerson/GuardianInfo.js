@@ -50,6 +50,8 @@ export const GuardianInfo = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
+
   gap: 1.6rem;
 `;
 
