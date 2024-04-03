@@ -20,7 +20,7 @@ export const GuardianInfo = () => {
               required: true,
             },
           ]}>
-          <NameInput />
+          <NameInput placeholder="성명입력" />
         </Form.Item>
         <Form.Item
           name={["guardian", "relation"]}
@@ -30,7 +30,7 @@ export const GuardianInfo = () => {
               required: true,
             },
           ]}>
-          <RelationInput />
+          <RelationInput placeholder="예) 부, 모, 형제, 친구" />
         </Form.Item>
         <Form.Item
           name={["guardian", "contact"]}
@@ -40,7 +40,7 @@ export const GuardianInfo = () => {
               required: true,
             },
           ]}>
-          <ContactInput />
+          <ContactInput placeholder="- 없이 숫자만 입력" />
         </Form.Item>
       </Row>
     </Wrapper>

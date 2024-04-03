@@ -15,7 +15,7 @@ export const IntelligentSearchInfo = () => {
   return (
     <StIntelligentSearchInfo>
       <Form.Item name={["search", "searchPeriod"]} label="탐색 기간" {...config}>
-        <PickerInput showTime format="YYYY-MM-DD HH:mm" />
+        <PickerInput showTime format="YYYY-MM-DD HH:mm" placeholder={["시작일시", "종료일시"]} />
       </Form.Item>
       <Form.Item name={["search", "searchLocation"]} label="탐색 위치" {...config}>
         <SeacrchBox />

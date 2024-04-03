@@ -22,6 +22,15 @@ const config = {
     },
   ],
 };
+const requiredConfig = {
+  rules: [
+    {
+      type: "object",
+      message: "Please select time!",
+      required: true,
+    },
+  ],
+};
 const format = "HH:mm";
 
 export const MissingPersonInfo = () => {
@@ -50,7 +59,7 @@ export const MissingPersonInfo = () => {
                 required: true,
               },
             ]}>
-            <NameInput />
+            <NameInput placeholder="성명입력" />
           </Form.Item>
           <Form.Item
             name={["user", "gender"]}
@@ -63,8 +72,8 @@ export const MissingPersonInfo = () => {
             <Radio.Group options={options} onChange={genderChange} value={userGender} optionType="button" />
           </Form.Item>
 
-          <Form.Item name="date-picker" label="생년월일" {...config}>
-            <DatePicker />
+          <Form.Item name="date-picker" label="생년월일" {...requiredConfig}>
+            <DatePicker placeholder="생년월일 입력" />
           </Form.Item>
         </Row>
         <Row>
@@ -72,12 +81,12 @@ export const MissingPersonInfo = () => {
             <SeacrchBox />
           </Form.Item>
           <Form.Item name={["user", "missingTime"]} label="실종시간" {...config}>
-            <TimePicker format={format} />
+            <TimePicker format={format} placeholder="시간 입력" />
           </Form.Item>
         </Row>
 
         <Form.Item name={["user", "introduction"]} label="특이사항">
-          <TextArea />
+          <TextArea placeholder="내용을 입력해주세요." />
         </Form.Item>
       </Col>
     </Wrapper>

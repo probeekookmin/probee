@@ -5,7 +5,7 @@ const { Search } = Input;
 export const SeacrchBox = () => {
   return (
     <StSeacrchBox>
-      <SearchBox placeholder="input search text" readOnly={true} />
+      <SearchBox placeholder="도로명주소" readOnly={true} />
     </StSeacrchBox>
   );
 };
