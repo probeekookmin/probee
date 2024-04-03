@@ -1,11 +1,16 @@
 import styled from "styled-components";
-import { Form, Input } from "antd";
+import { Form, Input, Typography } from "antd";
 
 export const GuardianInfo = () => {
   return (
     <Wrapper>
-      <p>보호자(신고자)</p>
-
+      <Typography.Title
+        level={5}
+        style={{
+          margin: 0,
+        }}>
+        보호자(신고자)
+      </Typography.Title>
       <Row>
         <Form.Item
           name={["guardian", "name"]}

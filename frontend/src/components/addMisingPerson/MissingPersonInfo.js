@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import styled from "styled-components";
-import { Form, Input, DatePicker, TimePicker, Radio } from "antd";
+import { Form, Input, DatePicker, TimePicker, Radio, Typography } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
 
 const options = [
@@ -33,7 +33,13 @@ export const MissingPersonInfo = () => {
   };
   return (
     <Wrapper>
-      <p>실종자</p>
+      <Typography.Title
+        level={5}
+        style={{
+          margin: 0,
+        }}>
+        실종자
+      </Typography.Title>
       <Col>
         <Row>
           <Form.Item

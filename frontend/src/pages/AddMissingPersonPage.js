@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Divider, Button, Form } from "antd";
+import { Divider, Button, Form, Typography } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
@@ -24,13 +24,25 @@ function AddMissingPersonPage() {
     <StAddMissingPersonPage>
       <InfoForm layout="vertical" name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
         <Container>
-          <p>실종자 정보 등록</p>
+          <Typography.Title
+            level={3}
+            style={{
+              margin: 0,
+            }}>
+            실종자 정보 등록
+          </Typography.Title>
           <Divider />
           <MissingPersonInfo />
           <GuardianInfo />
         </Container>
         <Container>
-          <p>지능형 탐색 초기 정보 등록</p>
+          <Typography.Title
+            level={3}
+            style={{
+              margin: 0,
+            }}>
+            지능형 탐색 초기 정보 등록
+          </Typography.Title>
           <Divider />
           <IntelligentSearchInfo />
         </Container>
@@ -58,7 +70,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  padding: 1.25rem;
+  padding: 2rem;
   margin-bottom: 2rem;
   background-color: white;
 `;
