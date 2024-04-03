@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Divider, Button, Form } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
+import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -25,6 +26,7 @@ function AddMissingPersonPage() {
           <p>실종자 정보 등록</p>
           <Divider />
           <MissingPersonInfo />
+          <GuardianInfo />
         </Container>
         <Form.Item wrapperCol={{}}>
           <Button type="primary" htmlType="submit">
