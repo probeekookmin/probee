@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry
             .addMapping("/**")
             .allowedHeaders("*")
-            .allowedOrigins("http://localhost:3000", "https://probee.co.kr", "http://probee.co.kr") // TODO: url 수정
+            .allowedOrigins("*") // TODO: url 수정
             .allowedMethods("*");
     }
 }
