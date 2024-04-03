@@ -5,17 +5,26 @@ const { RangePicker } = DatePicker;
 const config = {
   rules: [
     {
-      type: "object",
+      //   type: "object",
       message: "Please select time!",
+      //required: true,
+    },
+  ],
+};
+const rangeConfig = {
+  rules: [
+    {
+      type: "array",
       required: true,
+      message: "Please select time!",
     },
   ],
 };
 export const IntelligentSearchInfo = () => {
   return (
     <StIntelligentSearchInfo>
-      <Form.Item name={["search", "searchPeriod"]} label="탐색 기간" {...config}>
-        <PickerInput showTime format="YYYY-MM-DD HH:mm" placeholder={["시작일시", "종료일시"]} />
+      <Form.Item name="searchPeriod" label="탐색 기간" {...rangeConfig}>
+        <RangePicker showTime format="YYYY-MM-DD HH:mm" placeholder={["시작일시", "종료일시"]} />
       </Form.Item>
       <Form.Item name={["search", "searchLocation"]} label="탐색 위치" {...config}>
         <SeacrchBox />

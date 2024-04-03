@@ -31,7 +31,6 @@ const requiredConfig = {
     },
   ],
 };
-const format = "HH:mm";
 
 export const MissingPersonInfo = () => {
   const [userGender, setUserGender] = useState("male");
@@ -72,7 +71,7 @@ export const MissingPersonInfo = () => {
             <Radio.Group options={options} onChange={genderChange} value={userGender} optionType="button" />
           </Form.Item>
 
-          <Form.Item name="date-picker" label="생년월일" {...requiredConfig}>
+          <Form.Item name={["user", "birth"]} label="생년월일" {...requiredConfig}>
             <DatePicker placeholder="생년월일 입력" />
           </Form.Item>
         </Row>
@@ -80,8 +79,8 @@ export const MissingPersonInfo = () => {
           <Form.Item name={["user", "missingLocation"]} label="실종위치">
             <SeacrchBox />
           </Form.Item>
-          <Form.Item name={["user", "missingTime"]} label="실종시간" {...config}>
-            <TimePicker format={format} placeholder="시간 입력" />
+          <Form.Item name={["user", "missingTime"]} label="실종일시" {...config}>
+            <DatePicker showTime format="YYYY-MM-DD HH:mm" placeholder="시간 입력" />
           </Form.Item>
         </Row>
 
