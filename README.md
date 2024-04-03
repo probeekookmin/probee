@@ -40,11 +40,15 @@
 
 ## 프로젝트 소개
 
-프로젝트(이하, Pro_bee)의 목표는 실종자 인상착의 정보(text)를 통해 CCTV에서 유사한 인물을 찾아내는, 지능형 실종자 검출 시스템을 만드는 것이다.
+프로젝트(이하, Pro_bee)의 목표는 실종자 인상착의 정보를 통해 CCTV에서 유사한 인물을 찾아내는, 지능형 실종자 탐색 시스템의 제작입니다.
 
-해당 프로젝트는 아래와 같은 이유로 기획되었다.
-<br/>
-실종자 경보 문자(이하, 경보 문자)는 실종 사건 발생 시 국민 제보를 활성화하고자 생겨난 제도로, 문자를 받은 시민의 제보를 수사에 활용한다. 이를 통해 발견 시간이 7분의 1로 단축되기도 하는 등 경보 문자는 실제 실종자 수사 과정에 도움을 주고 있다.
+Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체할 수단을 찾고자 하는 곳에서 시작했습니다.
+
+경보 문자에서 활용되던 정보(인상착의, 나이, 성별, 사진 등)을 활용한 지능형 실종자 검출 시스템을 기획하였습니다. 좀 더 세부적으로는 시민 제보를 통하지 않고도 실종자 검출 효과를 증대 시킬 수 있는 메커니즘을 개발, 사람이 아닌 AI에 의한 1차 탐색을 도입해 직접적 탐색 범위를 줄여 한정된 경찰 인력이 효율적 운영되도록 함을 목표로 하였습니다.
+
+이번 프로젝트의 이용 타겟층은 행정기관(이하, 경찰로 한정)과 실종자의 보호자(이하, 의뢰인)로 정의 내렸으며, 각종 지자체에서 도입하고 있는 지능형 CCTV와의 차별점을 두기 위해 이용자 간의 상호작용이 가능한 웹 시스템을 추가 구축하였습니다. 이용자 간의 빠르고 신속한 정보 공유가 가능해지도록 함으로써, 탐색 과정을 효율적으로 단축시키고 의뢰인의 불안을 낮춰주는 효과를 내고자 하였습니다.
+
+([중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb) 발췌)
 
 ## 주요기능
 
@@ -52,11 +56,23 @@
 
 ## 디자인
 
+-   기본화면
 <div align="center">
-<img width="80%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/11cbc5ec-88fb-4bcd-9fb2-91dfe5cbcb90">
+        <img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/dd207740-bfdc-4ac6-8783-d40adec67500">
+        </div>
 
-<img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/dd207740-bfdc-4ac6-8783-d40adec67500">
+-   실종 정보등록 창
+<div align="center">
 <img width="80%" alt="스크린샷 2024-03-30 오후 8 23 55" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/c8ca7460-ef8c-4add-a932-fe98f57c8b4d">
+</div>
+
+-   실종자 정보확인 창
+<div align="center">
+        <img width="80%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/11cbc5ec-88fb-4bcd-9fb2-91dfe5cbcb90">
+</div>
+
+-   의뢰인 회면
+<div align="center">
 
 ![KakaoTalk_Video_2024-03-30-20-29-51](https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c)
 
@@ -162,4 +178,8 @@
 
 ### 중간 발표자료
 
-[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/abe635fc-ec90-448e-ab06-08ab8cedf3b9"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/ET2mxYSGOAdEmxKkdSXwADgBDvvcNR_HiPlutb_c9Adb4Q?e=llzu09)
+[<div align="center"><img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/45b5fbdb-6789-49d5-88b0-24ad95240fb3"></div>](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=kENv4f)
+
+### 중간 보고서
+
+-   [중간보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb)
