@@ -41,7 +41,7 @@ public class MissingPeopleEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToOne(mappedBy = "guardianEntity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private GuardianEntity guardianEntity;
 
     @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
