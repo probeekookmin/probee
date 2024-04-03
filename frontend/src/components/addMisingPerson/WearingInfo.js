@@ -35,7 +35,7 @@ export const WearingInfo = () => {
         style={{
           margin: 0,
         }}>
-        착장 정보
+        실종자 착장 정보
       </Typography.Title>
       <Col>
         <Row>
