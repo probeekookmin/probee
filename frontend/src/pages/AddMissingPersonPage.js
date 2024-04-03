@@ -48,11 +48,13 @@ function AddMissingPersonPage() {
           <Divider />
           <IntelligentSearchInfo />
         </Container>
-        <Form.Item wrapperCol={{}}>
-          <Button type="primary" htmlType="submit">
-            정보 등록
-          </Button>
-        </Form.Item>
+        <ButtonContainer>
+          <Form.Item wrapperCol={{}}>
+            <Button type="primary" htmlType="submit">
+              정보 등록
+            </Button>
+          </Form.Item>
+        </ButtonContainer>
       </InfoForm>
     </StAddMissingPersonPage>
   );
@@ -75,4 +77,10 @@ const Container = styled.div`
   padding: 2rem;
   margin-bottom: 2rem;
   background-color: white;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 `;
