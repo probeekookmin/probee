@@ -16,8 +16,15 @@ const validateMessages = {
   },
 };
 
-const onFinish = (values) => {
-  console.log(values);
+const onFinish = (fieldsValue) => {
+  const rangeTimeValue = fieldsValue["searchPeriod"];
+
+  const values = {
+    ...fieldsValue,
+
+    searchPeriod: [rangeTimeValue[0].format("YYYY-MM-DD HH:mm"), rangeTimeValue[1].format("YYYY-MM-DD HH:mm")],
+  };
+  console.log("Received values of form: ", values);
 };
 
 function AddMissingPersonPage() {
