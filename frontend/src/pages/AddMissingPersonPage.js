@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Divider, Button, Form } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
+import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -28,9 +29,14 @@ function AddMissingPersonPage() {
           <MissingPersonInfo />
           <GuardianInfo />
         </Container>
+        <Container>
+          <p>지능형 탐색 초기 정보 등록</p>
+          <Divider />
+          <IntelligentSearchInfo />
+        </Container>
         <Form.Item wrapperCol={{}}>
           <Button type="primary" htmlType="submit">
-            Submit
+            정보 등록
           </Button>
         </Form.Item>
       </InfoForm>
@@ -53,5 +59,6 @@ const Container = styled.div`
   justify-content: center;
 
   padding: 1.25rem;
+  margin-bottom: 2rem;
   background-color: white;
 `;
