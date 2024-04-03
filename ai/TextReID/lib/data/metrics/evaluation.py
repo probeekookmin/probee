@@ -139,13 +139,15 @@ def evaluation(
         images = []
         # similarities = ""
         print(cap[0])
-        for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
-            image_id, pid = dataset.get_id_info(idx)
-            img, caption, idx, query = dataset.__getitem__(index)
-            images.append(img)
-            print(f"Index: {index}, Similarity: {value}, pid: {pid}")
-            # similarities += str(value) + "\t"
+        with open("./output/output.txt", "w") as file:
+            file.write("Caption: " + cap[0] + "\n")
+            for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
+                image_id, pid = dataset.get_id_info(idx)
+                img, caption, idx, query = dataset.__getitem__(index)
+                images.append(img)
+                img_path = caption.get_field("img_path")
+                print(f"Index: {index}, Similarity: {value}, pid: {pid}")
+                file.write("img_path: " + img_path + "\t Similarity: " + str(value.item()) + "\n")
         grid_img = make_grid(images, nrow=10)
         writer.add_image("Query <%s>"%cap[0], grid_img)
-        # writer.add_text(f"Captions for Query {i}", cap[i])
         writer.close()
