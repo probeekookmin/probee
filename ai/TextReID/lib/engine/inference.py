@@ -18,16 +18,16 @@ from lib.data.encode.encoding import encode
 def compute_on_dataset(model, data_loader, cap, device):
     model.eval()
     results_dict = defaultdict(list)
+    caption = input("\nText Query Input: ")
+    cap.append(caption)
+    caption = encode(caption)
+    caption = Caption([torch.tensor(caption)])
     for batch in tqdm(data_loader):
         images, captions, image_ids = batch
         images = images.to(device)
         # captions = [captions[0].to(device)] # 첫 번째 캡션만 사용
-        caption = input("\nText Query Input: ")
-        cap.append(caption)
-        caption = encode(caption)
-        caption = torch.tensor(caption)
-        captions = [Caption([caption]).to(device)]
         # captions = [caption.to(device) for caption in captions]
+        captions = [caption.to(device)]
         with torch.no_grad():
             output = model(images, captions)
         for result in output:
