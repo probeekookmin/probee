@@ -3,6 +3,7 @@ import { Divider, Button, Form, Typography } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
+import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -33,6 +34,7 @@ function AddMissingPersonPage() {
           </Typography.Title>
           <Divider />
           <MissingPersonInfo />
+          <WearingInfo />
           <GuardianInfo />
         </Container>
         <Container>
