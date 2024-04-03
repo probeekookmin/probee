@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Form, Typography, Select } from "antd";
 //import { DownOutlined } from "@ant-design/icons";
-import { bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
+import { bagItems, bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
 
 const onChange = (value) => {
   console.log(`selected ${value}`);
@@ -14,16 +14,17 @@ const onSearch = (value) => {
 const filterOption = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
 export const WearingInfo = () => {
-  const SelectItem = ({ items }) => {
+  const SelectItem = ({ items, placeholder }) => {
     return (
       <Select
         showSearch
-        placeholder="Select a person"
+        placeholder={placeholder}
         optionFilterProp="children"
         onChange={onChange}
         onSearch={onSearch}
         filterOption={filterOption}
         options={items}
+        style={{ width: "8rem" }}
       />
     );
   };
@@ -40,25 +41,33 @@ export const WearingInfo = () => {
       <Col>
         <Row>
           <Form.Item name={["wearing", "body"]} label="체형">
-            <SelectItem items={bodyItems} />
+            <SelectItem items={bodyItems} placeholder={"체형 선택"} />
           </Form.Item>
-          <Form.Item name={["wearing", "topType"]} label="상의 유형">
-            <SelectItem items={topItems} />
+          <Form.Item name={["wearing", "hair"]} label="머리스타일">
+            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} />
           </Form.Item>
-          <Form.Item name={["wearing", "topColor"]} label="상의 색상">
-            <SelectItem items={colorItems} />
+          <Form.Item name={["wearing", "bag"]} label="가방">
+            <SelectItem items={bagItems} placeholder={"가방 선택"} />
           </Form.Item>
         </Row>
+
         <Row>
-          <Form.Item name={["wearing", "hair"]} label="머리스타일">
-            <SelectItem items={hairItems} />
-          </Form.Item>
-          <Form.Item name={["wearing", "bottomType"]} label="하의 유형">
-            <SelectItem items={bottomItems} />
-          </Form.Item>
-          <Form.Item name={["wearing", "bottomColor"]} label="하의 색상">
-            <SelectItem items={colorItems} />
-          </Form.Item>
+          <SetContainer>
+            <Form.Item name={["wearing", "topType"]} label="상의">
+              <SelectItem items={topItems} placeholder={"유형 선택"} />
+            </Form.Item>
+            <Form.Item name={["wearing", "topColor"]} label="  ">
+              <SelectItem items={colorItems} placeholder={"색상 선택"} />
+            </Form.Item>
+          </SetContainer>
+          <SetContainer>
+            <Form.Item name={["wearing", "bottomType"]} label="하의">
+              <SelectItem items={bottomItems} placeholder={"유형 선택"} />
+            </Form.Item>
+            <Form.Item name={["wearing", "bottomColor"]} label="  ">
+              <SelectItem items={colorItems} placeholder={"색상 선택"} />
+            </Form.Item>
+          </SetContainer>
         </Row>
       </Col>
     </Wrapper>
@@ -82,4 +91,10 @@ const Row = styled.div`
   flex-direction: row;
   //justify-content: space-between;
   gap: 5.62rem;
+`;
+
+const SetContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
 `;
