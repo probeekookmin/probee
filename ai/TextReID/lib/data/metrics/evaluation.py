@@ -111,7 +111,9 @@ def evaluation(
             image_ids.append(image_id)
             pids.append(pid)
             image_global.append(prediction[0])
-            if len(prediction) == 2: # text query를 하나만 넣었으므로, text emgedding이 없는 부분이 있을 것임
+            if len(prediction) == 2:
+                # text query를 하나만 넣었으므로, text emgedding은 배치의 제일 처음 이미지에만 들어감
+                # 왜냐하면 유사도 검사 시 배치 별로 검사를 했으니까
                 text_global.append(prediction[1])
 
         pids = list(map(int, pids))
@@ -131,20 +133,21 @@ def evaluation(
 
         writer = SummaryWriter()
         # top 10 results 반환
-        for i in range(4):
-            sorted_indices = torch.argsort(similarity[i], descending=True)
-            sorted_values = similarity[i][sorted_indices]
-            top_k = 10
-            images = []
-            similarities = ""
-            print(cap[i])
+        sorted_indices = torch.argsort(similarity[0], descending=True)
+        sorted_values = similarity[0][sorted_indices]
+        top_k = 10
+        images = []
+        # similarities = ""
+        print(cap[0])
+        with open("./output/output.txt", "w") as file:
+            file.write("Caption: " + cap[0] + "\n")
             for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
                 image_id, pid = dataset.get_id_info(idx)
                 img, caption, idx, query = dataset.__getitem__(index)
                 images.append(img)
+                img_path = caption.get_field("img_path")
                 print(f"Index: {index}, Similarity: {value}, pid: {pid}")
-                similarities += str(value) + "\t"
-            grid_img = make_grid(images, nrow=10)
-            writer.add_image(f"Image Grid for Query {i}", grid_img)
-            writer.add_text(f"Captions for Query {i}", cap[i])
+                file.write("img_path: " + img_path + "\t Similarity: " + str(value.item()) + "\n")
+        grid_img = make_grid(images, nrow=10)
+        writer.add_image("Query <%s>"%cap[0], grid_img)
         writer.close()
