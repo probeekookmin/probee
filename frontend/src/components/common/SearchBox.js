@@ -4,22 +4,11 @@ import { SearchOutlined } from "@ant-design/icons";
 import DaumPostcode from "react-daum-postcode";
 import { useState } from "react";
 
-const { Search } = Input;
-
-export const SeacrchBox = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onToggleModal = () => {
-    setIsOpen((prev) => !prev);
-  };
-  const handleComplete = (data) => {
-    console.log(data);
-    onToggleModal(); // 주소창은 자동으로 사라지므로 모달만 꺼주면 된다.
-  };
+//도로명 주소 검색
+export const SeacrchBox = ({ title }) => {
   const [openPostcode, setOpenPostcode] = useState(false);
 
-  const [calendarlocation, setCalendarLocation] = useState("");
-  const locations = { calendarLocation: calendarlocation };
+  const [location, setLocation] = useState("");
   const handle = {
     // 버튼 클릭 이벤트
     clickButton: () => {
@@ -28,49 +17,38 @@ export const SeacrchBox = () => {
 
     // 주소 선택 이벤트
     selectAddress: (data) => {
-      setCalendarLocation(data.address);
+      setLocation(data.address);
       setOpenPostcode(false);
     },
   };
 
   return (
-    <StSeacrchBox>
+    <StSearchBox>
       <SearchBoxContainer onClick={handle.clickButton}>
-        <SearchInput placeholder="도로명주소" variant="borderless" />
+        <SearchInput placeholder="도로명주소" variant="borderless" value={location ?? location} />
         <SearchIconWrapper>
           <SearchOutlined style={{ color: "#00000060" }} />
         </SearchIconWrapper>
       </SearchBoxContainer>
-      <div>
-        {openPostcode && (
-          <DaumPostcode
-            onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
-            autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-          />
-        )}
-      </div>
-    </StSeacrchBox>
-    // <>
-    //   <div name="calendarlocation" value={calendarlocation} onClick={handle.clickButton} style={{}}>
-    //     {calendarlocation ? calendarlocation : "장소를 검색해주세요"}
-    //   </div>
-
-    //   <div>
-    //     {openPostcode && (
-    //       <DaumPostcode
-    //         onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
-    //         autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-    //       />
-    //     )}
-    //   </div>
-    // </>
+      <Modal
+        title={title}
+        style={{
+          top: 20,
+        }}
+        open={openPostcode}
+        onOk={() => setOpenPostcode(false)}
+        onCancel={() => setOpenPostcode(false)}>
+        <DaumPostcode
+          onComplete={handle.selectAddress} // 값선택
+          autoClose={false} // 값선택 시 자동 닫힘
+        />
+      </Modal>
+    </StSearchBox>
   );
 };
 
-const StSeacrchBox = styled.div``;
-// const SearchBox = styled(Search)`
-//   width: 25.1rem;
-// `;
+const StSearchBox = styled.div``;
+
 const SearchBoxContainer = styled.div`
   display: flex;
   flex-direction: row;
