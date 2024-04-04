@@ -1,17 +1,8 @@
 import { Typography, Image, Skeleton, Form, Input } from "antd";
 import styled from "styled-components";
+import { InputForm } from "../common/InputForm";
 
 export const BasicInfo = () => {
-  const InputField = ({ label, value }) => {
-    return (
-      <>
-        <InputLabel>{label}</InputLabel>{" "}
-        <InputItem>
-          <InputTextField variant="borderless" value={value} readOnly={"true"} />
-        </InputItem>
-      </>
-    );
-  };
   const MissingPersonInfo = () => {
     return (
       <InfoContainer>
@@ -19,7 +10,7 @@ export const BasicInfo = () => {
         <MissingPersonForm layout="vertical">
           <Skeleton.Image active={false} style={{ width: "8rem", height: "10rem" }} />
           <MissingPersonInfoContainer>
-            <InputField label={"성명"} value={"홍길동"} />
+            <InputForm label={"성명"} value={"홍길동"} />
           </MissingPersonInfoContainer>
         </MissingPersonForm>
       </InfoContainer>
@@ -47,25 +38,6 @@ const StBasicInfo = styled.div`
 
 const InfoContainer = styled.div`
   gap: 0.38rem;
-`;
-
-/* 각 정보 input 영역 */
-const InputItem = styled(Form.Item)`
-  padding-bottom: 0;
-
-  .ant-form-item .ant-form-item-label {
-    padding-bottom: 0;
-  }
-`;
-
-const InputLabel = styled.span`
-  padding-bottom: 0;
-  color: #00000060;
-  font-size: 0.56rem;
-`;
-
-const InputTextField = styled(Input)`
-  padding-left: 0rem;
 `;
 
 // 실종자 정보 영역
