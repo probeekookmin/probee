@@ -1,11 +1,11 @@
 import { Form, Input } from "antd";
 import styled from "styled-components";
 
-export const InputForm = ({ label, value }) => {
+export const InputForm = ({ label, name, value }) => {
   return (
     <>
       <InputLabel>{label}</InputLabel>
-      <InputItem>
+      <InputItem name={name}>
         <InputField variant="borderless" value={value} readOnly={"true"} />
       </InputItem>
     </>

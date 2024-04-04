@@ -10,7 +10,7 @@ export const BasicInfo = () => {
         <MissingPersonForm layout="vertical">
           <Skeleton.Image active={false} style={{ width: "8rem", height: "10rem" }} />
           <MissingPersonInfoContainer>
-            <InputForm label={"성명"} value={"홍길동"} />
+            <InputForm label={"성명"} value={"홍길동"} name={"name"} />
           </MissingPersonInfoContainer>
         </MissingPersonForm>
       </InfoContainer>
