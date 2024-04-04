@@ -27,7 +27,7 @@ export const IntelligentSearchInfo = () => {
         <RangePicker showTime format="YYYY-MM-DD HH:mm" placeholder={["시작일시", "종료일시"]} />
       </Form.Item>
       <Form.Item name={["search", "searchLocation"]} label="탐색 위치" {...config}>
-        <SeacrchBox />
+        <SeacrchBox title={"탐색 위치"} />
       </Form.Item>
     </StIntelligentSearchInfo>
   );

@@ -77,7 +77,7 @@ export const MissingPersonInfo = () => {
         </Row>
         <Row>
           <Form.Item name={["user", "missingLocation"]} label="실종위치">
-            <SeacrchBox />
+            <SeacrchBox title={"실종위치"} />
           </Form.Item>
           <Form.Item name={["user", "missingTime"]} label="실종일시" {...config}>
             <DatePicker showTime format="YYYY-MM-DD HH:mm" placeholder="시간 입력" />
