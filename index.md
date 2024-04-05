@@ -190,4 +190,6 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
 
 ### 중간 보고서
 
--   [중간보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb)
+<a href = "https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb">
+중간보고서
+</a>
