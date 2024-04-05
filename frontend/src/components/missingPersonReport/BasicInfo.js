@@ -60,7 +60,7 @@ export const BasicInfo = () => {
     );
   };
 
-  /* 실종자 정보 영역 */
+  /* 보호자 정보 영역 */
   const GuardianInfo = () => {
     return (
       <InfoContainer>
@@ -108,7 +108,7 @@ const StBasicInfo = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  gap: 0.38rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 `;
 // const Row = styled.div`
@@ -129,8 +129,8 @@ const MissingPersonForm = styled(Form)`
   align-items: center;
   gap: 1.25rem;
 `;
-const MissingPersonInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.38rem;
-`;
+// const MissingPersonInfoContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0.38rem;
+// `;
