@@ -44,7 +44,7 @@
 8. [기대효과](#기대효과)
 9. [관련문서](#관련문서)
 
-## 1. 프로젝트 소개
+## 프로젝트 소개
 
 프로젝트(이하, Pro_bee)의 목표는 실종자 인상착의 정보를 통해 CCTV에서 유사한 인물을 찾아내는, 지능형 실종자 탐색 시스템의 제작입니다.
 
@@ -56,7 +56,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
 
 ([중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb) 발췌)
 
-## 1. Abstract
+## Abstract
 
 The goal of the project, Pro_bee, is to develop an intelligent missing person search system that identifies similar individuals from CCTV footage based on the characteristics of the missing person's appearance.
 
@@ -64,33 +64,39 @@ Pro_bee originated from the need to reduce missing person alerts and find altern
 
 The target users of this project are governmental institutions, specifically law enforcement agencies (referred to as the police), and the guardians of missing persons (referred to as clients). To differentiate from intelligent CCTV systems adopted by various local governments, we additionally developed a web system facilitating interaction among users. By enabling rapid and efficient information sharing among users, we aimed to streamline the search process and alleviate the anxieties of the clients.
 
-## 2. 주요기능
+## 주요기능
 
-## 3. 소개영상
+-   인공지능을 활용한 CCTV 영상 분석
+-   의뢰인과의 상호작용
 
-## 4. 디자인
+## 소개영상
+
+## 디자인
 
 -   실종자 리포트
 <div align="center">
         <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
+<br/>
 
 -   지능형탐색
 <div align="center">
         <img width="80%" alt="지능형탐색" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/adcbf567-e373-4c27-984a-77401de75420">
 </div>
+<br/>
 
 -   실종 정보 등록
 <div align="center">
 <img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
 </div>
+<br/>
 
 -   보호자 회면
 <div align="center">
         <img width="40%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c">
 </div>
 
-## 5. 팀원 소개
+## 팀원 소개
 
 <table>
     <tr align="center">
@@ -176,17 +182,17 @@ The target users of this project are governmental institutions, specifically law
     </tr>
 </table>
 
-## 6. 시스템 구조도
+## 시스템 구조도
 
 <div align="center">
 <img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1dce6e6b-d384-4f5f-aa12-a23d9f028871">
 </div>
 
-## 7. 작업방식
+## 작업방식
 
-## 8. 기대효과
+## 기대효과
 
-## 9. 관련문서
+## 관련문서
 
 ### 중간 발표자료
 
@@ -200,3 +206,4 @@ The target users of this project are governmental institutions, specifically law
 ### 중간 보고서
 
 -   [중간보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
+-   [회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
