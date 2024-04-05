@@ -1,11 +1,13 @@
-# Pro_bee
+<h1 align="center">
+<img src ="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f282fe73-c893-4c82-88e5-10874a282ac5" width = "8%">Pro-bee
+</h1>
 
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "40%"/>
     </p>
     <p align = "center">
-    <a href = "https://probee.co.kr"> Pro-bee </a>
+    <h2 style="font-size: 24px; font-weight: bold;"> Pro-bee </h2>
     </p>
 
 </div>
