@@ -89,7 +89,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
     <tr align="center">
         <td style="min-width: 150px;">
             <a href="https://github.com/begong313">
-              <img src="https://avatars.githubusercontent.com/u/95959567?v=4" width="100">
+              <img src="https://avatars.githubusercontent.com/u/95959567?v=4" width="80">
               <br />
               <b>노종빈</b>
             </a> 
@@ -98,7 +98,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/KJW988">
-              <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="100">
+              <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="180">
               <br />
               <b>김지원</b>
             </a>
@@ -107,7 +107,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/su-hwani">
-              <img src="https://avatars.githubusercontent.com/u/54920289?v=4" width="100">
+              <img src="https://avatars.githubusercontent.com/u/54920289?v=4" width="80">
               <br />
               <b>정수환 </b>
             </a> 
@@ -116,7 +116,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/mirageciel">
-              <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="100">
+              <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
               <br />
               <b>신채원</b>
             </a> 
@@ -125,7 +125,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
         </td>
                 <td style="min-width: 150px;">
             <a href="https://github.com/ancy0">
-              <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="100">
+              <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="80">
               <br />
               <b>안채영</b>
             </a> 
@@ -187,9 +187,3 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
     <a href = "https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=x97njY">
     <image src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/45b5fbdb-6789-49d5-88b0-24ad95240fb3" alt = "middlePPT" width="80%"></a>
 </div>
-
-### 중간 보고서
-
-<a href = "https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb">
-중간보고서
-</a>
