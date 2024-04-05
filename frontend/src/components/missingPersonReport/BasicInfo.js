@@ -26,17 +26,6 @@ export const BasicInfo = () => {
       <InfoContainer>
         <Typography.Title level={5}>실종자 정보</Typography.Title>
         <MissingPersonForm form={form} layout="vertical">
-          {/* <Skeleton.Image active={false} style={{ width: "8rem", height: "10.8rem" }} />
-          <MissingPersonInfoContainer>
-            <InputForm label={"성명"} name={"name"} />
-            <Row gap={"1.38rem"}>
-              <InputForm label={"생년월일"} name={"birth"} />
-              <InputForm label={"성별"} name={"gender"} />
-            </Row>
-            <InputForm label={"실종일시"} name={"missingTime"} />
-            <InputForm label={"실종장소"} name={"missingLocation"} />
-          </MissingPersonInfoContainer> */}
-
           <Row>
             <Col span={11}>
               <Skeleton.Image active={false} style={{ width: "8rem", height: "10.8rem" }} />
@@ -66,12 +55,7 @@ export const BasicInfo = () => {
       <InfoContainer>
         <Typography.Title level={5}>보호자 정보</Typography.Title>
         <InfoForm form={form} layout="vertical">
-          {/* <Row gap={"1.19rem"}>
-            <InputForm label={"보호자명"} name={"guardianName"} />
-            <InputForm label={"관계"} name={"relation"} />
-            <InputForm label={"보호자 연락처"} name={"guardianContact"} />
-          </Row> */}
-          <Row guther={"1.2rem"}>
+          <Row>
             <Col span={7}>
               <InputForm label={"보호자명"} name={"guardianName"} />
             </Col>
@@ -87,10 +71,22 @@ export const BasicInfo = () => {
     );
   };
 
+  /* 착장정보 영역 */
+  const WearingInfo = () => {
+    return (
+      <InfoContainer>
+        <Typography.Title level={5}>착장 정보</Typography.Title>
+        <InfoForm form={form} layout="vertical">
+          <Skeleton title={false} />
+        </InfoForm>
+      </InfoContainer>
+    );
+  };
   return (
     <StBasicInfo>
       <MissingPersonInfo />
       <GuardianInfo />
+      <WearingInfo />
     </StBasicInfo>
   );
 };
@@ -100,6 +96,7 @@ const StBasicInfo = styled.div`
   flex-direction: column;
   justify-content: start;
   padding: 1.25rem;
+  gap: 0.38rem;
 
   width: 22.56rem;
   height: 27.5rem;
@@ -107,30 +104,11 @@ const StBasicInfo = styled.div`
   background-color: white;
 `;
 
-const InfoContainer = styled.div`
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-`;
-// const Row = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   gap: ${(props) => props.gap};
-// `;
+const InfoContainer = styled.div``;
 
 const InfoForm = styled(Form)`
   display: flex;
 `;
 
 // 실종자 정보 영역
-const MissingPersonForm = styled(Form)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.25rem;
-`;
-// const MissingPersonInfoContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 0.38rem;
-// `;
+const MissingPersonForm = styled(Form)``;
