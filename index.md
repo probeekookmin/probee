@@ -188,7 +188,7 @@ The target users of this project are governmental institutions, specifically law
 
 ## 9. 관련문서
 
-### 10. 중간 발표자료
+### 중간 발표자료
 
 <div style="display: flex; justify-content: center; align-items: center;">
     <a align = "center" href = "https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF">
