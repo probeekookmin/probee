@@ -185,6 +185,8 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
 
 <div style="display: flex; justify-content: center; align-items: center;">
     <a href = "https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=x97njY">
-        <image src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/45b5fbdb-6789-49d5-88b0-24ad95240fb3" alt = "middlePPT" width="80%">
     </a>
+        <image src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/45b5fbdb-6789-49d5-88b0-24ad95240fb3" alt = "middlePPT" width="80%">
 </div>
+
+### 중간 보고서
