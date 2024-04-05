@@ -184,8 +184,15 @@ The target users of this project are governmental institutions, specifically law
 
 ## 시스템 구조도
 
+-   시스템 아키텍처
 <div align="center">
 <img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1dce6e6b-d384-4f5f-aa12-a23d9f028871">
+</div>
+<br/>
+
+-   ERD
+<div align="center">
+<img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/3598f3c2-176b-463d-867a-b4c10b226b04">
 </div>
 
 ## 작업방식
