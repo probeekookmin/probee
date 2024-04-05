@@ -63,26 +63,24 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
 
 ## 디자인
 
--   기본화면
+-   실종자 리포트
 <div align="center">
-        <img width="80%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/dd207740-bfdc-4ac6-8783-d40adec67500">
-        </div>
-
--   실종 정보등록 창
-<div align="center">
-<img width="80%" alt="스크린샷 2024-03-30 오후 8 23 55" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/c8ca7460-ef8c-4add-a932-fe98f57c8b4d">
+        <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
 
--   실종자 정보확인 창
+-   지능형탐색
 <div align="center">
-        <img width="80%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/11cbc5ec-88fb-4bcd-9fb2-91dfe5cbcb90">
+        <img width="80%" alt="지능형탐색" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/adcbf567-e373-4c27-984a-77401de75420">
+        </div>
+
+-   실종 정보등록
+<div align="center">
+<img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
 </div>
 
 -   의뢰인 회면
 <div align="center">
-
-![KakaoTalk_Video_2024-03-30-20-29-51](https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c)
-
+        <img width="80%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c">
 </div>
 
 ## 팀원 소개
