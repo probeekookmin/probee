@@ -57,6 +57,14 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
 
 ([중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb) 발췌)
 
+## Abstract
+
+The goal of the project, Pro_bee, is to develop an intelligent missing person search system that identifies similar individuals from CCTV footage based on the characteristics of the missing person's appearance.
+
+Pro_bee originated from the need to reduce missing person alerts and find alternatives to citizen reports. We planned an intelligent missing person detection system utilizing information commonly found in missing person alerts such as physical descriptions, age, gender, and photographs. Specifically, our aim was to enhance the effectiveness of missing person detection without relying solely on citizen reports by introducing a mechanism for AI-driven initial search, thereby reducing the direct search range and enabling efficient utilization of limited police resources.
+
+The target users of this project are governmental institutions, specifically law enforcement agencies (referred to as the police), and the guardians of missing persons (referred to as clients). To differentiate from intelligent CCTV systems adopted by various local governments, we additionally developed a web system facilitating interaction among users. By enabling rapid and efficient information sharing among users, we aimed to streamline the search process and alleviate the anxieties of the clients.
+
 ## 주요기능
 
 ## 소개영상
@@ -98,7 +106,7 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/KJW988">
-              <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="180">
+              <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="80">
               <br />
               <b>김지원</b>
             </a>
@@ -152,19 +160,19 @@ Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체�
     </tr>
     <tr align="center">
         <td>
-            nobin313@kookmin.ac.kr
+            <span style="font-size: 12px;">nobin313@kookmin.ac.kr</span>
         </td>
         <td>
-            livelim313@gmail.com
+            <span style="font-size: 12px;">livelim313@gmail.com</span>
         </td>
         <td>
-            wjdtnghks123@kookmin.ac.kr
+            <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
                 <td>
-            mirageciel@kookmin.ac.kr
+            <span style="font-size: 12px;">mirageciel@kookmin.ac.kr</span>
         </td>
                 <td>
-            tory912@gmail.com
+            <span style="font-size: 12px;">tory912@gmail.com</span>
         </td>
     </tr>
 </table>
