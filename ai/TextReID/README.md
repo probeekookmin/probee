@@ -1,3 +1,10 @@
+# 실행코드
+python test_net.py --config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml --checkpoint-file output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth
+# 파이토치 GPU 버전 설치
+pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 
+-f https://download.pytorch.org/whl/torch_stable.html
+
+
 # Text Based Person Search with Limited Data
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/text-based-person-search-with-limited-data/nlp-based-person-retrival-on-cuhk-pedes)](https://paperswithcode.com/sota/nlp-based-person-retrival-on-cuhk-pedes?p=text-based-person-search-with-limited-data)

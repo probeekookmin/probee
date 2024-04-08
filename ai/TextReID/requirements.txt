@@ -14,8 +14,8 @@ PyYAML==6.0
 six==1.16.0
 tabulate==0.8.9
 toml==0.10.2
-torch==1.10.0
-torchvision==0.11.3
+torch==1.10.*
+torchvision==0.11.*
 tqdm==4.62.3
 typing_extensions==4.0.1
 virtualenv==20.10.0
