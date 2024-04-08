@@ -1,5 +1,10 @@
 ##
 
+```bash
+requirement.md 설치
+pip install -r requirements.txt
+```
+
 실행 명령어
 
 ```bash
