@@ -16,26 +16,26 @@ export const InputForm = ({ label, name }) => {
 const StInputForm = styled.div`
   display: flex;
   flex-direction: column;
-  height: 2.4rem;
+  height: 3.9rem;
   margin-bottom: 0.6rem;
 `;
 const InputItem = styled(Form.Item)`
   padding: 0;
   margin: 0;
-  height: 1.375rem;
+  height: 2.2rem;
   min-height: 0rem;
 `;
 
 const InputLabel = styled.span`
   padding-bottom: 0;
   color: #00000060;
-  font-size: 0.56rem;
+  font-size: 1rem;
 `;
 
 const InputField = styled(Input)`
   padding: 0;
   color: black;
-  font-size: 0.875rem;
-  line-height: 1.375rem;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
   margin-bottom: 0.6rem;
 `;

@@ -28,7 +28,7 @@ export const BasicInfo = () => {
         <MissingPersonForm form={form} layout="vertical">
           <Row>
             <Col span={11}>
-              <Skeleton.Image active={false} style={{ width: "8rem", height: "10.8rem" }} />
+              <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
             </Col>
             <Col span={13}>
               <InputForm label={"성명"} name={"name"} />
@@ -95,11 +95,11 @@ const StBasicInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  padding: 1rem 1.25rem;
-  gap: 0.38rem;
+  padding: 1rem 1.5rem;
+  gap: 0.6rem;
 
-  width: 22.56rem;
-  height: 27.5rem;
+  //width: 36rem;
+  height: 42.8rem;
 
   background-color: white;
 `;

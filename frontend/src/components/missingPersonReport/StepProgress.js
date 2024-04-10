@@ -45,10 +45,11 @@ export const StepProgress = () => {
 };
 
 const StStepProgress = styled.div`
-  height: 27.5rem;
+  height: 43rem;
 
   padding: 1rem 0.63rem;
 
   gap: 1.25rem;
+  border-radius: 0.3rem;
   background-color: white;
 `;

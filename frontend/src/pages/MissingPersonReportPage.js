@@ -33,7 +33,7 @@ function MissingPersonReportPage() {
           <StepProgress />
         </Col>
       </Row>
-      <Row>
+      <Row gutter={8}>
         <Col span={6}>
           <Row style={{ marginBottom: 8 }}>
             <ReportList />
@@ -61,8 +61,8 @@ const StReportStartBtn = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  width: 22.56rem;
-  height: 3.25rem;
+  width: 100%;
+  height: 5.2rem;
   padding: 0rem 0.94rem;
   border-radius: 0.3rem;
   background-color: #f0f3ff;
@@ -75,7 +75,7 @@ const ReportStartBtnLeft = styled.div`
   gap: 0.5rem;
 
   p {
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 600;
   }
 `;

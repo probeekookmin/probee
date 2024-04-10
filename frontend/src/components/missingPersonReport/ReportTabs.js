@@ -27,7 +27,8 @@ export const ReportTabs = () => {
 };
 
 const StReportTabs = styled.div`
-  height: 17.25rem;
+  height: 27.6rem;
   padding: 0.5rem;
   background-color: white;
+  border-radius: 0.3rem;
 `;
