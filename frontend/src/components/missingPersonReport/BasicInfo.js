@@ -95,7 +95,7 @@ const StBasicInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  padding: 1.25rem;
+  padding: 1rem 1.25rem;
   gap: 0.38rem;
 
   width: 22.56rem;
