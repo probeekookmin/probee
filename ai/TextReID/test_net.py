@@ -89,9 +89,6 @@ def main():
         makedir(output_folder)
         output_folders.append(output_folder)
 
-    num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
-    distributed = num_gpus > 1
-
     data_loaders_val = make_data_loader(cfg, is_train=False, is_distributed=distributed)
     for output_folder, dataset_name, data_loader_val in zip(
         output_folders, dataset_names, data_loaders_val

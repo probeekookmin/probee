@@ -7,6 +7,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class Bottleneck(nn.Module):
     expansion = 4
@@ -256,7 +258,7 @@ def modified_resnet50(
         input_resolution=input_resolution,
     )
     if pretrained_path:
-        p = torch.jit.load(pretrained_path).state_dict()
+        p = torch.jit.load(pretrained_path, map_location=device).state_dict()
         model.load_state_dict(
             state_filter(
                 p,
