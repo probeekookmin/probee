@@ -33,7 +33,6 @@ class GRU(nn.Module):
 
             vocab_dict = load_vocab_dict(root, use_onehot)
             assert vocab_size == vocab_dict.shape[1]
-            # self.vocab_dict = torch.tensor(vocab_dict).cuda().float()
             self.vocab_dict = torch.tensor(vocab_dict, device=device).float()
 
         self.gru = nn.GRU(
