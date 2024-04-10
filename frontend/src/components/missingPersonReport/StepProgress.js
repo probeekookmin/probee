@@ -45,11 +45,13 @@ export const StepProgress = () => {
 };
 
 const StStepProgress = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 43rem;
 
-  padding: 1rem 0.63rem;
+  padding: 1rem;
 
-  gap: 1.25rem;
+  gap: 1.5rem;
   border-radius: 0.3rem;
   background-color: white;
 `;
