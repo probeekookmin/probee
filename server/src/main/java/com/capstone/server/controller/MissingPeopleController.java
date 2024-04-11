@@ -38,7 +38,8 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleEntities));
     }
 
-    @PostMapping()
+    // TODO : AI 모델 탐색 코드 추가
+    @PostMapping() 
     public ResponseEntity<?> createUser(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
