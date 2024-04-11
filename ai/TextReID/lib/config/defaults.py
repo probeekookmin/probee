@@ -1,4 +1,5 @@
 from yacs.config import CfgNode as CN
+import torch
 
 _C = CN()
 _C.ROOT = "./"
@@ -38,7 +39,7 @@ _C.INPUT.USE_AUG = False
 # Model
 # -----------------------------------------------------------------------------
 _C.MODEL = CN()
-_C.MODEL.DEVICE = "cuda"
+_C.MODEL.DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 _C.MODEL.VISUAL_MODEL = "resnet50"
 _C.MODEL.TEXTUAL_MODEL = "bilstm"
 _C.MODEL.NUM_CLASSES = 11003

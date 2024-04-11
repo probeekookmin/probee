@@ -3,6 +3,8 @@ import torch.nn as nn
 
 from lib.utils.directory import load_vocab_dict
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class GRU(nn.Module):
     def __init__(
@@ -31,7 +33,7 @@ class GRU(nn.Module):
 
             vocab_dict = load_vocab_dict(root, use_onehot)
             assert vocab_size == vocab_dict.shape[1]
-            self.vocab_dict = torch.tensor(vocab_dict).cuda().float()
+            self.vocab_dict = torch.tensor(vocab_dict, device=device).float()
 
         self.gru = nn.GRU(
             embed_size,

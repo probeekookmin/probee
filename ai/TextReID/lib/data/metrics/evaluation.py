@@ -1,18 +1,13 @@
 import logging
 import os
 
+import json
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torchvision.transforms.functional import to_pil_image
-import matplotlib.pyplot as plt
-from PIL import Image
 
 from lib.utils.logger import table_log
 
-# 텐서보드 import
-from torchvision.utils import make_grid
-from torch.utils.tensorboard import SummaryWriter
 
 def rank(similarity, q_pids, g_pids, topk=[1, 5, 10], get_mAP=True):
     max_rank = max(topk)
@@ -131,23 +126,17 @@ def evaluation(
 
         similarity = torch.matmul(text_global, image_global.t())
 
-        writer = SummaryWriter()
         # top 10 results 반환
         sorted_indices = torch.argsort(similarity[0], descending=True)
         sorted_values = similarity[0][sorted_indices]
         top_k = 10
-        images = []
-        # similarities = ""
-        print(cap[0])
-        with open("./output/output.txt", "w") as file:
-            file.write("Caption: " + cap[0] + "\n")
-            for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
-                image_id, pid = dataset.get_id_info(idx)
-                img, caption, idx, query = dataset.__getitem__(index)
-                images.append(img)
-                img_path = caption.get_field("img_path")
-                print(f"Index: {index}, Similarity: {value}, pid: {pid}")
-                file.write("img_path: " + img_path + "\t Similarity: " + str(value.item()) + "\n")
-        grid_img = make_grid(images, nrow=10)
-        writer.add_image("Query <%s>"%cap[0], grid_img)
-        writer.close()
+        write = [cap[0]] # 저장할 output
+        for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
+            # image_id, pid = dataset.get_id_info(idx)
+            img, caption, idx, query = dataset.__getitem__(index)
+            img_path = caption.get_field("img_path")
+            # print(f"Index: {index}, Similarity: {value}, pid: {pid}")
+            dict = {"img_path": img_path, "Similarity": value.item()}
+            write.append(dict)
+        with open("./output/output.json", "w", encoding='utf-8') as f:
+            json.dump(write, f, ensure_ascii=False, indent=4)
