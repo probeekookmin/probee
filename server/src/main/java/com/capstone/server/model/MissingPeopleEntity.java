@@ -5,10 +5,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity(name = "missing_people")
 public class MissingPeopleEntity {
@@ -21,7 +26,7 @@ public class MissingPeopleEntity {
     private String name;
 
     @PastOrPresent
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -35,11 +40,14 @@ public class MissingPeopleEntity {
     @NotBlank
     private String missingLocation;
 
-    @Enumerated(EnumType.STRING)
-    private PoliceStation policeStation;
+    @NotNull
+    private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    // @Enumerated(EnumType.STRING)
+    // private PoliceStation policeStation;
+
+    // @Enumerated(EnumType.STRING)
+    // private Status status;
 
     @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private GuardianEntity guardianEntity;
@@ -48,7 +56,7 @@ public class MissingPeopleEntity {
     private MissingPeopleDetailEntity missingPeopleDetailEntity;
 
     @OneToMany(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
-    private List<SearchHistoryEntity> searchHistoryEntities;
+    private List<SearchHistoryEntity> searchHistoryEntities = new ArrayList<>();
   
     private LocalDateTime createdAt;
 
@@ -64,5 +72,12 @@ public class MissingPeopleEntity {
     @PreUpdate 
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addSearchHistoryEntities(SearchHistoryEntity searchHistoryEntity) {
+        if (this.searchHistoryEntities == null) {
+            this.searchHistoryEntities = new ArrayList<>();
+        }
+        this.searchHistoryEntities.add(searchHistoryEntity);
     }
 }

@@ -8,9 +8,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TopType {
     SHORT_SLEEVE("반팔"),
-    LONG_SLEEVE("긴팔"),
-    COAT("코트"),
-    PADDING("패딩");
+    LONG_SLEEVE("긴팔");
 
     private final String kor;
+
+    public static TopType fromKor(String kor) {
+        for (TopType topType : TopType.values()) {
+            if (topType.getKor().equals(kor)) {
+                return topType;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Korean TopType: " + kor);
+    }
 }

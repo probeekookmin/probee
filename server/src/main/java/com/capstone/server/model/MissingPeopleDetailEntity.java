@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
 
 import com.capstone.server.model.enums.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "missing_people_detail")
 public class MissingPeopleDetailEntity {
     @Id
@@ -17,26 +21,31 @@ public class MissingPeopleDetailEntity {
     @Column(name = "missing_people_detail_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private HairStyle hairStyle;
 
+    @Enumerated(EnumType.STRING)
     private TopType topType;
 
+    @Enumerated(EnumType.STRING)
     private Color topColor;
 
+    @Enumerated(EnumType.STRING)
     private BottomType bottomType;
 
+    @Enumerated(EnumType.STRING)
     private Color bottomColor;
 
+    @Enumerated(EnumType.STRING)
     private BagType bagType;
 
-    private Color bagColor;
-
+    @Enumerated(EnumType.STRING)
     private Color shoesColor;
 
     // TODO: 빼는 게 나을지도
-    private Boolean stripes;
+    // private Boolean stripes;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
     private MissingPeopleEntity missingPeopleEntity;
 
@@ -54,4 +63,15 @@ public class MissingPeopleDetailEntity {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    // public void setMissingPeopleEntity2(MissingPeopleEntity missingPeopleEntity) {
+    //     if (this.missingPeopleEntity != null) {
+    //         this.missingPeopleEntity.setMissingPeopleDetailEntity(null);
+    //     }
+
+    //     this.missingPeopleEntity = missingPeopleEntity;
+    //     if (missingPeopleEntity != null) {
+    //         missingPeopleEntity.setMissingPeopleDetailEntity(this);
+    //     }
+    // }
 }

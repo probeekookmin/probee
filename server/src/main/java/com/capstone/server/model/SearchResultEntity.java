@@ -12,6 +12,8 @@ import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "search_result")
 public class SearchResultEntity {
     @Id
