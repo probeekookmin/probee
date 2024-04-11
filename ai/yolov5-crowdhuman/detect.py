@@ -6,7 +6,6 @@ import argparse
 import time
 import json
 import re
-
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
