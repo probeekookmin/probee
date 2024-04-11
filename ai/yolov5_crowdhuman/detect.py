@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-
+from argparse import Namespace
 import argparse
 import time
 import json
@@ -9,6 +9,7 @@ import re
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
+
 
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
@@ -25,7 +26,7 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-def detect(save_img=False):
+def detect(opt,save_img=False):
     source, weights, view_img, save_txt, imgsz = str(opt.source), opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://'))
@@ -44,6 +45,7 @@ def detect(save_img=False):
     half = device.type != 'cpu'  # half precision only supported on CUDA
 
     # Load model
+    print(weights)
     model = attempt_load(weights, map_location=device)  # load FP32 model
     stride = int(model.stride.max())  # model stride
     imgsz = check_img_size(imgsz, s=stride)  # check img_size
@@ -203,12 +205,15 @@ def detect(save_img=False):
         annotation_idx += 1
 
     data = {"categories": categories, "annotations": annotations}
-
-    with open(f"{save_dir}/annotations.json", "w") as f:
+    
+    jsonfiledir = f"{save_dir}/annotations.json"
+    with open(jsonfiledir, "w") as f:
         json.dump(data, f)
     print("Save Json file.")
     
     print(f'Done. ({time.time() - t0:.3f}s)')
+    return jsonfiledir
+
 
 
 if __name__ == '__main__':
@@ -239,7 +244,44 @@ if __name__ == '__main__':
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
-                detect()
+                detect(opt)
                 strip_optimizer(opt.weights)
         else:
-            detect()
+            detect(opt)
+
+
+def run_detection(weights='yolov5s.pt', source=ROOT / "data/images", img_size=640, conf_thres=0.25, iou_thres=0.45, device='', view_img=False, save_txt=False, save_conf=False, classes=None, agnostic_nms=False, augment=False, update=False, project='runs/detect', name='exp', exist_ok=False, person=False, heads=False):
+    # Setup
+    opt = Namespace(
+        weights=[weights],
+        source=source,
+        img_size=img_size,
+        conf_thres=conf_thres,
+        iou_thres=iou_thres,
+        device=device,
+        view_img=view_img,
+        save_txt=save_txt,
+        save_conf=save_conf,
+        classes=classes,
+        agnostic_nms=agnostic_nms,
+        augment=augment,
+        update=update,
+        project=project,
+        name=name,
+        exist_ok=exist_ok,
+        person=person,
+        heads=heads
+    )
+    print(opt)
+    # check_requirements()
+
+    with torch.no_grad():
+        if opt.update:  # update all models (to fix SourceChangeWarning)
+            for w in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
+                opt['weights'] = w
+                result = detect(opt)  # Assuming detect is a function that takes these options as a parameter
+                strip_optimizer(w)
+                return result
+        else:
+            print(sys.path)
+            return detect(opt)

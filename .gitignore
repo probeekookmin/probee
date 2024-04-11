@@ -2,3 +2,6 @@
 /docs
 ai/.DS_Store
 .DS_Store
+*.pyc
+/ai/runs
+ai/crowdhuman_yolov5m.pt
