@@ -35,7 +35,7 @@ public class UserApiController {
     public ResponseEntity<?> getUsers() {
         List<UserEntity> userEntities = userService.getAllUsers();
         int port = 3000;
-        return ResponseEntity.ok().body(new SuccessResponse(port));
+        return ResponseEntity.ok().body(new SuccessResponse(userEntities));
     }
 
     @PostMapping("/create")

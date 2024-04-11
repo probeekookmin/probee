@@ -19,6 +19,7 @@ public class UserService {
 
     public UserEntity createUser(UserEntity userEntity) {
         try {
+            System.out.println("ASDASD");
             return userRepository.save(userEntity);
         } catch (Exception e) {
             throw new UserException(UserErrorCode.USER_EXISTS, e);
