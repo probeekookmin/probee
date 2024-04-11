@@ -104,7 +104,15 @@ def detect(save_img=False):
                 p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            date_obj = datetime.strptime(p.stem, '%Y%m%d-%H%M%S')  # 탐색 시작 시간
+            title = p.stem
+            try:
+                date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')# 탐색 시작 시간
+            except:
+                #테스트용 제목파싱 재설정
+                title = p.stem.split('_')[0].replace("-","")+'-'+p.stem.split('_')[1].replace("-","")
+                print(title)
+                date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')  # 테스트용
+            # 탐색 시작 시간
             s += '%gx%g ' % img.shape[2:]  # print string
 
             # FPS에 따라 객체 탐지 프레임 조정
