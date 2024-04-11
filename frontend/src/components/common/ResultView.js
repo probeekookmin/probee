@@ -46,12 +46,7 @@ const StResultView = styled.div`
   bottom: 0;
   padding: 0rem 2rem;
 `;
-const TopContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: end;
-  float: right;
-`;
+
 const MiddleContainer = styled.div`
   display: flex;
   flex-direction: row;
