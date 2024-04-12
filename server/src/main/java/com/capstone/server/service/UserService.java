@@ -6,9 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.capstone.server.code.UserErrorCode;
+import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.UserUpdateRequestDto;
-import com.capstone.server.exception.UserException;
+import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.UserEntity;
 import com.capstone.server.repository.UserRepository;
 
@@ -19,9 +19,10 @@ public class UserService {
 
     public UserEntity createUser(UserEntity userEntity) {
         try {
+            System.out.println("ASDASD");
             return userRepository.save(userEntity);
         } catch (Exception e) {
-            throw new UserException(UserErrorCode.USER_EXISTS, e);
+            throw new CustomException(ErrorCode.USER_EXISTS, e);
         }
     }
 
@@ -36,7 +37,7 @@ public class UserService {
             existingUser.setName(userUpdateRequestDto.getName());
             return userRepository.save(existingUser);
         } else {
-            throw new UserException(UserErrorCode.USER_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
     }
 }

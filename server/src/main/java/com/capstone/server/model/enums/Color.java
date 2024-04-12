@@ -11,7 +11,6 @@ public enum Color {
     YELLOW("노랑"),
     GREEN("초록"),
     BLUE("파랑"),
-    PURPLE("보라"),
     PINK("분홍"),
     GRAY("회색"),
     WHITE("흰색"),
@@ -20,4 +19,13 @@ public enum Color {
     LIGHT_COLORED("밝은 색");
 
     private final String kor;
+
+    public static Color fromKor(String kor) {
+        for (Color color : Color.values()) {
+            if (color.getKor().equals(kor)) {
+                return color;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Korean Color: " + kor);
+    }
 }

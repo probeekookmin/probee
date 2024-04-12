@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserErrorCode {
+public enum ErrorCode {
     // TODO: 에러 코드 개별 수정 필요
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Invalid request."),
     UNAUTHORIZED_REQUEST(HttpStatus.UNAUTHORIZED, "Unauthorized."),
@@ -17,8 +17,9 @@ public enum UserErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server error."),
 
     USER_EXISTS(HttpStatus.CONFLICT, "user exists."),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user not found by id.");
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user not found by id."),
 
+    DATA_INTEGRITY_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Invalid request.");
     private final HttpStatus httpStatus;
     private final String message;
 }
