@@ -19,7 +19,7 @@ def hello_world():
 
 @app.route('/yolo')
 def run_yolo():
-    resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source='yolov5_crowdhuman/test/r2', person=True)
+    resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source='yolov5_crowdhuman/test/r1', person=True)
     with open(resultDir, 'r') as file:
         return file.read()
 
