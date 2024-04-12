@@ -2,6 +2,7 @@ package com.capstone.server.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -75,5 +76,18 @@ public class MissingPeopleService {
         return missingPeopleRepository.findAll().stream()
                 .map(MissingPeopleResponseDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public MissingPeopleResponseDto getMissingPeopleById(Long id) {
+        try {
+            MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            return MissingPeopleResponseDto.fromEntity(missingPeopleEntity);
+        } catch (NoSuchElementException e) {
+            throw new CustomException(ErrorCode.MISSING_PEOPLE_NOT_FOUND_BY_ID , e);
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
+        }
     }
 }
