@@ -34,8 +34,14 @@ public class MissingPeopleController {
     // MissingPeople 전체 가져오기
     @GetMapping()
     public ResponseEntity<?> getUsers() {
-        List<MissingPeopleResponseDto> missingPeopleEntities = missingPeopleService.getAllMissingPeople();
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleEntities));
+        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeople();
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMissingPersonById(@PathVariable Long id) {
+        MissingPeopleResponseDto missingPeopleResponseDto = missingPeopleService.getMissingPeopleById(id);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDto));
     }
 
     // TODO : AI 모델 탐색 코드 추가
