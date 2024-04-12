@@ -22,7 +22,7 @@ function MissingPersonReportPage() {
   };
   return (
     <StMissingPersonReportPage>
-      <Row style={{ marginBottom: 8 }} gutter={8}>
+      <Row gutter={[8, 10]}>
         <Col span={6}>
           <BasicInfo />
         </Col>
@@ -32,8 +32,19 @@ function MissingPersonReportPage() {
         <Col span={4}>
           <StepProgress />
         </Col>
+        <Col span={6} md={6}>
+          <Row style={{ marginBottom: 8 }}>
+            <ReportList />
+          </Row>
+          <Row>
+            <ReportStartBtn />
+          </Row>
+        </Col>
+        <Col span={18} md={18}>
+          <ReportTabs />
+        </Col>
       </Row>
-      <Row gutter={8}>
+      {/* <Row gutter={8}>
         <Col span={6}>
           <Row style={{ marginBottom: 8 }}>
             <ReportList />
@@ -45,7 +56,7 @@ function MissingPersonReportPage() {
         <Col span={18}>
           <ReportTabs />
         </Col>
-      </Row>
+      </Row> */}
     </StMissingPersonReportPage>
   );
 }
