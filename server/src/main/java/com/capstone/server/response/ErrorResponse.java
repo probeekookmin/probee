@@ -3,7 +3,7 @@ package com.capstone.server.response;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import com.capstone.server.code.UserErrorCode;
+import com.capstone.server.code.ErrorCode;
 
 import lombok.Getter;
 
@@ -15,14 +15,14 @@ public class ErrorResponse {
     private final String message;
     private Map<String, String> errorDetails;
 
-    public ErrorResponse(UserErrorCode errorCode) {
+    public ErrorResponse(ErrorCode errorCode) {
         this.statusCode = errorCode.getHttpStatus().value();
         this.error = errorCode.getHttpStatus().name();
         this.message = errorCode.getMessage();
         this.errorDetails = null;
     }
 
-    public ErrorResponse(UserErrorCode errorCode, Map<String, String> errorDetails) {
+    public ErrorResponse(ErrorCode errorCode, Map<String, String> errorDetails) {
         this.statusCode = errorCode.getHttpStatus().value();
         this.error = errorCode.getHttpStatus().name();
         this.message = errorCode.getMessage();

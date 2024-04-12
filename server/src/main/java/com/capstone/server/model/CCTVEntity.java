@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "cctv")
 public class CCTVEntity {
     @Id
@@ -21,7 +23,10 @@ public class CCTVEntity {
     private BigDecimal latitude;
 
     @NotBlank
-    private BigDecimal logitude;
+    private BigDecimal longitude;
+
+    @NotBlank
+    private String locationAddress;
 
     // N:1 양방향 관계 매핑
     @OneToMany(mappedBy = "cctvEntity", cascade = CascadeType.ALL)

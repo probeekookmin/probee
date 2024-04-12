@@ -4,10 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "guardian")
 public class GuardianEntity {
     @Id
@@ -24,7 +28,7 @@ public class GuardianEntity {
     @NotBlank
     private String relationship;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
     private MissingPeopleEntity missingPeopleEntity;
 

@@ -8,9 +8,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum Gender {
-    MALE("남성"),
-    FEMALE("여성"),
-    OTHER("그 외");
+    MAN("성인 남성"),
+    WOMAN("성인 여성"),
+    BOY("남자아이"),
+    GIRL("여자아이");
 
     private String kor;
+
+    public static Gender fromKor(String kor) {
+        for (Gender gender : Gender.values()) {
+            if (gender.getKor().equals(kor)) {
+                return gender;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Korean Gender: " + kor);
+    }
 }
