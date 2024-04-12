@@ -10,7 +10,7 @@ function Router() {
       <Routes>
         <Route element={<Nav />}>
           <Route path="/" element={<Test />} />
-          <Route path="/a" element={<Test2 />} />
+          <Route path="/list" element={<Test2 />} />
           <Route path="/add" element={<AddMissingPersonPage />} />
           <Route path="/report" element={<MissingPersonReportPage />} />
         </Route>
