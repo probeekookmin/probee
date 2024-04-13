@@ -83,6 +83,7 @@ def evaluation(
     cap,
     save_data=True,
     rerank=True,
+    search_num=0
 ):
     logger = logging.getLogger("PersonSearch.inference")
     data_dir = os.path.join(output_folder, "inference_data.npz")
@@ -141,6 +142,8 @@ def evaluation(
 
         
         home_path = os.path.expanduser("~")
-        result_path = os.path.join(home_path, "Desktop", "result", "output.json")
+        result_path = os.path.join(home_path, "Desktop", "result", str(search_num) ,"output.json")
+        if not os.path.exists(os.path.dirname(result_path)):
+            os.makedirs(os.path.dirname(result_path), exist_ok=True)
         with open(result_path, "w", encoding='utf-8') as f:
             json.dump(write, f, ensure_ascii=False, indent=4)

@@ -2,8 +2,10 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sys
 import os
+import json
 from pathlib import Path
 from typing import Dict
+from starlette.responses import JSONResponse
 print("Aaaa",Path(__file__).parent)
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
@@ -21,6 +23,12 @@ class YoloInput(BaseModel):
 class YoloResult(BaseModel):
     data : str
 
+class TextInput(BaseModel):
+    search_num: int
+    query : str
+class TextResult(BaseModel):
+    query : str
+    data : list
 
 @app.post('/yolo', response_model = YoloResult)
 async def run_yolo(input: YoloInput):
@@ -34,11 +42,15 @@ async def run_yolo(input: YoloInput):
     
     return YoloResult(data=result)
 
-@app.get('/text')
-async def run_text():
-    home_path = os.getcwd() + "/TextReID"
-    findByText(home_path)
-    return {"message": "Text ReID is running"}
+@app.post('/text', response_model = TextResult)
+async def run_text(input : TextInput):
+    root_path = os.getcwd() + "/TextReID"
+    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.search_num)+"/output.json"
+    findByText(root_path,search_num=input.search_num, query = input.query)
+    with open(result_dir, 'r') as file:
+        result = json.load(file)
+    
+    return TextResult(query=input.query, data=result[1:])
 
 # 파일 내용을 읽어 반환하는 함수 #아직 안씀
 def read_file_contents(directory: str) -> Dict[str, str]:

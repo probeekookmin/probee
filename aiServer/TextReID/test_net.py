@@ -63,7 +63,7 @@ def main():
 
     detect(args)
 
-def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml", checkpoint_file="output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth", local_rank=0, opts=[], load_result=False):
+def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml", checkpoint_file="output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth", local_rank=0, opts=[], load_result=False, search_num=0,query=""):
     # 매개변수를 Namespace 객체로 묶기
     args = Namespace(
         root=root,
@@ -71,7 +71,9 @@ def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs
         checkpoint_file=root+"/"+checkpoint_file,
         local_rank=local_rank,
         opts=opts,
-        load_result=load_result
+        load_result=load_result,
+        search_num=search_num,
+        query = query
     )
 
     # 이제 args 객체에 있는 모든 설정을 사용할 수 있습니다.
@@ -86,6 +88,7 @@ def detect(args):
         torch.distributed.init_process_group(backend="nccl", init_method="env://")
         synchronize()
     print(args.config_file)
+    cfg.defrost()
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.ROOT = args.root
@@ -110,7 +113,7 @@ def detect(args):
     data_loaders_val = make_data_loader(cfg, is_train=False, is_distributed=distributed)
     for output_folder, dataset_name, data_loader_val in zip(
         output_folders, dataset_names, data_loaders_val
-    ):
+    ):  
         logger = setup_logger("PersonSearch", output_folder, get_rank())
         logger.info("Using {} GPUs".format(num_gpus))
         logger.info(cfg)
@@ -123,6 +126,8 @@ def detect(args):
             output_folder=output_folder,
             save_data=False,
             rerank=True,
+            search_num = args.search_num,
+            query = args.query
         )
         synchronize()
 
