@@ -30,6 +30,14 @@ class TextResult(BaseModel):
     query : str
     data : list
 
+class TotalInput(BaseModel):
+    location: str
+    cctvId: str
+    searchStart : str
+    searchEnd : str
+    search_num: int
+    query : str
+
 @app.post('/yolo', response_model = YoloResult)
 async def run_yolo(input: YoloInput):
     # 사용자의 홈 디렉토리 경로를 가져옵니다.
@@ -44,6 +52,20 @@ async def run_yolo(input: YoloInput):
 
 @app.post('/text', response_model = TextResult)
 async def run_text(input : TextInput):
+    root_path = os.getcwd() + "/TextReID"
+    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.search_num)+"/output.json"
+    findByText(root_path,search_num=input.search_num, query = input.query)
+    with open(result_dir, 'r') as file:
+        result = json.load(file)
+    
+    return TextResult(query=input.query, data=result[1:])
+
+@app.post('/run', response_model=TextResult)
+async def run(input: TotalInput):
+    home_path = os.path.expanduser("~")
+    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.location, input.cctvId, input.searchStart) #경로는 각자 환경에 맞게 조장하시오
+    resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
+    
     root_path = os.getcwd() + "/TextReID"
     result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.search_num)+"/output.json"
     findByText(root_path,search_num=input.search_num, query = input.query)
