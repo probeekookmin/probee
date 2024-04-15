@@ -16,10 +16,10 @@ from yolov5_crowdhuman.detect import run_detection
 app = FastAPI(port = 8080)
 
 class YoloInput(BaseModel):
-    location: str
     cctvId: str
     startTime : str
     endTime : str
+
 class YoloResult(BaseModel):
     data : str
 
@@ -31,7 +31,6 @@ class TextResult(BaseModel):
     data : list
 
 class TotalInput(BaseModel):
-    location: str
     cctvId: str
     startTime : str
     endTime : str
@@ -42,7 +41,7 @@ class TotalInput(BaseModel):
 async def run_yolo(input: YoloInput):
     # 사용자의 홈 디렉토리 경로를 가져옵니다.
     home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.location, input.cctvId, input.searchStart) #경로는 각자 환경에 맞게 조장하시오
+    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
     resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
     
     with open(resultDir, 'r') as file:
@@ -63,7 +62,7 @@ async def run_text(input : TextInput):
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
     home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.location, input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
+    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
     resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
 
     root_path = os.getcwd() + "/TextReID"
