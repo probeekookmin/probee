@@ -159,18 +159,6 @@ def detect(save_img=False):
                             # 검출된 이미지 저장 
                             save_one_box(xyxy, im0, file=save_dir / f"{img_name}.jpg", BGR=True)
                             
-                            for filename in os.listdir(save_dir):
-                                file_path = os.path.join(save_dir, filename)
-                                img = cv2.imread(file_path)
-                                h, w = img.shape[:2]
-
-                                # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
-                                if h <= w:
-                                    os.remove(file_path)
-                                
-                                # 종횡비 안 맞는 이미지 한 번 더 삭제
-                                elif int(w/h * 10) / 10 != target_ratio:
-                                    os.remove(file_path)
 
             # Print time (inference + NMS)
             print(f'{s}Done. ({t2 - t1:.3f}s)')
@@ -179,6 +167,20 @@ def detect(save_img=False):
         prev_path = path
 
 
+    # ==== 필터링 ==== #
+    for filename in os.listdir(save_dir):
+        file_path = os.path.join(save_dir, filename)
+        img = cv2.imread(file_path)
+        h, w = img.shape[:2]
+
+        # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
+        if h <= w:
+            os.remove(file_path)
+        
+        # 종횡비 안 맞는 이미지 한 번 더 삭제
+        elif int(w/h * 10) / 10 != target_ratio:
+            os.remove(file_path)
+            
     # ==== 2-stage 모델을 위한 annotation Json 파일 생성 ==== #
     annotation_idx = 0
     for filename in os.listdir(save_dir):
