@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 import sys
 import os
@@ -13,18 +13,18 @@ sys.path.append(str(Path(__file__).parent)+"/TextReID")
 from TextReID.test_net import findByText 
 from yolov5_crowdhuman.detect import run_detection
 
-app = FastAPI()
+app = FastAPI(port = 8080)
 
 class YoloInput(BaseModel):
     location: str
     cctvId: str
-    searchStart : str
-    searchEnd : str
+    startTime : str
+    endTime : str
 class YoloResult(BaseModel):
     data : str
 
 class TextInput(BaseModel):
-    search_num: int
+    searchId: int
     query : str
 class TextResult(BaseModel):
     query : str
@@ -33,9 +33,9 @@ class TextResult(BaseModel):
 class TotalInput(BaseModel):
     location: str
     cctvId: str
-    searchStart : str
-    searchEnd : str
-    search_num: int
+    startTime : str
+    endTime : str
+    searchId: int
     query : str
 
 @app.post('/yolo', response_model = YoloResult)
@@ -53,8 +53,8 @@ async def run_yolo(input: YoloInput):
 @app.post('/text', response_model = TextResult)
 async def run_text(input : TextInput):
     root_path = os.getcwd() + "/TextReID"
-    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.search_num)+"/output.json"
-    findByText(root_path,search_num=input.search_num, query = input.query)
+    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.searchId)+"/output.json"
+    findByText(root_path,search_num=input.searchId, query = input.query)
     with open(result_dir, 'r') as file:
         result = json.load(file)
     
@@ -63,12 +63,12 @@ async def run_text(input : TextInput):
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
     home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.location, input.cctvId, input.searchStart) #경로는 각자 환경에 맞게 조장하시오
+    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.location, input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
     resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
-    
+
     root_path = os.getcwd() + "/TextReID"
-    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.search_num)+"/output.json"
-    findByText(root_path,search_num=input.search_num, query = input.query)
+    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.searchId)+"/output.json"
+    findByText(root_path,search_num=input.searchId, query = input.query)
     with open(result_dir, 'r') as file:
         result = json.load(file)
     
