@@ -11,4 +11,13 @@ public enum BodyType {
     MUSCULAR("근육질");
 
     private final String kor;
+
+    public static BodyType fromKor(String kor) {
+        for (BodyType bodyType : BodyType.values()) {
+            if (bodyType.getKor().equals(kor)) {
+                return bodyType;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Korean BodyType: " + kor);
+    }
 }

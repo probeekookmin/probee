@@ -13,6 +13,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "search_history")
 public class SearchHistoryEntity {
     @Id
@@ -20,17 +22,20 @@ public class SearchHistoryEntity {
     @Column(name = "search_history_id")
     private Long id;
 
-    @FutureOrPresent
+    @Past
     private LocalDateTime startTime;
     
-    @Future
+    @PastOrPresent
     private LocalDateTime endTime;
 
-    @NotBlank
+    @NotNull
     private BigDecimal latitude;
 
-    @NotBlank
+    @NotNull
     private BigDecimal longitude;
+
+    @NotBlank
+    private String locationAddress;
 
     @Enumerated(EnumType.STRING)
     private SearchStatus searchStatus;

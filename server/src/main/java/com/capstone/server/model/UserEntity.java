@@ -1,6 +1,7 @@
 package com.capstone.server.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import com.capstone.server.model.enums.userEnum;
 
 @Data
 @NoArgsConstructor
@@ -22,27 +24,32 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
     private String name;
 
-    @NotNull
+
     private Integer age;
 
-    @NotNull
+
     private String email;
 
     private BigDecimal latitude;
 
     private BigDecimal longitude;
 
-    @NotNull
+    private userEnum userEnum;
+
+
     private Date createdAt;
 
-    @NotNull
+
     private Date updatedAt;
 
     @CreatedDate
     private LocalDateTime localDate;
+
+
+    private LocalDateTime whenCreatedAt;
 
     @PrePersist
     protected void onCreate() {
