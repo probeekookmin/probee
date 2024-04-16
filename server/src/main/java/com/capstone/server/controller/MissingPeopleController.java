@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.capstone.server.code.ErrorCode;
+import com.capstone.server.dto.DetectionRequestDto;
 import com.capstone.server.dto.MissingPeopleCreateRequestDto;
 import com.capstone.server.dto.MissingPeopleResponseDto;
 import com.capstone.server.dto.S3DownloadResponseDto;
@@ -27,7 +28,9 @@ import com.capstone.server.dto.S3UploadResponseDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
+import com.capstone.server.service.DetectService;
 import com.capstone.server.service.MissingPeopleService;
+
 import com.capstone.server.service.S3Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +39,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -47,7 +57,9 @@ public class MissingPeopleController {
     private MissingPeopleService missingPeopleService;
     @Autowired
     private S3Service s3Service;
-    
+    @Autowired
+    private DetectService detectService;
+
     // MissingPeople 전체 가져오기
     @GetMapping()
     public ResponseEntity<?> getAllMissingPeople() {
@@ -63,11 +75,12 @@ public class MissingPeopleController {
     }
 
     // TODO : AI 모델 탐색 코드 추가
+
     @PostMapping() 
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
-            
+
             for (FieldError error : bindingResult.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
@@ -125,5 +138,11 @@ public class MissingPeopleController {
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
-    
+
+    //ai 탐색코드 테스트
+    @PostMapping("/test")
+    public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
+        System.out.println(detectionRequestDto);
+        return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
+    }
 }
