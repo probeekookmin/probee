@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+
 from argparse import Namespace
 import argparse
 import time
@@ -9,7 +10,6 @@ import re
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-
 
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
@@ -176,14 +176,18 @@ def detect(opt,save_img=False):
         nfps += 1
         prev_path = path
 
+    # ==== 필터링 ==== #
     for filename in os.listdir(save_dir):
         file_path = os.path.join(save_dir, filename)
         img = cv2.imread(file_path)
         h, w = img.shape[:2]
 
-        if h<= w:
+        # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
+        if h <= w:
             os.remove(file_path)
-        elif int(w/h*10)/10!=target_ratio:
+        
+        # 종횡비 안 맞는 이미지 한 번 더 삭제
+        elif int(w/h * 10) / 10 != target_ratio:
             os.remove(file_path)
             
     # ==== 2-stage 모델을 위한 annotation Json 파일 생성 ==== #
