@@ -24,7 +24,7 @@ export const WearingInfo = () => {
         onSearch={onSearch}
         filterOption={filterOption}
         options={items}
-        style={{ width: "8rem" }}
+        style={{ width: "14rem" }}
       />
     );
   };

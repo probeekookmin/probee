@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Divider, Button, Form, Typography } from "antd";
+import { Divider, Button, Form, Typography, Row, Col } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
@@ -30,39 +30,44 @@ const onFinish = (fieldsValue) => {
 function AddMissingPersonPage() {
   return (
     <StAddMissingPersonPage>
-      <InfoForm layout="vertical" name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
-        <Container>
-          <Typography.Title
-            level={3}
-            style={{
-              margin: 0,
-            }}>
-            실종자 정보 등록
-          </Typography.Title>
-          <Divider />
-          <MissingPersonInfo />
-          <WearingInfo />
-          <GuardianInfo />
-        </Container>
-        <Container>
-          <Typography.Title
-            level={3}
-            style={{
-              margin: 0,
-            }}>
-            지능형 탐색 초기 정보 등록
-          </Typography.Title>
-          <Divider />
-          <IntelligentSearchInfo />
-        </Container>
-        <ButtonContainer>
-          <Form.Item wrapperCol={{}}>
-            <Button type="primary" htmlType="submit">
-              정보 등록
-            </Button>
-          </Form.Item>
-        </ButtonContainer>
-      </InfoForm>
+      <Row>
+        <Col span={15}>
+          <InfoForm layout="vertical" name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+            <Container>
+              <Typography.Title
+                level={3}
+                style={{
+                  margin: 0,
+                }}>
+                실종자 정보 등록
+              </Typography.Title>
+              <Divider />
+              <MissingPersonInfo />
+              <WearingInfo />
+              <GuardianInfo />
+            </Container>
+            <Container>
+              <Typography.Title
+                level={3}
+                style={{
+                  margin: 0,
+                }}>
+                지능형 탐색 초기 정보 등록
+              </Typography.Title>
+              <Divider />
+              <IntelligentSearchInfo />
+            </Container>
+            <ButtonContainer>
+              <Form.Item wrapperCol={{}}>
+                <Button type="primary" htmlType="submit">
+                  정보 등록
+                </Button>
+              </Form.Item>
+            </ButtonContainer>
+          </InfoForm>
+        </Col>
+        <Col span={9}></Col>
+      </Row>
     </StAddMissingPersonPage>
   );
 }
@@ -72,7 +77,7 @@ const StAddMissingPersonPage = styled.div`
   padding: 3rem;
 `;
 const InfoForm = styled(Form)`
-  max-width: 45.9rem;
+  //max-width: 45.9rem;
 `;
 
 // 전체 form의 container (흰 배경)

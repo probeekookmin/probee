@@ -48,6 +48,7 @@ export const MissingPersonInfo = () => {
         }}>
         실종자
       </Typography.Title>
+      <></>
       <Col>
         <Row>
           <Form.Item
@@ -113,9 +114,9 @@ const Row = styled.div`
 `;
 
 const NameInput = styled(Input)`
-  width: 12.2rem;
+  width: 19.5rem;
 `;
 
 const TextArea = styled(Input.TextArea)`
-  width: 25.1rem;
+  width: 40rem;
 `;
