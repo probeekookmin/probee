@@ -2,8 +2,8 @@ package com.capstone.server.service;
 
 import com.capstone.server.dto.DetectionRequestDto;
 import com.capstone.server.dto.DetectionResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,10 +12,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class DetectService {
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private final RestTemplate restTemplate;
     @Value("${aiServer.url}")
     private String url;
+
+    public DetectService(RestTemplateBuilder builder) {
+        this.restTemplate = builder.build();
+    }
+
     public DetectionResponseDto callDetectAPI(DetectionRequestDto detectionRequestDto) {
         //헤더 설정
         HttpHeaders headers = new HttpHeaders();
