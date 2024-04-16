@@ -25,6 +25,8 @@ public class MissingPeopleEntity {
     @NotBlank
     private String name;
 
+    private String profileImage;
+
     @PastOrPresent
     private LocalDate birthdate;
 

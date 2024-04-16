@@ -18,7 +18,7 @@ public enum BagType {
                 return bagType;
             }
         }
-        // TODO : 커스템 에러 수정
+        // TODO : 
         throw new IllegalArgumentException("Invalid Korean BagType: " + kor);
     }
 }
