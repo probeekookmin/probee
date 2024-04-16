@@ -58,7 +58,7 @@ public class MissingPeopleEntity {
     private MissingPeopleDetailEntity missingPeopleDetailEntity;
 
     @OneToMany(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
-    private List<SearchHistoryEntity> searchHistoryEntities = new ArrayList<>();
+    private List<SearchHistoryEntity> searchHistoryEntities;
   
     private LocalDateTime createdAt;
 
