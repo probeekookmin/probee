@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-
+from argparse import Namespace
 import argparse
 import time
 import json
@@ -9,6 +9,7 @@ import re
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
+
 
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
@@ -25,7 +26,7 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-def detect(save_img=False):
+def detect(opt,save_img=False):
     source, weights, view_img, save_txt, imgsz = str(opt.source), opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://'))
@@ -104,7 +105,15 @@ def detect(save_img=False):
                 p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            date_obj = datetime.strptime(p.stem, '%Y%m%d-%H%M%S')  # 탐색 시작 시간
+            title = p.stem
+            try:
+                date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')# 탐색 시작 시간
+            except:
+                #테스트용 제목파싱 재설정
+                title = p.stem.split('_')[0].replace("-","")+'-'+p.stem.split('_')[1].replace("-","")
+                print(title)
+                date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')  # 테스트용
+            # 탐색 시작 시간
             s += '%gx%g ' % img.shape[2:]  # print string
 
             # FPS에 따라 객체 탐지 프레임 조정
@@ -159,6 +168,7 @@ def detect(save_img=False):
                             # 검출된 이미지 저장 
                             save_one_box(xyxy, im0, file=save_dir / f"{img_name}.jpg", BGR=True)
                             
+                            
 
             # Print time (inference + NMS)
             print(f'{s}Done. ({t2 - t1:.3f}s)')
@@ -166,19 +176,14 @@ def detect(save_img=False):
         nfps += 1
         prev_path = path
 
-
-    # ==== 필터링 ==== #
     for filename in os.listdir(save_dir):
         file_path = os.path.join(save_dir, filename)
         img = cv2.imread(file_path)
         h, w = img.shape[:2]
 
-        # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
-        if h <= w:
+        if h<= w:
             os.remove(file_path)
-        
-        # 종횡비 안 맞는 이미지 한 번 더 삭제
-        elif int(w/h * 10) / 10 != target_ratio:
+        elif int(w/h*10)/10!=target_ratio:
             os.remove(file_path)
             
     # ==== 2-stage 모델을 위한 annotation Json 파일 생성 ==== #
@@ -197,12 +202,15 @@ def detect(save_img=False):
         annotation_idx += 1
 
     data = {"categories": categories, "annotations": annotations}
-
-    with open(f"{save_dir}/annotations.json", "w") as f:
+    
+    jsonfiledir = f"{save_dir}/annotations.json"
+    with open(jsonfiledir, "w") as f:
         json.dump(data, f)
     print("Save Json file.")
     
     print(f'Done. ({time.time() - t0:.3f}s)')
+    return jsonfiledir
+
 
 
 if __name__ == '__main__':
@@ -233,7 +241,44 @@ if __name__ == '__main__':
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
-                detect()
+                detect(opt)
                 strip_optimizer(opt.weights)
         else:
-            detect()
+            detect(opt)
+
+
+def run_detection(weights='crowdhuman_yolov5m.pt', source=ROOT / "data/images", img_size=640, conf_thres=0.25, iou_thres=0.45, device='', view_img=False, save_txt=False, save_conf=False, classes=None, agnostic_nms=False, augment=False, update=False, project='runs/detect', name='exp', exist_ok=False, person=True, heads=False):
+    # Setup
+    opt = Namespace(
+        weights=[weights],
+        source=source,
+        img_size=img_size,
+        conf_thres=conf_thres,
+        iou_thres=iou_thres,
+        device=device,
+        view_img=view_img,
+        save_txt=save_txt,
+        save_conf=save_conf,
+        classes=classes,
+        agnostic_nms=agnostic_nms,
+        augment=augment,
+        update=update,
+        project=project,
+        name=name,
+        exist_ok=exist_ok,
+        person=person,
+        heads=heads
+    )
+    print(opt)
+    # check_requirements()
+
+    with torch.no_grad():
+        if opt.update:  # update all models (to fix SourceChangeWarning)
+            for w in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
+                opt['weights'] = w
+                result = detect(opt)  # Assuming detect is a function that takes these options as a parameter
+                strip_optimizer(w)
+                return result
+        else:
+            print(sys.path)
+            return detect(opt)
