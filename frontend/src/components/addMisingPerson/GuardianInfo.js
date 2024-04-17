@@ -12,8 +12,7 @@ export const GuardianInfo = () => {
         보호자(신고자)
       </Typography.Title>
       <Row>
-        <Col span={7}>
-          {" "}
+        <Col span={9}>
           <Form.Item
             name={["guardian", "name"]}
             label="성명"
@@ -25,8 +24,7 @@ export const GuardianInfo = () => {
             <NameInput placeholder="성명입력" />
           </Form.Item>
         </Col>
-        <Col span={6}>
-          {" "}
+        <Col span={7}>
           <Form.Item
             name={["guardian", "relation"]}
             label="실종자와의 관계"
@@ -38,8 +36,7 @@ export const GuardianInfo = () => {
             <RelationInput placeholder="예) 부, 모, 형제, 친구" />
           </Form.Item>
         </Col>
-        <Col span={8}>
-          {" "}
+        <Col span={7}>
           <Form.Item
             name={["guardian", "contact"]}
             label="연락처"

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import styled from "styled-components";
-import { Form, Input, DatePicker, TimePicker, Radio, Typography } from "antd";
+import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
 
 const options = [
@@ -48,9 +48,8 @@ export const MissingPersonInfo = () => {
         }}>
         실종자
       </Typography.Title>
-      <></>
-      <Col>
-        <Row>
+      <Row gutter={[9, 2]}>
+        <Col span={9}>
           <Form.Item
             name={["user", "name"]}
             label="성명"
@@ -61,6 +60,8 @@ export const MissingPersonInfo = () => {
             ]}>
             <NameInput placeholder="성명입력" />
           </Form.Item>
+        </Col>
+        <Col span={7}>
           <Form.Item
             name={["user", "gender"]}
             label="성별"
@@ -71,52 +72,56 @@ export const MissingPersonInfo = () => {
             ]}>
             <Radio.Group options={options} onChange={genderChange} value={userGender} optionType="button" />
           </Form.Item>
-
+        </Col>
+        <Col span={8}>
           <Form.Item name={["user", "birth"]} label="생년월일" {...requiredConfig}>
             <DatePicker placeholder="생년월일 입력" />
           </Form.Item>
-        </Row>
-        <Row>
+        </Col>
+        <Col span={16}>
           <Form.Item name={["user", "missingLocation"]} label="실종위치">
             <SeacrchBox title={"실종위치"} />
           </Form.Item>
+        </Col>
+        <Col span={8}>
           <Form.Item name={["user", "missingTime"]} label="실종일시" {...config}>
             <DatePicker showTime format="YYYY-MM-DD HH:mm" placeholder="시간 입력" />
           </Form.Item>
-        </Row>
-
-        <Form.Item name={["user", "introduction"]} label="특이사항">
-          <TextArea placeholder="내용을 입력해주세요." />
-        </Form.Item>
-      </Col>
+        </Col>
+        <Col span={13}>
+          <Form.Item name={["user", "introduction"]} label="특이사항">
+            <TextArea placeholder="내용을 입력해주세요." />
+          </Form.Item>
+        </Col>
+      </Row>
     </Wrapper>
   );
 };
 
 // 각 정보 입력 영역
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  // flex-direction: column;
   margin-bottom: 1rem;
 
-  gap: 1.6rem;
+  // gap: 1.6rem;
 `;
-const Col = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0rem;
-`;
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-between; */
-  gap: 5.62rem;
-`;
+// const Col = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0rem;
+// `;
+// const Row = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   /* justify-content: space-between; */
+//   gap: 5.62rem;
+// `;
 
 const NameInput = styled(Input)`
   width: 19.5rem;
 `;
 
 const TextArea = styled(Input.TextArea)`
-  width: 40rem;
+  //width: 40rem;
 `;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Form, Typography, Select } from "antd";
+import { Form, Typography, Select, Row, Col } from "antd";
 //import { DownOutlined } from "@ant-design/icons";
 import { bagItems, bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
 
@@ -38,20 +38,10 @@ export const WearingInfo = () => {
         }}>
         실종자 착장 정보
       </Typography.Title>
-      <Col>
-        <Row>
-          <Form.Item name={["wearing", "body"]} label="체형">
-            <SelectItem items={bodyItems} placeholder={"체형 선택"} />
-          </Form.Item>
-          <Form.Item name={["wearing", "hair"]} label="머리스타일">
-            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} />
-          </Form.Item>
-          <Form.Item name={["wearing", "bag"]} label="가방">
-            <SelectItem items={bagItems} placeholder={"가방 선택"} />
-          </Form.Item>
-        </Row>
 
-        <Row>
+      <Row gutter={[8, 1]}>
+        <Col span={12}>
+          {" "}
           <SetContainer>
             <Form.Item name={["wearing", "topType"]} label="상의">
               <SelectItem items={topItems} placeholder={"유형 선택"} />
@@ -60,6 +50,8 @@ export const WearingInfo = () => {
               <SelectItem items={colorItems} placeholder={"색상 선택"} />
             </Form.Item>
           </SetContainer>
+        </Col>
+        <Col span={12}>
           <SetContainer>
             <Form.Item name={["wearing", "bottomType"]} label="하의">
               <SelectItem items={bottomItems} placeholder={"유형 선택"} />
@@ -68,8 +60,18 @@ export const WearingInfo = () => {
               <SelectItem items={colorItems} placeholder={"색상 선택"} />
             </Form.Item>
           </SetContainer>
-        </Row>
-      </Col>
+        </Col>
+        <Col span={8}>
+          <Form.Item name={["wearing", "hair"]} label="머리스타일">
+            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item name={["wearing", "bag"]} label="가방">
+            <SelectItem items={bagItems} placeholder={"가방 선택"} />
+          </Form.Item>
+        </Col>
+      </Row>
     </Wrapper>
   );
 };
@@ -81,17 +83,17 @@ const Wrapper = styled.div`
   margin-bottom: 1rem;
   gap: 1.6rem;
 `;
-const Col = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0rem;
-`;
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  //justify-content: space-between;
-  gap: 5.62rem;
-`;
+// const Col = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0rem;
+// `;
+// const Row = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   //justify-content: space-between;
+//   gap: 5.62rem;
+// `;
 
 const SetContainer = styled.div`
   display: flex;
