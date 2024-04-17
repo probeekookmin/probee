@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class S3DownloadResponseDto {
-    private String path;
     private String url;
+    private String path;
     private Long size;
     // TODO : 필요한 정보 추가
 
     private S3DownloadResponseDto(S3ObjectSummary summary) {
-        this.path = summary.getKey();
+        this.url = summary.getKey();
         this.size = summary.getSize();
     }
 
