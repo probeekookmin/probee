@@ -1,14 +1,14 @@
 // 실종자 착장 정보 아이템 메뉴
-export const bodyItems = [
-  { key: "1", label: "마름", value: "Slim" },
-  { key: "2", label: "표준", value: "Standard " },
-  { key: "3", label: "근육질", value: "Muscular" },
-];
+// export const bodyItems = [
+//   { key: "1", label: "마름", value: "Slim" },
+//   { key: "2", label: "표준", value: "Standard " },
+//   { key: "3", label: "근육질", value: "Muscular" },
+// ];
 
 export const hairItems = [
   { key: "1", label: "긴머리 ", value: "LongHair" },
   { key: "2", label: "짧은머리 ", value: "ShortHair " },
-  { key: "3", label: "포니테일 ", value: "Ponytail " },
+  // { key: "3", label: "포니테일 ", value: "Ponytail " },
 ];
 
 export const colorItems = [
@@ -30,8 +30,8 @@ export const colorItems = [
 export const topItems = [
   { key: "1", label: "반팔", value: "ShortSleeve" },
   { key: "2", label: "긴팔", value: "LongSleeve" },
-  { key: "3", label: "코트", value: "Coat" },
-  { key: "4", label: "패딩", value: "Padding" },
+  // { key: "3", label: "코트", value: "Coat" },
+  // { key: "4", label: "패딩", value: "Padding" },
 ];
 
 export const bottomItems = [
@@ -43,6 +43,6 @@ export const bottomItems = [
 export const bagItems = [
   { key: "1", label: "없음", value: "None" },
   { key: "2", label: "백팩", value: "Backpack" },
-  { key: "3", label: "핸드백", value: "Handbag" },
-  { key: "4", label: "그 외", value: "Others" },
+  // { key: "3", label: "핸드백", value: "Handbag" },
+  { key: "3", label: "그 외", value: "Others" },
 ];

@@ -6,8 +6,8 @@ const config = {
   rules: [
     {
       //   type: "object",
-      message: "Please select time!",
-      //required: true,
+      message: "탐색 위치를 입력해주세요!",
+      required: true,
     },
   ],
 };
@@ -16,7 +16,7 @@ const rangeConfig = {
     {
       type: "array",
       required: true,
-      message: "Please select time!",
+      message: "탐색 기간을 입력해주세요!",
     },
   ],
 };
