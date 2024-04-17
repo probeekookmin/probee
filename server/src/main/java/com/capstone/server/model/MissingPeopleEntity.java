@@ -25,6 +25,8 @@ public class MissingPeopleEntity {
     @NotBlank
     private String name;
 
+    private String profileImage;
+
     @PastOrPresent
     private LocalDate birthdate;
 
@@ -56,7 +58,7 @@ public class MissingPeopleEntity {
     private MissingPeopleDetailEntity missingPeopleDetailEntity;
 
     @OneToMany(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
-    private List<SearchHistoryEntity> searchHistoryEntities = new ArrayList<>();
+    private List<SearchHistoryEntity> searchHistoryEntities;
   
     private LocalDateTime createdAt;
 
