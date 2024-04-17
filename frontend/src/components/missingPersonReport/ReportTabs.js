@@ -17,7 +17,7 @@ const items = [
   {
     key: "3",
     label: "2차 탐색",
-    children: <ResultView />,
+    children: <ResultView count={6} column={6} />,
   },
 ];
 const operations = (
