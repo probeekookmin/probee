@@ -6,7 +6,7 @@ import { IntelligentSearchInfo } from "../components/addMisingPerson/Intelligent
 import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 
 const validateMessages = {
-  required: "${label} is required!",
+  required: "필수 항목입니다!",
   types: {
     email: "${label} is not a valid email!",
     number: "${label} is not a valid number!",

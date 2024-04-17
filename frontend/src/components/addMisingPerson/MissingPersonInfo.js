@@ -26,7 +26,7 @@ const requiredConfig = {
   rules: [
     {
       type: "object",
-      message: "Please select time!",
+      message: "필수 항목입니다!",
       required: true,
     },
   ],
