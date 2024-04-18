@@ -3,7 +3,11 @@ import { reset } from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  /* :root{
+    --vh: 100%;
+  } */
   html { font-size: 62.5%; }
+
   @media all and (max-width: 750px) {
   html { font-size: 50%; 
   width:100vw;
@@ -17,6 +21,14 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
 	}
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+ 
+
+
+
 
   button:hover {
     cursor: pointer;

@@ -28,7 +28,7 @@ export const IntelligentBasicInfo = () => {
           <Col span={12}>
             <Row>
               <Col span={24}>
-                <Typography.Title level={5}> </Typography.Title>
+                <Typography.Title level={5}>실종자 정보 </Typography.Title>
               </Col>
               <Col span={11}>
                 <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />

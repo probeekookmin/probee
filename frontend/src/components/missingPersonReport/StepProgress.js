@@ -47,7 +47,7 @@ export const StepProgress = () => {
 const StStepProgress = styled.div`
   display: flex;
   flex-direction: column;
-  height: 43rem;
+  height: 100%;
 
   padding: 1rem;
 

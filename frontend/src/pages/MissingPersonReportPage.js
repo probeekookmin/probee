@@ -37,8 +37,8 @@ function MissingPersonReportPage() {
   const ReportMain = () => {
     return (
       <StReport>
-        <Row gutter={[8, 10]} style={{ height: "100%" }}>
-          <Col span={6}>
+        <Row gutter={[8, 10]} type="flex" style={{ height: "100%" }}>
+          <Col span={6} style={{ height: "58%" }}>
             <BasicInfo />
           </Col>
           <Col span={14}>
@@ -47,17 +47,17 @@ function MissingPersonReportPage() {
           <Col span={4}>
             <StepProgress />
           </Col>
-          <Col span={6} md={6}>
-            <Row gutter={[8, 10]} style={{ marginBottom: 8 }}>
-              <Col span={24}>
-                <ReportList />
-              </Col>
-              <Col span={24}>
+          <Col span={6} md={6} style={{ height: "100%" }}>
+            <Row gutter={[8, 10]} type="flex">
+              <Col span={24} style={{ height: "20%" }}>
                 <ReportStartBtn />
+              </Col>
+              <Col span={24} style={{ height: "100%" }}>
+                <ReportList />
               </Col>
             </Row>
           </Col>
-          <Col span={18} md={18}>
+          <Col span={18} md={18} style={{ height: "40%" }}>
             <ReportTabs />
           </Col>
         </Row>
@@ -69,7 +69,7 @@ function MissingPersonReportPage() {
     return (
       <StReport id="intelligent">
         <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
-          <Col span={20} style={{ height: "2%" }}>
+          {/* <Col span={24} style={{ height: "2%" }}>
             <Typography.Title
               level={5}
               style={{
@@ -77,17 +77,17 @@ function MissingPersonReportPage() {
               }}>
               지능형 탐색
             </Typography.Title>
-          </Col>
-          <Col span={14} style={{ height: "33%" }}>
-            <IntelligentBasicInfo />
-          </Col>
-          <Col span={10} style={{ height: "33%" }}>
+          </Col> */}
+          <Col span={11} style={{ height: "33%" }}>
             <IntelligentSearchOption />
           </Col>
-          <Col span={14}>
+          <Col span={13} style={{ height: "33%" }}>
+            <IntelligentBasicInfo />
+          </Col>
+          <Col span={11}>
             <IntelligentMap />
           </Col>
-          <Col span={10} style={{ height: "62%" }}>
+          <Col span={13} style={{ height: "62%" }}>
             <IntelligentSearchResult />
           </Col>
         </Row>
@@ -108,6 +108,8 @@ const StMissingPersonReportPage = styled.div`
   padding: 1rem 1rem;
   gap: 1rem;
   height: 100vh;
+  /* height: auto; */
+  min-height: 100vh;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -141,7 +143,8 @@ const ReportStartBtnLeft = styled.div`
 
 const StReport = styled.div`
   height: 100vh;
+  padding: 1rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  scroll-snap-align: center;
+  scroll-snap-align: start;
 `;

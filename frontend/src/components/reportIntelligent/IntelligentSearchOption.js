@@ -34,7 +34,7 @@ export const IntelligentSearchOption = () => {
         style={{
           marginBottom: "3rem",
         }}>
-        탐색 시간대/위치 설정
+        지능형 탐색 시간대/위치 설정
       </Typography.Title>
       <Form onFinish={onFinish} colon={false} hideRequiredMark={true}>
         <Row type="flex" gutter={[0, 6]} style={{ marginBottom: "1.2rem" }}>

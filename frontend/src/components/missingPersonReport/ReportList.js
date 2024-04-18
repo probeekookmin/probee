@@ -8,6 +8,11 @@ const data = [
   "2024-03-22 10:03:12",
   "2024-03-20 10:03:12",
   "2024-03-14 10:03:12",
+  "2024-03-06 10:03:12",
+  "2024-03-04 10:03:12",
+  "2024-03-02 10:03:12",
+  "2024-02-20 10:03:12",
+  "2024-02-14 10:03:12",
 ];
 
 export const ReportList = () => {
@@ -32,7 +37,20 @@ export const ReportList = () => {
     <StReportList>
       <Typography.Title level={5}>지능형 탐색 결과</Typography.Title>
       <ListContainer>
-        <List size="small" itemLayout="horizontal" dataSource={data} renderItem={(item) => <ListItems item={item} />} />
+        <ListWrapper
+          size="small"
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={(item) => <ListItems item={item} />}
+          pagination={{
+            pageSize: 3,
+            position: "bottom",
+            showSizeChanger: false,
+            size: "small",
+            simple: true,
+            responsive: false,
+          }}
+        />
       </ListContainer>
     </StReportList>
   );
@@ -52,6 +70,9 @@ const StReportList = styled.div`
 `;
 
 const ListContainer = styled.div`
+  //height: 20rem;
+  height: auto;
+  min-height: 100%;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -59,4 +80,8 @@ const ListContainer = styled.div`
 
 const ListItemContainer = styled.div`
   padding: 1rem 0.5rem;
+`;
+
+const ListWrapper = styled(List)`
+  height: 100%;
 `;

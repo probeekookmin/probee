@@ -44,6 +44,7 @@ const Nav = () => {
     <Layout
       style={{
         minHeight: "100vh",
+        height: "auto",
       }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <DemoLogo />
