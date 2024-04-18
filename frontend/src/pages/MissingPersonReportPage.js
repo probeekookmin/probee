@@ -97,7 +97,7 @@ const StMissingPersonReportPage = styled.div`
   -ms-overflow-style: none;
   scrollbar-width: none;
   scroll-snap-type: y mandatory;
-  behavior: smooth;
+  scroll-behavior: smooth;
 `;
 const StReportStartBtn = styled.div`
   display: flex;
