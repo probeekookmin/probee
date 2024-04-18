@@ -37,7 +37,7 @@ function MissingPersonReportPage() {
   const ReportMain = () => {
     return (
       <StReport>
-        <Row gutter={[8, 10]}>
+        <Row gutter={[8, 10]} style={{ height: "100%" }}>
           <Col span={6}>
             <BasicInfo />
           </Col>
@@ -48,11 +48,13 @@ function MissingPersonReportPage() {
             <StepProgress />
           </Col>
           <Col span={6} md={6}>
-            <Row style={{ marginBottom: 8 }}>
-              <ReportList />
-            </Row>
-            <Row>
-              <ReportStartBtn />
+            <Row gutter={[8, 10]} style={{ marginBottom: 8 }}>
+              <Col span={24}>
+                <ReportList />
+              </Col>
+              <Col span={24}>
+                <ReportStartBtn />
+              </Col>
             </Row>
           </Col>
           <Col span={18} md={18}>

@@ -41,7 +41,7 @@ export const ReportList = () => {
 const StReportList = styled.div`
   //width: 36rem;
   width: 100%;
-  height: 21rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: start;
