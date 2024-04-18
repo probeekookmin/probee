@@ -12,9 +12,19 @@ import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
 
 function MissingPersonReportPage() {
+  /*지능형 탐색 시작하기 스크롤 이벤트 */
+  const scrollToIntelligent = () => {
+    const element = document.getElementById("intelligent");
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+  /*지능형 탐색 시작하기 버튼 */
   const ReportStartBtn = () => {
     return (
-      <StReportStartBtn>
+      <StReportStartBtn onClick={scrollToIntelligent}>
         <ReportStartBtnLeft>
           <ReconciliationOutlined style={{ fontSize: "2rem", color: "#1890FF" }} />
           <p>지능형 탐색</p>
@@ -23,6 +33,7 @@ function MissingPersonReportPage() {
       </StReportStartBtn>
     );
   };
+  /*실종자 리포트 - 메인*/
   const ReportMain = () => {
     return (
       <StReport>
@@ -51,9 +62,10 @@ function MissingPersonReportPage() {
       </StReport>
     );
   };
+  /*실종자 리포트 - 지능형 탐색*/
   const ReportIntelligent = () => {
     return (
-      <StReport>
+      <StReport id="intelligent">
         <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
           <Col span={20} style={{ height: "2%" }}>
             <Typography.Title
@@ -80,6 +92,7 @@ function MissingPersonReportPage() {
       </StReport>
     );
   };
+
   return (
     <StMissingPersonReportPage>
       <ReportMain />
