@@ -1,6 +1,6 @@
 import { Typography, Image, Skeleton, Form, Input, Row, Col } from "antd";
 import styled from "styled-components";
-import { InputForm } from "../common/InputForm";
+import { InputForm, TextAreaForm } from "../common/InputForm";
 import { useEffect } from "react";
 
 export const BasicInfo = () => {
@@ -17,6 +17,7 @@ export const BasicInfo = () => {
       guardianName: "김영희",
       relation: "부",
       guardianContact: "010-1234-5678",
+      wearingInfo: "짧은 흑발. 어두운 반팔 셔츠와 어두운 반바지를 입고, 가방을 들고 있음.",
     });
   }, []);
 
@@ -77,7 +78,10 @@ export const BasicInfo = () => {
       <InfoContainer>
         <Typography.Title level={5}>착장 정보</Typography.Title>
         <InfoForm form={form} layout="vertical">
-          <Skeleton title={false} />
+          {/* <Form.Item name="wearingInfo" style={{ width: "100%" }}>
+            <Input.TextArea readOnly={true} variant="borderless" autoSize={{ minRows: 1, maxRows: 2 }} />
+          </Form.Item> */}
+          <TextAreaForm name={"wearingInfo"} />
         </InfoForm>
       </InfoContainer>
     );
@@ -99,7 +103,7 @@ const StBasicInfo = styled.div`
   gap: 0.6rem;
 
   //width: 36rem;
-  height: 42.8rem;
+  height: 100%;
 
   background-color: white;
 `;
