@@ -4,9 +4,20 @@ import styled from "styled-components";
 export const InputForm = ({ label, name }) => {
   return (
     <StInputForm>
-      <InputLabel>{label}</InputLabel>
+      {label && <InputLabel>{label}</InputLabel>}
       <InputItem name={name}>
         <InputField variant="borderless" readOnly={true} />
+      </InputItem>
+    </StInputForm>
+  );
+};
+
+export const TextAreaForm = ({ label, name }) => {
+  return (
+    <StInputForm>
+      {label && <InputLabel>{label}</InputLabel>}
+      <InputItem name={name}>
+        <TextAreaField variant="borderless" readOnly={true} autoSize={{ minRows: 1, maxRows: 2 }} />
       </InputItem>
     </StInputForm>
   );
@@ -16,7 +27,8 @@ export const InputForm = ({ label, name }) => {
 const StInputForm = styled.div`
   display: flex;
   flex-direction: column;
-  height: 3.9rem;
+  width: 100%;
+  //height: 3.9rem;
   margin-bottom: 0.6rem;
 `;
 const InputItem = styled(Form.Item)`
@@ -38,4 +50,8 @@ const InputField = styled(Input)`
   font-size: 1.4rem;
   line-height: 2.2rem;
   margin-bottom: 0.6rem;
+`;
+
+const TextAreaField = styled(Input.TextArea)`
+  padding: 0;
 `;
