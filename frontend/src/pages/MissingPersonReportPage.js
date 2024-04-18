@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Row, Col, Typography } from "antd";
 import { ReconciliationOutlined } from "@ant-design/icons";
-
 import { BasicInfo } from "../components/missingPersonReport/BasicInfo";
 import { StepProgress } from "../components/missingPersonReport/StepProgress";
 import { ReportList } from "../components/missingPersonReport/ReportList";
@@ -13,9 +12,19 @@ import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
 
 function MissingPersonReportPage() {
+  /*지능형 탐색 시작하기 스크롤 이벤트 */
+  const scrollToIntelligent = () => {
+    const element = document.getElementById("intelligent");
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+  /*지능형 탐색 시작하기 버튼 */
   const ReportStartBtn = () => {
     return (
-      <StReportStartBtn>
+      <StReportStartBtn onClick={scrollToIntelligent}>
         <ReportStartBtnLeft>
           <ReconciliationOutlined style={{ fontSize: "2rem", color: "#1890FF" }} />
           <p>지능형 탐색</p>
@@ -24,35 +33,39 @@ function MissingPersonReportPage() {
       </StReportStartBtn>
     );
   };
+  /*실종자 리포트 - 메인*/
   const ReportMain = () => {
     return (
-      <Row gutter={[8, 10]}>
-        <Col span={6}>
-          <BasicInfo />
-        </Col>
-        <Col span={14}>
-          <ReportMap />
-        </Col>
-        <Col span={4}>
-          <StepProgress />
-        </Col>
-        <Col span={6} md={6}>
-          <Row style={{ marginBottom: 8 }}>
-            <ReportList />
-          </Row>
-          <Row>
-            <ReportStartBtn />
-          </Row>
-        </Col>
-        <Col span={18} md={18}>
-          <ReportTabs />
-        </Col>
-      </Row>
+      <StReport>
+        <Row gutter={[8, 10]}>
+          <Col span={6}>
+            <BasicInfo />
+          </Col>
+          <Col span={14}>
+            <ReportMap />
+          </Col>
+          <Col span={4}>
+            <StepProgress />
+          </Col>
+          <Col span={6} md={6}>
+            <Row style={{ marginBottom: 8 }}>
+              <ReportList />
+            </Row>
+            <Row>
+              <ReportStartBtn />
+            </Row>
+          </Col>
+          <Col span={18} md={18}>
+            <ReportTabs />
+          </Col>
+        </Row>
+      </StReport>
     );
   };
+  /*실종자 리포트 - 지능형 탐색*/
   const ReportIntelligent = () => {
     return (
-      <>
+      <StReport id="intelligent">
         <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
           <Col span={20} style={{ height: "2%" }}>
             <Typography.Title
@@ -76,34 +89,13 @@ function MissingPersonReportPage() {
             <IntelligentSearchResult />
           </Col>
         </Row>
-      </>
+      </StReport>
     );
   };
+
   return (
     <StMissingPersonReportPage>
-      {/* <Row gutter={[8, 10]}>
-        <Col span={6}>
-          <BasicInfo />
-        </Col>
-        <Col span={14}>
-          <ReportMap />
-        </Col>
-        <Col span={4}>
-          <StepProgress />
-        </Col>
-        <Col span={6} md={6}>
-          <Row style={{ marginBottom: 8 }}>
-            <ReportList />
-          </Row>
-          <Row>
-            <ReportStartBtn />
-          </Row>
-        </Col>
-        <Col span={18} md={18}>
-          <ReportTabs />
-        </Col>
-      </Row> */}
-      {/* <ReportMain /> */}
+      <ReportMain />
       <ReportIntelligent />
     </StMissingPersonReportPage>
   );
@@ -113,8 +105,12 @@ export default MissingPersonReportPage;
 const StMissingPersonReportPage = styled.div`
   padding: 1rem 1rem;
   gap: 1rem;
-  height: 100%;
-  overflow: hidden;
+  height: 100vh;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 `;
 const StReportStartBtn = styled.div`
   display: flex;
@@ -139,4 +135,11 @@ const ReportStartBtnLeft = styled.div`
     font-size: 1.5rem;
     font-weight: 600;
   }
+`;
+
+const StReport = styled.div`
+  height: 100vh;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-align: center;
 `;
