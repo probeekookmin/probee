@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Row, Col, Typography, Divider, Form, Skeleton } from "antd";
 import { useEffect } from "react";
-import { InputForm } from "../common/InputForm";
+import { InputForm, TextAreaForm } from "../common/InputForm";
 
 export const IntelligentBasicInfo = () => {
   const [form] = Form.useForm();
@@ -17,6 +17,7 @@ export const IntelligentBasicInfo = () => {
       guardianName: "김영희",
       relation: "부",
       guardianContact: "010-1234-5678",
+      wearingInfo: "짧은 흑발. 어두운 반팔 셔츠와 어두운 반바지를 입고, 가방을 들고 있음.",
     });
   }, []);
 
@@ -62,7 +63,7 @@ export const IntelligentBasicInfo = () => {
               <Typography.Title level={5}>착장정보</Typography.Title>
             </Col>
             <Col>
-              <Skeleton title={false} />
+              <TextAreaForm name={"wearingInfo"} />
             </Col>
           </Col>
         </Row>
