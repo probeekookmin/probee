@@ -5,14 +5,14 @@ import { ResultView } from "../common/ResultView";
 export const IntelligentSearchResult = () => {
   return (
     <StSearchResult>
-      <Typography.Title
-        level={5}
-        style={{
-          margin: 0,
-        }}>
-        탐색 결과
-      </Typography.Title>
       <TopContainer>
+        <Typography.Title
+          level={5}
+          style={{
+            margin: 0,
+          }}>
+          탐색 결과
+        </Typography.Title>
         <Select
           defaultValue="정확도순"
           size="small"
@@ -43,7 +43,7 @@ export const IntelligentSearchResult = () => {
 const StSearchResult = styled.div`
   width: 100%;
   height: 100%;
-  padding: 1.5rem 2rem 1rem 2rem;
+  padding: 1.5rem 2rem 2rem 2rem;
   background-color: white;
   border-radius: 0.3rem;
 `;
@@ -51,5 +51,6 @@ const StSearchResult = styled.div`
 const TopContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 `;
