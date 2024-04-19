@@ -28,12 +28,12 @@ public class CCTVEntity {
     // @NotBlank
     // private BigDecimal longitude;
 
-    @NotBlank
+    // @NotBlank
     private String locationAddress;
 
-    @NotBlank
+    // @NotBlank
     @Column(columnDefinition = "geometry(Point, 4326)")
-    private Point coordinates;
+    private Point point;
 
     // // N:1 양방향 관계 매핑
     // @OneToMany(mappedBy = "cctvEntity", cascade = CascadeType.ALL)
