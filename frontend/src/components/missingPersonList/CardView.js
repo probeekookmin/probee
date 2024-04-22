@@ -1,10 +1,11 @@
-import { Row, Col, Image, Form, Input } from "antd";
+import { Row, Col, Image, Form, Input, Tag } from "antd";
 import styled from "styled-components";
 import emptyProfile from "../../assets/images/emptyProfile.svg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const CardView = () => {
   const [form] = Form.useForm();
+  const [status, setStatus] = useState(false); // [수정
 
   // 실종자 정보 적용
   useEffect(() => {
@@ -17,7 +18,9 @@ export const CardView = () => {
       guardianName: "김영희",
       relation: "부",
       guardianContact: "010-1234-5678",
+      status: true,
     });
+    setStatus(true);
   }, []);
 
   const InputForm = ({ label, name }) => {
@@ -28,9 +31,20 @@ export const CardView = () => {
     );
   };
 
+  const Badge = ({ process, text }) => {
+    console.log(process);
+    return (
+      <>
+        <BadgeItem bordered={false} process={process}>
+          {text}
+        </BadgeItem>
+      </>
+    );
+  };
+
   const CardItem = () => {
     return (
-      <StCardItem form={form}>
+      <StCardItem form={form} process={status}>
         <Row gutter={[13, 10]}>
           <Col span={8}>
             <ProfileImage src={emptyProfile} style={{ width: "8.8rem" }} />
@@ -50,7 +64,9 @@ export const CardView = () => {
               </Col>
             </Row>
             <Row>
-              <Col></Col>
+              <Col>
+                <Badge process={status} text={"탐색중"} />
+              </Col>
             </Row>
           </Col>
           <Col span={24}>
@@ -78,8 +94,8 @@ const StCardItem = styled(Form)`
   width: 32rem;
   height: 20rem;
   padding: 2.1rem;
-  background-color: #f9fcff;
-  border: 0.1rem solid #dfe9f3;
+  background: ${(props) => (props.process ? "#E5F3FF" : "#F9FCFF")};
+  border: ${(props) => (props.process ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;
 `;
 
@@ -105,4 +121,12 @@ const InputText = styled(Input)`
   padding-right: 0;
   font-size: 1.5rem;
   font-weight: 500;
+`;
+
+const BadgeItem = styled(Tag)`
+  padding: 0.1rem 0.9rem;
+  border-radius: 10rem;
+  font-size: 1.2rem;
+  background: ${(props) => (props.process ? "#1890FF" : "white")};
+  color: white;
 `;
