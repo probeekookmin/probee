@@ -60,6 +60,7 @@ export const UploadImage = () => {
   return (
     <StUploadImage>
       <UploadWrapper
+        className="custom-uploader"
         listType="picture-card"
         showUploadList={false}
         action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
@@ -74,11 +75,23 @@ export const UploadImage = () => {
 const StUploadImage = styled.div``;
 
 const UploadWrapper = styled(Upload)`
-  :global {
-    .ant-upload-select {
-      width: 25rem;
-    }
+  &.custom-uploader .ant-upload.ant-upload-select {
     width: 25rem;
+    height: 25rem;
+    background: #fdfdfd;
+    border: 0.2rem solid #f2f2f2;
+    border-radius: 2.5rem;
+  }
+
+  &.custom-uploader .ant-upload.ant-upload-select > .ant-upload {
+    width: 25rem;
+    height: 25rem;
+  }
+
+  /* you need to customise top and left css attribute */
+  &.custom-uploader .ant-upload.ant-upload-select > .ant-upload > button {
+    font-size: 4.5rem;
+    color: #a7a7a7;
   }
 `;
 

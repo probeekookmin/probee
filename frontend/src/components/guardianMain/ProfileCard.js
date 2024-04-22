@@ -4,59 +4,8 @@ import { Form, Input, Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { UploadImage } from "./UploadImage";
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  // const isLt2M = file.size / 1024 / 1024 < 2;
-  // if (!isLt2M) {
-  //   message.error('Image must smaller than 2MB!');
-  // }
-  return isJpgOrPng;
-};
 
 export const ProfileCard = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
-
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-
-  const uploadButton = (
-    <button
-      style={{
-        border: 0,
-        background: "none",
-      }}
-      type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}>
-        Upload
-      </div>
-    </button>
-  );
   const CenterInputForm = ({ label, name, lines }) => {
     return (
       <StCenterInputForm>
@@ -97,25 +46,11 @@ const StProfileCard = styled.div`
   padding: 5rem;
   border-radius: 2.5rem;
   border: 0.1rem solid #e0e0e0;
+  box-shadow: 0rem 0rem 1.5rem 0rem rgba(0, 88, 170, 0.2);
   /* @media (min-width: 992px) {
     width: 24rem;
     height: 33.7rem;
   } */
-`;
-
-const UploadContainer = styled(Upload).attrs({
-  className: "upload-container",
-})`
-  .ant-upload-list-item {
-    width: 25rem;
-    height: 25rem;
-  }
-`;
-const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지 비율 유지 및 카드에 꽉 차게 표시 */
-  border-radius: 50%; /* 원형 이미지 효과를 위해 */
 `;
 
 /* 각 정보 input 영역 */
