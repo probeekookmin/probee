@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public enum Gender {
-    MAN("성인 남성"),
-    WOMAN("성인 여성"),
-    BOY("남자아이"),
-    GIRL("여자아이");
+    MAN("성인 남성", "man"),
+    WOMAN("성인 여성", "woman"),
+    BOY("남자아이", "boy"),
+    GIRL("여자아이", "girl");
 
-    private String kor;
+    private final String kor;
+    private final String value;
 
     public static Gender fromKor(String kor) {
         for (Gender gender : Gender.values()) {
