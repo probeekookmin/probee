@@ -89,6 +89,8 @@ public class MissingPeopleCreateRequestDto {
 
     @NotBlank
     private String locationAddress;
+
+    private Status status;
     
     public MissingPeopleEntity toMissingPeopleEntity() {
 
@@ -99,6 +101,7 @@ public class MissingPeopleCreateRequestDto {
             .missingAt(missingAt)
             .missingLocation(missingLocation)
             .description(description)
+            .status(Status.getDefault())
             .build();
     }
 
