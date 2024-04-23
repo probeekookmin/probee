@@ -54,22 +54,22 @@ const SearchBoxContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 23.1rem;
-  height: 2rem;
-  border: 1px solid #d9d9d9;
-  border-radius: 0.5rem;
+  width: 40.2rem;
+  height: 3.2rem;
+  border: 0.1rem solid #d9d9d9;
+  border-radius: 0.2rem;
 `;
 
 const SearchInput = styled(Input)`
   display: flex;
-  width: 20rem;
+  width: 34.6rem;
 `;
 
 const SearchIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  padding: 0.5rem;
-  border-left: 1px solid #d9d9d9;
+  width: 3.2rem;
+  padding: 0.9rem;
+  border-left: 0.1rem solid #d9d9d9;
 `;
