@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +30,8 @@ import com.capstone.server.dto.MissingPeopleResponseDto;
 import com.capstone.server.dto.S3DownloadResponseDto;
 import com.capstone.server.dto.S3UploadResponseDto;
 import com.capstone.server.exception.CustomException;
+import com.capstone.server.model.enums.MissingPeopleSortBy;
+import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.DetectService;
@@ -51,13 +57,54 @@ public class MissingPeopleController {
     @Autowired
     private DetectService detectService;
 
-    // MissingPeople 전체 가져오기
     @GetMapping()
-    public ResponseEntity<?> getAllMissingPeople() {
-        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeople();
+    public ResponseEntity<?> getAllMissingPeople(
+        // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
+        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+        @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
+        @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria
+        ) {
+        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeople(page-1, pageSize, MissingPeopleSortBy.fromValue(criteria));
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<?> getAllMissingPeopleByStatus(
+        // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
+        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+        @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
+        @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
+        @RequestParam(required = true, value = "status") String status
+        ) {
+        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page-1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+    }
+
+    @GetMapping("/name")
+    public ResponseEntity<?> getAllMissingPeopleByNameContaining(
+        // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
+        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+        @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
+        @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
+        @RequestParam(required = true, value = "name") String name
+        ) {
+        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page-1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+    }
+
+    @GetMapping("/name/status")
+    public ResponseEntity<?> getAllMissingPeopleByNameContainingAndStatus(
+        // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
+        @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+        @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
+        @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
+        @RequestParam(required = true, value = "name") String name,
+        @RequestParam(required = true, value = "status") String status
+        ) {
+        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page-1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+    }
+    
     // MissingPeople 하나 가져오기
     @GetMapping("/{id}")
     public ResponseEntity<?> getMissingPeopleById(@PathVariable Long id) {

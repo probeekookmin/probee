@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +30,8 @@ import com.capstone.server.model.MissingPeopleDetailEntity;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.UserEntity;
+import com.capstone.server.model.enums.MissingPeopleSortBy;
+import com.capstone.server.model.enums.Status;
 import com.capstone.server.repository.GuardianRepository;
 import com.capstone.server.repository.MissingPeopleDetailRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
@@ -77,10 +83,54 @@ public class MissingPeopleService {
         }
     }
 
-    public List<MissingPeopleResponseDto> getAllMissingPeople() {
-        return missingPeopleRepository.findAll().stream()
-                .map(MissingPeopleResponseDto::fromEntity)
-                .collect(Collectors.toList());
+    public List<MissingPeopleResponseDto> getAllMissingPeople(int page, int pageSize, MissingPeopleSortBy sortBy) {
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
+        Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findAll(pageable);
+
+        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        .collect(Collectors.toList());
+
+        return missingPeopleDtos;
+    }
+
+    public List<MissingPeopleResponseDto> getAllMissingPeopleByStatus(int page, int pageSize, MissingPeopleSortBy sortBy, Status status) {
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
+        Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByStatus(pageable, status);
+
+        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        .collect(Collectors.toList());
+
+        return missingPeopleDtos;
+    }
+
+    public List<MissingPeopleResponseDto> getAllMissingPeopleByNameContaining(int page, int pageSize, MissingPeopleSortBy sortBy, String name) {
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
+
+        Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContaining(pageable, name.trim());
+
+        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        .collect(Collectors.toList());
+
+        return missingPeopleDtos;
+    }
+
+    public List<MissingPeopleResponseDto> getAllMissingPeopleByNameContainingAndStatus(int page, int pageSize, MissingPeopleSortBy sortBy, String name, Status status) {
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
+
+        Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContainingAndStatus(pageable, name.trim(), status);
+
+        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        .collect(Collectors.toList());
+
+        return missingPeopleDtos;
     }
 
     public MissingPeopleResponseDto getMissingPeopleById(Long id) {
