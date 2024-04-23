@@ -38,3 +38,4 @@ out/
 
 server/src/main/resources/*.properties
 /src/main/resources/*
+/src/main/generated/*
