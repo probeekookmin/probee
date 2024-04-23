@@ -11,6 +11,7 @@ _C.DATASETS = CN()
 _C.DATASETS.TRAIN = ()
 _C.DATASETS.TEST = ()
 _C.DATASETS.USE_ONEHOT = True
+_C.DATASETS.DIR = "./datsets/"
 
 
 # -----------------------------------------------------------------------------
