@@ -48,8 +48,8 @@ public class MissingPeopleEntity {
     // @Enumerated(EnumType.STRING)
     // private PoliceStation policeStation;
 
-    // @Enumerated(EnumType.STRING)
-    // private Status status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private GuardianEntity guardianEntity;
