@@ -15,56 +15,40 @@ from yolov5_crowdhuman.detect import run_detection
 
 app = FastAPI(port = 8080)
 
-class YoloInput(BaseModel):
-    cctvId: str
-    startTime : str
-    endTime : str
-
-class YoloResult(BaseModel):
-    data : str
-
-class TextInput(BaseModel):
-    searchId: int
-    query : str
-class TextResult(BaseModel):
-    query : str
-    data : list
-
 class TotalInput(BaseModel):
     cctvId: str
     startTime : str
     endTime : str
     searchId: int
     query : str
+    MissingPeopleCreateRequestDto : MissingPeopleCreateRequestDto #dto에서 필요한 정보를 받아, 쿼리 생성 예정
 
-@app.post('/yolo', response_model = YoloResult)
-async def run_yolo(input: YoloInput):
-    # 사용자의 홈 디렉토리 경로를 가져옵니다.
-    home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
-    resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
-    
-    with open(resultDir, 'r') as file:
-        result = file.read()
-    
-    return YoloResult(data=result)
+class MissingPeopleCreateRequestDto(BaseModel):
+    hairStyle : str
+    topType:str
+    topColor:str
+    bottomType:str
+    bottomColor:str
+    bagType:str
+    shoesColor:str
 
-@app.post('/text', response_model = TextResult)
-async def run_text(input : TextInput):
-    root_path = os.getcwd() + "/TextReID"
-    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.searchId)+"/output.json"
-    findByText(root_path,search_num=input.searchId, query = input.query)
-    with open(result_dir, 'r') as file:
-        result = json.load(file)
-    
-    return TextResult(query=input.query, data=result[1:])
+
+class TextResult(BaseModel):
+    query : str
+    data : list
 
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
+    runYolo(input)
+    result = runTextReID(input)
+    return result
+
+async def runYolo(input : TotalInput):
     home_path = os.path.expanduser("~")
     cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
-    resultDir = run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path)
+    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path) #Result dir을 받아 다음 단계로 넘겨줘야함.
 
+async def runTextReID(input : TotalInput):
     root_path = os.getcwd() + "/TextReID"
     result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.searchId)+"/output.json"
     findByText(root_path,search_num=input.searchId, query = input.query)
@@ -72,6 +56,7 @@ async def run(input: TotalInput):
         result = json.load(file)
     
     return TextResult(query=input.query, data=result[1:])
+
 
 # 파일 내용을 읽어 반환하는 함수 #아직 안씀
 def read_file_contents(directory: str) -> Dict[str, str]:
