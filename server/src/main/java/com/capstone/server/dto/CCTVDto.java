@@ -4,7 +4,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 
-import com.capstone.server.model.CCTVEntity;
+import com.capstone.server.model.CctvEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,27 +15,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CCTVDto {
+public class CctvDto {
     private Long id;
     private String locationAddress;
-    private double latitude;
     private double longitude;
+    private double latitude;
     
-    public static CCTVDto fromEntity(CCTVEntity entity) {
-        CCTVDto dto = new CCTVDto();
+    public static CctvDto fromEntity(CctvEntity entity) {
+        CctvDto dto = new CctvDto();
         dto.setId(entity.getId());
         dto.setLocationAddress(entity.getLocationAddress());
-        dto.setLatitude(entity.getPoint().getY());
-        dto.setLongitude(entity.getPoint().getX());
+        dto.setLongitude(entity.getGps().getX());
+        dto.setLatitude(entity.getGps().getY());
         return dto;
     }
 
-    public CCTVEntity toCCTVEntity() {
+    public CctvEntity toEntity() {
         GeometryFactory geometryFactory = new GeometryFactory();
         Point point = geometryFactory.createPoint(new Coordinate(this.longitude, this.latitude));
 
-        return CCTVEntity.builder()
-            .point(point)
+        return CctvEntity.builder()
+            .gps(point)
             .locationAddress(locationAddress)
             .build();
     }
