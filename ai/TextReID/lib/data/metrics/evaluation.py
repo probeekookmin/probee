@@ -83,6 +83,8 @@ def evaluation(
     cap,
     save_data=True,
     rerank=True,
+    search_num=0,
+    save_folder = "./output/output.json"
 ):
     logger = logging.getLogger("PersonSearch.inference")
     data_dir = os.path.join(output_folder, "inference_data.npz")
@@ -138,5 +140,11 @@ def evaluation(
             # print(f"Index: {index}, Similarity: {value}, pid: {pid}")
             dict = {"img_path": img_path, "Similarity": value.item()}
             write.append(dict)
-        with open("./output/output.json", "w", encoding='utf-8') as f:
+
+        
+        #저장 폴더 생성
+        if not os.path.exists(os.path.dirname(save_folder)):
+            os.makedirs(os.path.dirname(save_folder), exist_ok=True)
+
+        with open(save_folder, "w", encoding='utf-8') as f:
             json.dump(write, f, ensure_ascii=False, indent=4)

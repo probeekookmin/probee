@@ -1,5 +1,6 @@
 import argparse
 import os
+from argparse import Namespace
 
 import torch
 import torch.nn.parallel
@@ -62,9 +63,44 @@ def main():
         default="./datasets/",
         type=str,
     )
+    parser.add_argument(
+        "--search-num",
+        default=0,
+        type=int,
+    )
+    parser.add_argument(
+        "--query",
+        default="a man wearing a white shirts and black pants",
+        type=str,
+    )
+    parser.add_argument(
+        "--save-folder",
+        default="./output/output.json",
+        type=str,
+    )
 
     args = parser.parse_args()
+    detect(args)
 
+def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml", checkpoint_file="output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth", 
+               local_rank=0, opts=[], load_result=False, search_num=0,query="",data_dir = "./datasets/", save_folder = "./output/output.json"):
+    # 매개변수를 Namespace 객체로 묶기
+    args = Namespace(
+        root=root,
+        config_file=root+"/"+config_file,
+        checkpoint_file=root+"/"+checkpoint_file,
+        local_rank=local_rank,
+        opts=opts,
+        load_result=load_result,
+        search_num=search_num,
+        query = query,
+        data_dir = data_dir,
+        save_folder = save_folder
+    )
+    detect(args)
+
+# server에서 쓸 수 있게 함수화
+def detect(args):
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
     distributed = num_gpus > 1
 
@@ -73,6 +109,7 @@ def main():
         torch.distributed.init_process_group(backend="nccl", init_method="env://")
         synchronize()
 
+    cfg.defrost()
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.ROOT = args.root
@@ -98,7 +135,7 @@ def main():
     data_loaders_val = make_data_loader(cfg, is_train=False, is_distributed=distributed)
     for output_folder, dataset_name, data_loader_val in zip(
         output_folders, dataset_names, data_loaders_val
-    ):
+    ):  
         logger = setup_logger("PersonSearch", output_folder, get_rank())
         logger.info("Using {} GPUs".format(num_gpus))
         logger.info(cfg)
@@ -111,6 +148,9 @@ def main():
             output_folder=output_folder,
             save_data=False,
             rerank=True,
+            search_num = args.search_num,
+            query = args.query,
+            save_folder = args.save_folder
         )
         synchronize()
 

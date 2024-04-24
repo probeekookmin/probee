@@ -207,7 +207,8 @@ def detect(opt,save_img=False):
 
     data = {"categories": categories, "annotations": annotations}
     
-    jsonfiledir = f"{save_dir}/annotations.json"
+    (save_dir/'annotations').mkdir(parents=True, exist_ok=True)  # annotations folder 생성성
+    jsonfiledir = f"{save_dir}/annotations/annotations.json" # TextReId모델에 맞게 구조 수정
     with open(jsonfiledir, "w") as f:
         json.dump(data, f)
     print("Save Json file.")

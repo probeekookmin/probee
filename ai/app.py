@@ -21,7 +21,7 @@ class TotalInput(BaseModel):
     endTime : str
     searchId: int
     query : str
-    MissingPeopleCreateRequestDto : MissingPeopleCreateRequestDto #dto에서 필요한 정보를 받아, 쿼리 생성 예정
+#    MissingPeopleCreateRequestDto : MissingPeopleCreateRequestDto #dto에서 필요한 정보를 받아, 쿼리 생성 예정
 
 class MissingPeopleCreateRequestDto(BaseModel):
     hairStyle : str
@@ -39,19 +39,23 @@ class TextResult(BaseModel):
 
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
-    runYolo(input)
-    result = runTextReID(input)
+    temp = await runYolo(input)
+    result = await runTextReID(input)
+    
     return result
 
 async def runYolo(input : TotalInput):
     home_path = os.path.expanduser("~")
     cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
-    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path) #Result dir을 받아 다음 단계로 넘겨줘야함.
+    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo") #Result dir을 받아 다음 단계로 넘겨줘야함.
 
 async def runTextReID(input : TotalInput):
-    root_path = os.getcwd() + "/TextReID"
-    result_dir = os.path.expanduser("~")+"/Desktop/result/" +str(input.searchId)+"/output.json"
-    findByText(root_path,search_num=input.searchId, query = input.query)
+    root_path =  os.getcwd() + "/TextReID"
+    print(root_path)
+    ## 저장경로 지정
+    home_path = os.path.expanduser("~")
+    result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
+    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = os.path.expanduser("~")+"/Desktop/yolo/"+str(input.searchId), save_folder = result_dir)
     with open(result_dir, 'r') as file:
         result = json.load(file)
     
