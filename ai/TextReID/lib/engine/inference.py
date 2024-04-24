@@ -25,8 +25,6 @@ def compute_on_dataset(model, data_loader, cap, device):
     for batch in tqdm(data_loader):
         images, captions, image_ids = batch
         images = images.to(device)
-        # captions = [captions[0].to(device)] # 첫 번째 캡션만 사용
-        # captions = [caption.to(device) for caption in captions]
         captions = [caption.to(device)]
         with torch.no_grad():
             output = model(images, captions)

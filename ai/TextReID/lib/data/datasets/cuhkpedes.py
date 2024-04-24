@@ -21,8 +21,8 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
         self.max_length = max_length
         self.transforms = transforms
 
-        # self.img_dir = os.path.join(self.root, "imgs")
-        self.img_dir = self.root
+        self.img_dir = os.path.join(self.root, "imgs")
+        # self.img_dir = self.root
 
         print("loading annotations into memory...")
         dataset = json.load(open(ann_file, "r"))
