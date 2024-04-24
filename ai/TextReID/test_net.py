@@ -137,8 +137,8 @@ def detect(args):
         output_folders, dataset_names, data_loaders_val
     ):  
         logger = setup_logger("PersonSearch", output_folder, get_rank())
-        logger.info("Using {} GPUs".format(num_gpus))
-        logger.info(cfg)
+        # logger.info("Using {} GPUs".format(num_gpus))
+        # logger.info(cfg)
 
         inference(
             model,
