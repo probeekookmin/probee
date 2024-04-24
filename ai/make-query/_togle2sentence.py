@@ -7,10 +7,18 @@ Original file is located at
     https://colab.research.google.com/drive/1Ib2_n1QnkETYwX11BTzAwRXbsh0FyjKB
 
 ### Query 작성
+
+- gender_and_age = man, woman, boy, girl
+- hair = long hair, short hair
+- top_color = red, orange, yellow, green, blue, purple, pink. white, black, brown
+- top_type = short sleeve shirt, long sleeve shirt
+- bottom_color = red, orange, yellow, green, blue, purple, pink. white, black, brown
+- bottom type = short pants, long pants, skirt
+- bag = backpack, bag
 """
 
-togle = ["boy", "black", "short hair", "dark colored", "short sleeve shirt", "dark colored", "short pants"]
-gender_and_age, hair_color, hair, top_color, top_type, bottom_color, bottom_type = togle
+togle = ["boy", "short hair", "black", "short sleeve shirt", "brown", "short pants"]
+gender_and_age, hair, top_color, top_type, bottom_color, bottom_type = togle
 bag = "backpack"
 
 if gender_and_age == "man" or gender_and_age == "boy":
@@ -18,22 +26,15 @@ if gender_and_age == "man" or gender_and_age == "boy":
 else:
     gender = "She"
 
-query = ""
+query = f"A {gender_and_age} wearing a {top_color} {top_type} and a {bottom_color} {bottom_type}. "
 
-# pants의 경우 a pair of {color} pants와 그냥 {color} pants 중 어떤 게 성능이 더 나을지 확인해봐야 할 듯
-# 만약 후자가 더 성능이 잘 나오면 여기서 굳이 경우를 나누지 않아도 됨
-if bottom_type == "skirt":
-    query += f"A {gender_and_age} wearing a {top_color} {top_type} and a {bottom_color} {bottom_type}. "
-else:
-    query += f"A {gender_and_age} wearing a {top_color} {top_type} and a pair of {bottom_color} {bottom_type}. "
-
-# 가방을 손에 쥔 거랑 등에 맨 거? 이렇게 나눠도 좋을 듯 (holding ↔ carrying)
+# 손에 드는 건 carrying이 미세하게 더 나은 결과를 보임 (holding ↔ carrying)
 if bag == "backpack":
-    query += f"{gender} has {hair_color} {hair}. {gender} is carrying a {bag}."
+    query += f"{gender} has {hair}. {gender} is carrying a {bag}."
 elif bag == "bag":
-    query += f"{gender} has {hair_color} {hair}. {gender} is holding a {bag}."
+    query += f"{gender} has {hair}. {gender} is holding a {bag}."
 else:
-    query += f"{gender} has {hair_color} {hair}."
+    query += f"{gender} has {hair}."
 
 print(query)
 
@@ -70,12 +71,12 @@ def translate_english_to_korean(text):
             Desired Translation: 짧은 머리. 빨간 긴팔 셔츠와 흰 치마를 입고, 가방을 메고 있음.
 
             Case 4.
-            Input sentence: A man wearing a dark colored short sleeve shirt and a pair of light colored long pants. He has white short hair. He is carrying a backpack.
-            Desired Translation: 짧은 흰 머리. 어두운 반팔 셔츠와 밝은 긴 바지를 입고, 가방을 메고 있음.
+            Input sentence: A man wearing a orange short sleeve shirt and a pair of blue long pants. He has short hair. He is carrying a backpack.
+            Desired Translation: 짧은 머리. 주황색 반팔 셔츠와 파란색 긴 바지를 입고, 가방을 메고 있음.
 
             Case 5.
-            Input sentence: A boy wearing a light colored short sleeve shirt and a pair of light colored short pants. He has blond short hair. He is holding a backpack.
-            Desired Translation: 짧은 금발 머리. 밝은 반팔 셔츠와 반바지를 입고, 가방을 들고 있음.
+            Input sentence: A girl wearing a purple short sleeve shirt and a pair of pink short pants. He has short hair. He is holding a backpack.
+            Desired Translation: 짧은 머리. 보라색 반팔 셔츠와 핑크색 반바지를 입고, 가방을 들고 있음.
 
             Please respond to every sentence simply.
             """},
