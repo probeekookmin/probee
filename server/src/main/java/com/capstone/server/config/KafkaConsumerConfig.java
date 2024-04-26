@@ -12,6 +12,9 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+import com.capstone.server.dto.KafkaDto;
 
 @EnableKafka
 @Configuration
@@ -31,20 +34,26 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, offsetReset);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
         return props;
     }
+    
     @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(this.consumerConfig());
+    public ConsumerFactory<String, KafkaDto> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(this.consumerConfig(), new StringDeserializer(), jsonDeserializer());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String,String> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String,String> factory
+    public ConcurrentKafkaListenerContainerFactory<String, KafkaDto> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String,KafkaDto> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(this.consumerFactory());
         return factory;
+    }
+
+    @Bean
+    public JsonDeserializer<KafkaDto> jsonDeserializer() {
+        JsonDeserializer<KafkaDto> deserializer = new JsonDeserializer<>(KafkaDto.class);
+        deserializer.addTrustedPackages("com.capstone.server.dto");
+        return deserializer;
     }
 }

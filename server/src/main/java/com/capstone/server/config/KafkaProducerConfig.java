@@ -13,25 +13,43 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
+import com.capstone.server.dto.KafkaDto;
+
 @Configuration
 public class KafkaProducerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
-    // TODO : 다양한 Config 추가 가능
+    // Producer Factory for String
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, String> stringProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
-    // TODO : String 대신 KafkaEntity 로 변경 가능
+    // Kafka Template for String
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(this.producerFactory());
+    public KafkaTemplate<String, String> kafkaStringTemplate() {
+        return new KafkaTemplate<>(stringProducerFactory());
+    }
+
+    // Producer Factory for KafkaDto
+    @Bean
+    public ProducerFactory<String, KafkaDto> dtoProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class); // 예시로 JsonSerializer 사용
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    // Kafka Template for KafkaDto
+    @Bean
+    public KafkaTemplate<String, KafkaDto> kafkaDtoTemplate() {
+        return new KafkaTemplate<>(dtoProducerFactory());
     }
 }

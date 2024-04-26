@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.capstone.server.dto.KafkaDto;
+import com.capstone.server.dto.MissingPeopleCreateRequestDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,15 +15,21 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KafkaProducerService {
 
-    @Value("${topic.name}")
-    private String topicName;
+    @Value("${testTopic.name}")
+    private String testTopicName;
+
+    @Value("${startSearchingTopic.name}")
+    private String startSearchingTopicName;
 
     /* Kafka Template 을 이용해 Kafka Broker 전송 */
-
-    private final KafkaTemplate<String,String> kafkaTemplate;
-
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, KafkaDto> kafkaDtoTemplate;
+    
     public void sendMessageToKafka(String message) {
-        System.out.printf("Producer Message : %s%n",message);
-        this.kafkaTemplate.send(topicName, message);
+        this.kafkaTemplate.send(testTopicName, message);
+    }
+
+    public void startSearchingToKafka(KafkaDto kafkaDto) {
+        this.kafkaDtoTemplate.send(startSearchingTopicName, kafkaDto);
     }
 }
