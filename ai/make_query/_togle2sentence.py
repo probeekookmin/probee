@@ -16,6 +16,21 @@ Original file is located at
 - bottom type = short pants, long pants, skirt
 - bag = backpack, bag
 """
+def create_query(gender_and_age, hair, top_color, top_type, bottom_color, bottom_type, bag):
+    if gender_and_age == "man" or gender_and_age == "boy":
+        gender = "He"
+    else:   
+        gender = "She"
+    query = f"A {gender_and_age} wearing a {top_color} {top_type} and a {bottom_color} {bottom_type}. "
+    
+    # 손에 드는 건 carrying이 미세하게 더 나은 결과를 보임 (holding ↔ carrying)
+    if bag == "backpack":
+        query += f"{gender} has {hair}. {gender} is carrying a {bag}."
+    elif bag == "bag":
+        query += f"{gender} has {hair}. {gender} is holding a {bag}."
+    else:
+        query += f"{gender} has {hair}."
+    return query
 
 togle = ["boy", "short hair", "black", "short sleeve shirt", "brown", "short pants"]
 gender_and_age, hair, top_color, top_type, bottom_color, bottom_type = togle
