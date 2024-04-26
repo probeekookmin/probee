@@ -29,7 +29,7 @@ public class CctvEntity {
     // private BigDecimal longitude;
 
     // @NotBlank
-    private String locationAddress;
+    // private String locationAddress;
 
     // @NotBlank
     @Column(columnDefinition = "geometry(Point, 4326)")

@@ -24,7 +24,7 @@ public class CctvDto {
     public static CctvDto fromEntity(CctvEntity entity) {
         CctvDto dto = new CctvDto();
         dto.setId(entity.getId());
-        dto.setLocationAddress(entity.getLocationAddress());
+        // dto.setLocationAddress(entity.getLocationAddress());
         dto.setLongitude(entity.getGps().getX());
         dto.setLatitude(entity.getGps().getY());
         return dto;
@@ -36,7 +36,7 @@ public class CctvDto {
 
         return CctvEntity.builder()
             .gps(point)
-            .locationAddress(locationAddress)
+            // .locationAddress(locationAddress)
             .build();
     }
 }

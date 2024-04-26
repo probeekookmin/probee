@@ -32,7 +32,7 @@ public class CctvController {
         @RequestParam(required = true, value = "latitude") double latitude,
         @RequestParam(required = false, defaultValue = "1000", value = "distance") double distance) {
         
-        List<CctvDto> CctvList = cctvService.findCctvsNearbyLocationWithinDistance(longitude, latitude, distance);
+        List<CctvDto> CctvList = cctvService.findCctvsNearbyLocationWithinDistance(longitude, latitude);
         return ResponseEntity.ok().body(CctvList);
     }
 

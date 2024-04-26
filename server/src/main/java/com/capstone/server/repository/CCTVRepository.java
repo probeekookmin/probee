@@ -13,7 +13,7 @@ import com.capstone.server.model.CctvEntity;
 @Repository
 public interface CctvRepository extends JpaRepository<CctvEntity, Long> {
 
-    @Query(value = "SELECT * FROM cctv WHERE ST_DWithin(gps, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :distance, true)", nativeQuery = true)
-    List<CctvEntity> findCctvsByDistance(@Param("longitude") double longitude, @Param("latitude") double latitude, @Param("distance") double distance);
+    @Query(value = "SELECT * FROM cctv WHERE ST_DWithin(gps, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), 1000, true)", nativeQuery = true)
+    List<CctvEntity> findCctvsByDistance(@Param("longitude") double longitude, @Param("latitude") double latitude);
 
 }
