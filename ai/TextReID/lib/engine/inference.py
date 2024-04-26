@@ -12,7 +12,7 @@ from lib.utils.comm import all_gather, is_main_process, synchronize
 
 from lib.utils.caption import Caption
 
-from lib.data.encode.encoding import encode
+from lib.data.encode.encoding import encoder
 
 
 def compute_on_dataset(model, data_loader, cap, device):
@@ -20,7 +20,7 @@ def compute_on_dataset(model, data_loader, cap, device):
     results_dict = defaultdict(list)
     caption = input("\nText Query Input: ")
     cap.append(caption)
-    caption = encode(caption)
+    caption = encoder(caption)
     caption = Caption([torch.tensor(caption)])
     for batch in tqdm(data_loader):
         images, captions, image_ids = batch
