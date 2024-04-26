@@ -17,6 +17,7 @@ def load_word_dict(file_path):
             word_dict = data["word_dict"]
             max_onehot = data["max_onehot"]
     else:
+        print(word_dict, max_onehot)
         word_dict_path = os.path.dirname(os.path.abspath(__file__))+"/word_dict/test.json"
         update_word_dict(word_dict_path)
     
@@ -46,7 +47,7 @@ def update_word_dict(file_path):
                 max_onehot = onehot
             if word.lower() not in word_dict.keys():
                 word_dict[word.lower()] = onehot
-                
+
             
 def encode(query):
     global word_dict
@@ -71,3 +72,5 @@ def encoder(caption, file_path=os.path.dirname(os.path.abspath(__file__))+"/word
     load_word_dict(file_path)
     caption = encode(caption)
     save_word_dict(file_path)
+
+    return caption
