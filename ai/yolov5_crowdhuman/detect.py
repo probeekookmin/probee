@@ -121,7 +121,7 @@ def detect(opt,save_img=False):
                 date_obj += nfps * timedelta(seconds=10)
             else:
                 date_obj += nfps * timedelta(seconds=2)
-            img_name = date_obj.strftime('%Y-%m-%d %H-%M-%S ')
+            img_name = date_obj.strftime('%Y-%m-%d_%H-%M-%S ')
 
             if len(det):
                 # Rescale boxes from img_size to im0 size
