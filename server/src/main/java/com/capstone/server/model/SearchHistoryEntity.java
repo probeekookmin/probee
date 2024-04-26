@@ -29,16 +29,16 @@ public class SearchHistoryEntity {
     private LocalDateTime endTime;
 
     @NotNull
-    private BigDecimal latitude;
+    private double latitude;
 
     @NotNull
-    private BigDecimal longitude;
+    private double longitude;
 
     @NotBlank
     private String locationAddress;
 
     @Enumerated(EnumType.STRING)
-    private SearchStatus searchStatus;
+    private Step step;
 
     @Builder.Default
     private Integer searchRadius = 1; // 1km

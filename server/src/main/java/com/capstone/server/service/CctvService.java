@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,9 +18,9 @@ public class CctvService {
     @Autowired
     private CctvRepository cctvRepository;
 
-    public List<CctvDto> findCctvsNearbyLocationWithinDistance(double longitude, double latitude, double distance) {
+    public List<CctvDto> findCctvsNearbyLocationWithinDistance(double longitude, double latitude) {
 
-        List<CctvEntity> cctvEntities = cctvRepository.findCctvsByDistance(longitude, latitude, distance); // distance 기준: m(미터) 
+        List<CctvEntity> cctvEntities = cctvRepository.findCctvsByDistance(longitude, latitude); // distance 기준: m(미터) 
 
         return cctvEntities.stream()
                 .map(CctvDto::fromEntity) // 엔티티를 DTO로 변환

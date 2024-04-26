@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.capstone.server.code.ErrorCode;
+import com.capstone.server.dto.KafkaDto;
 import com.capstone.server.dto.MissingPeopleCreateRequestDto;
 import com.capstone.server.dto.MissingPeopleCreateResponseDto;
 import com.capstone.server.dto.MissingPeopleResponseDto;
@@ -53,8 +54,11 @@ public class MissingPeopleService {
     private S3Service s3Service;
     @Autowired
     private SearchHistoryService searchHistoryService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     @Transactional
+    // public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
     public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleCreateRequestDto.toMissingPeopleEntity();
@@ -72,7 +76,12 @@ public class MissingPeopleService {
             // 검색 기록 추가
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
 
-            return MissingPeopleCreateResponseDto.fromEntity(missingPeopleRepository.save(missingPeopleEntity));
+            MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
+            // TODO : 쿼리 생성해서 같이 넘기기 
+
+            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
+            
+            return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
             
         } catch (DataIntegrityViolationException e) {
             // TODO : 에러 처리 확실히 분리해서 대응 변경
@@ -145,6 +154,14 @@ public class MissingPeopleService {
         }
     }
 
+    @Transactional
+    public void modifyStatus(Long id, Status status) {
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+
+        missingPeopleEntity.setStatus(status);
+    }
+
     public S3UploadResponseDto uploadImageToS3(MultipartFile image, String imagePath, Long id) {
         this.getMissingPeopleById(id);
         return s3Service.upload(image, imagePath);
@@ -166,7 +183,6 @@ public class MissingPeopleService {
         searchHistoryService.getSearchHistoryById(searchHistoryId);
         return s3Service.download(imagePath);
     }
-
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);

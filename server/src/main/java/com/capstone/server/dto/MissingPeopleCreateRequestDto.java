@@ -82,10 +82,10 @@ public class MissingPeopleCreateRequestDto {
     private LocalDateTime endTime;
 
     @NotNull
-    private BigDecimal latitude;
+    private double latitude;
 
     @NotNull
-    private BigDecimal longitude;
+    private double longitude;
 
     @NotBlank
     private String locationAddress;
