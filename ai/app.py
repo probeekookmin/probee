@@ -47,8 +47,6 @@ class TotalInput(BaseModel):
     missingPeopleId : int
     MissingPeopleCreateRequestDto : MissingPeopleCreateRequestDto #dto에서 필요한 정보를 받아, 쿼리 생성 예정
 
-    def add(self, query: str):
-        self.query = query
 
 
 class TextResult(BaseModel):
@@ -58,7 +56,7 @@ class TextResult(BaseModel):
 
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
-    temp = await runYolo(input)
+    await runYolo(input)
     query = await make_query(input.MissingPeopleCreateRequestDto) #한글쿼리,영어쿼리 생성
     result_dir = await runTextReID(input, query["en_query"]) 
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.cctvId)
