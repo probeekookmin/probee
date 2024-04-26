@@ -17,7 +17,6 @@ def load_word_dict(file_path):
             word_dict = data["word_dict"]
             max_onehot = data["max_onehot"]
     else:
-        print(word_dict, max_onehot)
         word_dict_path = os.path.dirname(os.path.abspath(__file__))+"/word_dict/test.json"
         update_word_dict(word_dict_path)
     
