@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.capstone.server.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.DetectionRequestDto;
-import com.capstone.server.dto.MissingPeopleCreateRequestDto;
-import com.capstone.server.dto.MissingPeopleResponseDto;
-import com.capstone.server.dto.S3DownloadResponseDto;
-import com.capstone.server.dto.S3UploadResponseDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
@@ -80,6 +76,24 @@ public class MissingPeopleController {
             return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto)));
         }
     }
+    // 현재 테스트 용이성을 위해 테스트용 url로 분리하였음. 추후 결합
+    @PostMapping("/totalCreateTest")
+    public ResponseEntity<?> totalTest(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
+        } else {
+            //DB에 실종자 정보 등록
+            MissingPeopleCreateResponseDto createResponse =  missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
+            //생성된 MissingpeopleId와 searchid로 탐색
+            //todo : Kafka적용
+            return ResponseEntity.ok().body(detectService.callDetectAPI(createResponse.getId()));
+        }
+    }
 
     @PostMapping("/{id}/profile")
     public ResponseEntity<?> uploadProfileImageToS3 (
@@ -133,7 +147,6 @@ public class MissingPeopleController {
     //ai 탐색코드 테스트
     @PostMapping("/test")
     public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
-        System.out.println(detectionRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
     }
 }

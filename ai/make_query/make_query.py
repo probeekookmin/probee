@@ -7,6 +7,7 @@ print(os.getenv("OPENAI_API_KEY"))
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # openAI-API 키를 넣으세요
 openai.api_key = OPENAI_API_KEY
 async def create_query(gender_and_age, hair, top_color, top_type, bottom_color, bottom_type, bag):
+    gender_and_age = gender_and_age.lower()
     if gender_and_age == "man" or gender_and_age == "boy":
         gender = "He"
     else:   
@@ -20,9 +21,7 @@ async def create_query(gender_and_age, hair, top_color, top_type, bottom_color, 
         query += f"{gender} has {hair}. {gender} is holding a {bag}."
     else:
         query += f"{gender} has {hair}."
-    return query
-
-
+    return query.replace("_", " ")
 
 
 async def translate_english_to_korean(text):

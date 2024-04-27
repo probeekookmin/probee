@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import boto3
-
+import datetime
 
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
@@ -29,8 +29,9 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 s3_client = boto3.client('s3')
 bucket_name = "spring-server-image-storage"
 
-class MissingPeopleCreateRequestDto(BaseModel):
-    gender_and_age : str
+class ClothesInfo(BaseModel):
+    gender : str
+    birthdate : datetime.date
     hairStyle : str
     topColor:str
     topType:str
@@ -45,8 +46,7 @@ class TotalInput(BaseModel):
     endTime : str
     searchId: int
     missingPeopleId : int
-    MissingPeopleCreateRequestDto : MissingPeopleCreateRequestDto #dto에서 필요한 정보를 받아, 쿼리 생성 예정
-
+    clothesInfo : ClothesInfo
 
 
 class TextResult(BaseModel):
@@ -56,8 +56,9 @@ class TextResult(BaseModel):
 
 @app.post('/run', response_model=TextResult)
 async def run(input: TotalInput):
+    print(input)
     await runYolo(input)
-    query = await make_query(input.MissingPeopleCreateRequestDto) #한글쿼리,영어쿼리 생성
+    query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
     result_dir = await runTextReID(input, query["en_query"]) 
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.cctvId)
     with open(result_json_dir, 'r') as file:
@@ -65,16 +66,16 @@ async def run(input: TotalInput):
     
     return TextResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:])
 
+async def make_query(clothesInfo : ClothesInfo):
+    en_query = await create_query(clothesInfo.gender, clothesInfo.hairStyle, clothesInfo.topColor, clothesInfo.topType, clothesInfo.bottomColor, clothesInfo.bottomType,  clothesInfo.bagType)
+    ko_query = await translate_english_to_korean(en_query)
+    return {"en_query" : en_query, "ko_query" : ko_query}
+
 # todo : 시작시간, 종료시간 지정해서 연산을 돌려야함
 async def runYolo(input : TotalInput):
     home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime) #경로는 각자 환경에 맞게 조장하시오
+    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime.split("T")[0]) #경로는 각자 환경에 맞게 조장하시오
     return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo") #Result dir을 받아 다음 단계로 넘겨줘야함.
-
-async def make_query(input : MissingPeopleCreateRequestDto):
-    en_query = await create_query(input.gender_and_age, input.hairStyle, input.topColor, input.topType, input.bottomColor, input.bottomType,  input.bagType)
-    ko_query = await translate_english_to_korean(en_query)
-    return {"en_query" : en_query, "ko_query" : ko_query}
 
 async def runTextReID(input : TotalInput, query : str):
     root_path =  os.getcwd() + "/TextReID"

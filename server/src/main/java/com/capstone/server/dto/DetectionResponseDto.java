@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class DetectionResponseDto {
-    String query;
+    String query; //영어쿼리
+    String ko_query; //한국어 쿼리
     List<ImageData> data;
 
     @Data
