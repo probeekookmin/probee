@@ -40,7 +40,8 @@ public class DetectService {
         //요청 및 응답반환
         return restTemplate.postForObject(url, request, DetectionResponseDto.class);
     }
-    //실 사용 service
+    //실 사용 service, missingpeopleId만 받으면 탐색가능
+    //todo : cctv 선정 알고리즘 반영
     public DetectionResponseDto callDetectAPI(Long id) {
         try{
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
