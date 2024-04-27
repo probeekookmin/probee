@@ -1,6 +1,7 @@
 package com.capstone.server.dto;
 
 import com.capstone.server.model.MissingPeopleEntity;
+import com.capstone.server.model.SearchHistoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +35,10 @@ public class DetectionRequestDto {
     }
     public DetectionRequestDto(MissingPeopleEntity missingPeopleEntity){
         this.cctvId = "C0305-12_고2"; //todo : cctv id 선정 로직 추가
-        this.startTime = String.valueOf(missingPeopleEntity.getSearchHistoryEntities().getLast().getStartTime());
-        this.endTime = String.valueOf(missingPeopleEntity.getSearchHistoryEntities().getLast().getEndTime());
-        this.searchId = missingPeopleEntity.getSearchHistoryEntities().getLast().getId();
+        SearchHistoryEntity history = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size()-1);
+        this.startTime = String.valueOf(history.getStartTime());
+        this.endTime = String.valueOf(history.getEndTime());
+        this.searchId = history.getId();
 
         this.missingPeopleId = missingPeopleEntity.getId();
 
