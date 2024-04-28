@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel
 import sys
@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 import boto3
 import datetime
+import requests
 
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
@@ -25,7 +26,7 @@ load_dotenv()
 #s3설정
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-
+SERVER_URL = os.getenv("SERVER_URL")
 s3_client = boto3.client('s3')
 bucket_name = "spring-server-image-storage"
 
@@ -49,23 +50,46 @@ class TotalInput(BaseModel):
     clothesInfo : ClothesInfo
 
 
-class TextResult(BaseModel):
+class DetectResult(BaseModel):
     query : str
     ko_query : str
     data : list
 
-@app.post('/run', response_model=TextResult)
-async def run(input: TotalInput):
+class CallResult(BaseModel):
+    code : int
+    message : str
+
+#테스트용    
+@app.post('/test', response_model=DetectResult)
+async def test(input: TotalInput):
     print(input)
+    query, result_json_dir = await logic(input)
+    with open(result_json_dir, 'r') as file:
+        result = json.load(file)
+    
+    return DetectResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:])
+
+@app.post('/run', response_model=CallResult)
+async def run(input: TotalInput, background_tasks: BackgroundTasks):
+    print(input)
+    background_tasks.add_task(detect, input)
+    return {"code" : 200, "message": "Task started"}
+
+#비동기적 응답을 위해 연산과정 분리
+async def detect(input : TotalInput):
+    query, result_json_dir = await logic(input)
+    with open(result_json_dir, 'r') as file:
+        result = json.load(file)
+    response = requests.post(SERVER_URL + "/api/missing-people/detect", json = DetectResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:]).__dict__)
+    print(response.text)
+
+async def logic(input: TotalInput):
     await runYolo(input)
     query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
     result_dir = await runTextReID(input, query["en_query"]) 
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.cctvId)
-    with open(result_json_dir, 'r') as file:
-        result = json.load(file)
+    return query,result_json_dir
     
-    return TextResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:])
-
 async def make_query(clothesInfo : ClothesInfo):
     en_query = await create_query(clothesInfo.gender, clothesInfo.hairStyle, clothesInfo.topColor, clothesInfo.topType, clothesInfo.bottomColor, clothesInfo.bottomType,  clothesInfo.bagType)
     ko_query = await translate_english_to_korean(en_query)

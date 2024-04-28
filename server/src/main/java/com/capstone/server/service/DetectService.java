@@ -3,6 +3,7 @@ package com.capstone.server.service;
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.DetectionRequestDto;
 import com.capstone.server.dto.DetectionResponseDto;
+import com.capstone.server.dto.DetectionResultDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.repository.MissingPeopleRepository;
