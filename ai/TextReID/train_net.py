@@ -142,6 +142,11 @@ def main():
         action="store_true",
         default=False,
     )
+    parser.add_argument(
+        "--data-dir",
+        default="./datasets/",
+        type=str,
+    )
 
     args = parser.parse_args()
 
@@ -156,6 +161,7 @@ def main():
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.ROOT = args.root
+    cfg.DATASETS.DIR = args.data_dir
     cfg.freeze()
 
     output_dir = os.path.join(
