@@ -2,6 +2,7 @@ package com.capstone.server.dto;
 
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
+import com.capstone.server.model.enums.Step;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class DetectionRequestDto {
     Long searchId; //탐색 고유번호
     Long missingPeopleId;
     ClothesInfo clothesInfo;
+    Step step;
+    String query;
 
     @Getter
     @Setter
@@ -34,12 +37,14 @@ public class DetectionRequestDto {
         String bagType;
     }
     public DetectionRequestDto(MissingPeopleEntity missingPeopleEntity){
-        this.cctvId = "C0305-12_고2"; //todo : cctv id 선정 로직 추가
+        this.cctvId = "C0006"; //todo : cctv id 선정 로직 추가
+        //todo refectoring
         SearchHistoryEntity history = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size()-1);
         this.startTime = String.valueOf(history.getStartTime());
         this.endTime = String.valueOf(history.getEndTime());
         this.searchId = history.getId();
-
+        this.step = Step.valueOf("FIRST");
+        this.query = missingPeopleEntity.getQuery();
         this.missingPeopleId = missingPeopleEntity.getId();
 
         this.clothesInfo = new ClothesInfo();

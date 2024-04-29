@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-print(os.getenv("OPENAI_API_KEY"))
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # openAI-API 키를 넣으세요
 openai.api_key = OPENAI_API_KEY
 async def create_query(gender_and_age, hair, top_color, top_type, bottom_color, bottom_type, bag):

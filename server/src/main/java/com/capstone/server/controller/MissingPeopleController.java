@@ -90,7 +90,7 @@ public class MissingPeopleController {
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse =  missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
-            detectService.callDetectAPI(createResponse.getId());
+            detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
             return ResponseEntity.ok().body(createResponse);
         }
     }
@@ -98,9 +98,11 @@ public class MissingPeopleController {
     @PostMapping("/detect")
     public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
         System.out.println(detectionResultDto);
-        return ResponseEntity.ok().body(new SuccessResponse("ss"));
+        detectService.postDetectionResult(detectionResultDto);
+        return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
     }
 
+    //실종자 프로필 사진 등록
     @PostMapping("/{id}/profile")
     public ResponseEntity<?> uploadProfileImageToS3 (
         @RequestPart(value = "profile", required = false) MultipartFile image,
@@ -115,13 +117,14 @@ public class MissingPeopleController {
             return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImageToS3(image, imageName, id)));
     }
 
+    //실종자 프로필 사진 가져오기
     @GetMapping("/{id}/profile")
     public ResponseEntity<?> getProfilePresignedUrl(@PathVariable Long id) {
         String imagePath = String.format("missingPeopleId=%d/profile", id);
         return ResponseEntity.ok(new SuccessResponse(missingPeopleService.downloadImageFromS3(imagePath, id)));
     }
 
-
+    //탐색결과 이미지 등록하기 (안쓸듯)
     @PostMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> uploadProfileImageToS3(
         @RequestPart(value = "result", required = false) List<MultipartFile> images,
@@ -138,7 +141,7 @@ public class MissingPeopleController {
             String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
             return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImagesToS3(images, imagePath, id, searchHistoryId)));
     }
-
+    //탐색결과 이미지 가져오기
     @GetMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> downloadProfileImageFromS3(
         @PathVariable Long id,

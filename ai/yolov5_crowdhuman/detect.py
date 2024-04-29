@@ -110,7 +110,7 @@ def detect(opt,save_img=False):
                 date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')# 탐색 시작 시간
             except:
                 #테스트용 제목파싱 재설정
-                title = p.stem.split('_')[0].replace("-","")+'-'+p.stem.split('_')[1].replace("-","")
+                title =  p.stem.split('_')[0].replace("-","")+'-'+p.stem.split('_')[1].replace("-","")
                 print(title)
                 date_obj = datetime.strptime(title, '%Y%m%d-%H%M%S')  # 테스트용
             # 탐색 시작 시간
@@ -121,7 +121,7 @@ def detect(opt,save_img=False):
                 date_obj += nfps * timedelta(seconds=10)
             else:
                 date_obj += nfps * timedelta(seconds=2)
-            img_name = date_obj.strftime('%Y-%m-%d_%H-%M-%S ')
+            img_name = opt.cctv_id+"_"+date_obj.strftime('%Y-%m-%d_%H-%M-%S ')
 
             if len(det):
                 # Rescale boxes from img_size to im0 size
@@ -252,7 +252,8 @@ if __name__ == '__main__':
             detect(opt)
 
 
-def run_detection(weights='crowdhuman_yolov5m.pt', source=ROOT / "data/images", img_size=640, conf_thres=0.25, iou_thres=0.45, device='', view_img=False, save_txt=False, save_conf=False, classes=None, agnostic_nms=False, augment=False, update=False, project='runs/detect', name='exp', exist_ok=False, person=True, heads=False):
+def run_detection(weights='crowdhuman_yolov5m.pt', source=ROOT / "data/images", img_size=640, conf_thres=0.25, iou_thres=0.45, device='', view_img=False, save_txt=False, save_conf=False, classes=None,
+                   agnostic_nms=False, augment=False, update=False, project='runs/detect', name='exp', exist_ok=True, person=True, heads=False, cctv_id = '0'):
     # Setup
     opt = Namespace(
         weights=[weights],
@@ -272,7 +273,8 @@ def run_detection(weights='crowdhuman_yolov5m.pt', source=ROOT / "data/images", 
         name=name,
         exist_ok=exist_ok,
         person=person,
-        heads=heads
+        heads=heads,
+        cctv_id = cctv_id
     )
     print(opt)
     # check_requirements()

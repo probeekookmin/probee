@@ -32,7 +32,6 @@ bucket_name = "spring-server-image-storage"
 
 class ClothesInfo(BaseModel):
     gender : str
-    birthdate : datetime.date
     hairStyle : str
     topColor:str
     topType:str
@@ -42,18 +41,24 @@ class ClothesInfo(BaseModel):
     # shoesColor:str
 
 class TotalInput(BaseModel):
-    cctvId: str
+    cctvId : str
     startTime : str
     endTime : str
     searchId: int
     missingPeopleId : int
+    step : str
+    query : str|None
     clothesInfo : ClothesInfo
+    
 
 
 class DetectResult(BaseModel):
+    searchId : int
+    missingPeopleId : int
     query : str
-    ko_query : str
+    koQuery : str | None
     data : list
+    
 
 class CallResult(BaseModel):
     code : int
@@ -71,35 +76,41 @@ async def test(input: TotalInput):
 
 @app.post('/run', response_model=CallResult)
 async def run(input: TotalInput, background_tasks: BackgroundTasks):
-    print(input)
     background_tasks.add_task(detect, input)
     return {"code" : 200, "message": "Task started"}
 
 #비동기적 응답을 위해 연산과정 분리
 async def detect(input : TotalInput):
-    query, result_json_dir = await logic(input)
+    await runYolo(input)
+    #이미 영문쿼리가 존재하면 생성안함.
+    en_query = input.query
+    ko_query = None
+    if en_query==None:
+        en_query,ko_query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
+    result_dir = await runTextReID(input, en_query) 
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
-    response = requests.post(SERVER_URL + "/api/missing-people/detect", json = DetectResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:]).__dict__)
+    response = requests.post(SERVER_URL + "/api/missing-people/detect", json = DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, query = en_query, koQuery = ko_query, data = result[1:]).__dict__)
     print(response.text)
 
 async def logic(input: TotalInput):
     await runYolo(input)
     query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
     result_dir = await runTextReID(input, query["en_query"]) 
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.cctvId)
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
     return query,result_json_dir
     
 async def make_query(clothesInfo : ClothesInfo):
     en_query = await create_query(clothesInfo.gender, clothesInfo.hairStyle, clothesInfo.topColor, clothesInfo.topType, clothesInfo.bottomColor, clothesInfo.bottomType,  clothesInfo.bagType)
     ko_query = await translate_english_to_korean(en_query)
-    return {"en_query" : en_query, "ko_query" : ko_query}
+    return en_query,  ko_query
 
 # todo : 시작시간, 종료시간 지정해서 연산을 돌려야함
 async def runYolo(input : TotalInput):
     home_path = os.path.expanduser("~")
     cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime.split("T")[0]) #경로는 각자 환경에 맞게 조장하시오
-    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo") #Result dir을 받아 다음 단계로 넘겨줘야함.
+    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo",cctv_id = input.cctvId) #Result dir을 받아 다음 단계로 넘겨줘야함.
 
 async def runTextReID(input : TotalInput, query : str):
     root_path =  os.getcwd() + "/TextReID"
@@ -113,7 +124,7 @@ async def runTextReID(input : TotalInput, query : str):
     return result_dir
 
 
-async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, cctvId:str):
+async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:str):
     try:
         with open(json_file_path, 'r') as file:
             data = json.load(file)
@@ -126,9 +137,9 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, cctvId
     for item in data[1:]:
         img_path = item['img_path']
         similarity = item['Similarity']
-        new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{cctvId}_{similarity}{os.path.splitext(img_path)[-1]}"
+        new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{similarity}{os.path.splitext(img_path)[-1]}"
         new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
-        s3_key = f"missingPeopleId={missingPeopleId}/result/{searchId}/{new_file_name}"
+        s3_key = f"missingPeopleId={missingPeopleId}/searchHistoryId={searchId}/setp={step}/{new_file_name}"
         try:
             with open(img_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
@@ -140,6 +151,7 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, cctvId
             }
                 )
             item['img_path'] = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+            item['cctvId'] = 1 #new_file_name.split('_')[0]
 
         except Exception as e:
             errors.append(f"Error uploading {img_path}: {str(e)}")
