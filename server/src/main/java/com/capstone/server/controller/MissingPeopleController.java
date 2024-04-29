@@ -105,10 +105,12 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse =  missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
+            //메시지 전송
+            smsService.sendRegistrationMessage("01065021065");
             return ResponseEntity.ok().body(createResponse);
         }
     }
-    //todo : 서버에 연산결과 등록
+    //서버에 연산결과 등록
     @PostMapping("/detect")
     public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
         System.out.println(detectionResultDto);
@@ -176,6 +178,6 @@ public class MissingPeopleController {
     @PostMapping("/smsTest")
     public ResponseEntity<?> smsTest(@RequestBody SmsRequestDto smsRequestDto) {
         System.out.println(smsRequestDto);
-        return ResponseEntity.ok().body(new SuccessResponse(smsService.sendMessage(smsRequestDto)));
+        return ResponseEntity.ok().body(new SuccessResponse("ddd"));
     }
 }
