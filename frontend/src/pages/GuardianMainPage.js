@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ProfileCard } from "../components/guardianMain/ProfileCard";
 import { useEffect } from "react";
 import { MainSteps } from "../components/guardianMain/MainSteps";
+import { CustomSteps } from "../components/guardianMain/CustomSteps";
 
 function GuardianMainPage() {
   const [form] = Form.useForm();
@@ -25,14 +26,17 @@ function GuardianMainPage() {
       <MainHeader>
         <DemoLogo />
       </MainHeader>
-      <Row align={"middle"}>
+      <Row align={"middle"} gutter={[8, 20]}>
         <Col span={24}>
           <ProfileSection form={form}>
             <ProfileCard />
           </ProfileSection>
         </Col>
-        <Col>
-          <MainSteps />
+        {/* <Col>
+          <MainSteps currentStep={2} />
+        </Col> */}
+        <Col span={24}>
+          <CustomSteps currentStep={2} />
         </Col>
       </Row>
     </StGuardianMainPage>
