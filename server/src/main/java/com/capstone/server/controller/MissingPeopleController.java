@@ -106,7 +106,7 @@ public class MissingPeopleController {
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
             //메시지 전송
-            smsService.sendRegistrationMessage("01065021065");
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber());
             return ResponseEntity.ok().body(createResponse);
         }
     }
