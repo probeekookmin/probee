@@ -8,6 +8,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -45,6 +46,8 @@ public class MissingPeopleEntity {
     @NotNull
     private String description;
 
+    private String koQuery; //착장정보 한국어 쿼리
+    private String query; //착장정보 영어쿼리    ㅇㅇㅇ
     // @Enumerated(EnumType.STRING)
     // private PoliceStation policeStation;
 
