@@ -30,6 +30,7 @@ function MissingPersonListPage() {
           placeholder="실종자 입력"
           size="large"
           variant="borderless"
+          allowClear
           style={{ borderRadius: "1rem", backgroundColor: "white" }}></Input>
       </StSearchBox>
     );
