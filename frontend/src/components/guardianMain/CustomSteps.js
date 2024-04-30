@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { StepContents } from "./StepContents";
 export const CustomSteps = ({ currentStep }) => {
   const [current, setCurrent] = useState(0);
   const [view, setView] = useState(0);
@@ -51,7 +52,9 @@ export const CustomSteps = ({ currentStep }) => {
         <StepItem idx={2}></StepItem>
         <StepItem idx={3}></StepItem>
       </StepsContainer>
-      <StepContentsContainer></StepContentsContainer>
+      <StepContentsContainer>
+        <StepContents index={view} current={current} />
+      </StepContentsContainer>
     </StCustomSteps>
   );
 };
