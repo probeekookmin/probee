@@ -1,7 +1,6 @@
 package com.capstone.server.dto;
 
 import com.capstone.server.model.SearchHistoryEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

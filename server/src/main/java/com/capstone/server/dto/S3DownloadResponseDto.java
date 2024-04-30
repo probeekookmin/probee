@@ -1,11 +1,6 @@
 package com.capstone.server.dto;
 
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

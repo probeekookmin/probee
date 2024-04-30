@@ -23,6 +23,7 @@ public class DetectionResultDto {
         private Long cctvId;
         private double Similarity;
     }
+
     public SearchResultEntity toSearchResultEntity() {
         return SearchResultEntity.builder()
                 .success(true)
