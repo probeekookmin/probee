@@ -1,14 +1,15 @@
 package com.capstone.server.model;
 
+import com.capstone.server.model.enums.*;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
-import static jakarta.persistence.FetchType.LAZY;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.capstone.server.model.enums.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Data
 @Builder
@@ -59,7 +60,7 @@ public class MissingPeopleDetailEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate 
+    @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }

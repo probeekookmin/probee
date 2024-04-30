@@ -26,7 +26,7 @@ public class DetectionRequestDto {
 
     @Getter
     @Setter
-    public static class ClothesInfo{
+    public static class ClothesInfo {
         String gender;
         LocalDate birthdate;
         String hairStyle;
@@ -36,10 +36,11 @@ public class DetectionRequestDto {
         String bottomType;
         String bagType;
     }
-    public DetectionRequestDto(MissingPeopleEntity missingPeopleEntity){
+
+    public DetectionRequestDto(MissingPeopleEntity missingPeopleEntity) {
         this.cctvId = "C0006"; //todo : cctv id 선정 로직 추가
         //todo refectoring
-        SearchHistoryEntity history = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size()-1);
+        SearchHistoryEntity history = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size() - 1);
         this.startTime = String.valueOf(history.getStartTime());
         this.endTime = String.valueOf(history.getEndTime());
         this.searchId = history.getId();

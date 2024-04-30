@@ -1,24 +1,22 @@
 package com.capstone.server.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
+import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
+import com.capstone.server.exception.CustomException;
+import com.capstone.server.model.enums.Step;
+import com.capstone.server.response.SuccessResponse;
+import com.capstone.server.service.DetectService;
+import com.capstone.server.service.MissingPeopleService;
+import com.capstone.server.service.S3Service;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.code.ErrorCode;
@@ -41,7 +39,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +87,7 @@ public class MissingPeopleController {
             return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto)));
         }
     }
+
     // 현재 테스트 용이성을 위해 테스트용 url로 분리하였음. 추후 결합
     @PostMapping("/totalCreateTest")
     public ResponseEntity<?> totalTest(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
@@ -102,7 +100,7 @@ public class MissingPeopleController {
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
             //DB에 실종자 정보 등록
-            MissingPeopleCreateResponseDto createResponse =  missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
+            MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
             //메시지 전송
@@ -157,6 +155,7 @@ public class MissingPeopleController {
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImagesToS3(images, imagePath, id, searchHistoryId)));
     }
+
     //탐색결과 이미지 가져오기
     @GetMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> downloadProfileImageFromS3(
@@ -166,7 +165,21 @@ public class MissingPeopleController {
     ) {
         Step stepValue = Step.valueOf(step.toUpperCase()); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
+        System.out.println(imagePath);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
+    }
+
+    //탐색단계 돌리기
+    @PostMapping("/{id}/status")
+    public ResponseEntity<?> changeStatus(@Validated @RequestBody StatusDto statusDto,@PathVariable Long id) {
+        statusDto.setMissingPeopleId(id);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStatus(statusDto)));
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<?> getStatus(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));
+
     }
 
     //ai 탐색코드 테스트
@@ -175,9 +188,4 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
     }
 
-    @PostMapping("/smsTest")
-    public ResponseEntity<?> smsTest(@RequestBody SmsRequestDto smsRequestDto) {
-        System.out.println(smsRequestDto);
-        return ResponseEntity.ok().body(new SuccessResponse("ddd"));
-    }
 }

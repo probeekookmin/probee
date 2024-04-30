@@ -139,7 +139,7 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
         similarity = item['Similarity']
         new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{similarity}{os.path.splitext(img_path)[-1]}"
         new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
-        s3_key = f"missingPeopleId={missingPeopleId}/searchHistoryId={searchId}/setp={step}/{new_file_name}"
+        s3_key = f"missingPeopleId={missingPeopleId}/searchHistoryId={searchId}/step={step}/{new_file_name}"
         try:
             with open(img_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
