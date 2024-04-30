@@ -140,13 +140,21 @@ public class MissingPeopleController {
     ) {
         Step stepValue = Step.valueOf(step.toUpperCase()); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
+        System.out.println(imagePath);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
 
     //탐색단계 돌리기
-    @PostMapping("/status")
-    public ResponseEntity<?> changeStatus(@Validated StatusDto statusDto) {
+    @PostMapping("/{id}/status")
+    public ResponseEntity<?> changeStatus(@Validated @RequestBody StatusDto statusDto,@PathVariable Long id) {
+        statusDto.setMissingPeopleId(id);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStatus(statusDto)));
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<?> getStatus(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));
+
     }
 
     //ai 탐색코드 테스트

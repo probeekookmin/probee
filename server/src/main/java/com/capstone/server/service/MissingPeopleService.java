@@ -122,6 +122,12 @@ public class MissingPeopleService {
         }
     }
 
+    public StatusDto getStatus(Long missingPeopleId) {
+        MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
+                orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
+        return StatusDto.fromEntity(missingPeople);
+    }
+
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);
