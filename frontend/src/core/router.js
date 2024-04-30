@@ -4,6 +4,7 @@ import Test, { Test2 } from "../pages/test";
 import AddMissingPersonPage from "../pages/AddMissingPersonPage";
 import MissingPersonReportPage from "../pages/MissingPersonReportPage";
 import GuardianMainPage from "../pages/GuardianMainPage";
+import GuardianSelectImgPage from "../pages/GuardianSelectImgPage";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
           <Route path="/report" element={<MissingPersonReportPage />} />
         </Route>
         <Route path="/m" element={<GuardianMainPage />} />
+        <Route path="/select" element={<GuardianSelectImgPage />} />
       </Routes>
     </BrowserRouter>
   );
