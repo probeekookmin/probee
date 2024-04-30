@@ -1,17 +1,17 @@
 package com.capstone.server.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
+import com.capstone.server.model.enums.userEnum;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import com.capstone.server.model.enums.userEnum;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor

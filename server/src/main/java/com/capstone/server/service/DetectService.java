@@ -9,6 +9,7 @@ import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.SearchResultEntity;
+import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.CCTVRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
@@ -17,7 +18,6 @@ import com.capstone.server.repository.SearchResultRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,13 +30,13 @@ import java.util.NoSuchElementException;
 public class DetectService {
 
     @Autowired
-    private  RestTemplate restTemplate;
+    private RestTemplate restTemplate;
     @Autowired
-    private  MissingPeopleRepository missingPeopleRepository;
+    private MissingPeopleRepository missingPeopleRepository;
     @Autowired
-    private  SearchHistoryRepository searchHistoryRepository;
+    private SearchHistoryRepository searchHistoryRepository;
     @Autowired
-    private  CCTVRepository cctvRepository;
+    private CCTVRepository cctvRepository;
     @Autowired
     private SearchResultRepository searchResultRepository;
 
@@ -59,7 +59,7 @@ public class DetectService {
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
     //todo : cctv 선정 알고리즘 반영, 이미 착장정보가 있는 경우, 쿼리생성과정 생략
     public DetectionResponseDto callDetectAPI(Long id, Step step) {
-        try{
+        try {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
             DetectionRequestDto detectionRequestDto = DetectionRequestDto.fromEntity(missingPeople);
@@ -70,19 +70,20 @@ public class DetectService {
             HttpEntity<DetectionRequestDto> request = new HttpEntity<>(detectionRequestDto, headers);
             //요청 및 응답반환
             return restTemplate.postForObject(url, request, DetectionResponseDto.class);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
     }
 
     @Transactional
     public void postDetectionResult(DetectionResultDto detectionResultDto) {
-        try{
+        try {
             //실종자 정보에 한국어 쿼리 업데이트
-            MissingPeopleEntity missingPeople =  missingPeopleRepository.findById(detectionResultDto.getMissingPeopleId()).orElse(null);
-            if(missingPeople != null && missingPeople.getQuery()==null){
+            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(detectionResultDto.getMissingPeopleId()).orElse(null);
+            if (missingPeople != null && missingPeople.getQuery() == null) {
                 missingPeople.setKoQuery(detectionResultDto.getKoQuery());
                 missingPeople.setQuery(detectionResultDto.getQuery());
+                missingPeople.setStatus(Status.valueOf("IMAGE_SELECTING"));
                 missingPeopleRepository.save(missingPeople);
             }
 
@@ -90,8 +91,8 @@ public class DetectService {
             SearchHistoryEntity searchHistory = searchHistoryRepository.getReferenceById(detectionResultDto.getSearchId());
 
             //imgaepath한줄씩 database에 업로드
-            for(DetectionResultDto.ImageData imageData : detectionResultDto.getData()){
-                SearchResultEntity searchResult =  detectionResultDto.toSearchResultEntity();
+            for (DetectionResultDto.ImageData imageData : detectionResultDto.getData()) {
+                SearchResultEntity searchResult = detectionResultDto.toSearchResultEntity();
                 searchResult.setSearchHistoryEntity(searchHistory);
 
                 CCTVEntity cctvEntity = cctvRepository.getReferenceById(imageData.getCctvId());
@@ -99,7 +100,7 @@ public class DetectService {
                 searchResult.setImageUrl(imageData.getImg_path());
                 searchResultRepository.save(searchResult);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }

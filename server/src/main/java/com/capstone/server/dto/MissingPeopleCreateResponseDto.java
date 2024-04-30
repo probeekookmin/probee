@@ -1,10 +1,8 @@
 package com.capstone.server.dto;
 
 import com.capstone.server.model.MissingPeopleEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 @AllArgsConstructor
