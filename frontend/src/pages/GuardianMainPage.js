@@ -1,10 +1,11 @@
-import { Layout, Form, Row, Col } from "antd";
+import { Layout, Form, Row, Col, FloatButton } from "antd";
 import { Header } from "antd/es/layout/layout";
 import styled from "styled-components";
 import { ProfileCard } from "../components/guardianMain/ProfileCard";
 import { useEffect } from "react";
 import { MainSteps } from "../components/guardianMain/MainSteps";
 import { CustomSteps } from "../components/guardianMain/CustomSteps";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 function GuardianMainPage() {
   const [form] = Form.useForm();
@@ -39,6 +40,13 @@ function GuardianMainPage() {
           <CustomSteps currentStep={2} />
         </Col>
       </Row>
+      <FloatButtonContainer
+        icon={<QuestionCircleOutlined style={{ fontSize: "2rem" }} />}
+        style={{
+          width: "12.5rem",
+          height: "12.5rem",
+        }}
+      />
     </StGuardianMainPage>
   );
 }
@@ -69,4 +77,11 @@ const ProfileSection = styled(Form)`
   align-items: center;
   justify-content: center;
   display: flex;
+`;
+
+const FloatButtonContainer = styled(FloatButton)`
+  &.ant-float-btn .ant-float-btn-body .ant-float-btn-content {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
 `;
