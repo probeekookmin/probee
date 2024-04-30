@@ -14,7 +14,7 @@ class DatasetCatalog:
         },
         "cuhkpedes_test": {
             "img_dir": "",
-            "ann_file": "annotaions/annotations.json",
+            "ann_file": "annotations/annotations.json",
         },
     }
 
