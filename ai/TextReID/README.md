@@ -1,9 +1,29 @@
-# 실행코드
-python3 test_net.py --config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml --checkpoint-file output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth
-# 파이토치 GPU 버전 설치
+# How to run the code
+**requirements 설치**
+```bash
+pip install -r requirements.txt
+```
+
+**실행 코드**
+```bash
+# train
+python train_net.py \
+--config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml \
+--data-dir (your dataset route) # 해당 폴더 아래에 imgs 폴더와 annotations 폴더 생성
+```
+```bash
+# test
+python test_net.py \
+--config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml \
+--checkpoint-file output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth \
+--data-dir (your dataset route) # 해당 폴더 아래에 imgs 폴더와 annotations 폴더 생성
+```
+
+**파이토치 GPU 버전 설치**
 pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 
 -f https://download.pytorch.org/whl/torch_stable.html
 
+---
 
 # Text Based Person Search with Limited Data
 
