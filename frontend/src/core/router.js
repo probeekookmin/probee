@@ -3,6 +3,7 @@ import Nav from "../components/common/Nav";
 import Test, { Test2 } from "../pages/test";
 import AddMissingPersonPage from "../pages/AddMissingPersonPage";
 import MissingPersonReportPage from "../pages/MissingPersonReportPage";
+import GuardianMainPage from "../pages/GuardianMainPage";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
           <Route path="/add" element={<AddMissingPersonPage />} />
           <Route path="/report" element={<MissingPersonReportPage />} />
         </Route>
+        <Route path="/m" element={<GuardianMainPage />} />
       </Routes>
     </BrowserRouter>
   );
