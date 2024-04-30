@@ -106,7 +106,7 @@ public class MissingPeopleService {
         searchHistoryService.getSearchHistoryById(searchHistoryId);
         return s3Service.download(imagePath);
     }
-
+    //todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
     public StatusDto changeStatus(StatusDto statusDto) {
         long missingPeopleId = statusDto.getMissingPeopleId();
         Status status = statusDto.getStatus();
