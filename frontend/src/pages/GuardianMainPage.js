@@ -33,7 +33,7 @@ function GuardianMainPage() {
           </ProfileSection>
         </Col>
         <Col span={24}>
-          <CustomSteps currentStep={2} />
+          <CustomSteps currentStep={1} />
         </Col>
       </Row>
       <FloatButtonContainer
