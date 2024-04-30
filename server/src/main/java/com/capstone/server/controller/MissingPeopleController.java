@@ -17,6 +17,28 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import com.capstone.server.code.ErrorCode;
+import com.capstone.server.code.ErrorCode;
+import com.capstone.server.dto.DetectionRequestDto;
+import com.capstone.server.dto.MissingPeopleCreateRequestDto;
+import com.capstone.server.dto.MissingPeopleResponseDto;
+import com.capstone.server.dto.SmsRequestDto;
+import com.capstone.server.exception.CustomException;
+import com.capstone.server.model.enums.Step;
+import com.capstone.server.response.SuccessResponse;
+import com.capstone.server.service.DetectService;
+import com.capstone.server.service.MissingPeopleService;
+import com.capstone.server.service.S3Service;
+import com.capstone.server.service.SmsService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +55,8 @@ public class MissingPeopleController {
     private S3Service s3Service;
     @Autowired
     private DetectService detectService;
+    @Autowired
+    private SmsService smsService;
 
     // MissingPeople 전체 가져오기
     @GetMapping()
@@ -79,11 +103,12 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
+            //메시지 전송
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber());
             return ResponseEntity.ok().body(createResponse);
         }
     }
-
-    //todo : 서버에 연산결과 등록
+    //서버에 연산결과 등록
     @PostMapping("/detect")
     public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
         System.out.println(detectionResultDto);
