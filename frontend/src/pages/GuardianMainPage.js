@@ -3,7 +3,6 @@ import { Header } from "antd/es/layout/layout";
 import styled from "styled-components";
 import { ProfileCard } from "../components/guardianMain/ProfileCard";
 import { useEffect } from "react";
-import { MainSteps } from "../components/guardianMain/MainSteps";
 import { CustomSteps } from "../components/guardianMain/CustomSteps";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
@@ -33,9 +32,6 @@ function GuardianMainPage() {
             <ProfileCard />
           </ProfileSection>
         </Col>
-        {/* <Col>
-          <MainSteps currentStep={2} />
-        </Col> */}
         <Col span={24}>
           <CustomSteps currentStep={2} />
         </Col>
