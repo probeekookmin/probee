@@ -16,7 +16,7 @@ export const AllResultList = ({ onSelect, data, selectedList }) => {
             <ItemImage
               className="custom-image"
               src={item.url}
-              isSelect={selectedList.includes(item.url)}
+              select={selectedList.includes(item.url) ? "true" : "false"}
               preview={{
                 width: 900,
                 toolbarRender: () => (
@@ -68,7 +68,7 @@ const ItemImage = styled(Image)`
     width: 27.5rem;
     height: 45rem;
     border-radius: 2.5rem;
-    border: ${(props) => (props.isSelect ? "0.5rem solid #0580F1" : "none")};
+    border: ${(props) => (props.select == "true" ? "0.8rem solid #0580F1" : "none")};
   }
 
   &.custom-image .ant-image-preview-root .ant-image-preview-img {
