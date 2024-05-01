@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
+
 public enum Color {
     RED("빨강", "red"),
     ORANGE("주황", "orange"),
