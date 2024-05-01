@@ -6,47 +6,21 @@ export const SelectImgList = ({ onSelect, data }) => {
   return (
     <StSelectImgList>
       <CountText>선택한 이미지({data.length})</CountText>
-      {/* <ListContainer
-        grid={{
-          gutter: 25,
-          xl: 4,
-        }}
-        dataSource={data}
-        renderItem={(item) => (
-          <List.Item>
-            <Image
-              width={"20rem"}
-              height={"32.5rem"}
-              src={item}
-              preview={{
-                toolbarRender: () => (
-                  <div>
-                    <Button onClick={() => onSelect(item)}>선택해제</Button>
-                  </div>
-                ),
-              }}
-            />
-          </List.Item>
-        )}
-      /> */}
       <ScrollContainer>
-        {data.map((url, index) => {
-          return (
-            <ImageItem
-              key={index}
-              width={"20rem"}
-              height={"32.5rem"}
-              src={url}
-              preview={{
-                toolbarRender: () => (
-                  <div>
-                    <Button onClick={() => onSelect(url)}>선택해제</Button>
-                  </div>
-                ),
-              }}
-            />
-          );
-        })}
+        {data.map((item, index) => (
+          <ImageItem
+            key={index}
+            className="custom-image"
+            src={item}
+            preview={{
+              toolbarRender: () => (
+                <div>
+                  <Button onClick={() => onSelect(item)}>선택해제</Button>
+                </div>
+              ),
+            }}
+          />
+        ))}
       </ScrollContainer>
     </StSelectImgList>
   );
@@ -69,30 +43,27 @@ const CountText = styled.p`
   line-height: 5.5rem;
 `;
 
-const ListContainer = styled(List)`
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  scroll-snap-align: center;
-`;
-
 const ScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.5rem;
-  width: 100vw;
-  height: 32.5rem;
-  overflow: scroll;
+  width: 100%;
+  height: 33rem;
   white-space: nowrap;
+  overflow: scroll;
 
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none;
   scrollbar-width: none;
-  scroll-snap-align: center;
+  scroll-snap-align: center; */
 `;
 
 const ImageItem = styled(Image)`
+  &.custom-image {
+    width: 20rem;
+    height: 32.5rem;
+    border-radius: 2.5rem;
+  }
+  display: flex;
   width: 20rem;
   height: 32.5rem;
   border-radius: 2.5rem;
