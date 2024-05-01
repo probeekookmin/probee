@@ -1,26 +1,55 @@
-import { List, Image, Button } from "antd";
+import { List, Image, Button, Modal } from "antd";
 import { useState } from "react";
 import styled from "styled-components";
 
 export const SelectImgList = ({ onSelect, data }) => {
+  const [openPreview, setOpenPreview] = useState(false);
+
+  const handleOpen = () => {
+    setOpenPreview(true);
+  };
+  const handleClose = () => {
+    setOpenPreview(false);
+  };
+
   return (
     <StSelectImgList>
       <CountText>선택한 이미지({data.length})</CountText>
       <ScrollContainer>
         {data.map((item, index) => (
-          <ImageItem
-            key={index}
-            className="custom-image"
-            src={item}
-            preview={{
-              width: 900,
-              toolbarRender: () => (
-                <BottomContainer>
-                  <BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>
-                </BottomContainer>
-              ),
-            }}
-          />
+          <>
+            <ImageItem
+              key={index}
+              className="custom-image"
+              src={item}
+              onClick={() => setOpenPreview(true)}
+              preview={false}
+              // preview={{
+              //   width: 900,
+              //   toolbarRender: () => (
+              //     <BottomContainer>
+              //       <BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>
+              //     </BottomContainer>
+              //   ),
+              // }}
+            />{" "}
+            <PreviewModal
+              className="custom-modal"
+              open={openPreview}
+              centered
+              onCancel={handleClose}
+              footer={<BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>}
+              closeIcon={null}
+              width={1000}>
+              <PreviewItem
+                key={index}
+                className="custom-image"
+                src={item}
+                onClick={() => setOpenPreview(true)}
+                preview={false}
+              />{" "}
+            </PreviewModal>
+          </>
         ))}
       </ScrollContainer>
     </StSelectImgList>
@@ -70,6 +99,47 @@ const ImageItem = styled(Image)`
   border-radius: 2.5rem;
 `;
 
+const PreviewModal = styled(Modal)`
+  &.custom-modal {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    background: none;
+  }
+  &.ant-modal .ant-modal-content {
+    width: 100%;
+    background: none;
+    /* padding: 0; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: none;
+  }
+
+  &.ant-modal .ant-modal-body {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  &.ant-modal .ant-modal-footer {
+    float: right;
+  }
+`;
+const PreviewItem = styled(Image)`
+  &.custom-image {
+    width: 87.5rem;
+    height: 143rem;
+    border-radius: 2.5rem;
+  }
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 2.5rem;
+`;
+
 const BottomContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -93,4 +163,5 @@ const BottomButton = styled(Button)`
   font-style: normal;
   font-weight: 500;
   line-height: 5.5rem;
+  right: 0;
 `;

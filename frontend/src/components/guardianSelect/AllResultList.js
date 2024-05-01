@@ -19,6 +19,7 @@ export const AllResultList = ({ onSelect, data, selectedList }) => {
               select={selectedList.includes(item.url) ? "true" : "false"}
               preview={{
                 width: 900,
+
                 toolbarRender: () => (
                   <BottomContainer>
                     <BottomButton onClick={() => onSelect(item.url)}>
@@ -69,15 +70,10 @@ const ItemImage = styled(Image)`
     height: 45rem;
     border-radius: 2.5rem;
     border: ${(props) => (props.select == "true" ? "0.8rem solid #0580F1" : "none")};
-  }
-
-  &.custom-image .ant-image-preview-root .ant-image-preview-img {
-    border-radius: 2.5rem;
-  }
-  &.custom-image .ant-image-preview-footer {
-    display: flex;
-    justify-content: center;
-    align-items: end;
+    &.ant-image-preview {
+      width: 100%;
+      background-color: #fff;
+    }
   }
 `;
 
