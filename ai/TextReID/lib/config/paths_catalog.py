@@ -2,7 +2,7 @@ import os
 
 
 class DatasetCatalog:
-    DATA_DIR = "datasets"
+    DATA_DIR = ""
     DATASETS = {
         "cuhkpedes_train": {
             "img_dir": "",
@@ -19,9 +19,10 @@ class DatasetCatalog:
     }
 
     @staticmethod
-    def get(root, name):
+    def get(root, name, data_dir):
         if "cuhkpedes" in name:
-            data_dir = DatasetCatalog.DATA_DIR
+            # data_dir = input("Input Dataset Directory: ")
+            # annotation_dir = input("Input Annotation Directory: ")
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
                 root=os.path.join(root, data_dir, attrs["img_dir"]),

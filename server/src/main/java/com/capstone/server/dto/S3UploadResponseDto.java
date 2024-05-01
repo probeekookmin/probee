@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class S3UploadResponseDto {
-    private String path;
     private String url;
+    private String path;
     // TODO : 필요한 정보 추가
 }

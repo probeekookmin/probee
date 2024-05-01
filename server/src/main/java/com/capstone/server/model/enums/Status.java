@@ -14,6 +14,7 @@ import java.util.Arrays;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+//사용자 측에 보이는 단계?
 public enum Status {
     SEARCHING("탐색중", "searching"),
     EXIT("종료", "exit");

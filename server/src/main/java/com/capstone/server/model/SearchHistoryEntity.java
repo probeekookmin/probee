@@ -1,15 +1,21 @@
 package com.capstone.server.model;
 
-import com.capstone.server.model.enums.*;
+import com.capstone.server.model.enums.SearchStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-
-import static jakarta.persistence.FetchType.LAZY;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Data
 @Builder
@@ -24,7 +30,7 @@ public class SearchHistoryEntity {
 
     @Past
     private LocalDateTime startTime;
-    
+
     @PastOrPresent
     private LocalDateTime endTime;
 
@@ -58,10 +64,10 @@ public class SearchHistoryEntity {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        startTime = LocalDateTime.now();
+//        startTime = LocalDateTime.now(); #검색시작시간 아닌가요???
     }
 
-    @PreUpdate 
+    @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }

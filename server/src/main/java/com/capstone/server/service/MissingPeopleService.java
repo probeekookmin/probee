@@ -1,5 +1,6 @@
 package com.capstone.server.service;
 
+
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -25,6 +26,7 @@ import com.capstone.server.dto.MissingPeopleResponseDto;
 import com.capstone.server.dto.S3DownloadResponseDto;
 import com.capstone.server.dto.S3UploadResponseDto;
 import com.capstone.server.dto.UserUpdateRequestDto;
+
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.GuardianEntity;
 import com.capstone.server.model.MissingPeopleDetailEntity;
@@ -37,7 +39,15 @@ import com.capstone.server.repository.GuardianRepository;
 import com.capstone.server.repository.MissingPeopleDetailRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
 import com.capstone.server.repository.SearchHistoryRepository;
-import com.capstone.server.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class MissingPeopleService {
@@ -65,14 +75,14 @@ public class MissingPeopleService {
             MissingPeopleDetailEntity missingPeopleDetailEntity = missingPeopleCreateRequestDto.toMissingPeopleDetailEntity();
             GuardianEntity guardianEntity = missingPeopleCreateRequestDto.toGuardianEntity();
             SearchHistoryEntity searchHistoryEntity = missingPeopleCreateRequestDto.toSearchHistoryEntity();
-
+            missingPeopleEntity.setStatus(Status.valueOf("FIRST_STEP"));
             // 연관관계 설정
             missingPeopleEntity.setMissingPeopleDetailEntity(missingPeopleDetailEntity);
             missingPeopleEntity.setGuardianEntity(guardianEntity);
             missingPeopleDetailEntity.setMissingPeopleEntity(missingPeopleEntity);
             guardianEntity.setMissingPeopleEntity(missingPeopleEntity);
             searchHistoryEntity.setMissingPeopleEntity(missingPeopleEntity);
-            
+
             // 검색 기록 추가
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
 
@@ -147,10 +157,10 @@ public class MissingPeopleService {
     public MissingPeopleResponseDto getMissingPeopleById(Long id) {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
             return MissingPeopleResponseDto.fromEntity(missingPeopleEntity);
         } catch (NoSuchElementException e) {
-            throw new CustomException(ErrorCode.MISSING_PEOPLE_NOT_FOUND_BY_ID , e);
+            throw new CustomException(ErrorCode.MISSING_PEOPLE_NOT_FOUND_BY_ID, e);
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
@@ -184,6 +194,27 @@ public class MissingPeopleService {
         this.getMissingPeopleById(id);
         searchHistoryService.getSearchHistoryById(searchHistoryId);
         return s3Service.download(imagePath);
+    }
+    //todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
+    public StatusDto changeStatus(StatusDto statusDto) {
+        long missingPeopleId = statusDto.getMissingPeopleId();
+        Status status = statusDto.getStatus();
+        MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
+                orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
+        try {
+            missingPeople.setStatus(status);
+            missingPeopleRepository.save(missingPeople);
+            return new StatusDto(missingPeopleId, status);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public StatusDto getStatus(Long missingPeopleId) {
+        MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
+                orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
+        return StatusDto.fromEntity(missingPeople);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

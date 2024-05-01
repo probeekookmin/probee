@@ -12,7 +12,7 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
         self,
         root,
         ann_file,
-        use_onehot=True, # 여기를 false로 바꾸거나
+        use_onehot=True,
         max_length=100,
         transforms=None,
     ):
@@ -22,6 +22,7 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
         self.transforms = transforms
 
         self.img_dir = os.path.join(self.root, "imgs")
+        # self.img_dir = self.root
 
         print("loading annotations into memory...")
         dataset = json.load(open(ann_file, "r"))

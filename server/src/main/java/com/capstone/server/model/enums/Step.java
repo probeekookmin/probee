@@ -1,5 +1,6 @@
 package com.capstone.server.model.enums;
 
+
 import org.springframework.core.convert.converter.Converter;
 
 import com.capstone.server.code.ErrorCode;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+//이미지 업로드에 쓰이는 단계 분류
 public enum Step {
     FIRST("1차 탐색", "first"),
     BETWEEN("이미지 선별", "between"),

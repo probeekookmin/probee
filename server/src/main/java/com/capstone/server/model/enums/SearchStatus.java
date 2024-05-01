@@ -12,7 +12,7 @@ public enum SearchStatus {
     REGISTER("정보 등록"),
     FIRST_STEP("1차 탐색"),
     INTERACTION("티키타가"), // TODO: 이름 수정
-    SECOND_STEP( "2차 탐색"),
+    SECOND_STEP("2차 탐색"),
     SEARCH("수색"),
     END("종료");
 

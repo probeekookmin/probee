@@ -1,1 +1,0 @@
-{"name":"Local: detect","url":"/Users/lim/Develop/Capston/capstone-2024-14/ai/yolov5-crowdhuman/detect.py","tests":[{"id":1711606398402,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/lim/Develop/Capston/capstone-2024-14/ai/yolov5-crowdhuman/detect.py","group":"local","local":true}

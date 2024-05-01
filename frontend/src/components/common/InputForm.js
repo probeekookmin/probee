@@ -12,6 +12,17 @@ export const InputForm = ({ label, name }) => {
   );
 };
 
+export const CenterInputForm = ({ label, name }) => {
+  return (
+    <StCenterInputForm>
+      <InputLabel>{label}</InputLabel>
+      <InputItem name={name}>
+        <InputField variant="borderless" readOnly={"true"} />
+      </InputItem>
+    </StCenterInputForm>
+  );
+};
+
 /* 각 정보 input 영역 */
 const StInputForm = styled.div`
   display: flex;
@@ -38,4 +49,8 @@ const InputField = styled(Input)`
   font-size: 1.4rem;
   line-height: 2.2rem;
   margin-bottom: 0.6rem;
+`;
+
+const StCenterInputForm = styled(StInputForm)`
+  align-items: center;
 `;
