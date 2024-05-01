@@ -1,0 +1,27 @@
+version: "3" # docker-compose 버전 지정
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost # TODO : 환경에 맞게 ip 변경 ex) 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # kafka가 zookeeper에 커넥션하기 위한 대상을 지정
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  spring-server:
+    container_name: spring-server
+    depends_on:
+      - zookeeper
+      - kafka
+    image: suhwani/capstone:latest
+    ports:
+      - "8080:8080"

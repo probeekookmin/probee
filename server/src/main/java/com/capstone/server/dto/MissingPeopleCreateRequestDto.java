@@ -79,24 +79,28 @@ public class MissingPeopleCreateRequestDto {
     private LocalDateTime endTime;
 
     @NotNull
-    private BigDecimal latitude;
+    private double latitude;
 
     @NotNull
-    private BigDecimal longitude;
+    private double longitude;
 
     @NotBlank
     private String locationAddress;
 
+
+    private Status status;
+    
     public MissingPeopleEntity toMissingPeopleEntity() {
 
         return MissingPeopleEntity.builder()
-                .name(missingPeopleName)
-                .birthdate(birthdate)
-                .gender(Gender.fromKor(gender))
-                .missingAt(missingAt)
-                .missingLocation(missingLocation)
-                .description(description)
-                .build();
+            .name(missingPeopleName)
+            .birthdate(birthdate)
+            .gender(Gender.fromKor(gender))
+            .missingAt(missingAt)
+            .missingLocation(missingLocation)
+            .description(description)
+            .status(Status.getDefault())
+            .build();
     }
 
     public MissingPeopleDetailEntity toMissingPeopleDetailEntity() {

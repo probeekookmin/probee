@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.Type;
+import org.locationtech.jts.geom.*;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,18 +25,22 @@ public class CCTVEntity {
     @Column(name = "cctv_id")
     private Long id;
 
-    @NotBlank
-    private BigDecimal latitude;
+    // @NotBlank
+    // private BigDecimal latitude;
 
-    @NotBlank
-    private BigDecimal longitude;
+    // @NotBlank
+    // private BigDecimal longitude;
 
-    @NotBlank
-    private String locationAddress;
+    // @NotBlank
+    // private String locationAddress;
 
-    // N:1 양방향 관계 매핑
-    @OneToMany(mappedBy = "cctvEntity", cascade = CascadeType.ALL)
-    List<SearchResultEntity> searchResultEntities;
+    // @NotBlank
+    @Column(columnDefinition = "geometry(Point, 4326)")
+    private Point gps;
+
+    // // N:1 양방향 관계 매핑
+    // @OneToMany(mappedBy = "CCTVEntity", cascade = CascadeType.ALL)
+    // List<SearchResultEntity> searchResultEntities;
 
     private LocalDateTime createdAt;
 

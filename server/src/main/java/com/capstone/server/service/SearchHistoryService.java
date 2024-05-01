@@ -4,11 +4,13 @@ import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.SearchHistoryDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.SearchHistoryEntity;
+import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.SearchHistoryRepository;
 
 @Service
@@ -27,5 +29,14 @@ public class SearchHistoryService {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
+    }
+
+    @Transactional
+    public void modifyStep(Long id, Step step) {
+        SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findById(id)
+        // TODO : 에러 수정
+            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+
+        searchHistoryEntity.setStep(step);
     }
 }

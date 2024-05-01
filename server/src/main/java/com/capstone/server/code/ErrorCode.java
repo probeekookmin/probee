@@ -2,11 +2,12 @@ package com.capstone.server.code;
 
 import org.springframework.http.HttpStatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public enum ErrorCode {
     // TODO: 에러 코드 개별 수정 필요
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Invalid request."),

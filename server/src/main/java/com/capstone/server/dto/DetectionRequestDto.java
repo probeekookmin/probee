@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class DetectionRequestDto {
-    String cctvId; //cctv 고유번호 탐색위치, 거리에따라 cctv id를 지정해 보낼 예정
+    String cctvId; //CCTV 고유번호 탐색위치, 거리에따라 CCTV id를 지정해 보낼 예정
     String startTime; //탐색 시작시간
     String endTime; //탐색 종료시간
     Long searchId; //탐색 고유번호

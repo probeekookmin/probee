@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public enum PoliceStation {
-    SEOUL_GANGNAM("서울강남경찰서"),
-    SEOUL_GANGDONG("서울강동경찰서");
+    SEOUL_GANGNAM("서울강남경찰서", "seoulGangnam"),
+    SEOUL_GANGDONG("서울강동경찰서", "seoulGangdong");
 
-    private String kor;
+    private final String kor;
+    private final String value;
 
     // TODO: 전국 경찰서 추가
     // // 서울
