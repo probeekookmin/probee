@@ -6,7 +6,7 @@ export const SelectImgList = ({ onSelect, data }) => {
   return (
     <StSelectImgList>
       <CountText>선택한 이미지({data.length})</CountText>
-      <ScrollContainer
+      {/* <ListContainer
         grid={{
           gutter: 25,
           xl: 4,
@@ -28,7 +28,26 @@ export const SelectImgList = ({ onSelect, data }) => {
             />
           </List.Item>
         )}
-      />
+      /> */}
+      <ScrollContainer>
+        {data.map((url, index) => {
+          return (
+            <ImageItem
+              key={index}
+              width={"20rem"}
+              height={"32.5rem"}
+              src={url}
+              preview={{
+                toolbarRender: () => (
+                  <div>
+                    <Button onClick={() => onSelect(url)}>선택해제</Button>
+                  </div>
+                ),
+              }}
+            />
+          );
+        })}
+      </ScrollContainer>
     </StSelectImgList>
   );
 };
@@ -50,11 +69,31 @@ const CountText = styled.p`
   line-height: 5.5rem;
 `;
 
-const ScrollContainer = styled(List)`
+const ListContainer = styled(List)`
   width: 100%;
   height: 100%;
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
   scroll-snap-align: center;
+`;
+
+const ScrollContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  width: 100vw;
+  height: 32.5rem;
+  overflow: scroll;
+  white-space: nowrap;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-align: center;
+`;
+
+const ImageItem = styled(Image)`
+  width: 20rem;
+  height: 32.5rem;
+  border-radius: 2.5rem;
 `;
