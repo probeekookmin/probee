@@ -28,17 +28,6 @@ public class KafkaConsumerService {
     @Autowired
     private SearchHistoryService searchHistoryService;
 
-    @KafkaListener(topics = "test-topic", groupId = "consumer_group01") // return 하지 않음. 
-    public void consume(String message) throws IOException {
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.printf("Consumed Message : %s%n", message);
-    }
-
     @Transactional
     @KafkaListener(topics = "start-searching", groupId = "consumer_group01") // return 하지 않음. 
     public void consumeStartSearching(KafkaDto kafkaDto) {

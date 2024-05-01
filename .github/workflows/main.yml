@@ -64,3 +64,5 @@ jobs:
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
           sudo docker image prune -f
           sudo docker run -d --name server -p 80:8080 suhwani/capstone
+# TODO : docker compose 추가하기, 현재 DB 설정이 AI 서버와 맞지 않아, 실행은 되나 정상 작동하지 않음. 
+#      : 추후 리팩토링 필요
