@@ -1,8 +1,8 @@
 package com.capstone.server.service;
 
-import com.capstone.server.dto.CctvDto;
-import com.capstone.server.model.CctvEntity;
-import com.capstone.server.repository.CctvRepository;
+import com.capstone.server.dto.CCTVDto;
+import com.capstone.server.model.CCTVEntity;
+import com.capstone.server.repository.CCTVRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,17 +13,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CctvService {
+public class CCTVService {
 
     @Autowired
-    private CctvRepository cctvRepository;
+    private CCTVRepository cctvRepository;
 
-    public List<CctvDto> findCctvsNearbyLocationWithinDistance(double longitude, double latitude) {
+    public List<CCTVDto> findCCTVsNearbyLocationWithinDistance(double longitude, double latitude) {
 
-        List<CctvEntity> cctvEntities = cctvRepository.findCctvsByDistance(longitude, latitude); // distance 기준: m(미터) 
+        List<CCTVEntity> cctvEntities = cctvRepository.findCCTVsByDistance(longitude, latitude); // distance 기준: m(미터) 
 
         return cctvEntities.stream()
-                .map(CctvDto::fromEntity) // 엔티티를 DTO로 변환
+                .map(CCTVDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
     }
 

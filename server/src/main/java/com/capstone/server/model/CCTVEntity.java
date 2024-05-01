@@ -16,7 +16,7 @@ import org.locationtech.jts.geom.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "cctv")
-public class CctvEntity {
+public class CCTVEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cctv_id")
@@ -36,7 +36,7 @@ public class CctvEntity {
     private Point gps;
 
     // // N:1 양방향 관계 매핑
-    // @OneToMany(mappedBy = "CctvEntity", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "CCTVEntity", cascade = CascadeType.ALL)
     // List<SearchResultEntity> searchResultEntities;
 
     private LocalDateTime createdAt;
