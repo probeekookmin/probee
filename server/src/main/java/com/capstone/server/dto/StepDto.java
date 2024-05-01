@@ -2,7 +2,7 @@ package com.capstone.server.dto;
 
 
 import com.capstone.server.model.MissingPeopleEntity;
-import com.capstone.server.model.enums.Status;
+import com.capstone.server.model.enums.Step;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,17 +12,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StatusDto {
+public class StepDto {
     long missingPeopleId;
-    Status status;
+    Step step;
 
-    public StatusDto(MissingPeopleEntity missingPeopleEntity) {
+    public StepDto(MissingPeopleEntity missingPeopleEntity) {
         this.missingPeopleId = missingPeopleEntity.getId();
-        this.status = missingPeopleEntity.getStatus();
+        this.step = missingPeopleEntity.getStep();
     }
 
 
-    public static StatusDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
-        return new StatusDto(missingPeopleEntity);
+    public static StepDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
+        return new StepDto(missingPeopleEntity);
     }
 }

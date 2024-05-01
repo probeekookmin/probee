@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -58,8 +57,7 @@ public class MissingPeopleCreateRequestDto {
     @NotBlank
     private String bagType;
 
-    @NotBlank
-    private String shoesColor;
+    private String shoesColor;// 신발 필요없음.
 
     // Guardian
     @NotBlank
@@ -89,18 +87,18 @@ public class MissingPeopleCreateRequestDto {
 
 
     private Status status;
-    
+
     public MissingPeopleEntity toMissingPeopleEntity() {
 
         return MissingPeopleEntity.builder()
-            .name(missingPeopleName)
-            .birthdate(birthdate)
-            .gender(Gender.fromKor(gender))
-            .missingAt(missingAt)
-            .missingLocation(missingLocation)
-            .description(description)
-            .status(Status.getDefault())
-            .build();
+                .name(missingPeopleName)
+                .birthdate(birthdate)
+                .gender(Gender.fromKor(gender))
+                .missingAt(missingAt)
+                .missingLocation(missingLocation)
+                .description(description)
+                .status(Status.getDefault())
+                .build();
     }
 
     public MissingPeopleDetailEntity toMissingPeopleDetailEntity() {

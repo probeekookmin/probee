@@ -57,7 +57,7 @@ public class DetectService {
     }
 
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
-    //todo : cctv 선정 알고리즘 반영, 이미 착장정보가 있는 경우, 쿼리생성과정 생략
+    //todo : cctv 선정 알고리즘 반영
     public DetectionResponseDto callDetectAPI(Long id, Step step) {
         try {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)

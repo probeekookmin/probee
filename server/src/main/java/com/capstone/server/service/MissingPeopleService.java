@@ -1,47 +1,26 @@
 package com.capstone.server.service;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.KafkaDto;
-import com.capstone.server.dto.MissingPeopleCreateRequestDto;
-import com.capstone.server.dto.MissingPeopleCreateResponseDto;
-import com.capstone.server.dto.MissingPeopleResponseDto;
-import com.capstone.server.dto.S3DownloadResponseDto;
-import com.capstone.server.dto.S3UploadResponseDto;
-import com.capstone.server.dto.StatusDto;
-import com.capstone.server.dto.UserUpdateRequestDto;
-
+import com.capstone.server.dto.*;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.GuardianEntity;
 import com.capstone.server.model.MissingPeopleDetailEntity;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
-import com.capstone.server.model.UserEntity;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.Status;
+import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.GuardianRepository;
 import com.capstone.server.repository.MissingPeopleDetailRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
 import com.capstone.server.repository.SearchHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,7 +55,8 @@ public class MissingPeopleService {
             MissingPeopleDetailEntity missingPeopleDetailEntity = missingPeopleCreateRequestDto.toMissingPeopleDetailEntity();
             GuardianEntity guardianEntity = missingPeopleCreateRequestDto.toGuardianEntity();
             SearchHistoryEntity searchHistoryEntity = missingPeopleCreateRequestDto.toSearchHistoryEntity();
-            missingPeopleEntity.setStatus(Status.valueOf("FIRST_STEP"));
+            missingPeopleEntity.setStatus(Status.valueOf("SEARCHING"));
+            missingPeopleEntity.setStep(Step.valueOf("FIRST"));
             // 연관관계 설정
             missingPeopleEntity.setMissingPeopleDetailEntity(missingPeopleDetailEntity);
             missingPeopleEntity.setGuardianEntity(guardianEntity);
@@ -88,14 +68,12 @@ public class MissingPeopleService {
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
 
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
-            // TODO : 쿼리 생성해서 같이 넘기기 
-
             System.out.println("-----------------------");
             System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
             kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
-            
+
             return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
-            
+
         } catch (DataIntegrityViolationException e) {
             // TODO : 에러 처리 확실히 분리해서 대응 변경
             throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, e);
@@ -111,8 +89,8 @@ public class MissingPeopleService {
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findAll(pageable);
 
         List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
-        .collect(Collectors.toList());
+                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+                .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
@@ -123,8 +101,8 @@ public class MissingPeopleService {
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByStatus(pageable, status);
 
         List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
-        .collect(Collectors.toList());
+                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+                .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
@@ -136,8 +114,8 @@ public class MissingPeopleService {
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContaining(pageable, name.trim());
 
         List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
-        .collect(Collectors.toList());
+                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+                .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
@@ -149,8 +127,8 @@ public class MissingPeopleService {
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContainingAndStatus(pageable, name.trim(), status);
 
         List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-        .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
-        .collect(Collectors.toList());
+                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+                .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
@@ -170,7 +148,7 @@ public class MissingPeopleService {
     @Transactional
     public void modifyStatus(Long id, Status status) {
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
 
         missingPeopleEntity.setStatus(status);
     }
@@ -196,26 +174,27 @@ public class MissingPeopleService {
         searchHistoryService.getSearchHistoryById(searchHistoryId);
         return s3Service.download(imagePath);
     }
+
     //todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
-    public StatusDto changeStatus(StatusDto statusDto) {
-        long missingPeopleId = statusDto.getMissingPeopleId();
-        Status status = statusDto.getStatus();
+    public StepDto changeStatus(StepDto stepDto) {
+        long missingPeopleId = stepDto.getMissingPeopleId();
+        Step step = stepDto.getStep();
         MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
                 orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
         try {
-            missingPeople.setStatus(status);
+            missingPeople.setStep(step);
             missingPeopleRepository.save(missingPeople);
-            return new StatusDto(missingPeopleId, status);
+            return new StepDto(missingPeopleId, step);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
     }
 
-    public StatusDto getStatus(Long missingPeopleId) {
+    public StepDto getStatus(Long missingPeopleId) {
         MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
                 orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
-        return StatusDto.fromEntity(missingPeople);
+        return StepDto.fromEntity(missingPeople);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

@@ -1,10 +1,7 @@
 package com.capstone.server.model.enums;
 
-import org.springframework.core.convert.converter.Converter;
-
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.exception.CustomException;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +11,7 @@ import java.util.Arrays;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-//사용자 측에 보이는 단계?
+//실종자 발견 여부(실종자 탐색 종료 여부)
 public enum Status {
     SEARCHING("탐색중", "searching"),
     EXIT("종료", "exit");
@@ -38,9 +35,9 @@ public enum Status {
 
     public static Status fromValue(String value) {
         return Arrays.stream(Status.values())
-                     .filter(status -> status.value.equals(value.trim()))
-                     .findFirst()
-                     .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
-                     // TODO : 에러 수정
+                .filter(status -> status.value.equals(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+        // TODO : 에러 수정
     }
 }

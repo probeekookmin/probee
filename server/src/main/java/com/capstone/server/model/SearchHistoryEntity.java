@@ -1,8 +1,6 @@
 package com.capstone.server.model;
 
-import com.capstone.server.model.enums.SearchStatus;
 import com.capstone.server.model.enums.Step;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
