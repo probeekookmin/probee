@@ -1,6 +1,8 @@
 package com.capstone.server.model;
 
 import com.capstone.server.model.enums.SearchStatus;
+import com.capstone.server.model.enums.Step;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

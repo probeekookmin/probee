@@ -25,6 +25,7 @@ import com.capstone.server.dto.MissingPeopleCreateResponseDto;
 import com.capstone.server.dto.MissingPeopleResponseDto;
 import com.capstone.server.dto.S3DownloadResponseDto;
 import com.capstone.server.dto.S3UploadResponseDto;
+import com.capstone.server.dto.StatusDto;
 import com.capstone.server.dto.UserUpdateRequestDto;
 
 import com.capstone.server.exception.CustomException;

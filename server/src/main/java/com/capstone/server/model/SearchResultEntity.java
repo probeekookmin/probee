@@ -27,9 +27,9 @@ public class SearchResultEntity {
 
     private String imageUrl;
 
-    // @ManyToOne(fetch = LAZY)
-    // @JoinColumn(name = "CCTV_id")
-    // private CCTVEntity CCTVEntity;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cctv_id")
+    private CCTVEntity cctvEntity;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "search_history_id")
