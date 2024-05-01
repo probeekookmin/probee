@@ -1,10 +1,11 @@
 package com.capstone.server.model.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum Color {
     RED("빨강", "red"),
     ORANGE("주황", "orange"),
@@ -20,6 +21,11 @@ public enum Color {
 
     private final String kor;
     private final String value;
+
+    Color(String kor, String value) {
+        this.kor = kor;
+        this.value = value;
+    }
 
     public static Color fromKor(String kor) {
         for (Color color : Color.values()) {

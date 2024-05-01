@@ -26,5 +26,4 @@ public class CCTVService {
                 .map(CCTVDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
     }
-
 }
