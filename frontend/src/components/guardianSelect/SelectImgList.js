@@ -13,10 +13,11 @@ export const SelectImgList = ({ onSelect, data }) => {
             className="custom-image"
             src={item}
             preview={{
+              width: 900,
               toolbarRender: () => (
-                <div>
-                  <Button onClick={() => onSelect(item)}>선택해제</Button>
-                </div>
+                <BottomContainer>
+                  <BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>
+                </BottomContainer>
               ),
             }}
           />
@@ -67,4 +68,29 @@ const ImageItem = styled(Image)`
   width: 20rem;
   height: 32.5rem;
   border-radius: 2.5rem;
+`;
+
+const BottomContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+
+  width: 100%;
+  padding: 3.9rem 5rem;
+`;
+
+const BottomButton = styled(Button)`
+  width: 31.5rem;
+  height: 12.5rem;
+  border: none;
+  border-radius: 2.5rem;
+  background: #0580f1;
+  color: #fff;
+
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 5.5rem;
 `;
