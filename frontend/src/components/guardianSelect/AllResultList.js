@@ -15,9 +15,8 @@ export const AllResultList = ({ onSelect, data, selectedList }) => {
           <List.Item>
             <ItemImage
               className="custom-image"
-              //   width={"27.5rem"}
-              //   height={"45rem"}
               src={item.url}
+              isSelect={selectedList.includes(item.url)}
               preview={{
                 width: 900,
                 toolbarRender: () => (
@@ -69,6 +68,7 @@ const ItemImage = styled(Image)`
     width: 27.5rem;
     height: 45rem;
     border-radius: 2.5rem;
+    border: ${(props) => (props.isSelect ? "0.5rem solid #0580F1" : "none")};
   }
 
   &.custom-image .ant-image-preview-root .ant-image-preview-img {
