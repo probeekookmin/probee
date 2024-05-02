@@ -18,10 +18,11 @@ const validateMessages = {
 };
 
 const onFinish = (fieldsValue) => {
+  console.log("gender", fieldsValue["user"]["gender"]);
   const values = {
     missingPeopleName: fieldsValue["user"]["name"],
     birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
-    gender: "성인 남성",
+    gender: fieldsValue["user"]["gender"],
     missingAt:
       fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
         "T" +

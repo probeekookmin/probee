@@ -7,11 +7,11 @@ import { SeacrchBox } from "../common/SearchBox";
 const options = [
   {
     label: "남성",
-    value: "male",
+    value: "남성",
   },
   {
     label: "여성",
-    value: "female",
+    value: "여성",
   },
 ];
 const config = {
@@ -33,10 +33,10 @@ const requiredConfig = {
 };
 
 export const MissingPersonInfo = ({ form }) => {
-  const [userGender, setUserGender] = useState("male");
+  const [userGender, setUserGender] = useState("남성");
 
   const genderChange = ({ target: { value } }) => {
-    console.log("radio3 checked", value);
+    console.log("gender checked", value);
     setUserGender(value);
   };
   return (
