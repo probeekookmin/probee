@@ -1,7 +1,9 @@
 import "./App.css";
 import { RecoilRoot } from "recoil";
 import GlobalStyle from "./styles/global";
+import GlobalFont from "./styles/globalFont";
 import Router from "./core/router";
+import { ConfigProvider } from "antd";
 
 // import { Map, MapMarker } from "react-kakao-maps-sdk";
 
@@ -16,7 +18,14 @@ function App() {
     // </div>
     <RecoilRoot>
       <GlobalStyle />
-      <Router />
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: "Prentendard",
+          },
+        }}>
+        <Router />
+      </ConfigProvider>
     </RecoilRoot>
   );
 }

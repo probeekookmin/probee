@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
-import GlobalFont from "./globalFont";
 import Pretendard_Black from "../assets/fonts/pretendard/Pretendard-Black.woff";
 import Pretendard_Bold from "../assets/fonts/pretendard/Pretendard-Bold.woff";
 import Pretendard_semiBold from "../assets/fonts/pretendard/Pretendard-SemiBold.woff";
@@ -11,7 +10,7 @@ import Pretendard_Medium from "../assets/fonts/pretendard/Pretendard-Medium.woff
 import Pretendard_Regular from "../assets/fonts/pretendard/Pretendard-Regular.woff";
 import Pretendard_Thin from "../assets/fonts/pretendard/Pretendard-Thin.woff";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalFont = createGlobalStyle`
 @font-face {
   font-family: 'Pretendard Black';
   font-weight: 900;
@@ -20,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 @font-face {
-  font-family: 'Pretendard ExtraBold';
+  font-family: 'Pretendard ';
   font-weight: 800;
   font-display: swap;
   src: local('Pretendard ExtraBold'),
@@ -73,27 +72,6 @@ const GlobalStyle = createGlobalStyle`
 	font-display: swap;
 	src: local('Pretendard Thin'),url(${Pretendard_Thin}) format('woff');
 }
-  ${reset}
-  html { font-size: 62.5%; }
-  @media all and (max-width: 750px) {
-  html { font-size: 50%; 
-  width:100vw;
-  height: 100vh; 
-  /* 혹시나 Custom Property 지원 안하는 브라우저를 위한 복귀점(Fallback) */
-  height: calc(var(--vh, 1vh) * 100);} 
-  // 이제 문서 내 모든 rem 단위가 영향을 받습니다.
-}
 
-
-  * {
-    box-sizing: border-box;
-    font-family : "Pretendard";
-	}
-  body{font-family: "Pretendard";}
-
-  button:hover {
-    cursor: pointer;
-  }
 `;
-
-export default GlobalStyle;
+export default GlobalFont;
