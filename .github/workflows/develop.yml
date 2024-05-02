@@ -49,7 +49,35 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: Remove & Change Docker-compose
+    - name: Install Docker
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        username: ubuntu
+        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+          fi
+
+    - name: Install Docker-compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        username: ubuntu
+        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          if ! command -v docker-compose &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y docker-compose
+          fi
+        
+    - name: Remove & Change docker-compose file
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
@@ -62,7 +90,7 @@ jobs:
           fi
           echo "${{ secrets.DOCKER_COMPOSE }}" > docker-compose.yml
     
-    - name: Pull Server Docker image
+    - name: Remove & Change Server Docker image
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
@@ -74,7 +102,7 @@ jobs:
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
           sudo docker image prune -f
 
-    - name: Install Docker-compose  & Execute
+    - name: Docker-compose Execute
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
@@ -82,7 +110,5 @@ jobs:
         key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
           sudo docker-compose up 
               
