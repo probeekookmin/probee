@@ -1,10 +1,11 @@
 import json
 import re
 import random
+import os
 
 
 def encode(query):
-    file_path = "./lib/data/encode/word_dict/test.json"
+    file_path = os.path.dirname(os.path.abspath(__file__))+"/word_dict/test.json" # 상대경로 수정
     with open(file_path, "r") as file:
         data = json.load(file)
 

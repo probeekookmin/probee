@@ -1,9 +1,17 @@
 package com.capstone.server.model;
 
-import com.capstone.server.model.enums.*;
+import com.capstone.server.model.enums.Gender;
+import com.capstone.server.model.enums.Status;
+import com.capstone.server.model.enums.Step;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,11 +53,15 @@ public class MissingPeopleEntity {
     @NotNull
     private String description;
 
+    private String koQuery; //착장정보 한국어 쿼리
+    private String query; //착장정보 영어쿼리
+
+    @Enumerated(EnumType.STRING)
+    private Status status; //실종자 탐색 완료여부
+    @Enumerated(EnumType.STRING)
+    private Step step; // 보호자가 보는 현 실종자 탐색 단계
     // @Enumerated(EnumType.STRING)
     // private PoliceStation policeStation;
-
-    // @Enumerated(EnumType.STRING)
-    // private Status status;
 
     @OneToOne(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private GuardianEntity guardianEntity;
@@ -59,7 +71,7 @@ public class MissingPeopleEntity {
 
     @OneToMany(mappedBy = "missingPeopleEntity", cascade = CascadeType.ALL)
     private List<SearchHistoryEntity> searchHistoryEntities;
-  
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -71,7 +83,7 @@ public class MissingPeopleEntity {
         registrationAt = LocalDateTime.now();
     }
 
-    @PreUpdate 
+    @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }

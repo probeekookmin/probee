@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public enum PoliceStation {
-    SEOUL_GANGNAM("서울강남경찰서"),
-    SEOUL_GANGDONG("서울강동경찰서");
+    SEOUL_GANGNAM("서울강남경찰서", "seoulGangnam"),
+    SEOUL_GANGDONG("서울강동경찰서", "seoulGangdong");
 
-    private String kor;
+    private final String kor;
+    private final String value;
 
     // TODO: 전국 경찰서 추가
     // // 서울
@@ -47,7 +47,7 @@ public enum PoliceStation {
     // 서울중랑경찰서,
     // 서울중부경찰서,
     // 서울혜화경찰서,
-    
+
     // // 부산
     // 부산광역시경찰청,
     // 부산강서경찰서,
@@ -243,7 +243,7 @@ public enum PoliceStation {
     // 전주완산경찰서,
     // 정읍경찰서,
     // 진안경찰서,
-    
+
     // // 전남
     // 전라남도경찰청,
     // 신안경찰서,

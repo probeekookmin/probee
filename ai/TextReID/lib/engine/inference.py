@@ -15,18 +15,17 @@ from lib.utils.caption import Caption
 from lib.data.encode.encoding import encode
 
 
-def compute_on_dataset(model, data_loader, cap, device):
+def compute_on_dataset(model, data_loader, cap, device, query):
     model.eval()
     results_dict = defaultdict(list)
-    caption = input("\nText Query Input: ")
+    print("query: ", query)
+    caption = query
     cap.append(caption)
     caption = encode(caption)
     caption = Caption([torch.tensor(caption)])
     for batch in tqdm(data_loader):
         images, captions, image_ids = batch
         images = images.to(device)
-        # captions = [captions[0].to(device)] # 첫 번째 캡션만 사용
-        # captions = [caption.to(device) for caption in captions]
         captions = [caption.to(device)]
         with torch.no_grad():
             output = model(images, captions)
@@ -63,6 +62,9 @@ def inference(
     output_folder="",
     save_data=True,
     rerank=True,
+    search_num=0,
+    query ="",
+    save_folder = "./output/output.json"
 ):
     logger = logging.getLogger("PersonSearch.inference")
     dataset = data_loader.dataset
@@ -81,7 +83,7 @@ def inference(
         )
         start_time = time.time()
 
-        predictions, cap = compute_on_dataset(model, data_loader, [], device)
+        predictions, cap = compute_on_dataset(model, data_loader, [], device,query)
         # wait for all processes to complete before measuring the time
         synchronize()
         total_time = time.time() - start_time
@@ -104,4 +106,6 @@ def inference(
         rerank=rerank,
         topk=[1, 5, 10],
         cap=cap,
+        search_num=search_num,
+        save_folder = save_folder
     )

@@ -6,11 +6,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum BagType {
-    NONE("없음"),
-    BACKPACK("백팩"),
-    OTHERS("그 외");
+    NONE("없음", "none"),
+    BACKPACK("백팩", "backpack"),
+    OTHERS("그 외", "others");
 
     private final String kor;
+    private final String value;
 
     public static BagType fromKor(String kor) {
         for (BagType bagType : BagType.values()) {
