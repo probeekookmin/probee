@@ -31,12 +31,12 @@ const onFinish = (fieldsValue) => {
         fieldsValue["user"]["missingTime"].format("HH:mm") || "",
     missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
     description: fieldsValue["user"]["introduction"] || "특이사항 없음",
-    hairStyle: "긴 머리",
-    topType: "반팔",
-    topColor: "빨강",
-    bottomType: "반바지",
-    bottomColor: "빨강",
-    bagType: "백팩",
+    hairStyle: fieldsValue["hair"] || "",
+    topType: fieldsValue["topType"] || "",
+    topColor: fieldsValue["topColor"] || "",
+    bottomType: fieldsValue["bottomType"] || "",
+    bottomColor: fieldsValue["bottomColor"] || "",
+    bagType: fieldsValue["bag"] || "",
     guardianName: fieldsValue["guardian"]["name"],
     relationship: fieldsValue["guardian"]["relation"],
     phoneNumber: fieldsValue["guardian"]["contact"],
@@ -77,7 +77,7 @@ function AddMissingPersonPage() {
               </Typography.Title>
               <Divider />
               <MissingPersonInfo form={form} />
-              <WearingInfo />
+              <WearingInfo form={form} />
               <GuardianInfo />
             </Container>
             <Container>
