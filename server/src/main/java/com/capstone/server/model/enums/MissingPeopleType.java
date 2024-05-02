@@ -20,4 +20,13 @@ public enum MissingPeopleType {
         }
         throw new IllegalArgumentException("Invalid Korean MissingPeopleType: " + kor);
     }
+
+    public static String toKor(MissingPeopleType missingPeopleType) {
+        for (MissingPeopleType m : MissingPeopleType.values()) {
+            if (m.getValue().equals(missingPeopleType)) {
+                return String.valueOf(m);
+            }
+        }
+        throw new IllegalArgumentException("Can't find value: " + missingPeopleType);
+    }
 }

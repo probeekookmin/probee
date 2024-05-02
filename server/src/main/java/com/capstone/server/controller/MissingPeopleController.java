@@ -150,7 +150,12 @@ public class MissingPeopleController {
         }
 
         String imageName = String.format("missingPeopleId=%d/profile/001", id);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImageToS3(image, imageName, id)));
+        //todo 업로드한 주소를 받아서 db에 image경로 업로드
+        //s3에 이미지 업로드
+        S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
+        //경로를 받아서 db에 업로드
+        missingPeopleService.setProfileImagePath(id, s3UploadResponseDto.getUrl());
+        return ResponseEntity.ok().body(new SuccessResponse(s3UploadResponseDto));
     }
 
     //실종자 프로필 사진 가져오기

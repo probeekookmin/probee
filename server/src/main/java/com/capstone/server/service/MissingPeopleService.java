@@ -196,6 +196,13 @@ public class MissingPeopleService {
         return StepDto.fromEntity(missingPeople);
     }
 
+    public void setProfileImagePath(Long id, String imagePath) {
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        missingPeopleEntity.setProfileImage(imagePath);
+
+    }
+
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);
     //     searchHistoryService.getSearchHistoryById(searchHistoryId);
