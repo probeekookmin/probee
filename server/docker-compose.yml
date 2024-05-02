@@ -17,11 +17,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-#  spring-server:
-#    container_name: spring-server
-#    depends_on:
-#      - zookeeper
-#      - kafka
-#    image: suhwani/capstone:latest
-#    ports:
-#      - "8080:8080"
+  spring-server:
+    container_name: spring-server
+    depends_on:
+      - zookeeper
+      - kafka
+    image: suhwani/capstone:latest
+    ports:
+      - "8080:8080"
