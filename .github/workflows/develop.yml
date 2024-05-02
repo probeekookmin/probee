@@ -116,6 +116,7 @@ jobs:
         key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
+          sudo usermod -aG docker $USER
           if [ -n "$(docker ps -qa)" ]; then
               sudo docker rm -f $(docker ps -qa)
           fi
