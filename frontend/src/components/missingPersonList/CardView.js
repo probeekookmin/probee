@@ -98,7 +98,7 @@ export const CardView = ({ data }) => {
 };
 
 const StCardView = styled.div`
-  padding-top: 1.6rem;
+  // padding-top: 1.6rem;
   /* flex-grow: 1; */
 `;
 

@@ -68,9 +68,10 @@ const StMissingPersonListPage = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 4.4rem 5rem;
   gap: 2rem;
+  overflow: hidden;
 `;
 const TopContainer = styled.div`
   display: flex;
@@ -114,9 +115,12 @@ const FilterWrapper = styled(Radio.Group)`
 const StSearchBox = styled.div``;
 
 const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 1.4rem 4.4rem;
+  padding: 1.4rem 1.4rem 1.4rem 4.4rem;
+  gap: 1rem;
   border-radius: 1rem;
   background-color: white;
 `;
@@ -133,4 +137,18 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
   flex-basis: 100%;
   gap: 2.6rem;
+
+  width: 100%;
+  height: 100%;
+  padding-right: 3rem;
+  padding-bottom: 10rem;
+
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10rem;
+    background: #8b8b8b;
+  }
 `;
