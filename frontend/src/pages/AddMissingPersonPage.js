@@ -4,6 +4,7 @@ import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonIn
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
 import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
+import { postMissingPerson } from "../core/api";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -20,11 +21,37 @@ const onFinish = (fieldsValue) => {
   const rangeTimeValue = fieldsValue["searchPeriod"];
 
   const values = {
-    ...fieldsValue,
+    // ...fieldsValue,
+    missingPeopleName: fieldsValue["user"]["name"],
+    birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
+    gender: "성인 남성",
+    missingAt:
+      fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
+        "T" +
+        fieldsValue["user"]["missingTime"].format("HH:mm") || "",
+    missingLocation: "서울 성북구 정릉로 77",
+    description: fieldsValue["user"]["introduction"] || "특이사항 없음",
+    hairStyle: "긴 머리",
+    topType: "반팔",
+    topColor: "빨강",
+    bottomType: "반바지",
+    bottomColor: "빨강",
+    bagType: "백팩",
+    guardianName: fieldsValue["guardian"]["name"],
+    relationship: fieldsValue["guardian"]["relation"],
+    phoneNumber: fieldsValue["guardian"]["contact"],
+    startTime:
+      fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
+    endTime: fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
+    latitude: 37.610767,
+    longitude: 126.996967,
+    locationAddress: "서울 성북구 정릉로 77",
+    shoesColor: "빨강",
 
-    searchPeriod: [rangeTimeValue[0].format("YYYY-MM-DD HH:mm"), rangeTimeValue[1].format("YYYY-MM-DD HH:mm")],
+    // searchPeriod: [rangeTimeValue[0].format("YYYY-MM-DD HH:mm"), rangeTimeValue[1].format("YYYY-MM-DD HH:mm")],
   };
   console.log("Received values of form: ", values);
+  postMissingPerson(values);
 };
 
 function AddMissingPersonPage() {
