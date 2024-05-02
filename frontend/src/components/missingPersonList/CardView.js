@@ -99,12 +99,14 @@ export const CardView = ({ data }) => {
 
 const StCardView = styled.div`
   padding-top: 1.6rem;
+  /* flex-grow: 1; */
 `;
 
 const StCardItem = styled(Form)`
+  flex-grow: 1;
   width: 32rem;
   height: 20rem;
-  padding: 2.1rem;
+  padding: 2rem;
   background: ${(props) => (props.process ? "#E5F3FF" : "#F9FCFF")};
   border: ${(props) => (props.process ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;

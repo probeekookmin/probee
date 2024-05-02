@@ -13,6 +13,7 @@ function MissingPersonListPage() {
     setMissingPersonList(dummyAll);
     console.log(missingPersonList);
   }, []);
+
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
     setFilter(e.target.value);
@@ -51,7 +52,6 @@ function MissingPersonListPage() {
       <ContentsContainer>
         <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
         <CardContainer>
-          {" "}
           {missingPersonList.map((missingPerson) => {
             return <CardView key={missingPerson.id} data={missingPerson} />;
           })}
@@ -92,6 +92,7 @@ const FilterWrapper = styled(Radio.Group)`
     border-radius: 10rem;
     padding: 0.5rem 1.9rem;
     color: #8b8b8b;
+    background-color: white;
     font-size: 1.6rem;
   }
 
@@ -130,4 +131,6 @@ const CardContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+  flex-basis: 100%;
+  gap: 2.6rem;
 `;
