@@ -125,5 +125,5 @@ jobs:
         key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-          sudo docker-compose up 
+          sudo docker-compose up -d
               
