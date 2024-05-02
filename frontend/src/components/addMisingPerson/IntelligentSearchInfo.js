@@ -7,7 +7,7 @@ const config = {
     {
       //   type: "object",
       message: "탐색 위치를 입력해주세요!",
-      // required: true,
+      required: true,
     },
   ],
 };
