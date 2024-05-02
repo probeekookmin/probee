@@ -14,11 +14,11 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem(<Link to="/">Option 1</Link>, "1", <PieChartOutlined />),
-  getItem(<Link to="/a">Option 2</Link>, "2", <DesktopOutlined />),
-  getItem("Option 3", "3", <UserOutlined />),
-  getItem("Option 4", "4", <TeamOutlined />),
-  getItem("Option 5", "5", <FileOutlined />),
+  //getItem(<Link to="/">Option 1</Link>, "1", <PieChartOutlined />),
+  getItem(<Link to="/list">실종자 리스트</Link>, "2", <DesktopOutlined />),
+  getItem(<Link to="/report">실종자 리포트</Link>, "3", <UserOutlined />),
+  getItem(<Link to="/add">실종정보 등록</Link>, "4", <TeamOutlined />),
+  // getItem("Option 5", "5", <FileOutlined />),
 ];
 
 const Nav = () => {
@@ -28,11 +28,15 @@ const Nav = () => {
   const currentKey = () => {
     switch (selectedKey) {
       case "/":
-        return ["1"];
-      case "/a":
         return ["2"];
+      case "/list":
+        return ["2"];
+      case "/report":
+        return ["3"];
+      case "/add":
+        return ["4"];
       default:
-        return ["1"];
+        return ["3"];
     }
   };
 

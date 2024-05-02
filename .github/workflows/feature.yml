@@ -1,0 +1,52 @@
+name: Build for feature branch
+
+on:
+  push:
+    branches:
+      - feature/*
+  pull_request:
+    branches: 
+      - feature/*
+
+permissions:
+  contents: read
+
+
+jobs:
+  build_only:
+    runs-on: ubuntu-latest # ubuntu 최신 버전에서 script를 실행
+
+    steps:
+    
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: "adopt"
+
+    - name: Make folder resources
+      run: |
+          cd ./server/src/main
+          mkdir resources
+          cd resources
+    
+    - name: Make application.properties
+      run: |
+          cd ./server/src/main/resources
+          touch ./application.properties
+          echo "${{ secrets.PROPERTIES }}" > ./application.properties
+    
+    # gradle을 통해 소스를 빌드.
+    - name: Build with Gradle
+      run: |
+          cd server
+          chmod +x ./gradlew
+          ./gradlew clean build -x test
+
+    - name: Docker build
+      run: |
+          cd server
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
