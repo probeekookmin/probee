@@ -49,19 +49,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: Install Curl
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
-        username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
-        envs: GITHUB_SHA
-        script: |
-          if ! command -v curl &> /dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y curl
-          fi
-
     - name: Install Docker
       uses: appleboy/ssh-action@master
       with:
@@ -71,11 +58,28 @@ jobs:
         envs: GITHUB_SHA
         script: |
           if ! command -v docker &> /dev/null; then
+            if [[ "$OS_CHECK" =~ "ubuntu" ]] || [[ "$OS_CHECK" =~ "Ubuntu" ]]; then
               sudo apt-get update
-              curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.22.tgz -o docker-20.10.22.tgz
-              tar xzvf docker-20.10.22.tgz
+              sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+              sudo apt-key fingerprint 0EBFCD88 # 안해도 됨
+              sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+              sudo apt-get update
+              sudo apt-get install docker-ce docker-ce-cli containerd.io
+              sudo usermod -aG docker $USER
+              sudo service docker restart
+              echo "Docker for Ubuntu download complete!"
+            elif [[ "$OS_CHECK" =~ "centos" ]]; then
+              sudo yum install -y yum-utils
+              sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+              sudo yum install docker-ce docker-ce-cli containerd.io
               sudo systemctl start docker
-              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+              sudo service docker restart
+              echo "Docker for CentOS download complete!"
+            else
+              echo "check OS version is ubuntu or centos"
+            fi
           fi
     
     - name: Install Docker-compose
@@ -116,7 +120,6 @@ jobs:
         key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-          sudo usermod -aG docker $USER
           if [ -n "$(docker ps -qa)" ]; then
               sudo docker rm -f $(docker ps -qa)
           fi
