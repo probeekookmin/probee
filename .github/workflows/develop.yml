@@ -30,7 +30,7 @@ jobs:
       run: |
           cd ./server/src/main/resources
           touch ./application.properties
-          echo "${{ secrets.PROPERTIES }}" > ./application.properties
+          echo "${{ secrets.PROPERTIES_DEVELOP }}" > ./application.properties
     
     - name: Build with Gradle
       run: |
