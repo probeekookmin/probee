@@ -89,6 +89,7 @@ jobs:
             sudo rm docker-compose.yml
           fi
           echo "${{ secrets.DOCKER_COMPOSE }}" > docker-compose.yml
+          cat docker-compose.yml
     
     - name: Remove & Change Server Docker image
       uses: appleboy/ssh-action@master

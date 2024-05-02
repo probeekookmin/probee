@@ -1,4 +1,4 @@
-version: "3" # docker-compose 버전 지정
+version: "3" 
 services:
   zookeeper:
     image: wurstmeister/zookeeper
