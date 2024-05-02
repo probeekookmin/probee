@@ -29,7 +29,7 @@ const onFinish = (fieldsValue) => {
       fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
         "T" +
         fieldsValue["user"]["missingTime"].format("HH:mm") || "",
-    missingLocation: "서울 성북구 정릉로 77",
+    missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
     description: fieldsValue["user"]["introduction"] || "특이사항 없음",
     hairStyle: "긴 머리",
     topType: "반팔",
@@ -45,7 +45,7 @@ const onFinish = (fieldsValue) => {
     endTime: fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
     latitude: 37.610767,
     longitude: 126.996967,
-    locationAddress: "서울 성북구 정릉로 77",
+    locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
     shoesColor: "빨강",
 
     // searchPeriod: [rangeTimeValue[0].format("YYYY-MM-DD HH:mm"), rangeTimeValue[1].format("YYYY-MM-DD HH:mm")],
@@ -55,11 +55,18 @@ const onFinish = (fieldsValue) => {
 };
 
 function AddMissingPersonPage() {
+  const [form] = Form.useForm();
+
   return (
     <StAddMissingPersonPage>
       <Row>
         <Col span={15}>
-          <InfoForm layout="vertical" name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+          <InfoForm
+            layout="vertical"
+            form={form}
+            name="nest-messages"
+            onFinish={onFinish}
+            validateMessages={validateMessages}>
             <Container>
               <Typography.Title
                 level={3}
@@ -69,7 +76,7 @@ function AddMissingPersonPage() {
                 실종자 정보 등록
               </Typography.Title>
               <Divider />
-              <MissingPersonInfo />
+              <MissingPersonInfo form={form} />
               <WearingInfo />
               <GuardianInfo />
             </Container>
@@ -82,7 +89,7 @@ function AddMissingPersonPage() {
                 지능형 탐색 초기 정보 등록
               </Typography.Title>
               <Divider />
-              <IntelligentSearchInfo />
+              <IntelligentSearchInfo form={form} />
             </Container>
             <ButtonContainer>
               <Form.Item wrapperCol={{}}>

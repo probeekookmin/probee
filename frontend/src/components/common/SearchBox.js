@@ -5,7 +5,7 @@ import DaumPostcode from "react-daum-postcode";
 import { useState } from "react";
 
 //도로명 주소 검색
-export const SeacrchBox = ({ title }) => {
+export const SeacrchBox = ({ title, form, name }) => {
   const [openPostcode, setOpenPostcode] = useState(false);
 
   const [location, setLocation] = useState("");
@@ -18,6 +18,7 @@ export const SeacrchBox = ({ title }) => {
     // 주소 선택 이벤트
     selectAddress: (data) => {
       setLocation(data.address);
+      form.setFieldsValue({ [name]: data.address }); // 주소 정보를 Form.Item에 직접 설정
       setOpenPostcode(false);
     },
   };
