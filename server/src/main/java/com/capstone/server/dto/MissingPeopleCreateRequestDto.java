@@ -38,6 +38,9 @@ public class MissingPeopleCreateRequestDto {
     @NotNull
     private String description;
 
+    @NotNull
+    private String missingPeopleType; //실종자 타입
+
     // MissingPeopleDetail
     @NotBlank
     private String hairStyle;
@@ -98,6 +101,7 @@ public class MissingPeopleCreateRequestDto {
                 .missingLocation(missingLocation)
                 .description(description)
                 .status(Status.getDefault())
+                .missingPeopleType(MissingPeopleType.fromKor(missingPeopleType))
                 .build();
     }
 

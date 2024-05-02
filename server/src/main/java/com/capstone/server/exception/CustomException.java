@@ -27,7 +27,7 @@ public class CustomException extends RuntimeException {
         this.errorDetails = new HashMap<>();
         String[] parts = errorException.getMessage().split(":");
         String key = parts[0].trim();
-        String value = parts[0].trim();
+        String value = parts[0].trim(); //임의수정했음
         this.errorDetails.put(key, value);
     }
 }

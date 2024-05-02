@@ -55,7 +55,6 @@ public class MissingPeopleService {
             MissingPeopleDetailEntity missingPeopleDetailEntity = missingPeopleCreateRequestDto.toMissingPeopleDetailEntity();
             GuardianEntity guardianEntity = missingPeopleCreateRequestDto.toGuardianEntity();
             SearchHistoryEntity searchHistoryEntity = missingPeopleCreateRequestDto.toSearchHistoryEntity();
-            missingPeopleEntity.setStatus(Status.valueOf("SEARCHING"));
             missingPeopleEntity.setStep(Step.valueOf("FIRST"));
             // 연관관계 설정
             missingPeopleEntity.setMissingPeopleDetailEntity(missingPeopleDetailEntity);
@@ -70,7 +69,7 @@ public class MissingPeopleService {
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
             System.out.println("-----------------------");
             System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
-            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
+//            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
 
             return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
 
@@ -195,6 +194,13 @@ public class MissingPeopleService {
         MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
                 orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
         return StepDto.fromEntity(missingPeople);
+    }
+
+    public void setProfileImagePath(Long id, String imagePath) {
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        missingPeopleEntity.setProfileImage(imagePath);
+        missingPeopleRepository.save(missingPeopleEntity);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

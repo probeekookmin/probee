@@ -126,7 +126,7 @@ public class MissingPeopleController {
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
             //메시지 전송
-            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber());
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName());
             return ResponseEntity.ok().body(createResponse);
         }
     }
@@ -134,7 +134,6 @@ public class MissingPeopleController {
     //서버에 연산결과 등록
     @PostMapping("/detect")
     public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
-        System.out.println(detectionResultDto);
         detectService.postDetectionResult(detectionResultDto);
         return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
     }
@@ -149,9 +148,13 @@ public class MissingPeopleController {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.BAD_REQUEST);
         }
-
-        String imageName = String.format("missingPeopleId=%d/profile/001", id);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImageToS3(image, imageName, id)));
+        String imageName = String.format("missingPeopleId=%d/profile/" + image.getOriginalFilename(), id);
+        //todo 업로드한 주소를 받아서 db에 image경로 업로드
+        //s3에 이미지 업로드
+        S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
+        //경로를 받아서 db에 업로드
+        missingPeopleService.setProfileImagePath(id, s3UploadResponseDto.getUrl());
+        return ResponseEntity.ok().body(new SuccessResponse(s3UploadResponseDto));
     }
 
     //실종자 프로필 사진 가져오기
@@ -188,7 +191,6 @@ public class MissingPeopleController {
     ) {
         Step stepValue = Step.valueOf(step.toUpperCase()); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
-        System.out.println(imagePath);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
 

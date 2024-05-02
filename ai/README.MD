@@ -15,7 +15,7 @@ https://drive.google.com/file/d/1gd14A7uanCf5mPiJKeL2C1HJ_QHp6C7k/view?usp=drive
 
 ## 서버 실행 방법 
 ai 폴더에서
-ai서버 로컬 테스트 시 : uvicorn app:app --reload
+ai서버 로컬 테스트 시 : uvicorn app:app --reload --port 8080
 ai서버 정식 오픈 : nohup uvicorn app:app --host 0.0.0.0 --port 8080 --reload &
 
 ## 서버 환경변수 (.env 파일)

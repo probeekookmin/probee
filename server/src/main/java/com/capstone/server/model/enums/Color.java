@@ -1,9 +1,6 @@
 package com.capstone.server.model.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 
@@ -13,12 +10,11 @@ public enum Color {
     YELLOW("노랑", "yellow"),
     GREEN("초록", "green"),
     BLUE("파랑", "blue"),
+    PURPlE("보라", "purple"),
     PINK("분홍", "pink"),
-    GRAY("회색", "gray"),
     WHITE("흰색", "white"),
-    BROWN("갈색", "brown"),
-    DARK_COLORED("어두운 색", "darkColored"),
-    LIGHT_COLORED("밝은 색", "lightColored");
+    BLACK("검정", "BLACK"),
+    BROWN("갈색", "brown");
 
     private final String kor;
     private final String value;

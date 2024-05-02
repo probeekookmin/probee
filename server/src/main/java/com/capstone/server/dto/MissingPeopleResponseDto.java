@@ -1,14 +1,11 @@
 package com.capstone.server.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.capstone.server.model.MissingPeopleEntity;
-import com.capstone.server.model.enums.Gender;
-import com.capstone.server.model.enums.Status;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +17,8 @@ public class MissingPeopleResponseDto {
     private LocalDate birthdate;
     private LocalDateTime missingAt;
     private String missingLocation;
+    private String missingPeopleType;
+    private String profileImage;
 
     private MissingPeopleResponseDto(MissingPeopleEntity missingPeopleEntity) {
         this.id = missingPeopleEntity.getId();
@@ -30,6 +29,8 @@ public class MissingPeopleResponseDto {
         this.birthdate = missingPeopleEntity.getBirthdate();
         this.missingAt = missingPeopleEntity.getMissingAt();
         this.missingLocation = missingPeopleEntity.getMissingLocation();
+        this.missingPeopleType = missingPeopleEntity.getMissingPeopleType().getKor();
+        this.profileImage = missingPeopleEntity.getProfileImage();
     }
 
     public static MissingPeopleResponseDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
