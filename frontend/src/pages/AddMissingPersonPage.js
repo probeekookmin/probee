@@ -24,9 +24,11 @@ const onFinish = (fieldsValue) => {
     birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
     gender: fieldsValue["user"]["gender"],
     missingAt:
-      fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
-        "T" +
-        fieldsValue["user"]["missingTime"].format("HH:mm") || "",
+      (fieldsValue["user"]["missingTime"] &&
+        fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
+          "T" +
+          fieldsValue["user"]["missingTime"].format("HH:mm")) ||
+      "",
     missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
     description: fieldsValue["user"]["introduction"] || "특이사항 없음",
     hairStyle: fieldsValue["hair"] || "",
