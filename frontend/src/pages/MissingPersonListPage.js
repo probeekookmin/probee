@@ -133,7 +133,7 @@ const ExplainText = styled(Text)`
 const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
   flex-basis: 100%;
   gap: 2.6rem;
