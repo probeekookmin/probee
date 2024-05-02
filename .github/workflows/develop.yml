@@ -49,21 +49,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: Install Docker
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
-        username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
-        envs: GITHUB_SHA
-        script: |
-          if ! command -v docker &> /dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
-          fi
-    
     - name: Install Curl
       uses: appleboy/ssh-action@master
       with:
@@ -77,6 +62,23 @@ jobs:
             sudo apt-get install -y curl
           fi
 
+    - name: Install Docker
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        username: ubuntu
+        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.22.tgz -o docker-20.10.22.tgz
+              tar xzvf docker-20.10.22.tgz
+              tar xzvf docker-20.10.22.tgz
+              sudo systemctl start docker
+              sudo systemctl enable docker
+          fi
+    
     - name: Install Docker-compose
       uses: appleboy/ssh-action@master
       with:
@@ -86,7 +88,7 @@ jobs:
         envs: GITHUB_SHA
         script: |
           if ! command -v docker-compose &> /dev/null; then
-            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo curl -L "https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
             sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
           else
