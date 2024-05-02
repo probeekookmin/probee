@@ -112,9 +112,16 @@ jobs:
         envs: GITHUB_SHA
         script: |
           if [ -n "$(docker ps -qa)" ]; then
+              echo "Removing running containers..."
               sudo docker rm -f $(docker ps -qa)
+              while sudo docker image prune -f 2>&1 | grep -q "a prune operation is already running"; do
+                echo "Waiting for ongoing prune operation to complete..."
+                sleep 10
+              done
           fi
+
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
+          
           sudo docker image prune -f
 
     - name: Docker-compose Execute
