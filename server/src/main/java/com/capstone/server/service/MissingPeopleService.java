@@ -69,7 +69,7 @@ public class MissingPeopleService {
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
             System.out.println("-----------------------");
             System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
-            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
+//            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
 
             return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
 
