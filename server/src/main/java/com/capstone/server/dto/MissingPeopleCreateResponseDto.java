@@ -8,11 +8,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class MissingPeopleCreateResponseDto {
     private Long id;
-    private String name;
+    private String missingPeopleName;
 
     private MissingPeopleCreateResponseDto(MissingPeopleEntity missingPeopleEntity) {
         this.id = missingPeopleEntity.getId();
-        this.name = missingPeopleEntity.getName();
+        this.missingPeopleName = missingPeopleEntity.getName();
     }
 
     public static MissingPeopleCreateResponseDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
