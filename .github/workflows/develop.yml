@@ -1,10 +1,8 @@
-name: Build And Deploy for Main branch to test server
+name: Build And Deploy for develop branch to test server
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 permissions:
   contents: read
@@ -136,6 +134,3 @@ jobs:
         script: |
           sudo docker-compose up -d
               
-              
-# TODO : docker compose 추가하기, 현재 DB 설정이 AI 서버와 맞지 않아, 실행은 되나 정상 작동하지 않음. 
-#      : 추후 리팩토링 필요
