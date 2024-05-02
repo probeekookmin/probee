@@ -1,6 +1,7 @@
 package com.capstone.server.model;
 
 import com.capstone.server.model.enums.Gender;
+import com.capstone.server.model.enums.MissingPeopleType;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import jakarta.persistence.*;
@@ -60,6 +61,9 @@ public class MissingPeopleEntity {
     private Status status; //실종자 탐색 완료여부
     @Enumerated(EnumType.STRING)
     private Step step; // 보호자가 보는 현 실종자 탐색 단계
+    @Enumerated(EnumType.STRING)
+    private MissingPeopleType missingPeopleType;
+
     // @Enumerated(EnumType.STRING)
     // private PoliceStation policeStation;
 

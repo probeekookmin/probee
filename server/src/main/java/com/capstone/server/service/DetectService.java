@@ -9,7 +9,6 @@ import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.SearchResultEntity;
-import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.CCTVRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
@@ -83,7 +82,7 @@ public class DetectService {
             if (missingPeople != null && missingPeople.getQuery() == null) {
                 missingPeople.setKoQuery(detectionResultDto.getKoQuery());
                 missingPeople.setQuery(detectionResultDto.getQuery());
-                missingPeople.setStatus(Status.valueOf("IMAGE_SELECTING"));
+                missingPeople.setStep(Step.valueOf("BETWEEN"));
                 missingPeopleRepository.save(missingPeople);
             }
 

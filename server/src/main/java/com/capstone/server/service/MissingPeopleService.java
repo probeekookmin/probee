@@ -55,7 +55,6 @@ public class MissingPeopleService {
             MissingPeopleDetailEntity missingPeopleDetailEntity = missingPeopleCreateRequestDto.toMissingPeopleDetailEntity();
             GuardianEntity guardianEntity = missingPeopleCreateRequestDto.toGuardianEntity();
             SearchHistoryEntity searchHistoryEntity = missingPeopleCreateRequestDto.toSearchHistoryEntity();
-            missingPeopleEntity.setStatus(Status.valueOf("SEARCHING"));
             missingPeopleEntity.setStep(Step.valueOf("FIRST"));
             // 연관관계 설정
             missingPeopleEntity.setMissingPeopleDetailEntity(missingPeopleDetailEntity);
