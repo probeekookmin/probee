@@ -1,12 +1,18 @@
 import { Button, Input, Radio, Typography } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardView } from "../components/missingPersonList/CardView";
+import { dummyAll } from "../data/DummyData";
 const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
   const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
+  const [missingPersonList, setMissingPersonList] = useState([]);
+  useEffect(() => {
+    setMissingPersonList(dummyAll);
+    console.log(missingPersonList);
+  }, []);
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
     setFilter(e.target.value);
@@ -44,7 +50,14 @@ function MissingPersonListPage() {
       </TopContainer>
       <ContentsContainer>
         <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
-        <CardView />
+        <CardContainer>
+          {" "}
+          {missingPersonList.map((missingPerson) => {
+            return <CardView key={missingPerson.id} data={missingPerson} />;
+          })}
+        </CardContainer>
+
+        {/* <CardView /> */}
       </ContentsContainer>
     </StMissingPersonListPage>
   );
@@ -110,4 +123,11 @@ const ContentsContainer = styled.div`
 const ExplainText = styled(Text)`
   font-size: 1.2rem;
   color: #8b8b8b;
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 `;

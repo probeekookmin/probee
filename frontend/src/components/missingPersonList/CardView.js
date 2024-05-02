@@ -3,25 +3,36 @@ import styled from "styled-components";
 import emptyProfile from "../../assets/images/emptyProfile.svg";
 import { useEffect, useState } from "react";
 
-export const CardView = () => {
+export const CardView = ({ data }) => {
   const [form] = Form.useForm();
+  const [statusText, setStatusText] = useState("탐색중");
   const [status, setStatus] = useState(false); // [수정
 
   // 실종자 정보 적용
   useEffect(() => {
     form.setFieldsValue({
-      name: "홍길동",
-      birth: "1999.01.01",
-      gender: "남",
-      missingTime: "2021.08.01 12:00" + "경",
-      missingLocation: "서울시 강남구",
-      guardianName: "김영희",
-      relation: "부",
-      guardianContact: "010-1234-5678",
-      status: true,
+      name: data.name,
+      birth: data.birthdate,
+      gender: data.gender === "남성" ? "남" : "여",
+      missingTime: dateForm(data.missingAt),
+      missingLocation: data.missingLocation,
     });
-    setStatus(true);
+    setStatus(data.status === "searching" ? true : false);
+    setStatusText(data.status === "searching" ? "탐색중" : "종료");
   }, []);
+
+  const dateForm = (dateString) => {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hour = date.getHours().toString().padStart(2, "0");
+    const minute = date.getMinutes().toString().padStart(2, "0");
+
+    const formattedDate = `${year}.${month}.${day} ${hour}:${minute}경`;
+    return formattedDate;
+  };
 
   const InputForm = ({ label, name }) => {
     return (
@@ -65,7 +76,7 @@ export const CardView = () => {
             </Row>
             <Row>
               <Col>
-                <Badge process={status} text={"탐색중"} />
+                <Badge process={status} text={statusText} />
               </Col>
             </Row>
           </Col>
@@ -127,6 +138,6 @@ const BadgeItem = styled(Tag)`
   padding: 0.1rem 0.9rem;
   border-radius: 10rem;
   font-size: 1.2rem;
-  background: ${(props) => (props.process ? "#1890FF" : "white")};
+  background: ${(props) => (props.process ? "#1890FF" : "#dfe9f3")};
   color: white;
 `;
