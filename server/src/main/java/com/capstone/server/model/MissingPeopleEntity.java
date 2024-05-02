@@ -33,7 +33,7 @@ public class MissingPeopleEntity {
 
     @NotBlank
     private String name;
-
+    @Column(length = 1000)
     private String profileImage;
 
     @PastOrPresent

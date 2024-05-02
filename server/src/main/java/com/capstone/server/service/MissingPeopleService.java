@@ -200,7 +200,7 @@ public class MissingPeopleService {
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
         missingPeopleEntity.setProfileImage(imagePath);
-
+        missingPeopleRepository.save(missingPeopleEntity);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

@@ -148,8 +148,7 @@ public class MissingPeopleController {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.BAD_REQUEST);
         }
-
-        String imageName = String.format("missingPeopleId=%d/profile/001", id);
+        String imageName = String.format("missingPeopleId=%d/profile/" + image.getOriginalFilename(), id);
         //todo 업로드한 주소를 받아서 db에 image경로 업로드
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
@@ -192,7 +191,6 @@ public class MissingPeopleController {
     ) {
         Step stepValue = Step.valueOf(step.toUpperCase()); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
-        System.out.println(imagePath);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
 

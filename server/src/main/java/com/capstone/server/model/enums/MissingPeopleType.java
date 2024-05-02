@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MissingPeopleType {
     CHILD("아동", "child"),
-    INTELLECTUALLY_DISABLED("지적장애인", "disabled");
+    INTELLECTUALLY_DISABLED("지적장애", "disabled");
 
     private final String kor;
     private final String value;
