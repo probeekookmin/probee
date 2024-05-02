@@ -74,7 +74,6 @@ jobs:
               sudo apt-get update
               curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.22.tgz -o docker-20.10.22.tgz
               tar xzvf docker-20.10.22.tgz
-              tar xzvf docker-20.10.22.tgz
               sudo systemctl start docker
               sudo systemctl enable docker
           fi
@@ -117,7 +116,9 @@ jobs:
         key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
-          sudo docker rm -f $(docker ps -qa)
+          if [ -n "$(docker ps -qa)" ]; then
+              sudo docker rm -f $(docker ps -qa)
+          fi
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
           sudo docker image prune -f
 
