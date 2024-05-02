@@ -18,10 +18,7 @@ const validateMessages = {
 };
 
 const onFinish = (fieldsValue) => {
-  const rangeTimeValue = fieldsValue["searchPeriod"];
-
   const values = {
-    // ...fieldsValue,
     missingPeopleName: fieldsValue["user"]["name"],
     birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
     gender: "성인 남성",
@@ -47,8 +44,7 @@ const onFinish = (fieldsValue) => {
     longitude: 126.996967,
     locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
     shoesColor: "빨강",
-
-    // searchPeriod: [rangeTimeValue[0].format("YYYY-MM-DD HH:mm"), rangeTimeValue[1].format("YYYY-MM-DD HH:mm")],
+    missingPeopleType: "아동",
   };
   console.log("Received values of form: ", values);
   postMissingPerson(values);
