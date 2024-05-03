@@ -46,8 +46,8 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
             @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria
     ) {
-        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria));
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
 
     @GetMapping("/status")
@@ -58,8 +58,8 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
             @RequestParam(required = true, value = "status") String status
     ) {
-        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
 
     @GetMapping("/name")
@@ -70,8 +70,8 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
             @RequestParam(required = true, value = "name") String name
     ) {
-        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
 
     @GetMapping("/name/status")
@@ -83,15 +83,17 @@ public class MissingPeopleController {
             @RequestParam(required = true, value = "name") String name,
             @RequestParam(required = true, value = "status") String status
     ) {
-        List<MissingPeopleResponseDto> missingPeopleResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDtos));
+        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
 
     // MissingPeople 하나 가져오기
     @GetMapping("/{id}")
     public ResponseEntity<?> getMissingPeopleById(@PathVariable Long id) {
-        MissingPeopleResponseDto missingPeopleResponseDto = missingPeopleService.getMissingPeopleById(id);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleResponseDto));
+
+        //todo : 리스트용이랑 창에띄어줄용 구분해야될듯
+        MissingPeopleDetailResponseDto missingPeopleDetailResponseDto = missingPeopleService.getMissingPeopleById(id);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleDetailResponseDto));
     }
 
     // TODO : AI 모델 탐색 코드 추가
@@ -164,6 +166,12 @@ public class MissingPeopleController {
         return ResponseEntity.ok(new SuccessResponse(missingPeopleService.downloadImageFromS3(imagePath, id)));
     }
 
+    //검색기록 가져오기
+    @GetMapping("/{id}/search-history")
+    public ResponseEntity<?> getSearchHistoryList(@PathVariable Long id) {
+        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.getSearchHistoryList(id)));
+    }
+
     //탐색결과 이미지 등록하기 (안쓸듯)
     @PostMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> uploadProfileImageToS3(
@@ -212,5 +220,6 @@ public class MissingPeopleController {
     public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
         return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
     }
+
 
 }
