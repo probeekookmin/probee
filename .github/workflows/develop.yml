@@ -49,6 +49,16 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+    - name: Set LocalTime Asia/Seoul
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_PUBLIC_IP }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        envs: GITHUB_SHA
+        script: |
+          sudo timedatectl set-timezone Asia/Seoul
+          
     - name: Install Docker
       uses: appleboy/ssh-action@master
       with:
