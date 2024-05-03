@@ -52,9 +52,9 @@ def train(cfg, output_dir, local_rank, distributed, resume_from, use_tensorboard
         if 'layer4' in name:  # 마지막 레이어의 이름 확인 필요
             param.requires_grad = True
 
-    """# 텍스트 모델의 GRU 레이어 학습 활성화 (GRU가 최종 레이어라고 가정)
+   # 텍스트 모델의 GRU 레이어 학습 활성화 (GRU가 최종 레이어라고 가정)
     for param in model.textual_model.gru.parameters():
-        param.requires_grad = True"""
+        param.requires_grad = True
 
     optimizer = make_optimizer(cfg, model)
     scheduler = make_lr_scheduler(cfg, optimizer)
