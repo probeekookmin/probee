@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { Form, Typography, Select, Row, Col } from "antd";
 //import { DownOutlined } from "@ant-design/icons";
 import { bagItems, bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
-
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
+const { Option } = Select;
+// const onChange = (value) => {
+//   console.log(`selected ${value}`);
+// };
 const onSearch = (value) => {
   console.log("search:", value);
 };
@@ -13,19 +13,31 @@ const onSearch = (value) => {
 // Filter `option.label` match the user type `input`
 const filterOption = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-export const WearingInfo = () => {
-  const SelectItem = ({ items, placeholder }) => {
+export const WearingInfo = ({ form }) => {
+  const onChange = (value, name) => {
+    form.setFieldsValue({
+      [name]: value,
+    });
+  };
+  const SelectItem = ({ items, placeholder, name }) => {
     return (
       <Select
         showSearch
         placeholder={placeholder}
         optionFilterProp="children"
-        onChange={onChange}
+        onChange={(value) => onChange(value, name)}
         onSearch={onSearch}
         filterOption={filterOption}
         options={items}
         style={{ width: "14rem" }}
       />
+      // <Select style={{ width: "14rem" }} name={name}>
+      //   {items.map((item) => (
+      //     <Option key={item.key} value={item.value}>
+      //       {item.label}
+      //     </Option>
+      //   ))}
+      // </Select>
     );
   };
 
@@ -43,32 +55,41 @@ export const WearingInfo = () => {
         <Col span={12}>
           {" "}
           <SetContainer>
-            <Form.Item name={["wearing", "topType"]} label="상의">
-              <SelectItem items={topItems} placeholder={"유형 선택"} />
+            {/* <Form.Item label="상의">
+              <Form.Item name={["wearing", "topType"]}>
+                <SelectItem items={topItems} placeholder={"유형 선택"} name={["wearing", "topType"]} />
+              </Form.Item>
+              <Form.Item name={["wearing", "topColor"]} initialValue="">
+                <SelectItem items={colorItems} placeholder={"색상 선택"} name={["wearing", "topColor"]} />
+              </Form.Item>
+            </Form.Item> */}
+
+            <Form.Item name="topType" label="상의">
+              <SelectItem items={topItems} placeholder={"유형 선택"} name="topType" />
             </Form.Item>
-            <Form.Item name={["wearing", "topColor"]} label="  ">
-              <SelectItem items={colorItems} placeholder={"색상 선택"} />
+            <Form.Item name="topColor" label="  ">
+              <SelectItem items={colorItems} placeholder={"색상 선택"} name="topColor" />
             </Form.Item>
           </SetContainer>
         </Col>
         <Col span={12}>
           <SetContainer>
-            <Form.Item name={["wearing", "bottomType"]} label="하의">
-              <SelectItem items={bottomItems} placeholder={"유형 선택"} />
+            <Form.Item name="bottomType" label="하의">
+              <SelectItem items={bottomItems} placeholder={"유형 선택"} name="bottomType" />
             </Form.Item>
-            <Form.Item name={["wearing", "bottomColor"]} label="  ">
-              <SelectItem items={colorItems} placeholder={"색상 선택"} />
+            <Form.Item name="bottomColor" label="  ">
+              <SelectItem items={colorItems} placeholder={"색상 선택"} name="bottomColor" />
             </Form.Item>
           </SetContainer>
         </Col>
         <Col span={8}>
-          <Form.Item name={["wearing", "hair"]} label="머리스타일">
-            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} />
+          <Form.Item name="hair" label="머리스타일">
+            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} name="hair" />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item name={["wearing", "bag"]} label="가방">
-            <SelectItem items={bagItems} placeholder={"가방 선택"} />
+          <Form.Item name="bag" label="가방">
+            <SelectItem items={bagItems} placeholder={"가방 선택"} name="bag" />
           </Form.Item>
         </Col>
       </Row>

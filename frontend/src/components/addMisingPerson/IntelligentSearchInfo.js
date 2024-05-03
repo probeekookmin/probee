@@ -20,14 +20,14 @@ const rangeConfig = {
     },
   ],
 };
-export const IntelligentSearchInfo = () => {
+export const IntelligentSearchInfo = ({ form }) => {
   return (
     <StIntelligentSearchInfo>
       <Form.Item name="searchPeriod" label="탐색 기간" {...rangeConfig}>
         <RangePicker showTime format="YYYY-MM-DD HH:mm" placeholder={["시작일시", "종료일시"]} />
       </Form.Item>
-      <Form.Item name={["search", "searchLocation"]} label="탐색 위치" {...config}>
-        <SeacrchBox title={"탐색 위치"} />
+      <Form.Item name="searchLocation" label="탐색 위치" {...config}>
+        <SeacrchBox title={"탐색 위치"} form={form} name="searchLocation" />
       </Form.Item>
     </StIntelligentSearchInfo>
   );
