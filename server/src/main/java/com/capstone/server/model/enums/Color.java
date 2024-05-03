@@ -13,7 +13,7 @@ public enum Color {
     PURPlE("보라", "purple"),
     PINK("분홍", "pink"),
     WHITE("흰색", "white"),
-    BLACK("검정", "BLACK"),
+    BLACK("검정", "black"),
     BROWN("갈색", "brown");
 
     private final String kor;

@@ -54,9 +54,9 @@ jobs:
     - name: Install Docker
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           if ! command -v docker &> /dev/null; then
@@ -71,6 +71,7 @@ jobs:
               "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
               "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
             sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt-get update
             sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
             sudo docker run hello-world
           fi
@@ -78,9 +79,9 @@ jobs:
     - name: Install Docker-compose
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           if ! command -v docker-compose &> /dev/null; then
@@ -94,9 +95,9 @@ jobs:
     - name: Remove & Change docker-compose file
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           if [ -f docker-compose.yml ]; then
@@ -108,9 +109,9 @@ jobs:
     - name: Remove & Change Server Docker image
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           if [ -n "$(docker ps -qa)" ]; then
@@ -129,13 +130,9 @@ jobs:
     - name: Docker-compose Execute
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
+        host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           sudo docker-compose up -d
-              
-              
-# TODO : docker compose 추가하기, 현재 DB 설정이 AI 서버와 맞지 않아, 실행은 되나 정상 작동하지 않음. 
-#      : 추후 리팩토링 필요
