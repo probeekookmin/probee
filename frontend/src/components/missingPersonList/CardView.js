@@ -60,7 +60,7 @@ export const CardView = ({ data }) => {
       <StCardItem form={form} process={status}>
         <Row gutter={[13, 10]}>
           <Col span={8}>
-            <ProfileImage src={imgUrl} style={{ width: "8.8rem" }} />
+            <ProfileImage className="custom-image" src={imgUrl} style={{ width: "8.8rem", height: "8.8rem" }} />
           </Col>
           <Col span={16}>
             <Row>
