@@ -5,6 +5,7 @@ import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
 import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 import { postMissingPerson } from "../core/api";
+import { useNavigate } from "react-router-dom";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -17,44 +18,46 @@ const validateMessages = {
   },
 };
 
-const onFinish = (fieldsValue) => {
-  console.log("gender", fieldsValue["user"]["gender"]);
-  const values = {
-    missingPeopleName: fieldsValue["user"]["name"],
-    birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
-    gender: fieldsValue["user"]["gender"],
-    missingAt:
-      (fieldsValue["user"]["missingTime"] &&
-        fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
-          "T" +
-          fieldsValue["user"]["missingTime"].format("HH:mm")) ||
-      "",
-    missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
-    description: fieldsValue["user"]["introduction"] || "특이사항 없음",
-    hairStyle: fieldsValue["hair"] || "",
-    topType: fieldsValue["topType"] || "",
-    topColor: fieldsValue["topColor"] || "",
-    bottomType: fieldsValue["bottomType"] || "",
-    bottomColor: fieldsValue["bottomColor"] || "",
-    bagType: fieldsValue["bag"] || "",
-    guardianName: fieldsValue["guardian"]["name"],
-    relationship: fieldsValue["guardian"]["relation"],
-    phoneNumber: fieldsValue["guardian"]["contact"],
-    startTime:
-      fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
-    endTime: fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
-    latitude: 37.610767,
-    longitude: 126.996967,
-    locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
-    shoesColor: "빨강",
-    missingPeopleType: "아동",
-  };
-  console.log("Received values of form: ", values);
-  postMissingPerson(values);
-};
-
 function AddMissingPersonPage() {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const onFinish = (fieldsValue) => {
+    console.log("gender", fieldsValue["user"]["gender"]);
+    const values = {
+      missingPeopleName: fieldsValue["user"]["name"],
+      birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
+      gender: fieldsValue["user"]["gender"],
+      missingAt:
+        (fieldsValue["user"]["missingTime"] &&
+          fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
+            "T" +
+            fieldsValue["user"]["missingTime"].format("HH:mm")) ||
+        "",
+      missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
+      description: fieldsValue["user"]["introduction"] || "특이사항 없음",
+      hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "긴 머리",
+      topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "반팔",
+      topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "흰색",
+      bottomType: (fieldsValue["bottomType"] != "" && fieldsValue["bottomType"]) || "반바지",
+      bottomColor: (fieldsValue["bottomColor"] != "" && fieldsValue["bottomColor"]) || "분홍",
+      bagType: (fieldsValue["bag"] != "" && fieldsValue["bag"]) || "없음",
+      guardianName: fieldsValue["guardian"]["name"],
+      relationship: fieldsValue["guardian"]["relation"],
+      phoneNumber: fieldsValue["guardian"]["contact"],
+      startTime:
+        fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
+      endTime:
+        fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
+      latitude: 37.610767,
+      longitude: 126.996967,
+      locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
+      shoesColor: "빨강",
+      missingPeopleType: "아동",
+    };
+    console.log("Received values of form: ", values);
+    postMissingPerson(values);
+    navigate("/list");
+  };
 
   return (
     <StAddMissingPersonPage>

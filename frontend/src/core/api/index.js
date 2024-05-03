@@ -5,8 +5,9 @@ export const postMissingPerson = async (values) => {
   console.log("values", values);
   const data = axios
     .post(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people`,
-      // `${process.env.REACT_APP_API_ROOT}/api/missing-people/totalCreateTest`, // + 문자전송 및 연산
+      //   `${process.env.REACT_APP_API_ROOT}/api/missing-people`,
+      // + 문자전송 및 연산 테스트
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/totalCreateTest`,
       {
         ...values,
       },
