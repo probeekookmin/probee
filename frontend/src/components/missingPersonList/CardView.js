@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 export const CardView = ({ data }) => {
   const [form] = Form.useForm();
   const [statusText, setStatusText] = useState("탐색중");
-  const [status, setStatus] = useState(false); // [수정
+  const [status, setStatus] = useState(false);
+  const [imgUrl, setImgUrl] = useState("emptyProfile");
 
   // 실종자 정보 적용
   useEffect(() => {
@@ -19,6 +20,7 @@ export const CardView = ({ data }) => {
     });
     setStatus(data.status === "searching" ? true : false);
     setStatusText(data.status === "searching" ? "탐색중" : "종료");
+    setImgUrl(data.profileImage);
   }, []);
 
   const dateForm = (dateString) => {
@@ -58,7 +60,7 @@ export const CardView = ({ data }) => {
       <StCardItem form={form} process={status}>
         <Row gutter={[13, 10]}>
           <Col span={8}>
-            <ProfileImage src={emptyProfile} style={{ width: "8.8rem" }} />
+            <ProfileImage src={imgUrl} style={{ width: "8.8rem" }} />
           </Col>
           <Col span={16}>
             <Row>
