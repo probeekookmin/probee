@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -82,61 +83,68 @@ public class MissingPeopleService {
         }
     }
 
-    public List<MissingPeopleResponseDto> getAllMissingPeople(int page, int pageSize, MissingPeopleSortBy sortBy) {
+    public List<MissingPeopleListResponseDto> getAllMissingPeople(int page, int pageSize, MissingPeopleSortBy sortBy) {
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findAll(pageable);
 
-        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+                .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
 
-    public List<MissingPeopleResponseDto> getAllMissingPeopleByStatus(int page, int pageSize, MissingPeopleSortBy sortBy, Status status) {
+    public List<MissingPeopleListResponseDto> getAllMissingPeopleByStatus(int page, int pageSize, MissingPeopleSortBy sortBy, Status status) {
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByStatus(pageable, status);
 
-        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+                .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
 
-    public List<MissingPeopleResponseDto> getAllMissingPeopleByNameContaining(int page, int pageSize, MissingPeopleSortBy sortBy, String name) {
+    public List<MissingPeopleListResponseDto> getAllMissingPeopleByNameContaining(int page, int pageSize, MissingPeopleSortBy sortBy, String name) {
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
 
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContaining(pageable, name.trim());
 
-        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+                .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
 
-    public List<MissingPeopleResponseDto> getAllMissingPeopleByNameContainingAndStatus(int page, int pageSize, MissingPeopleSortBy sortBy, String name, Status status) {
+    public List<MissingPeopleListResponseDto> getAllMissingPeopleByNameContainingAndStatus(int page, int pageSize, MissingPeopleSortBy sortBy, String name, Status status) {
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
 
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContainingAndStatus(pageable, name.trim(), status);
 
-        List<MissingPeopleResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
-                .map(MissingPeopleResponseDto::fromEntity) // 엔티티를 DTO로 변환
+        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+                .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
 
         return missingPeopleDtos;
     }
 
-    public MissingPeopleResponseDto getMissingPeopleById(Long id) {
+    public MissingPeopleDetailResponseDto getMissingPeopleById(Long id) {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
-            return MissingPeopleResponseDto.fromEntity(missingPeopleEntity);
+            MissingPeopleDetailResponseDto missingPeopleDetailResponseDto = MissingPeopleDetailResponseDto.fromEntity(missingPeopleEntity);
+            //보호자 정보 가져오기
+            GuardianEntity guardianEntity = guardianRepository.findByMissingPeopleEntityId(id);
+            missingPeopleDetailResponseDto.setGuardianName(guardianEntity.getName());
+            missingPeopleDetailResponseDto.setPhoneNumber(guardianEntity.getPhoneNumber());
+            missingPeopleDetailResponseDto.setRelationship(guardianEntity.getRelationship());
+
+            return missingPeopleDetailResponseDto;
         } catch (NoSuchElementException e) {
             throw new CustomException(ErrorCode.MISSING_PEOPLE_NOT_FOUND_BY_ID, e);
         } catch (Exception e) {
@@ -201,6 +209,17 @@ public class MissingPeopleService {
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
         missingPeopleEntity.setProfileImage(imagePath);
         missingPeopleRepository.save(missingPeopleEntity);
+    }
+
+    public List<SearchHistoryListDto> getSearchHistoryList(Long id) {
+        missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        List<SearchHistoryEntity> searchHistory = searchHistoryRepository.findByMissingPeopleEntityId(id);
+        List<SearchHistoryListDto> searchHistoryDtos = new ArrayList<>();
+        for (SearchHistoryEntity searchHistoryEntity : searchHistory) {
+            searchHistoryDtos.add(SearchHistoryListDto.fromEntity(searchHistoryEntity));
+        }
+        return searchHistoryDtos;
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
