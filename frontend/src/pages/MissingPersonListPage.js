@@ -4,19 +4,35 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { CardView } from "../components/missingPersonList/CardView";
 import { dummyAll } from "../data/DummyData";
+import List from "rc-virtual-list";
+import { getAllMissingPerson } from "../core/api";
 const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
   const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
   const [missingPersonList, setMissingPersonList] = useState([]);
+  const ContainerHeight = 1000;
   useEffect(() => {
-    setMissingPersonList(dummyAll);
+    //setMissingPersonList(dummyAll);
+    getAllMissingPerson(1).then((res) => {
+      setMissingPersonList(res.data);
+      console.log("getData", res);
+    });
     console.log(missingPersonList);
   }, []);
 
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
     setFilter(e.target.value);
+  };
+
+  const onScroll = (e) => {
+    if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - ContainerHeight) <= 1) {
+      getAllMissingPerson(1).then((res) => {
+        setMissingPersonList(res);
+        console.log("missingPersonList", missingPersonList);
+      });
+    }
   };
   const Filter = () => {
     return (
@@ -51,10 +67,14 @@ function MissingPersonListPage() {
       </TopContainer>
       <ContentsContainer>
         <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
+        {/* <List data={missingPersonList} height={ContainerHeight} itemHeight={200} itemKey="id" onScroll={onScroll}>
+          {(item) => <CardView key={item.id} data={item} />}
+        </List> */}
         <CardContainer>
-          {missingPersonList.map((missingPerson) => {
-            return <CardView key={missingPerson.id} data={missingPerson} />;
-          })}
+          {missingPersonList &&
+            missingPersonList.map((missingPerson) => {
+              return <CardView key={missingPerson.id} data={missingPerson} />;
+            })}
         </CardContainer>
 
         {/* <CardView /> */}
