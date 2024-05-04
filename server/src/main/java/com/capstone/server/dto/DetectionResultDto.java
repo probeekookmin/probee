@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class DetectionResultDto {
-    long searchId;
-    long missingPeopleId;
+    long searchId; //backend server에 결과 넣을 때 사용
+    long missingPeopleId; //backend server에 결과 넣을 때 사용
     String query; //영어쿼리
-    String koQuery; //한국어 쿼리
+    String koQuery; //한국어 쿼리 //요청에 영어쿼리가 있으면 도착안함
     List<ImageData> data;
 
     @Data
@@ -36,6 +36,7 @@ public class DetectionResultDto {
                     .build();
         }
 
+        //파일명에 저장된 사진의 시간정보 파싱.
         LocalDateTime extractDateTime(String s) {
             String[] temp = s.split("/");
             String lastPart = temp[temp.length - 1];
