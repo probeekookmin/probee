@@ -14,6 +14,7 @@ import com.capstone.server.service.S3Service;
 import com.capstone.server.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -31,6 +32,10 @@ import java.util.Objects;
 @RequestMapping("/api/missing-people")
 public class MissingPeopleController {
 
+    @Value("${cloud.aws.s3.bucketName}")
+    private String bucketName;
+    @Value("${cloud.aws.region.static}")
+    private String region;
     @Autowired
     private MissingPeopleService missingPeopleService;
     @Autowired
@@ -126,14 +131,16 @@ public class MissingPeopleController {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.BAD_REQUEST);
         }
-        String imageName = String.format("missingPeopleId=%d/profile/" + image.getOriginalFilename(), id);
+        String imageName = String.format("missingPeopleId=%d/profile/001", id);
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
-        //경로를 받아서 db에 업로드
-        System.out.println(s3UploadResponseDto.getPath());
-        System.out.println(s3UploadResponseDto.getUrl());
 
-        missingPeopleService.setProfileImagePath(id, s3UploadResponseDto.getUrl());
+        String s3ProfileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + imageName; 
+        String originalFilename = image.getOriginalFilename(); //원본 파일 명
+        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        s3UploadResponseDto.setUrl(s3ProfileUrl + extension);
+        missingPeopleService.setProfileImagePath(id, s3ProfileUrl + extension);
         return ResponseEntity.ok().body(new SuccessResponse(s3UploadResponseDto));
     }
 
