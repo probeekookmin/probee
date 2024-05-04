@@ -6,6 +6,7 @@ import com.capstone.server.dto.*;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.*;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
+import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.*;
@@ -221,7 +222,7 @@ public class MissingPeopleService {
         return searchHistoryDtos;
     }
 
-    public List<SearchResultDto> getSearchResultBySearchId(long id, long searchId) {
+    public List<SearchResultDto> getSearchResultBySearchId(long id, long searchId, int page, int pageSize, SearchResultSortBy sortBy) {
         //유효성검사
         missingPeopleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
@@ -230,13 +231,13 @@ public class MissingPeopleService {
         if (!Objects.equals(searchHistory.getMissingPeopleEntity().getId(), id)) {
             throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR);
         }
-        System.out.println("sdfsadfsadfsadfsadfsadfsad : " + searchHistory.getId());
-        List<SearchResultEntity> searchResultEntities = searchResultRepository.findAllBySearchHistoryEntity(searchHistory);
-        List<SearchResultDto> searchResultDtos = new ArrayList<>();
-        for (SearchResultEntity searchResultEntity : searchResultEntities) {
-            searchResultDtos.add(SearchResultDto.fromEntity(searchResultEntity));
-        }
-        return searchResultDtos;
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
+        Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
+
+        return searchResultPages.getContent().stream()
+                .map(SearchResultDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

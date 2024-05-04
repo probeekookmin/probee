@@ -4,6 +4,7 @@ import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
+import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
@@ -50,14 +51,16 @@ public class MissingPeopleController {
     ) {
         List<MissingPeopleListResponseDto> missingPeopleListResponseDtos;
 
+        MissingPeopleSortBy sortBy = MissingPeopleSortBy.fromValue(criteria);
+        Status statusValue = Status.fromValue(status);
         if (name != null && status != null) {
-            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, sortBy, name, statusValue);
         } else if (name != null) {
-            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, sortBy, name);
         } else if (status != null) {
-            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, sortBy, statusValue);
         } else {
-            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria));
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, sortBy);
         }
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
@@ -169,9 +172,13 @@ public class MissingPeopleController {
     public ResponseEntity<?> getSearchResult(
             @PathVariable Long id,
             @RequestParam(required = false, value = "step") String step,
-            @RequestParam(required = false, defaultValue = "0", value = "search-id") long searchId
+            @RequestParam(required = false, defaultValue = "0", value = "search-id") long searchId,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
     ) {
         List<SearchResultDto> searchResultDtos = null;
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         if (step == null && searchId == 0) {
             Map<String, String> map = new HashMap<>();
             map.put("RequestParamError",
@@ -181,11 +188,11 @@ public class MissingPeopleController {
         } else if (step != null) {
             //해당 step의 가장 최신 검색결과 가져오기
             //테스트를 위해 더미로 보내줌
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15);
+            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15, page - 1, pageSize, sortBy);
         } else if (searchId != 0) {
             //searchId에 해당하는 검색기록 가져오기
             //테스트를 위해 더미로 보내줌
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15);
+            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15, page - 1, pageSize, sortBy);
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultDtos));
     }
