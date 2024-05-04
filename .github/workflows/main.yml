@@ -113,7 +113,7 @@ jobs:
           if [ -f docker-compose.yml ]; then
             sudo rm docker-compose.yml
           fi
-          curl -o docker-compose.yml -L https://raw.githubusercontent.com/kookmin-sw/capstone-2024-14/develop/server/docker-compose.yml
+          curl -o docker-compose.yml -L https://raw.githubusercontent.com/kookmin-sw/capstone-2024-14/main/server/docker-compose.yml
           cat docker-compose.yml
     
     - name: Remove & Change Server Docker image
