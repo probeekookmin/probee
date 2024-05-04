@@ -196,8 +196,9 @@ public class MissingPeopleController {
         }
         if (step != null) {
             //해당 step의 가장 최신 검색결과 가져오기
+            //테스트를 위해 더미로 보내줌
             Step searchStep = Step.fromValue(step);
-            searchResultDtos = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy);
+            searchResultDtos = missingPeopleService.getSearchResultByStep(2, searchStep, page - 1, pageSize, sortBy);
         }
         if (searchId != 0) {
             //searchId에 해당하는 검색기록 가져오기
