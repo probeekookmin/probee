@@ -44,6 +44,13 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
           docker push ${{ secrets.DOCKER_REPO }}:latest
+    
+    - name: Frontend Docker build & push to docker repo
+      run: |
+          cd frontend
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_FRONTEND_REPO }}:latest .
+          docker push ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
 
   pull-and-deploy:
     needs: build-and-push
@@ -131,6 +138,7 @@ jobs:
           fi
 
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
+          sudo docker pull ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
           
           sudo docker image prune -f
 
