@@ -91,12 +91,11 @@ public class DetectService {
 
             //imgaepath한줄씩 database에 업로드
             for (DetectionResultDto.ImageData imageData : detectionResultDto.getData()) {
-                SearchResultEntity searchResult = detectionResultDto.toSearchResultEntity();
+                SearchResultEntity searchResult = imageData.toSearchResultEntity();
                 searchResult.setSearchHistoryEntity(searchHistory);
 
                 CCTVEntity cctvEntity = cctvRepository.getReferenceById(imageData.getCctvId());
                 searchResult.setCctvEntity(cctvEntity);
-                searchResult.setImageUrl(imageData.getImg_path());
                 searchResultRepository.save(searchResult);
             }
         } catch (Exception e) {
