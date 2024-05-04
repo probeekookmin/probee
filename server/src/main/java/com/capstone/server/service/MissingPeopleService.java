@@ -49,8 +49,8 @@ public class MissingPeopleService {
     private SearchResultRepository searchResultRepository;
 
     @Transactional
-    // public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
-    public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
+
+    public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) throws CustomException {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleCreateRequestDto.toMissingPeopleEntity();
             MissingPeopleDetailEntity missingPeopleDetailEntity = missingPeopleCreateRequestDto.toMissingPeopleDetailEntity();
@@ -67,7 +67,6 @@ public class MissingPeopleService {
 
             // 검색 기록 추가
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
-
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
             System.out.println("-----------------------");
             System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
@@ -78,7 +77,6 @@ public class MissingPeopleService {
         } catch (DataIntegrityViolationException e) {
             // TODO : 에러 처리 확실히 분리해서 대응 변경
             throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR, e);
-
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
@@ -134,7 +132,7 @@ public class MissingPeopleService {
         return missingPeopleDtos;
     }
 
-    public MissingPeopleDetailResponseDto getMissingPeopleById(Long id) {
+    public MissingPeopleDetailResponseDto getMissingPeopleById(Long id) throws CustomException {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
@@ -156,7 +154,7 @@ public class MissingPeopleService {
     @Transactional
     public void modifyStatus(Long id, Status status) {
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
 
         missingPeopleEntity.setStatus(status);
     }
