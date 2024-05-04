@@ -57,6 +57,7 @@ public class MissingPeopleService {
             GuardianEntity guardianEntity = missingPeopleCreateRequestDto.toGuardianEntity();
             SearchHistoryEntity searchHistoryEntity = missingPeopleCreateRequestDto.toSearchHistoryEntity();
             missingPeopleEntity.setStep(Step.valueOf("FIRST"));
+            searchHistoryEntity.setStep(Step.valueOf("FIRST"));
             // 연관관계 설정
             missingPeopleEntity.setMissingPeopleDetailEntity(missingPeopleDetailEntity);
             missingPeopleEntity.setGuardianEntity(guardianEntity);
@@ -229,8 +230,22 @@ public class MissingPeopleService {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findById(searchId).orElseThrow(() -> new NoSuchElementException("searchId not found with ID" + id));
         //id와 searchid가 맞지않으면 에러발생
         if (!Objects.equals(searchHistory.getMissingPeopleEntity().getId(), id)) {
-            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR);
+            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR, "Not matched", "missingPeople id and search-id Do not matched");
         }
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
+        Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
+
+        return searchResultPages.getContent().stream()
+                .map(SearchResultDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<SearchResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy) {
+//유효성검사
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityAndStepOrderByCreatedAtDesc(missingPeopleEntity, step);
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
         Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);

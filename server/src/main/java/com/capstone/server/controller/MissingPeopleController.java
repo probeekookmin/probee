@@ -73,7 +73,7 @@ public class MissingPeopleController {
     }
 
     // TODO : AI 모델 탐색 코드 추가
-
+    //실종자 등록
     @PostMapping()
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -180,19 +180,19 @@ public class MissingPeopleController {
         List<SearchResultDto> searchResultDtos = null;
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         if (step == null && searchId == 0) {
-            Map<String, String> map = new HashMap<>();
-            map.put("RequestParamError",
-                    "At least one of 'step' or 'searchId' must be provided.");
             //todo 예외처리
-            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, map);
-        } else if (step != null) {
+            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "At least one of 'step' or 'searchId' must be provided.");
+        } else if (step != null && searchId != 0) {
+            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "Can't provide both parameter.");
+        }
+        if (step != null) {
             //해당 step의 가장 최신 검색결과 가져오기
-            //테스트를 위해 더미로 보내줌
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15, page - 1, pageSize, sortBy);
-        } else if (searchId != 0) {
+            Step searchStep = Step.fromValue(step);
+            searchResultDtos = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy);
+        }
+        if (searchId != 0) {
             //searchId에 해당하는 검색기록 가져오기
-            //테스트를 위해 더미로 보내줌
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15, page - 1, pageSize, sortBy);
+            searchResultDtos = missingPeopleService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultDtos));
     }
