@@ -15,12 +15,11 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Not allowed method."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server error."),
 
-    USER_EXISTS(HttpStatus.CONFLICT, "user exists."),
+    DATA_INTEGRITY_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Invalid request."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user not found by id."),
-
     MISSING_PEOPLE_NOT_FOUND_BY_ID(HttpStatus.NOT_FOUND, "Not found by id."),
 
-    DATA_INTEGRITY_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Invalid request."),
+    USER_EXISTS(HttpStatus.CONFLICT, "user exists."),
 
     MESSAGE_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "message sending fail");
 

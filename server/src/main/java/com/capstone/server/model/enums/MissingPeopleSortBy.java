@@ -1,12 +1,11 @@
 package com.capstone.server.model.enums;
 
+import com.capstone.server.code.ErrorCode;
+import com.capstone.server.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
-
-import com.capstone.server.code.ErrorCode;
-import com.capstone.server.exception.CustomException;
 
 @Getter
 @AllArgsConstructor
@@ -18,8 +17,8 @@ public enum MissingPeopleSortBy {
 
     public static MissingPeopleSortBy fromValue(String value) {
         return Arrays.stream(MissingPeopleSortBy.values())
-                     .filter(sortBy -> sortBy.value.equals(value.trim()))
-                     .findFirst()
-                     .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+                .filter(sortBy -> sortBy.value.equals(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST, "Sort value Error", "Wrong sort Value"));
     }
 }

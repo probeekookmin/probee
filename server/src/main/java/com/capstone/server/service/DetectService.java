@@ -57,7 +57,7 @@ public class DetectService {
 
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
     //todo : cctv 선정 알고리즘 반영 (이건 추후에 어떻게 파라미터를 넣고 결과가 오는지 알려주시면 연결하겠습니다)
-    public DetectionResponseDto callDetectAPI(Long id, Step step) {
+    public DetectionResponseDto callDetectAPI(Long id, Step step) throws CustomException {
         try {
             //과정1 : 실종자 id가 db에 있는지 확인합니다.
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
@@ -79,7 +79,7 @@ public class DetectService {
     }
 
     @Transactional
-    public void postDetectionResult(DetectionResultDto detectionResultDto) {
+    public void postDetectionResult(DetectionResultDto detectionResultDto) throws CustomException {
         try {
             //실종자 정보에 한국어 쿼리 업데이트
             //과정 1 : missing people id 있나 검사
