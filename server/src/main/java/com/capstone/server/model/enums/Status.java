@@ -37,7 +37,7 @@ public enum Status {
         return Arrays.stream(Status.values())
                 .filter(status -> status.value.equals(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST));
+                .orElseThrow(() -> new CustomException(ErrorCode.BAD_REQUEST, "Wrong status", "put 'searching' or 'exit'"));
         // TODO : 에러 수정
     }
 }

@@ -55,14 +55,16 @@ public class MissingPeopleController {
             @RequestParam(required = false, value = "status") String status
     ) {
         List<MissingPeopleListResponseDto> missingPeopleListResponseDtos;
-
+        Status statusValue;
         MissingPeopleSortBy sortBy = MissingPeopleSortBy.fromValue(criteria);
-        Status statusValue = Status.fromValue(status);
         if (name != null && status != null) {
+            statusValue = Status.valueOf(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, sortBy, name, statusValue);
         } else if (name != null) {
+
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, sortBy, name);
         } else if (status != null) {
+            statusValue = Status.valueOf(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, sortBy, statusValue);
         } else {
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, sortBy);
@@ -129,7 +131,7 @@ public class MissingPeopleController {
     ) {
         if (image == null || image.isEmpty()) {
             // TODO : 에러 수정
-            throw new CustomException(ErrorCode.BAD_REQUEST);
+            throw new CustomException(ErrorCode.BAD_REQUEST, "Empty Image Error", "please Upload Image ");
         }
         String imageName = String.format("missingPeopleId=%d/profile/001", id);
         //s3에 이미지 업로드
