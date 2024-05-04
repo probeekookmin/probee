@@ -228,7 +228,7 @@ public class MissingPeopleService {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findById(searchId).orElseThrow(() -> new NoSuchElementException("searchId not found with ID" + id));
         //id와 searchid가 맞지않으면 에러발생
         if (!Objects.equals(searchHistory.getMissingPeopleEntity().getId(), id)) {
-            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR,"Not matched","missingPeople id and search-id Do not matched");
+            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR, "Not matched", "missingPeople id and search-id Do not matched");
         }
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
