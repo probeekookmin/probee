@@ -240,6 +240,20 @@ public class MissingPeopleService {
                 .collect(Collectors.toList());
     }
 
+    public List<SearchResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy) {
+//유효성검사
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityAndStepOrderByCreatedAtDesc(missingPeopleEntity, step);
+
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
+        Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
+
+        return searchResultPages.getContent().stream()
+                .map(SearchResultDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);
     //     searchHistoryService.getSearchHistoryById(searchHistoryId);
