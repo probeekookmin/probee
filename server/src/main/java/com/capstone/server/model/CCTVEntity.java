@@ -1,18 +1,13 @@
 package com.capstone.server.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-
-import org.hibernate.annotations.Type;
-import org.locationtech.jts.geom.*;
 
 @Data
 @Builder
