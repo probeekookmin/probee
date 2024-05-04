@@ -191,6 +191,7 @@ public class MissingPeopleController {
     }
 
     //탐색결과 이미지 가져오기
+    //만약 이미지페스만 s3에서 받아온다고 하면 쓸 부분이 있을듯.
     @GetMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> downloadProfileImageFromS3(
             @PathVariable Long id,
