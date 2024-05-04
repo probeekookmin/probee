@@ -73,7 +73,7 @@ public class MissingPeopleController {
     }
 
     // TODO : AI 모델 탐색 코드 추가
-
+    //실종자 등록
     @PostMapping()
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
