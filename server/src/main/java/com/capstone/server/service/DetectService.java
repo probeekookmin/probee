@@ -97,6 +97,7 @@ public class DetectService {
                 CCTVEntity cctvEntity = cctvRepository.getReferenceById(imageData.getCctvId());
                 searchResult.setCctvEntity(cctvEntity);
                 searchResult.setImageUrl(imageData.getImg_path());
+                searchResult.setSimilarity(imageData.getSimilarity());
                 searchResultRepository.save(searchResult);
             }
         } catch (Exception e) {

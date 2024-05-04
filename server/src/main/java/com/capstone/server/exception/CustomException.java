@@ -1,13 +1,12 @@
 package com.capstone.server.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.capstone.server.code.ErrorCode;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
@@ -27,7 +26,11 @@ public class CustomException extends RuntimeException {
         this.errorDetails = new HashMap<>();
         String[] parts = errorException.getMessage().split(":");
         String key = parts[0].trim();
-        String value = parts[0].trim(); //임의수정했음
+        String value = parts[0].trim();
+        if (parts[1] != null) {
+            value = parts[1].trim();
+        }
+
         this.errorDetails.put(key, value);
     }
 }

@@ -2,6 +2,7 @@ package com.capstone.server.dto;
 
 
 import com.capstone.server.model.SearchResultEntity;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class DetectionResultDto {
     public static class ImageData {
         private String img_path;
         private Long cctvId;
+        @NotNull
         private double Similarity;
     }
 

@@ -4,17 +4,11 @@ package com.capstone.server.service;
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
 import com.capstone.server.exception.CustomException;
-import com.capstone.server.model.GuardianEntity;
-import com.capstone.server.model.MissingPeopleDetailEntity;
-import com.capstone.server.model.MissingPeopleEntity;
-import com.capstone.server.model.SearchHistoryEntity;
+import com.capstone.server.model.*;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
-import com.capstone.server.repository.GuardianRepository;
-import com.capstone.server.repository.MissingPeopleDetailRepository;
-import com.capstone.server.repository.MissingPeopleRepository;
-import com.capstone.server.repository.SearchHistoryRepository;
+import com.capstone.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -28,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.capstone.server.code.ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR;
 
 @Service
 public class MissingPeopleService {
@@ -47,6 +44,8 @@ public class MissingPeopleService {
     private SearchHistoryService searchHistoryService;
     @Autowired
     private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private SearchResultRepository searchResultRepository;
 
     @Transactional
     // public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
@@ -76,7 +75,7 @@ public class MissingPeopleService {
 
         } catch (DataIntegrityViolationException e) {
             // TODO : 에러 처리 확실히 분리해서 대응 변경
-            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, e);
+            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR, e);
 
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
@@ -220,6 +219,24 @@ public class MissingPeopleService {
             searchHistoryDtos.add(SearchHistoryListDto.fromEntity(searchHistoryEntity));
         }
         return searchHistoryDtos;
+    }
+
+    public List<SearchResultDto> getSearchResultBySearchId(long id, long searchId) {
+        //유효성검사
+        missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findById(searchId).orElseThrow(() -> new NoSuchElementException("searchId not found with ID" + id));
+        //id와 searchid가 맞지않으면 에러발생
+        if (!Objects.equals(searchHistory.getMissingPeopleEntity().getId(), id)) {
+            throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR);
+        }
+        System.out.println("sdfsadfsadfsadfsadfsadfsad : " + searchHistory.getId());
+        List<SearchResultEntity> searchResultEntities = searchResultRepository.findAllBySearchHistoryEntity(searchHistory);
+        List<SearchResultDto> searchResultDtos = new ArrayList<>();
+        for (SearchResultEntity searchResultEntity : searchResultEntities) {
+            searchResultDtos.add(SearchResultDto.fromEntity(searchResultEntity));
+        }
+        return searchResultDtos;
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

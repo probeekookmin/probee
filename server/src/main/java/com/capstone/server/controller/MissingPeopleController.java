@@ -39,59 +39,32 @@ public class MissingPeopleController {
     @Autowired
     private SmsService smsService;
 
-    @GetMapping()
-    public ResponseEntity<?> getAllMissingPeople(
+    @GetMapping("")
+    public ResponseEntity<?> getMissingPeopleList(
             // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
-            @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria
-    ) {
-        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria));
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<?> getAllMissingPeopleByStatus(
-            // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
-            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
+            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize,
             @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
-            @RequestParam(required = true, value = "status") String status
+            @RequestParam(required = false, value = "name") String name,
+            @RequestParam(required = false, value = "status") String status
     ) {
-        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
+        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos;
+
+        if (name != null && status != null) {
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
+        } else if (name != null) {
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
+        } else if (status != null) {
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), Status.fromValue(status));
+        } else {
+            missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria));
+        }
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
     }
 
-    @GetMapping("/name")
-    public ResponseEntity<?> getAllMissingPeopleByNameContaining(
-            // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
-            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
-            @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
-            @RequestParam(required = true, value = "name") String name
-    ) {
-        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
-    }
-
-    @GetMapping("/name/status")
-    public ResponseEntity<?> getAllMissingPeopleByNameContainingAndStatus(
-            // TODO : page 시작을 1로 맞추기 위해 -1 했음. 수정 필요
-            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "9", value = "size") int pageSize,
-            @RequestParam(required = false, defaultValue = "createdAt", value = "criteria") String criteria,
-            @RequestParam(required = true, value = "name") String name,
-            @RequestParam(required = true, value = "status") String status
-    ) {
-        List<MissingPeopleListResponseDto> missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, MissingPeopleSortBy.fromValue(criteria), name, Status.fromValue(status));
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleListResponseDtos));
-    }
-
-    // MissingPeople 하나 가져오기
+    // MissingPeople 디테일정보 가져오기 (실종자 리포트화면에 쓸거)
     @GetMapping("/{id}")
     public ResponseEntity<?> getMissingPeopleById(@PathVariable Long id) {
-
-        //todo : 리스트용이랑 창에띄어줄용 구분해야될듯
         MissingPeopleDetailResponseDto missingPeopleDetailResponseDto = missingPeopleService.getMissingPeopleById(id);
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleDetailResponseDto));
     }
@@ -151,10 +124,12 @@ public class MissingPeopleController {
             throw new CustomException(ErrorCode.BAD_REQUEST);
         }
         String imageName = String.format("missingPeopleId=%d/profile/" + image.getOriginalFilename(), id);
-        //todo 업로드한 주소를 받아서 db에 image경로 업로드
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
         //경로를 받아서 db에 업로드
+        System.out.println(s3UploadResponseDto.getPath());
+        System.out.println(s3UploadResponseDto.getUrl());
+
         missingPeopleService.setProfileImagePath(id, s3UploadResponseDto.getUrl());
         return ResponseEntity.ok().body(new SuccessResponse(s3UploadResponseDto));
     }
@@ -190,6 +165,31 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImagesToS3(images, imagePath, id, searchHistoryId)));
     }
 
+    @GetMapping("/{id}/search-result")
+    public ResponseEntity<?> getSearchResult(
+            @PathVariable Long id,
+            @RequestParam(required = false, value = "step") String step,
+            @RequestParam(required = false, defaultValue = "0", value = "search-id") long searchId
+    ) {
+        List<SearchResultDto> searchResultDtos = null;
+        if (step == null && searchId == 0) {
+            Map<String, String> map = new HashMap<>();
+            map.put("RequestParamError",
+                    "At least one of 'step' or 'searchId' must be provided.");
+            //todo 예외처리
+            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, map);
+        } else if (step != null) {
+            //해당 step의 가장 최신 검색결과 가져오기
+            //테스트를 위해 더미로 보내줌
+            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15);
+        } else if (searchId != 0) {
+            //searchId에 해당하는 검색기록 가져오기
+            //테스트를 위해 더미로 보내줌
+            searchResultDtos = missingPeopleService.getSearchResultBySearchId(2, 15);
+        }
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultDtos));
+    }
+
     //탐색결과 이미지 가져오기
     @GetMapping("/{id}/search-history/{searchHistoryId}/step/{step}")
     public ResponseEntity<?> downloadProfileImageFromS3(
@@ -209,6 +209,7 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStatus(stepDto)));
     }
 
+    //탐색 단계 가져오기
     @GetMapping("/{id}/step")
     public ResponseEntity<?> getStep(@PathVariable Long id) {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));

@@ -38,6 +38,7 @@ public class SearchResultEntity {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+    private double similarity;
 
     @PrePersist
     protected void onCreate() {
