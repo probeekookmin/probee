@@ -55,11 +55,11 @@ jobs:
     - name: Check Node v            # Node v 확인
       run: node -v
 
-    - name: Make Frontend .env
+    - name: Change Frontend .env
       run: |
-          cd ./frontend/.env
-          echo "" > ./.env  # 기존 내용 모두 삭제
-          echo "${{ secrets.FRONTEND_ENV_API_ROOT }}" >> ./.env 
+          rm -f ./frontend/.env
+          touch ./frontend/.env
+          echo "${{ secrets.FRONTEND_ENV_API_ROOT }}" >> ./frontend/.env 
       
     - name: Yarn Install Dependencies    # 의존 파일 설치
       run: yarn install --frozen-lockfile
