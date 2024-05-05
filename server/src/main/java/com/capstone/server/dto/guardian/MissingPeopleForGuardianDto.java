@@ -1,4 +1,4 @@
-package com.capstone.server.dto;
+package com.capstone.server.dto.guardian;
 
 import com.capstone.server.model.MissingPeopleEntity;
 import lombok.AllArgsConstructor;
@@ -17,11 +17,19 @@ public class MissingPeopleForGuardianDto {
     public MissingPeopleForGuardianDto(MissingPeopleEntity missingPeopleEntity) {
         this.missingPeopleName = missingPeopleEntity.getName();
         this.birthdate = missingPeopleEntity.getBirthdate();
-        this.profileImage = missingPeopleEntity.getProfileImage();
+        this.profileImage = imageCheck(missingPeopleEntity.getProfileImage());
         this.query = missingPeopleEntity.getQuery();
     }
 
     public static MissingPeopleForGuardianDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
         return new MissingPeopleForGuardianDto(missingPeopleEntity);
     }
+
+    public static String imageCheck(String imgUrl) {
+        if (imgUrl.equals("https://spring-server-image-storage.s3.ap-northeast-2.amazonaws.com/emptyProfile.svg")) {
+            return null;
+        }
+        return imgUrl;
+    }
+
 }
