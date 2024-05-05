@@ -75,7 +75,9 @@ jobs:
           docker push ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
 
   pull-and-deploy:
-    needs: build-and-push
+    needs: 
+      - server-build-and-push
+      - frontend-build-and-push
     runs-on: ubuntu-latest
     steps:
     - name: Set LocalTime Asia/Seoul
