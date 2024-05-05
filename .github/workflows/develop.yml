@@ -52,7 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Check Node v            # Node v 확인
+    - name: Check Node v   
       run: node -v
 
     - name: Change Frontend .env
@@ -61,11 +61,15 @@ jobs:
           touch ./frontend/.env
           echo "${{ secrets.FRONTEND_ENV_API_ROOT }}" >> ./frontend/.env 
       
-    - name: Yarn Install Dependencies    # 의존 파일 설치
-      run: yarn install --frozen-lockfile
+    - name: Yarn Install Dependencies 
+      run: |
+          cd ./frontend
+          yarn install --frozen-lockfile
 
-    - name: Yarn Build                   # React Build
-      run: yarn build
+    - name: Yarn Build                   
+      run: |
+          cd ./frontend
+          yarn build
     
     - name: Frontend Docker build & push to docker repo
       run: |
