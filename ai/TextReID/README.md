@@ -4,12 +4,16 @@
 pip install -r requirements.txt
 ```
 
+**pretrain된 weight는 아래의 주소에서 다운로드**
+[Google Drive Download](https://drive.google.com/file/d/1SxKozbdvjfVEPAGxvuD8bUGs5Sj4e-SM/view?usp=sharing): `output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth`
+
 **실행 코드**
 ```bash
 # train
 python train_net.py \
 --config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml \
 --data-dir datasets/cuhkpedes
+--pretrain-weight output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth
 ```
 ```bash
 # test
