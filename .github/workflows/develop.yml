@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-push:
+  server-build-and-push:
     runs-on: ubuntu-latest 
 
     steps:
@@ -45,12 +45,34 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
           docker push ${{ secrets.DOCKER_REPO }}:latest
     
-    - name: Frontend Docker build & push to docker repo
-      run: |
-          cd frontend
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_FRONTEND_REPO }}:latest .
-          docker push ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
+
+  frontend-build-and-push:
+    runs-on: ubuntu-latest 
+
+      steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Node v            # Node v 확인
+        run: node -v
+
+      - name: Make Frontend .env
+        run: |
+            cd ./frontend/.env
+            echo "" > ./.env  # 기존 내용 모두 삭제
+            echo "${{ secrets.FRONTEND_ENV_API_ROOT }}" >> ./.env 
+        
+      - name: Yarn Install Dependencies    # 의존 파일 설치
+        run: yarn install --frozen-lockfile
+
+      - name: Yarn Build                   # React Build
+        run: yarn build
+      
+      - name: Frontend Docker build & push to docker repo
+        run: |
+            cd frontend
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker build -f Dockerfile -t ${{ secrets.DOCKER_FRONTEND_REPO }}:latest .
+            docker push ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
 
   pull-and-deploy:
     needs: build-and-push
@@ -59,9 +81,9 @@ jobs:
     - name: Set LocalTime Asia/Seoul
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.EC2_PUBLIC_IP }}
+        host: ${{ secrets.TEST_EC2_PUBLIC_IP }}
         username: ubuntu
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
         script: |
           sudo timedatectl set-timezone Asia/Seoul
