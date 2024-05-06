@@ -1,4 +1,4 @@
-name: Build And Deploy for Main branch to test server
+name: Build And Deploy for Main branch to main server
 
 on:
   push:
