@@ -58,13 +58,13 @@ public class MissingPeopleController {
         Status statusValue;
         MissingPeopleSortBy sortBy = MissingPeopleSortBy.fromValue(criteria);
         if (name != null && status != null) {
-            statusValue = Status.valueOf(status);
+            statusValue = Status.fromValue(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, sortBy, name, statusValue);
         } else if (name != null) {
 
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, sortBy, name);
         } else if (status != null) {
-            statusValue = Status.valueOf(status);
+            statusValue = Status.fromValue(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, sortBy, statusValue);
         } else {
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, sortBy);
@@ -137,7 +137,7 @@ public class MissingPeopleController {
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
 
-        String s3ProfileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + imageName; 
+        String s3ProfileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + imageName;
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
