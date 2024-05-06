@@ -1,39 +1,73 @@
-import { Button, Input, Radio, Typography } from "antd";
+import { Button, Input, List, Radio, Typography } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardView } from "../components/missingPersonList/CardView";
 import { dummyAll } from "../data/DummyData";
-import List from "rc-virtual-list";
+import VirtualList from "rc-virtual-list";
 import { getAllMissingPerson } from "../core/api";
 const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
   const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
   const [missingPersonList, setMissingPersonList] = useState([]);
+  const [pageNum, setPageNum] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const containerRef = useRef(null);
   const ContainerHeight = 1000;
+  // useEffect(() => {
+  //   //setMissingPersonList(dummyAll);
+  //   getAllMissingPerson(pageNum).then((res) => {
+  //     setMissingPersonList(res.data);
+  //     console.log("getData", res);
+  //   });
+  //   console.log(missingPersonList);
+  // }, []);
   useEffect(() => {
-    //setMissingPersonList(dummyAll);
-    getAllMissingPerson(1).then((res) => {
-      setMissingPersonList(res.data);
-      console.log("getData", res);
-    });
-    console.log(missingPersonList);
-  }, []);
+    if (!loading) {
+      fetchData(pageNum);
+    }
+  }, [pageNum]);
 
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
     setFilter(e.target.value);
   };
 
-  const onScroll = (e) => {
-    if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - ContainerHeight) <= 1) {
-      getAllMissingPerson(1).then((res) => {
-        setMissingPersonList(res);
-        console.log("missingPersonList", missingPersonList);
+  // const onScroll = (e) => {
+  //   if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - ContainerHeight) <= 1) {
+  //     getAllMissingPerson(1).then((res) => {
+  //       setMissingPersonList(res);
+  //       console.log("missingPersonList", missingPersonList);
+  //     });
+  //   }
+  // };
+  const fetchData = (pageNum) => {
+    setLoading(true);
+    getAllMissingPerson(pageNum)
+      .then((res) => {
+        const newPageData = res.data.filter((item) => !missingPersonList.some((existing) => existing.id === item.id));
+        if (newPageData.length > 0) {
+          console.log("newPageData", newPageData);
+          setMissingPersonList((prevList) => [...prevList, ...newPageData]);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
       });
+  };
+
+  const handleScroll = () => {
+    if (
+      containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight &&
+      !loading // 스크롤이 최하단에 도달했을 때만 데이터 요청
+    ) {
+      setPageNum(pageNum + 1);
     }
   };
+
   const Filter = () => {
     return (
       <StFilter>
@@ -67,14 +101,33 @@ function MissingPersonListPage() {
       </TopContainer>
       <ContentsContainer>
         <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
-        {/* <List data={missingPersonList} height={ContainerHeight} itemHeight={200} itemKey="id" onScroll={onScroll}>
-          {(item) => <CardView key={item.id} data={item} />}
+        {/* <List grid={{ gutter: 16, column: 4 }}>
+          
+          <VirtualList
+            data={missingPersonList}
+            height={ContainerHeight}
+            itemHeight={200}
+            itemKey="id"
+            onScroll={onScroll}>
+            {(item) => (
+              <List.Item>
+                <CardView key={item.id} data={item} />
+              </List.Item>
+            )}
+          </VirtualList>
         </List> */}
-        <CardContainer>
-          {missingPersonList &&
+
+        <CardContainer ref={containerRef} onScroll={handleScroll}>
+          <List
+            grid={{ gutter: 10 }}
+            dataSource={missingPersonList}
+            renderItem={(item) => <CardView key={item.id} data={item} />}
+            loading={loading}
+          />
+          {/* {missingPersonList &&
             missingPersonList.map((missingPerson) => {
               return <CardView key={missingPerson.id} data={missingPerson} />;
-            })}
+            })} */}
         </CardContainer>
 
         {/* <CardView /> */}

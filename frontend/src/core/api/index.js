@@ -1,11 +1,10 @@
 import axios from "axios";
 
-
 export const getAllMissingPerson = async (pageNum) => {
   console.log(pageNum);
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}&size=50&criteria=createdAt`,
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}&size=20`,
       {},
 
       {
@@ -13,7 +12,7 @@ export const getAllMissingPerson = async (pageNum) => {
       },
     )
     .then(function (response) {
-      console.log(response.data);
+      console.log("getData:::", response.data);
       return response.data;
     })
     .catch(function (e) {
