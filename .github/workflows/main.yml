@@ -3,8 +3,6 @@ name: Build And Deploy for Main branch to main server
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: read
