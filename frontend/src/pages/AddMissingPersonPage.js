@@ -113,7 +113,18 @@ function AddMissingPersonPage() {
 export default AddMissingPersonPage;
 
 const StAddMissingPersonPage = styled.div`
+  width: 100%;
+  height: 100vh;
   padding: 3rem;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 1.8rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 0.5rem solid #f5f5f5;
+    border-radius: 10rem;
+    background: #8b8b8b;
+  }
 `;
 const InfoForm = styled(Form)`
   //max-width: 45.9rem;
