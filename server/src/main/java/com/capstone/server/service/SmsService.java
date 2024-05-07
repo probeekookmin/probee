@@ -56,11 +56,11 @@ public class SmsService {
     }
 
     public String getShortUrl(Long id) {
-        String longUrl = serverUrl + "/" + id.toString(); //todo 나중에 url변경해야됨
+        String longUrl = serverUrl + "/mobile/" + id.toString(); //todo 나중에 url변경해야됨
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", bitlyApiKey);
-        HttpEntity<ShortUrlRequestDto> entity = new HttpEntity<>(new ShortUrlRequestDto("longUrl"), headers);
+        HttpEntity<ShortUrlRequestDto> entity = new HttpEntity<>(new ShortUrlRequestDto(longUrl), headers);
         ShortUrlResponseDto shortUrlResponseDto;
         try {
             shortUrlResponseDto = restTemplate.postForObject(bitlyUrl, entity, ShortUrlResponseDto.class);
