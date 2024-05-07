@@ -14,15 +14,7 @@ function MissingPersonListPage() {
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef(null);
-  const ContainerHeight = 1000;
-  // useEffect(() => {
-  //   //setMissingPersonList(dummyAll);
-  //   getAllMissingPerson(pageNum).then((res) => {
-  //     setMissingPersonList(res.data);
-  //     console.log("getData", res);
-  //   });
-  //   console.log(missingPersonList);
-  // }, []);
+
   useEffect(() => {
     if (!loading) {
       fetchData(pageNum);
@@ -62,7 +54,7 @@ function MissingPersonListPage() {
   const handleScroll = () => {
     if (
       containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight &&
-      !loading // 스크롤이 최하단에 도달했을 때만 데이터 요청
+      !loading
     ) {
       setPageNum(pageNum + 1);
     }
@@ -102,7 +94,6 @@ function MissingPersonListPage() {
       <ContentsContainer>
         <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
         {/* <List grid={{ gutter: 16, column: 4 }}>
-          
           <VirtualList
             data={missingPersonList}
             height={ContainerHeight}
@@ -119,7 +110,7 @@ function MissingPersonListPage() {
 
         <CardContainer ref={containerRef} onScroll={handleScroll}>
           <List
-            grid={{ gutter: 10 }}
+            grid={{ gutter: [0, 26] }}
             dataSource={missingPersonList}
             renderItem={(item) => <CardView key={item.id} data={item} />}
             loading={loading}
@@ -192,8 +183,8 @@ const ContentsContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 1.4rem 1.4rem 1.4rem 4.4rem;
-  gap: 1rem;
+  padding: 1.8rem 1.4rem 1.4rem 4.4rem;
+  gap: 1.6rem;
   border-radius: 1rem;
   background-color: white;
 `;
