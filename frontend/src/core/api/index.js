@@ -58,15 +58,17 @@ export const getGuardianMissingPerson = async (id) => {
   console.log("실종자 id:", id);
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
+      // `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
+      // 테스트용
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}`,
       {},
       {
         headers: { "Content-Type": "application/json" },
       },
     )
     .then(function (response) {
-      console.log(response.data);
-      return response.data;
+      console.log("response:", response.data);
+      return response.data.data;
     })
     .catch(function (e) {
       // 실패 시 처리
