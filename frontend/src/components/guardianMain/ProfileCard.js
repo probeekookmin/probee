@@ -5,7 +5,7 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
-export const ProfileCard = () => {
+export const ProfileCard = ({ id }) => {
   const CenterInputForm = ({ label, name, lines }) => {
     return (
       <StCenterInputForm>
@@ -28,7 +28,7 @@ export const ProfileCard = () => {
   };
   return (
     <StProfileCard>
-      <UploadImage />
+      <UploadImage id={id} />
       <CenterInputForm label={"성명"} name={"name"} />
       <CenterInputForm label={"생년월일"} name={"birth"} />
       <CenterInputForm label={"착장정보"} name={"wearingInfo"} lines={true} />

@@ -52,7 +52,7 @@ function GuardianMainPage() {
       <Row align={"middle"} gutter={[8, 20]}>
         <Col span={24}>
           <ProfileSection form={form}>
-            <ProfileCard />
+            <ProfileCard id={1} />
           </ProfileSection>
         </Col>
         <Col span={24}>
