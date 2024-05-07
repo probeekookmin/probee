@@ -6,6 +6,7 @@ import { IntelligentSearchInfo } from "../components/addMisingPerson/Intelligent
 import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 import { postMissingPerson } from "../core/api";
 import { useNavigate } from "react-router-dom";
+import { AnnotationInfo } from "../components/addMisingPerson/AnnotationInfo";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -102,7 +103,9 @@ function AddMissingPersonPage() {
             </ButtonContainer>
           </InfoForm>
         </Col>
-        <Col span={9}></Col>
+        <Col span={9}>
+          <AnnotationInfo />
+        </Col>
       </Row>
     </StAddMissingPersonPage>
   );
