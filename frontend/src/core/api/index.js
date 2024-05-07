@@ -79,3 +79,30 @@ export const getGuardianMissingPersonStep = async (id) => {
     });
   return data;
 };
+
+/*실종자 프로필 이미지 업로드 (Post)*/
+export const postProfileImg = async (value) => {
+  console.log("업로드 이미지", value.id, value.profile);
+  const data = axios
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${value.id}/profile`,
+      {
+        profile: value.profile,
+      },
+
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
