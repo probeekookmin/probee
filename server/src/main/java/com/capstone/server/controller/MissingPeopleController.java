@@ -111,7 +111,7 @@ public class MissingPeopleController {
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
             detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
             //메시지 전송
-            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName());
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
         }
     }
@@ -137,7 +137,7 @@ public class MissingPeopleController {
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
 
-        String s3ProfileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + imageName; 
+        String s3ProfileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + imageName;
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
@@ -231,12 +231,6 @@ public class MissingPeopleController {
     public ResponseEntity<?> getStep(@PathVariable Long id) {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));
 
-    }
-
-    //ai 탐색코드 테스트
-    @PostMapping("/test")
-    public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
-        return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
     }
 
 
