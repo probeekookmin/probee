@@ -5,21 +5,30 @@ import { ProfileCard } from "../components/guardianMain/ProfileCard";
 import { useEffect } from "react";
 import { CustomSteps } from "../components/guardianMain/CustomSteps";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { getGuardianMissingPerson } from "../core/api";
 
 function GuardianMainPage() {
   const [form] = Form.useForm();
   useEffect(() => {
-    form.setFieldsValue({
-      name: "홍길동",
-      birth: "1999.01.01",
-      gender: "남성",
-      missingTime: "2021.08.01 12:00" + "경",
-      missingLocation: "서울시 강남구",
-      guardianName: "김영희",
-      relation: "부",
-      guardianContact: "010-1234-5678",
-      wearingInfo: "짧은 흑발. 어두운 반팔 셔츠와 어두운 반바지를 입고, 가방을 들고 있음.",
+    getGuardianMissingPerson(1).then((data) => {
+      console.log("data", data);
+      form.setFieldsValue({
+        name: data.missingPeopleName,
+        birth: data.birthdate.replace(/-/g, "."), // 1999-01-01 -> 1999.01.01
+        wearingInfo: data.koQuery,
+      });
     });
+    // form.setFieldsValue({
+    //   name: "홍길동",
+    //   birth: "1999.01.01",
+    //   gender: "남성",
+    //   missingTime: "2021.08.01 12:00" + "경",
+    //   missingLocation: "서울시 강남구",
+    //   guardianName: "김영희",
+    //   relation: "부",
+    //   guardianContact: "010-1234-5678",
+    //   wearingInfo: "짧은 흑발. 어두운 반팔 셔츠와 어두운 반바지를 입고, 가방을 들고 있음.",
+    // });
   }, []);
   return (
     <StGuardianMainPage>
