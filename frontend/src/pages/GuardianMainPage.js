@@ -2,13 +2,14 @@ import { Layout, Form, Row, Col, FloatButton } from "antd";
 import { Header } from "antd/es/layout/layout";
 import styled from "styled-components";
 import { ProfileCard } from "../components/guardianMain/ProfileCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CustomSteps } from "../components/guardianMain/CustomSteps";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { getGuardianMissingPerson } from "../core/api";
+import { getGuardianMissingPerson, getGuardianMissingPersonStep } from "../core/api";
 
 function GuardianMainPage() {
   const [form] = Form.useForm();
+  const [step, setStep] = useState(1); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   useEffect(() => {
     getGuardianMissingPerson(1).then((data) => {
       console.log("data", data);
@@ -17,6 +18,19 @@ function GuardianMainPage() {
         birth: data.birthdate.replace(/-/g, "."), // 1999-01-01 -> 1999.01.01
         wearingInfo: data.koQuery,
       });
+    });
+    getGuardianMissingPersonStep(1).then((data) => {
+      console.log("stepD", data);
+      switch (data.step) {
+        case "FIRST":
+          setStep(0);
+          break;
+        case "BETWEEN":
+          setStep(1);
+          break;
+        default:
+          setStep(1);
+      }
     });
     // form.setFieldsValue({
     //   name: "홍길동",
@@ -42,7 +56,7 @@ function GuardianMainPage() {
           </ProfileSection>
         </Col>
         <Col span={24}>
-          <CustomSteps currentStep={1} />
+          <CustomSteps currentStep={step} />
         </Col>
       </Row>
       <FloatButtonContainer
