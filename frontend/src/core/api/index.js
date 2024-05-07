@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const getAllMissingPerson = async (pageNum) => {
   console.log(pageNum);
   const data = axios
@@ -50,6 +49,30 @@ export const postMissingPerson = async (values) => {
       console.error(e);
       console.log(e.response.data);
       alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/*의뢰인용 메인 - 실종자 정보 (Get) */
+export const getGuardianMissingPerson = async (id) => {
+  console.log("실종자 id:", id);
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
     });
   return data;
 };
