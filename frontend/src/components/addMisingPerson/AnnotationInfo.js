@@ -57,8 +57,11 @@ const StAnnotationInfo = styled.div`
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  padding: 10rem 3rem;
-  gap: 7rem;
+  padding: 9rem 3rem;
+  gap: 9.5rem;
+  @media screen and (max-width: 1680px) {
+    gap: 5.5rem;
+  }
 `;
 const AnnotationContainer = styled.div`
   display: flex;
