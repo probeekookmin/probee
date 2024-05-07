@@ -78,3 +78,29 @@ export const getGuardianMissingPerson = async (id) => {
     });
   return data;
 };
+
+/*의뢰인용 메인 - 진행현황 (Get) */
+export const getGuardianMissingPersonStep = async (id) => {
+  console.log("실종자 id:", id);
+  const data = axios
+    .get(
+      // `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
+      // 테스트용
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}/step`,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
+    });
+  return data;
+};
