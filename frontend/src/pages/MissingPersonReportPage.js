@@ -33,26 +33,40 @@ function MissingPersonReportPage() {
       </StReportStartBtn>
     );
   };
+
+  const TestWrapper = () => {
+    return (
+      <Row type="flex" style={{ height: "100%" }}>
+        <Col span={24} style={{ height: "20%", backgroundColor: "blue" }}>
+          {" "}
+          <ReportStartBtn />
+        </Col>
+        <Col span={24} style={{ height: "80%", backgroundColor: "red" }}>
+          <ReportList />
+        </Col>
+      </Row>
+    );
+  };
   /*실종자 리포트 - 메인*/
   const ReportMain = () => {
     return (
       <StReport>
-        <Row gutter={[8, 10]} type="flex" style={{ height: "100%" }}>
+        <Row gutter={[18, 20]} type="flex" style={{ height: "100%" }}>
           <Col span={6} style={{ height: "58%" }}>
             <BasicInfo />
           </Col>
-          <Col span={14}>
+          <Col span={14} style={{ height: "58%" }}>
             <ReportMap />
           </Col>
-          <Col span={4}>
+          <Col span={4} style={{ height: "58%" }}>
             <StepProgress />
           </Col>
-          <Col span={6} md={6} style={{ height: "100%" }}>
+          <Col span={6} md={6} style={{ height: "40%" }}>
             <Row gutter={[8, 10]} type="flex">
-              <Col span={24} style={{ height: "20%" }}>
+              <Col span={24} style={{ height: "30%" }}>
                 <ReportStartBtn />
               </Col>
-              <Col span={24} style={{ height: "100%" }}>
+              <Col span={24} style={{ height: "70%" }}>
                 <ReportList />
               </Col>
             </Row>
@@ -84,7 +98,7 @@ function MissingPersonReportPage() {
           <Col span={13} style={{ height: "33%" }}>
             <IntelligentBasicInfo />
           </Col>
-          <Col span={11}>
+          <Col span={11} style={{ height: "62%" }}>
             <IntelligentMap />
           </Col>
           <Col span={13} style={{ height: "62%" }}>
@@ -147,4 +161,9 @@ const StReport = styled.div`
   -ms-overflow-style: none;
   scrollbar-width: none;
   scroll-snap-align: start;
+`;
+
+const TestContainer = styled.div`
+  height: 100%;
+  padding-bottom: 5rem;
 `;
