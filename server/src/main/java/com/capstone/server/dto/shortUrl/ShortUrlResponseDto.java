@@ -1,7 +1,6 @@
 package com.capstone.server.dto.shortUrl;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShortUrlResponseDto {
-    @JsonProperty("id")
-    private String id;
+    private String message;
+    private Result result;
+    private String code;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Result {
+        private String hash;
+        private String url;  // 여기에서 URL이 매핑됩니다.
+        private String orgUrl;
+    }
 
 }
