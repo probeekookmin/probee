@@ -22,8 +22,9 @@ public enum ErrorCode {
     USER_EXISTS(HttpStatus.CONFLICT, "user exists."),
 
     MESSAGE_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "message sending fail"),
-    AI_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, " AI SERVER is CLOSE");
-
+    AI_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AI SERVER ERROR"),
+    INVALID_REQUEST_DATA(HttpStatus.UNPROCESSABLE_ENTITY, "AI server request is wrong"),
+    CONNECTION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "AI SERVER is CLOSE");
     private final HttpStatus httpStatus;
     private final String message;
 }

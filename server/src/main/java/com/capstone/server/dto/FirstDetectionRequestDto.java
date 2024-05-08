@@ -31,6 +31,7 @@ public class FirstDetectionRequestDto {
         this.step = searchHistoryEntity.getStep();
         this.query = missingPeopleEntity.getQuery();
         this.missingPeopleId = missingPeopleEntity.getId();
+        this.step = Step.fromValue("first");
     }
 
 

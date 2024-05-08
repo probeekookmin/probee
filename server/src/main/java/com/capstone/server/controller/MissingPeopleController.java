@@ -108,7 +108,8 @@ public class MissingPeopleController {
         } else {
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-            //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
+
+            //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
             detectService.callFirstDetectAPI(createResponse.getId());
             //메시지 전송
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
@@ -119,7 +120,7 @@ public class MissingPeopleController {
     //서버에 연산결과 등록
     @PostMapping("/detect")
     public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
-        detectService.postDetectionResult(detectionResultDto);
+        detectService.postFirstDetectionResult(detectionResultDto);
         return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
     }
 
