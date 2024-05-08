@@ -37,7 +37,7 @@ export const topItems = [
 export const bottomItems = [
   { key: "1", label: "반바지", value: "반바지" },
   { key: "2", label: "긴바지", value: "긴바지" },
-  { key: "3", label: "치마", value: "치마" },
+  { key: "3", label: "치마/드레스", value: "치마" },
 ];
 
 export const bagItems = [
