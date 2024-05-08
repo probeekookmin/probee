@@ -34,8 +34,9 @@ public class GuardianController {
     private String REDIRECT_URL;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getMissingPeople(@RequestHeader("Authorization") String authorization) {
+        System.out.println(authorization);
         Long id = encryptionService.extractIdFromToken(authorization);
         return ResponseEntity.ok().body(new SuccessResponse(guardianService.getMissingPeople(id)));
     }
