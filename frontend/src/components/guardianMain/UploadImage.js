@@ -29,6 +29,8 @@ export const UploadImage = ({ id }) => {
 
       const data = await postProfileImg(value);
       console.log("File uploaded successfully:", data);
+      console.log("File URL:", data.data.url);
+      setImageUrl(data.data.url);
       // 성공 시 처리할 내용 추가s
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -129,5 +131,5 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover; /* 이미지 비율 유지 및 카드에 꽉 차게 표시 */
-  border-radius: 50%; /* 원형 이미지 효과를 위해 */
+  border-radius: 2rem; /* 원형 이미지 효과를 위해 */
 `;
