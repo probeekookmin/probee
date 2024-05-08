@@ -1,17 +1,17 @@
 import { useState } from "react";
-
 import styled from "styled-components";
 import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
+import moment from "moment";
 
 const options = [
   {
     label: "남성",
-    value: "male",
+    value: "남성",
   },
   {
     label: "여성",
-    value: "female",
+    value: "여성",
   },
 ];
 const config = {
@@ -32,11 +32,11 @@ const requiredConfig = {
   ],
 };
 
-export const MissingPersonInfo = () => {
-  const [userGender, setUserGender] = useState("male");
+export const MissingPersonInfo = ({ form }) => {
+  const [userGender, setUserGender] = useState("남성");
 
   const genderChange = ({ target: { value } }) => {
-    console.log("radio3 checked", value);
+    console.log("gender checked", value);
     setUserGender(value);
   };
   return (
@@ -79,13 +79,19 @@ export const MissingPersonInfo = () => {
           </Form.Item>
         </Col>
         <Col span={16}>
-          <Form.Item name={["user", "missingLocation"]} label="실종위치">
-            <SeacrchBox title={"실종위치"} />
+          <Form.Item name="missingLocation" label="실종위치">
+            <SeacrchBox title={"실종위치"} form={form} name="missingLocation" />
           </Form.Item>
         </Col>
         <Col span={8}>
           <Form.Item name={["user", "missingTime"]} label="실종일시" {...config}>
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" placeholder="시간 입력" />
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              placeholder="시간 입력"
+              disabledDate={(d) => !d || d.isAfter(moment())}
+              disabledTime={(d) => !d || d.isAfter(moment())}
+            />
           </Form.Item>
         </Col>
         <Col span={13}>

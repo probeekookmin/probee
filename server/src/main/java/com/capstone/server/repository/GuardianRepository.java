@@ -1,9 +1,10 @@
 package com.capstone.server.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.capstone.server.model.GuardianEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GuardianRepository extends JpaRepository<GuardianEntity, Long>{
-
+@Repository
+public interface GuardianRepository extends JpaRepository<GuardianEntity, Long> {
+    GuardianEntity findByMissingPeopleEntityId(Long id);
 }

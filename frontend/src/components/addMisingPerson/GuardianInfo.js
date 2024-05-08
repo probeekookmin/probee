@@ -33,7 +33,7 @@ export const GuardianInfo = () => {
                 required: true,
               },
             ]}>
-            <RelationInput placeholder="예) 부, 모, 형제, 친구" />
+            <RelationInput placeholder="ex) 부, 모, 형제, 친구" />
           </Form.Item>
         </Col>
         <Col span={7}>
@@ -43,9 +43,12 @@ export const GuardianInfo = () => {
             rules={[
               {
                 required: true,
+                pattern: new RegExp(/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/),
+                message: "'-'를 포함하여 입력해주세요.\nex) '010-1234-5678'",
               },
-            ]}>
-            <ContactInput placeholder="- 없이 숫자만 입력" />
+            ]}
+            style={{ whiteSpace: "pre-wrap" }}>
+            <ContactInput placeholder="ex) 010-1234-5678" />
           </Form.Item>
         </Col>
       </Row>

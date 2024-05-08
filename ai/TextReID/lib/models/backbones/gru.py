@@ -57,7 +57,9 @@ class GRU(nn.Module):
         if not self.use_onehot == "yes":
             bs, length = text.shape[0], text.shape[-1]
             text = text.view(-1)  # bl
-            text = self.vocab_dict[text].reshape(bs, length, -1)  # b x l x vocab_size
+            max_index = min(max(text), len(self.vocab_dict) - 1)
+            text = self.vocab_dict[text.clamp(0, max_index)].reshape(bs, length, -1)
+            # text = self.vocab_dict[text].reshape(bs, length, -1)  # b x l x vocab_size
         if self.embed is not None:
             text = self.embed(text)
 

@@ -1,24 +1,28 @@
 package com.capstone.server.model.enums;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+
 public enum Color {
-    RED("빨강"),
-    ORANGE("주황"),
-    YELLOW("노랑"),
-    GREEN("초록"),
-    BLUE("파랑"),
-    PINK("분홍"),
-    GRAY("회색"),
-    WHITE("흰색"),
-    BROWN("갈색"),
-    DARK_COLORED("어두운 색"),
-    LIGHT_COLORED("밝은 색");
+    RED("빨강", "red"),
+    ORANGE("주황", "orange"),
+    YELLOW("노랑", "yellow"),
+    GREEN("초록", "green"),
+    BLUE("파랑", "blue"),
+    PURPlE("보라", "purple"),
+    PINK("분홍", "pink"),
+    WHITE("흰색", "white"),
+    BLACK("검정", "black"),
+    BROWN("갈색", "brown");
 
     private final String kor;
+    private final String value;
+
+    Color(String kor, String value) {
+        this.kor = kor;
+        this.value = value;
+    }
 
     public static Color fromKor(String kor) {
         for (Color color : Color.values()) {

@@ -1,13 +1,14 @@
 package com.capstone.server.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import com.capstone.server.model.UserEntity;
 import com.capstone.server.model.enums.userEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class UserCreateRequestDto {
 
     private userEnum userEnum;
 
-    public UserEntity toEntity(){
+    public UserEntity toEntity() {
         return UserEntity.builder().name(name).age(age).email(email).latitude(latitude).longitude(longitude).whenCreatedAt(whenCreatedAt).userEnum(userEnum).build();
     }
 }

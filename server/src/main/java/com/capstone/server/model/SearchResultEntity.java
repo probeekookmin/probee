@@ -1,14 +1,15 @@
 package com.capstone.server.model;
 
-import static jakarta.persistence.FetchType.LAZY;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.validator.constraints.URL;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Data
 @Builder
@@ -35,8 +36,12 @@ public class SearchResultEntity {
     private SearchHistoryEntity searchHistoryEntity;
 
     private LocalDateTime createdAt;
-    
+
     private LocalDateTime updatedAt;
+
+    private double similarity;
+    private LocalDateTime time;
+
 
     @PrePersist
     protected void onCreate() {
@@ -44,7 +49,8 @@ public class SearchResultEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate 
+
+    @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }

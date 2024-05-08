@@ -42,6 +42,19 @@ def train(cfg, output_dir, local_rank, distributed, resume_from, use_tensorboard
     model = build_model(cfg)
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
+    
+    # 모든 파라미터를 먼저 동결
+    for param in model.parameters():
+        param.requires_grad = False
+
+    # 비주얼 모델의 최상위 레이어 학습 활성화
+    for name, param in model.visual_model.named_parameters():
+        if 'layer4' in name:  # 마지막 레이어의 이름 확인 필요
+            param.requires_grad = True
+
+   # 텍스트 모델의 GRU 레이어 학습 활성화 (GRU가 최종 레이어라고 가정)
+    for param in model.textual_model.gru.parameters():
+        param.requires_grad = True
 
     optimizer = make_optimizer(cfg, model)
     scheduler = make_lr_scheduler(cfg, optimizer)
@@ -142,6 +155,15 @@ def main():
         action="store_true",
         default=False,
     )
+    parser.add_argument(
+        "--data-dir",
+        default="./datasets/",
+        type=str,
+    )
+    parser.add_argument(
+        "--pretrain-weight",
+        type=str,
+    )
 
     args = parser.parse_args()
 
@@ -156,6 +178,9 @@ def main():
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.ROOT = args.root
+    cfg.DATASETS.DIR = args.data_dir
+    if args.pretrain_weight:
+        cfg.MODEL.WEIGHT = args.pretrain_weight
     cfg.freeze()
 
     output_dir = os.path.join(

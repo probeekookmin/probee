@@ -65,7 +65,9 @@ public class S3Service {
         for (int i = 0; i < images.size(); i++) {
             MultipartFile image = images.get(i);
             String index = String.format("%03d", i+1); // 3자리로 패딩된 숫자 포맷
-            String imageName = imagePath + index + "-" + image.getOriginalFilename();
+            String originalFileName = image.getOriginalFilename();
+            String imageNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+            String imageName = imagePath + index + "-" + imageNameWithoutExtension;
             s3UploadResponseDtos.add(upload(image, imageName));
         }
 

@@ -7,7 +7,7 @@ import torch.distributed as dist
 
 from lib.utils.comm import get_world_size
 
-from .inference import inference
+from .train_inference import inference
 
 
 def reduce_loss_dict(loss_dict):

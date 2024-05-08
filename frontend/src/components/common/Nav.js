@@ -28,7 +28,7 @@ const Nav = () => {
   const currentKey = () => {
     switch (selectedKey) {
       case "/":
-        return ["3"];
+        return ["2"];
       case "/list":
         return ["2"];
       case "/report":

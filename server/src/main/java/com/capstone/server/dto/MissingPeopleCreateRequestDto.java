@@ -1,46 +1,45 @@
 package com.capstone.server.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.aspectj.weaver.ast.Not;
-
 import com.capstone.server.model.GuardianEntity;
 import com.capstone.server.model.MissingPeopleDetailEntity;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
-import com.capstone.server.model.UserEntity;
 import com.capstone.server.model.enums.*;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class MissingPeopleCreateRequestDto {
-    
+
     // MissingPeople
     @NotBlank
-    private String missingPeopleName; 
+    private String missingPeopleName;
 
     @Past
     private LocalDate birthdate;
 
-    private String gender; 
+    private String gender;
 
     @PastOrPresent
-    private LocalDateTime missingAt; 
+    private LocalDateTime missingAt;
 
     @NotBlank
     private String missingLocation;
 
     @NotNull
     private String description;
+
+    @NotNull
+    private String missingPeopleType; //실종자 타입
 
     // MissingPeopleDetail
     @NotBlank
@@ -61,8 +60,7 @@ public class MissingPeopleCreateRequestDto {
     @NotBlank
     private String bagType;
 
-    @NotBlank
-    private String shoesColor;
+    private String shoesColor;// 신발 필요없음.
 
     // Guardian
     @NotBlank
@@ -82,56 +80,61 @@ public class MissingPeopleCreateRequestDto {
     private LocalDateTime endTime;
 
     @NotNull
-    private BigDecimal latitude;
+    private double latitude;
 
     @NotNull
-    private BigDecimal longitude;
+    private double longitude;
 
     @NotBlank
     private String locationAddress;
-    
+
+
+    private Status status;
+
     public MissingPeopleEntity toMissingPeopleEntity() {
 
         return MissingPeopleEntity.builder()
-            .name(missingPeopleName)
-            .birthdate(birthdate)
-            .gender(Gender.fromKor(gender))
-            .missingAt(missingAt)
-            .missingLocation(missingLocation)
-            .description(description)
-            .build();
+                .name(missingPeopleName)
+                .birthdate(birthdate)
+                .gender(Gender.fromKor(gender))
+                .missingAt(missingAt)
+                .missingLocation(missingLocation)
+                .description(description)
+                .status(Status.getDefault())
+                .missingPeopleType(MissingPeopleType.fromKor(missingPeopleType))
+                .build();
     }
 
     public MissingPeopleDetailEntity toMissingPeopleDetailEntity() {
 
         return MissingPeopleDetailEntity.builder()
-            .hairStyle(HairStyle.fromKor(hairStyle))
-            .topType(TopType.fromKor(topType))
-            .topColor(Color.fromKor(topColor))
-            .bottomType(BottomType.fromKor(bottomType))
-            .bottomColor(Color.fromKor(bottomColor))
-            .bagType(BagType.fromKor(bagType))
-            .shoesColor(Color.fromKor(shoesColor))
-            .build();
+                .hairStyle(HairStyle.fromKor(hairStyle))
+                .topType(TopType.fromKor(topType))
+                .topColor(Color.fromKor(topColor))
+                .bottomType(BottomType.fromKor(bottomType))
+                .bottomColor(Color.fromKor(bottomColor))
+                .bagType(BagType.fromKor(bagType))
+                .shoesColor(Color.fromKor(shoesColor))
+                .build();
     }
 
     public GuardianEntity toGuardianEntity() {
 
         return GuardianEntity.builder()
-            .name(guardianName)
-            .phoneNumber(phoneNumber)
-            .relationship(relationship)
-            .build();
+                .name(guardianName)
+                .phoneNumber(phoneNumber)
+                .relationship(relationship)
+                .build();
     }
 
     public SearchHistoryEntity toSearchHistoryEntity() {
 
         return SearchHistoryEntity.builder()
-            .startTime(startTime)
-            .endTime(endTime)
-            .latitude(latitude)
-            .longitude(longitude)
-            .locationAddress(locationAddress)
-            .build();
+                .startTime(startTime)
+                .endTime(endTime)
+                .latitude(latitude)
+                .longitude(longitude)
+                .locationAddress(locationAddress)
+                .build();
     }
 }

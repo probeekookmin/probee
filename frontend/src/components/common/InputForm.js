@@ -23,6 +23,17 @@ export const TextAreaForm = ({ label, name }) => {
   );
 };
 
+export const CenterInputForm = ({ label, name }) => {
+  return (
+    <StCenterInputForm>
+      <InputLabel>{label}</InputLabel>
+      <InputItem name={name}>
+        <InputField variant="borderless" readOnly={"true"} />
+      </InputItem>
+    </StCenterInputForm>
+  );
+};
+
 /* 각 정보 input 영역 */
 const StInputForm = styled.div`
   display: flex;
@@ -54,4 +65,8 @@ const InputField = styled(Input)`
 
 const TextAreaField = styled(Input.TextArea)`
   padding: 0;
+`;
+
+const StCenterInputForm = styled(StInputForm)`
+  align-items: center;
 `;
