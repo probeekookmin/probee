@@ -25,12 +25,14 @@ public class SmsService {
     @Value("${phone_num}")
     String phoneNum;
 
-    @Value("${server.url}")
+    @Value("${mobile.server.url}")
     String serverUrl;
     @Value("${bitly.api.token}")
     String bitlyApiKey;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private EncryptionService encryptionService;
 
     final String bitlyUrl = "https://api-ssl.bitly.com/v4/shorten";
     DefaultMessageService messageService;
@@ -43,7 +45,7 @@ public class SmsService {
         Message message = new Message();
         message.setFrom(phoneNum);
         message.setTo(guardianPhoneNumber);
-        message.setText(String.format("[probee]\n%s님의 탐색이 시작되었습니다\nhttps://probee.co.kr/%s}", name, getShortUrl(id)));
+        message.setText(String.format("[probee]\n%s님의 탐색이 시작되었습니다.\n%s", name, getShortUrl(id)));
         try {
             messageService.send(message);
         } catch (NurigoMessageNotReceivedException exception) {
@@ -56,7 +58,7 @@ public class SmsService {
     }
 
     public String getShortUrl(Long id) {
-        String longUrl = serverUrl + "/mobile/" + id.toString(); //todo 나중에 url변경해야됨
+        String longUrl = serverUrl + "/api/guardian/validate-token/" + encryptionService.encryptToken(id.toString());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", bitlyApiKey);
