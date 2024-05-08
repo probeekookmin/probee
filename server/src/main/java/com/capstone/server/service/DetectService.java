@@ -59,7 +59,7 @@ public class DetectService {
     //todo : cctv 선정 알고리즘 반영 (이건 추후에 어떻게 파라미터를 넣고 결과가 오는지 알려주시면 연결하겠습니다)
     public DetectionResponseDto callDetectAPI(Long id, Step step) throws CustomException {
         try {
-            //과정1 : 실종자 id가 db에 있는지 확인합니다.
+            //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함)
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
             //과정2 : ai server요청에 쓸 dto를생성합니다
