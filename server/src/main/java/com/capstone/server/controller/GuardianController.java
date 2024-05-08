@@ -60,8 +60,8 @@ public class GuardianController {
         return ResponseEntity.ok().body(new SuccessResponse(guardianService.postBetween(id, betweenPostRequestDto)));
     }
 
-    @GetMapping("/validate-token/{encryptedToken}")
-    public ResponseEntity<?> validateToken(HttpServletResponse response, @PathVariable String encryptedToken) throws URISyntaxException {
+    @GetMapping("/validate-token")
+    public ResponseEntity<?> validateToken(HttpServletResponse response, @RequestParam("token") String encryptedToken) throws URISyntaxException {
         try {
             //토큰 유효성 검사
             encryptionService.decryptToken(encryptedToken);
@@ -74,10 +74,8 @@ public class GuardianController {
             // 에러 페이지로 리다이렉트
             return ResponseEntity.ok().body(new SuccessResponse("검증실패"));
         }
-
-        // 사용자 인증 검증 로직 수행 (예: 토큰의 유효성 확인 등)
-        // 여기서는 단순히 사용자 정보 페이지로 이동
         URI redirectUri = new URI(REDIRECT_URL);
+//        URI redirectUri = new URI("http//localhost:8080");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);

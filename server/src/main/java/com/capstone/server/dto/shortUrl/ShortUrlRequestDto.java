@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ShortUrlRequestDto {
-    private String long_url;
+    private String url;
 }
 
 
