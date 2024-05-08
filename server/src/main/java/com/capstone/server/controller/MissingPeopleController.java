@@ -109,7 +109,7 @@ public class MissingPeopleController {
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
-            detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
+            detectService.callFirstDetectAPI(createResponse.getId());
             //메시지 전송
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);

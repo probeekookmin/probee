@@ -1,9 +1,9 @@
 package com.capstone.server.service;
 
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.DetectionRequestDto;
 import com.capstone.server.dto.DetectionResponseDto;
 import com.capstone.server.dto.DetectionResultDto;
+import com.capstone.server.dto.FirstDetectionRequestDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.MissingPeopleEntity;
@@ -21,6 +21,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.NoSuchElementException;
@@ -38,41 +40,47 @@ public class DetectService {
     private CCTVRepository cctvRepository;
     @Autowired
     private SearchResultRepository searchResultRepository;
+    @Autowired
+    private CCTVService cctvService;
 
     @Value("${aiServer.url}")
     private String url;
 
 
     //test용 service
-    public DetectionResponseDto callDetectAPI(DetectionRequestDto detectionRequestDto) {
+    public DetectionResponseDto callFirstDetectAPI(FirstDetectionRequestDto firstDetectionRequestDto) {
         //헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //HttpEntity 생성
-        HttpEntity<DetectionRequestDto> request = new HttpEntity<>(detectionRequestDto, headers);
+        HttpEntity<FirstDetectionRequestDto> request = new HttpEntity<>(firstDetectionRequestDto, headers);
         //요청 및 응답반환
         return restTemplate.postForObject(url, request, DetectionResponseDto.class);
     }
 
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
     //todo : cctv 선정 알고리즘 반영 (이건 추후에 어떻게 파라미터를 넣고 결과가 오는지 알려주시면 연결하겠습니다)
-    public DetectionResponseDto callDetectAPI(Long id, Step step) throws CustomException {
+    public DetectionResultDto callFirstDetectAPI(Long id) throws CustomException {
         try {
             //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함)
-            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
+            MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            SearchHistoryEntity searchHistoryEntity = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size() - 1);
             //과정2 : ai server요청에 쓸 dto를생성합니다
-            DetectionRequestDto detectionRequestDto = DetectionRequestDto.fromEntity(missingPeople);
+            FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeopleEntity, searchHistoryEntity);
+            firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()));
             //과정3 : 탐색 step을 지정합니다 (s3폴더구조때문에 전달받아야합니다)
-            detectionRequestDto.setStep(step);
+            firstDetectionRequestDto.setStep(Step.fromValue("first"));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             //HttpEntity 생성
-            HttpEntity<DetectionRequestDto> request = new HttpEntity<>(detectionRequestDto, headers);
+            HttpEntity<FirstDetectionRequestDto> request = new HttpEntity<>(firstDetectionRequestDto, headers);
             //요청 및 응답반환
-            return restTemplate.postForObject(url, request, DetectionResponseDto.class);
+            return restTemplate.postForObject(url, request, DetectionResultDto.class);
+        } catch (HttpServerErrorException | HttpClientErrorException e) {
+            throw new CustomException(ErrorCode.AI_SERVER_ERROR, e);
         } catch (NoSuchElementException e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
