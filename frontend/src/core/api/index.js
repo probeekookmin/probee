@@ -61,10 +61,13 @@ export const getGuardianMissingPersonStep = async (id) => {
     .get(
       // `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
       // 테스트용
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}/step`,
-      {},
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/step`,
+
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          "Content-Type": "application/json",
+        },
       },
     )
     .then(function (response) {
@@ -86,12 +89,10 @@ export const postProfileImg = async (value) => {
   const data = axios
     .post(
       `${process.env.REACT_APP_API_ROOT}/api/missing-people/${value.id}/profile`,
-      {
-        profile: value.profile,
-      },
+      value.profile,
 
       {
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "multipart/form-data" },
       },
     )
     .then(function (response) {
