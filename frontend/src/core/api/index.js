@@ -1,11 +1,16 @@
 import axios from "axios";
 
-export const getAllMissingPerson = async (pageNum) => {
-  console.log(pageNum);
+
+/*실종정보 등록 (Post)*/
+export const postMissingPerson = async (values) => {
   const data = axios
-    .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}&size=50&criteria=createdAt`,
-      {},
+    .post(
+      //   `${process.env.REACT_APP_API_ROOT}/api/missing-people`,
+      // + 문자전송 및 연산 테스트
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/totalCreateTest`,
+      {
+        ...values,
+      },
 
       {
         headers: { "Content-Type": "application/json" },
@@ -24,24 +29,19 @@ export const getAllMissingPerson = async (pageNum) => {
   return data;
 };
 
-/*실종정보 등록 (Post)*/
-export const postMissingPerson = async (values) => {
-  console.log("values", values);
+/*실종자 현황 (Get)*/
+export const getAllMissingPerson = async (pageNum) => {
   const data = axios
-    .post(
-      //   `${process.env.REACT_APP_API_ROOT}/api/missing-people`,
-      // + 문자전송 및 연산 테스트
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/totalCreateTest`,
-      {
-        ...values,
-      },
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}&size=10`,
+      {},
 
       {
         headers: { "Content-Type": "application/json" },
       },
     )
     .then(function (response) {
-      console.log(response.data);
+      console.log("getData:::", response.data);
       return response.data;
     })
     .catch(function (e) {

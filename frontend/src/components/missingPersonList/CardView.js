@@ -45,7 +45,6 @@ export const CardView = ({ data }) => {
   };
 
   const Badge = ({ process, text }) => {
-    console.log(process);
     return (
       <>
         <BadgeItem bordered={false} process={process}>
@@ -109,6 +108,7 @@ const StCardItem = styled(Form)`
   width: 32rem;
   height: 20rem;
   padding: 2rem;
+  margin-right: 2.6rem;
   background: ${(props) => (props.process ? "#E5F3FF" : "#F9FCFF")};
   border: ${(props) => (props.process ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;

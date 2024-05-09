@@ -1,9 +1,7 @@
-name: Build And Deploy for Main branch to test server
+name: Build And Deploy for Main branch to main server
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 permissions:
@@ -60,7 +58,7 @@ jobs:
       run: |
           rm -f ./frontend/.env
           touch ./frontend/.env
-          echo "${{ secrets.FRONTEND_ENV_API_ROOT }}" >> ./frontend/.env 
+          echo "${{ secrets.FRONTEND_ENV_API_ROOT_MAIN_SERVER }}" >> ./frontend/.env 
       
     - name: Yarn install dependencies 
       run: |
