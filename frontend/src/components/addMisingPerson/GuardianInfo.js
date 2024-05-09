@@ -9,7 +9,7 @@ export const GuardianInfo = () => {
         style={{
           margin: 0,
         }}>
-        보호자(신고자)
+        보호자
       </Typography.Title>
       <Row>
         <Col span={9}>
