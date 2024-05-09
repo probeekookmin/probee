@@ -39,11 +39,16 @@ public class SearchResultEntity {
 
     private LocalDateTime updatedAt;
 
+    private double similarity;
+    private LocalDateTime time;
+
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
+
 
     @PreUpdate
     protected void onUpdate() {

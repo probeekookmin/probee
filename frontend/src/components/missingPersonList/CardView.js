@@ -1,8 +1,8 @@
-import { Row, Col, Image, Form, Input, Tag } from "antd";
 import styled from "styled-components";
-import emptyProfile from "../../assets/images/emptyProfile.svg";
 import { useEffect, useState } from "react";
+import { Row, Col, Image, Form, Input, Tag } from "antd";
 
+/*실종자 현황 - 프로필 카드 컴포넌트 */
 export const CardView = ({ data }) => {
   const [form] = Form.useForm();
   const [statusText, setStatusText] = useState("탐색중");
@@ -45,7 +45,6 @@ export const CardView = ({ data }) => {
   };
 
   const Badge = ({ process, text }) => {
-    console.log(process);
     return (
       <>
         <BadgeItem bordered={false} process={process}>
@@ -109,6 +108,7 @@ const StCardItem = styled(Form)`
   width: 32rem;
   height: 20rem;
   padding: 2rem;
+  margin-right: 2.6rem;
   background: ${(props) => (props.process ? "#E5F3FF" : "#F9FCFF")};
   border: ${(props) => (props.process ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;

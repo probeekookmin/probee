@@ -1,26 +1,24 @@
 import styled from "styled-components";
-import { CenterInputForm } from "../common/InputForm";
-import { Form, Input, Upload, message } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { Form, Input } from "antd";
 import { UploadImage } from "./UploadImage";
 
-export const ProfileCard = () => {
+/*의뢰인용 화면 - 실종자 프로필 카드 컴포넌트*/
+export const ProfileCard = ({ id, profile }) => {
   const CenterInputForm = ({ label, name, lines }) => {
     return (
       <StCenterInputForm>
         <InputLabel>{label}</InputLabel>
         <InputItem name={name}>
           {lines ? (
-            <InputField2
+            <MultiLineInputField
               variant="borderless"
-              readOnly={"true"}
+              readOnly={true}
               autoSize={{
                 minRows: 1,
                 maxRows: 3,
-              }}></InputField2>
+              }}></MultiLineInputField>
           ) : (
-            <InputField variant="borderless" readOnly={"true"} />
+            <InputField variant="borderless" readOnly={true} />
           )}
         </InputItem>
       </StCenterInputForm>
@@ -28,7 +26,7 @@ export const ProfileCard = () => {
   };
   return (
     <StProfileCard>
-      <UploadImage />
+      <UploadImage id={id} profile={profile} />
       <CenterInputForm label={"성명"} name={"name"} />
       <CenterInputForm label={"생년월일"} name={"birth"} />
       <CenterInputForm label={"착장정보"} name={"wearingInfo"} lines={true} />
@@ -82,7 +80,7 @@ const InputField = styled(Input)`
   text-overflow: visible;
 `;
 
-const InputField2 = styled(Input.TextArea)`
+const MultiLineInputField = styled(Input.TextArea)`
   padding: 0;
   color: black;
   font-size: 3.75rem;

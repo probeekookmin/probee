@@ -1,8 +1,8 @@
 import { useState } from "react";
-
 import styled from "styled-components";
 import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
+import moment from "moment";
 
 const options = [
   {
@@ -85,7 +85,13 @@ export const MissingPersonInfo = ({ form }) => {
         </Col>
         <Col span={8}>
           <Form.Item name={["user", "missingTime"]} label="실종일시" {...config}>
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" placeholder="시간 입력" />
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              placeholder="시간 입력"
+              disabledDate={(d) => !d || d.isAfter(moment())}
+              disabledTime={(d) => !d || d.isAfter(moment())}
+            />
           </Form.Item>
         </Col>
         <Col span={13}>

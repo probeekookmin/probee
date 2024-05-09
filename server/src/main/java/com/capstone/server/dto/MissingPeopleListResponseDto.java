@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class MissingPeopleResponseDto {
+//리스트에 사용하는 dto
+public class MissingPeopleListResponseDto {
+
     private Long id;
     private String name;
     private String gender;
@@ -20,7 +22,8 @@ public class MissingPeopleResponseDto {
     private String missingPeopleType;
     private String profileImage;
 
-    private MissingPeopleResponseDto(MissingPeopleEntity missingPeopleEntity) {
+
+    protected MissingPeopleListResponseDto(MissingPeopleEntity missingPeopleEntity) {
         this.id = missingPeopleEntity.getId();
         this.name = missingPeopleEntity.getName();
         // TODO : 숫자로 변경 요망
@@ -33,8 +36,8 @@ public class MissingPeopleResponseDto {
         this.profileImage = missingPeopleEntity.getProfileImage();
     }
 
-    public static MissingPeopleResponseDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
-        return new MissingPeopleResponseDto(missingPeopleEntity);
+    public static MissingPeopleListResponseDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
+        return new MissingPeopleListResponseDto(missingPeopleEntity);
     }
 
 }

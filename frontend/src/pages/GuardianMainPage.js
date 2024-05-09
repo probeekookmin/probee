@@ -1,26 +1,50 @@
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { Layout, Form, Row, Col, FloatButton } from "antd";
 import { Header } from "antd/es/layout/layout";
-import styled from "styled-components";
-import { ProfileCard } from "../components/guardianMain/ProfileCard";
-import { useEffect } from "react";
-import { CustomSteps } from "../components/guardianMain/CustomSteps";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { ProfileCard } from "../components/guardianMain/ProfileCard";
+import { CustomSteps } from "../components/guardianMain/CustomSteps";
+import { getGuardianMissingPerson, getGuardianMissingPersonStep } from "../core/api";
 
+/*의뢰인용 메인화면*/
 function GuardianMainPage() {
   const [form] = Form.useForm();
+  const [profile, setProfile] = useState(""); // 프로필 이미지
+  const [step, setStep] = useState(1);
+
   useEffect(() => {
-    form.setFieldsValue({
-      name: "홍길동",
-      birth: "1999.01.01",
-      gender: "남성",
-      missingTime: "2021.08.01 12:00" + "경",
-      missingLocation: "서울시 강남구",
-      guardianName: "김영희",
-      relation: "부",
-      guardianContact: "010-1234-5678",
-      wearingInfo: "짧은 흑발. 어두운 반팔 셔츠와 어두운 반바지를 입고, 가방을 들고 있음.",
+    //실종자 정보 가져오기
+    getGuardianMissingPerson().then((data) => {
+      form.setFieldsValue({
+        name: data.missingPeopleName,
+        birth: data.birthdate.replace(/-/g, "."), // 1999-01-01 -> 1999.01.01
+        wearingInfo: data.query,
+      });
+      setProfile(data.profileImage);
+    });
+
+    //실종자 진행현황 가져오기
+    getGuardianMissingPersonStep().then((data) => {
+      switch (data.step) {
+        case "FIRST":
+          setStep(0);
+          break;
+        case "BETWEEN":
+          setStep(1);
+          break;
+        case "SECOND":
+          setStep(2);
+          break;
+        case "EXIT":
+          setStep(3);
+          break;
+        default:
+          setStep(1);
+      }
     });
   }, []);
+
   return (
     <StGuardianMainPage>
       <MainHeader>
@@ -29,11 +53,11 @@ function GuardianMainPage() {
       <Row align={"middle"} gutter={[8, 20]}>
         <Col span={24}>
           <ProfileSection form={form}>
-            <ProfileCard />
+            <ProfileCard id={1} profile={profile} />
           </ProfileSection>
         </Col>
         <Col span={24}>
-          <CustomSteps currentStep={1} />
+          <CustomSteps currentStep={step} />
         </Col>
       </Row>
       <FloatButtonContainer
@@ -55,24 +79,24 @@ const StGuardianMainPage = styled(Layout)`
 const MainHeader = styled(Header)`
   height: 18rem;
   background-color: skyblue;
-  @media only screen and (max-width: 600px) {
+  /* @media only screen and (max-width: 600px) {
   }
   @media (min-width: 992px) {
     background-color: red;
-  }
+  } */
 `;
 const DemoLogo = styled.div`
   width: 10rem;
   height: 3.2rem;
-  background: rgba(0, 0, 0, 0.4);
   margin: 1.6rem;
+  background: rgba(0, 0, 0, 0.4);
 `;
 
 const ProfileSection = styled(Form)`
-  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  display: flex;
+  width: 100%;
 `;
 
 const FloatButtonContainer = styled(FloatButton)`
