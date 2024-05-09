@@ -10,7 +10,6 @@ export const UploadImage = ({ id, profile }) => {
   const [imageUrl, setImageUrl] = useState();
 
   useEffect(() => {
-    console.log("profile", profile);
     setImageUrl(profile);
   }, [profile]);
 

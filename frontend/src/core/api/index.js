@@ -29,16 +29,17 @@ export const postMissingPerson = async (values) => {
   return data;
 };
 
-/*실종자 현황 (Get)*/
-export const getAllMissingPerson = async (pageNum) => {
-  console.log(pageNum);
+/*의뢰인용 메인 - 실종자 정보 (Get) */
+export const getGuardianMissingPerson = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}&size=10`,
-      {},
+      `${process.env.REACT_APP_API_ROOT}/api/guardian`,
 
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          "Content-Type": "application/json",
+        },
       },
     )
     .then(function (response) {
@@ -55,12 +56,9 @@ export const getAllMissingPerson = async (pageNum) => {
 };
 
 /*의뢰인용 메인 - 진행현황 (Get) */
-export const getGuardianMissingPersonStep = async (id) => {
-  console.log("실종자 id:", id);
+export const getGuardianMissingPersonStep = async () => {
   const data = axios
     .get(
-      // `${process.env.REACT_APP_API_ROOT}/api/guardian/${id}`,
-      // 테스트용
       `${process.env.REACT_APP_API_ROOT}/api/guardian/step`,
 
       {
@@ -86,12 +84,17 @@ export const getGuardianMissingPersonStep = async (id) => {
 /*실종자 프로필 이미지 업로드 (Post)*/
 export const postProfileImg = async (value) => {
   const data = axios
-    .post(`${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`, value.profile, {
-      headers: {
-        Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
-        "Content-Type": "multipart/form-data",
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`,
+      value.profile,
+
+      {
+        headers: {
+          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          "Content-Type": "multipart/form-data",
+        },
       },
-    })
+    )
     .then(function (response) {
       console.log(response.data);
       return response.data;
