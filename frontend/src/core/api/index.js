@@ -85,16 +85,13 @@ export const getGuardianMissingPersonStep = async (id) => {
 
 /*실종자 프로필 이미지 업로드 (Post)*/
 export const postProfileImg = async (value) => {
-  console.log("업로드 이미지", value.id, value.profile);
   const data = axios
-    .post(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${value.id}/profile`,
-      value.profile,
-
-      {
-        headers: { "Content-Type": "multipart/form-data" },
+    .post(`${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`, value.profile, {
+      headers: {
+        Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+        "Content-Type": "multipart/form-data",
       },
-    )
+    })
     .then(function (response) {
       console.log(response.data);
       return response.data;
