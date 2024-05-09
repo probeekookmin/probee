@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { getCookie } from "../cookie";
 
 /*실종정보 등록 (Post)*/
 export const postMissingPerson = async (values) => {
@@ -61,7 +61,7 @@ export const getGuardianMissingPerson = async () => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
@@ -87,7 +87,7 @@ export const getGuardianMissingPersonStep = async () => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
@@ -114,7 +114,7 @@ export const postProfileImg = async (value) => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "multipart/form-data",
         },
       },
