@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { CenterInputForm } from "../common/InputForm";
-import { Form, Input, Upload, message } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { Form, Input } from "antd";
 import { UploadImage } from "./UploadImage";
 
+/*의뢰인용 화면 - 실종자 프로필 카드 컴포넌트*/
 export const ProfileCard = ({ id, profile }) => {
   const CenterInputForm = ({ label, name, lines }) => {
     return (
@@ -12,13 +10,13 @@ export const ProfileCard = ({ id, profile }) => {
         <InputLabel>{label}</InputLabel>
         <InputItem name={name}>
           {lines ? (
-            <InputField2
+            <MultiLineInputField
               variant="borderless"
               readOnly={true}
               autoSize={{
                 minRows: 1,
                 maxRows: 3,
-              }}></InputField2>
+              }}></MultiLineInputField>
           ) : (
             <InputField variant="borderless" readOnly={true} />
           )}
@@ -82,7 +80,7 @@ const InputField = styled(Input)`
   text-overflow: visible;
 `;
 
-const InputField2 = styled(Input.TextArea)`
+const MultiLineInputField = styled(Input.TextArea)`
   padding: 0;
   color: black;
   font-size: 3.75rem;
