@@ -21,6 +21,9 @@ public class KafkaProducerService {
     @Value("${startSearchingTopic.name}")
     private String startSearchingTopicName;
 
+    @Value("${startSecondSearchingTopic.name}")
+    private String startSecondSearchingTopicName;
+
     /* Kafka Template 을 이용해 Kafka Broker 전송 */
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaTemplate<String, KafkaDto> kafkaDtoTemplate;
@@ -31,5 +34,9 @@ public class KafkaProducerService {
 
     public void startSearchingToKafka(KafkaDto kafkaDto) {
         this.kafkaDtoTemplate.send(startSearchingTopicName, kafkaDto);
+    }
+
+    public void startSecondSearchingToKafka(KafkaDto kafkaDto) {
+        this.kafkaDtoTemplate.send(startSecondSearchingTopicName, kafkaDto);
     }
 }

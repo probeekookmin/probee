@@ -1,6 +1,7 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel
+from typing import List
 import sys
 import os
 import json
@@ -46,6 +47,7 @@ class TotalInput(BaseModel):
     query : str
 
 
+
 class DetectResult(BaseModel):
     searchId : int
     missingPeopleId : int
@@ -59,11 +61,12 @@ async def test(input :TotalInput):
     run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     query = input.query
     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:]
 
 async def runTextReID(input : TotalInput, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
