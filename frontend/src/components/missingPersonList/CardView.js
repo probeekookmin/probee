@@ -6,7 +6,7 @@ import { Row, Col, Image, Form, Input, Tag } from "antd";
 export const CardView = ({ data }) => {
   const [form] = Form.useForm();
   const [statusText, setStatusText] = useState("탐색중");
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState("searching");
   const [imgUrl, setImgUrl] = useState("emptyProfile");
 
   // 실종자 정보 적용
@@ -18,7 +18,8 @@ export const CardView = ({ data }) => {
       missingTime: dateForm(data.missingAt),
       missingLocation: data.missingLocation,
     });
-    setStatus(data.status === "searching" ? true : false);
+    // setStatus(data.status === "searching" && true);
+    setStatus(data.status);
     setStatusText(data.status === "searching" ? "탐색중" : "종료");
     setImgUrl(data.profileImage);
   }, []);
@@ -142,6 +143,6 @@ const BadgeItem = styled(Tag)`
   padding: 0.1rem 0.9rem;
   border-radius: 10rem;
   font-size: 1.2rem;
-  background: ${(props) => (props.process ? "#1890FF" : "#dfe9f3")};
+  background: ${(props) => (props.process === "searching" ? "#1890FF" : "#dfe9f3")};
   color: white;
 `;
