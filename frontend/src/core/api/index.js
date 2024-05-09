@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "../cookie";
 
 /*실종정보 등록 (Post)*/
 export const postMissingPerson = async (values) => {
@@ -37,7 +38,7 @@ export const getGuardianMissingPerson = async () => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
@@ -55,6 +56,32 @@ export const getGuardianMissingPerson = async () => {
   return data;
 };
 
+/*의뢰인용 메인 - 실종자 정보 (Get) */
+export const getGuardianMissingPerson = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian`,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
+    });
+  return data;
+};
+
 /*의뢰인용 메인 - 진행현황 (Get) */
 export const getGuardianMissingPersonStep = async () => {
   const data = axios
@@ -63,7 +90,7 @@ export const getGuardianMissingPersonStep = async () => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
@@ -90,7 +117,7 @@ export const postProfileImg = async (value) => {
 
       {
         headers: {
-          Authorization: `dI-QLYD350yjH7fDwy9JWg==`,
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "multipart/form-data",
         },
       },
