@@ -1,8 +1,8 @@
-import { Row, Col, Image, Form, Input, Tag } from "antd";
 import styled from "styled-components";
-import emptyProfile from "../../assets/images/emptyProfile.svg";
 import { useEffect, useState } from "react";
+import { Row, Col, Image, Form, Input, Tag } from "antd";
 
+/*실종자 현황 - 프로필 카드 컴포넌트 */
 export const CardView = ({ data }) => {
   const [form] = Form.useForm();
   const [statusText, setStatusText] = useState("탐색중");

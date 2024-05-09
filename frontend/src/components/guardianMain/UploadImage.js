@@ -1,46 +1,34 @@
-import { Form, Upload, message } from "antd";
 import styled from "styled-components";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { Form, Upload, message } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { postProfileImg } from "../../core/api";
 
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-
+/*의뢰인용 화면 - 프로필 업로드 컴포넌트 */
 export const UploadImage = ({ id, profile }) => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+
   useEffect(() => {
     console.log("profile", profile);
     setImageUrl(profile);
   }, [profile]);
+
   const customRequest = async ({ file }) => {
     const formData = new FormData();
     formData.append("profile", file);
 
     try {
       const value = { id: id, profile: formData };
-
-      console.log("FormData 내용 확인:");
-      const profileFile = formData.get("profile");
-      console.log("Profile 파일 객체:", profileFile);
-
       const data = await postProfileImg(value);
-      console.log("File uploaded successfully:", data);
-      console.log("File URL:", data.data.url);
+
       setImageUrl(data.data.url);
-      // 성공 시 처리할 내용 추가
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("업로드 실패.");
-      // 실패 시 처리할 내용 추가
     }
   };
+
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
@@ -61,14 +49,8 @@ export const UploadImage = ({ id, profile }) => {
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       setLoading(false);
       setImageUrl(info.file.originFileObj);
-      // getBase64(info.file.originFileObj, (url) => {
-      //   console.log("url", url);
-      //   setLoading(false);
-      //   setImageUrl(url);
-      // });
     }
   };
 
