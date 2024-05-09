@@ -8,10 +8,7 @@ import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
-import com.capstone.server.service.DetectService;
-import com.capstone.server.service.MissingPeopleService;
-import com.capstone.server.service.S3Service;
-import com.capstone.server.service.SmsService;
+import com.capstone.server.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +41,8 @@ public class MissingPeopleController {
     private DetectService detectService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private EncryptionService encryptionService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -91,7 +90,10 @@ public class MissingPeopleController {
             }
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
-            return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto)));
+            MissingPeopleCreateResponseDto createResponseDto = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
+            //메시지 전송
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponseDto.getId());
+            return ResponseEntity.ok().body(new SuccessResponse(createResponseDto));
         }
     }
 
@@ -125,15 +127,16 @@ public class MissingPeopleController {
     }
 
     //실종자 프로필 사진 등록
-    @PostMapping("/{id}/profile")
+    @PostMapping("/profile")
     public ResponseEntity<?> uploadProfileImageToS3(
             @RequestPart(value = "profile", required = false) MultipartFile image,
-            @PathVariable Long id
+            @RequestHeader("Authorization") String authorization
     ) {
         if (image == null || image.isEmpty()) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.BAD_REQUEST, "Empty Image Error", "please Upload Image ");
         }
+        Long id = encryptionService.extractIdFromToken(authorization);
         String imageName = String.format("missingPeopleId=%d/profile/001", id);
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);

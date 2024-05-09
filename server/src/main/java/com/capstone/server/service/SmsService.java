@@ -25,7 +25,7 @@ public class SmsService {
     @Value("${phone_num}")
     String phoneNum;
 
-    @Value("${mobile.server.url}")
+    @Value("${backend.server.url}")
     String serverUrl;
     @Value("${naver.api.client.id}")
     String naverClientKey;

@@ -25,8 +25,8 @@ public class TestController {
     }
 
     @GetMapping("/url")
-    public ResponseEntity<?> urlTest() {
-        return ResponseEntity.ok().body(new SuccessResponse<>(smsService.getShortUrl(3L)));
+    public ResponseEntity<?> urlTest(@RequestParam("id") Long id) {
+        return ResponseEntity.ok().body(new SuccessResponse<>(smsService.getShortUrl(id)));
     }
 
 }

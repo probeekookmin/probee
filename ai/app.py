@@ -11,15 +11,16 @@ import os
 import boto3
 import datetime
 import requests
+from typing import List
 
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
-sys.path.append(str(Path(__file__).parent)+"/make_query")
+sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
 
 from TextReID.test_net import findByText 
 from yolov5_crowdhuman.detect import run_detection
-from make_query.make_query import create_query, translate_english_to_korean
+from yolov8.run import run_Yolo
 
 app = FastAPI(port = 8080)
 
@@ -37,15 +38,13 @@ class CCTVInfo(BaseModel):
     latitude : float
 
 class TotalInput(BaseModel):
-    cctvId : str
+    cctvId : List[CCTVInfo]
     startTime : str
     endTime : str
     searchId: int
     missingPeopleId : int
     step : str
     query : str
-    cctvId : List[CCTVInfo]
-    
 
 
 
@@ -54,46 +53,28 @@ class DetectResult(BaseModel):
     missingPeopleId : int
     query : str
     data : list
-    
 
-#테스트용    
 @app.post('/run', response_model=DetectResult)
-async def test(input: TotalInput):
+async def test(input :TotalInput):
+    print(input)
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
+    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     query = input.query
-    await runYolo(input) #yolo돌리기
-    result_dir = await runTextReID(input, query) #text-re-id돌리고 결과 json파일 받아오기
+    result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:]
 
-
-
-
-
-# todo : 시작시간, 종료시간 지정해서 연산을 돌려야함
-async def runYolo(input : TotalInput):
-    home_path = os.path.expanduser("~")
-    print
-    #todo : 들어오는 list를 받아 cctv별 연산을 돌려야함
-    # cctv_id = input.cctvId
-    # cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime.split("T")[0]) #경로는 각자 환경에 맞게 조장하시오
-    # return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo",cctv_id = cctv_id) #Result dir을 받아 다음 단계로 넘겨줘야함.
-    cctv_id = "C0006"
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", cctv_id, input.startTime.split("T")[0]) #경로는 각자 환경에 맞게 조장하시오
-    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo",cctv_id = cctv_id) #Result dir을 받아 다음 단계로 넘겨줘야함.
-    
-
-async def runTextReID(input : TotalInput, query : str):
+async def runTextReID(input : TotalInput, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
     print(root_path)
     ## 저장경로 지정
     home_path = os.path.expanduser("~")
     result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
-    findByText(root_path, search_num=input.searchId, query = query, data_dir = os.path.expanduser("~")+"/Desktop/yolo/"+str(input.searchId), save_folder = result_dir)
-    
-
+    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
     return result_dir
 
 
