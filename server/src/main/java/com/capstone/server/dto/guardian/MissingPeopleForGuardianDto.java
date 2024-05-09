@@ -18,7 +18,7 @@ public class MissingPeopleForGuardianDto {
         this.missingPeopleName = missingPeopleEntity.getName();
         this.birthdate = missingPeopleEntity.getBirthdate();
         this.profileImage = imageCheck(missingPeopleEntity.getProfileImage());
-        this.query = missingPeopleEntity.getQuery();
+        this.query = missingPeopleEntity.getKoQuery();
     }
 
     public static MissingPeopleForGuardianDto fromEntity(MissingPeopleEntity missingPeopleEntity) {
