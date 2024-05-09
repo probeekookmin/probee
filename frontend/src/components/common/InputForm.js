@@ -6,7 +6,7 @@ export const InputForm = ({ label, name }) => {
     <StInputForm>
       <InputLabel>{label}</InputLabel>
       <InputItem name={name}>
-        <InputField variant="borderless" readOnly={"true"} />
+        <InputField variant="borderless" readOnly={true} />
       </InputItem>
     </StInputForm>
   );
@@ -17,7 +17,7 @@ export const CenterInputForm = ({ label, name }) => {
     <StCenterInputForm>
       <InputLabel>{label}</InputLabel>
       <InputItem name={name}>
-        <InputField variant="borderless" readOnly={"true"} />
+        <InputField variant="borderless" readOnly={true} />
       </InputItem>
     </StCenterInputForm>
   );
