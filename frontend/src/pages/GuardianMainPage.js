@@ -15,17 +15,17 @@ function GuardianMainPage() {
 
   useEffect(() => {
     //실종자 정보 가져오기
-    getGuardianMissingPerson(1).then((data) => {
+    getGuardianMissingPerson().then((data) => {
       form.setFieldsValue({
         name: data.missingPeopleName,
         birth: data.birthdate.replace(/-/g, "."), // 1999-01-01 -> 1999.01.01
-        wearingInfo: data.koQuery,
+        wearingInfo: data.query,
       });
       setProfile(data.profileImage);
     });
 
     //실종자 진행현황 가져오기
-    getGuardianMissingPersonStep(1).then((data) => {
+    getGuardianMissingPersonStep().then((data) => {
       switch (data.step) {
         case "FIRST":
           setStep(0);
