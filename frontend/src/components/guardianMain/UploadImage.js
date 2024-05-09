@@ -1,7 +1,7 @@
 import { Form, Upload, message } from "antd";
 import styled from "styled-components";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postProfileImg } from "../../core/api";
 
 const getBase64 = (img, callback) => {
@@ -10,12 +10,15 @@ const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
-export const UploadImage = ({ id }) => {
+export const UploadImage = ({ id, profile }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
-
+  useEffect(() => {
+    console.log("profile", profile);
+    setImageUrl(profile);
+  }, [profile]);
   const customRequest = async ({ file }) => {
     const formData = new FormData();
     formData.append("profile", file);
@@ -31,7 +34,7 @@ export const UploadImage = ({ id }) => {
       console.log("File uploaded successfully:", data);
       console.log("File URL:", data.data.url);
       setImageUrl(data.data.url);
-      // 성공 시 처리할 내용 추가s
+      // 성공 시 처리할 내용 추가
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("업로드 실패.");
@@ -88,7 +91,7 @@ export const UploadImage = ({ id }) => {
 
   return (
     <StUploadImage>
-      <Form.Item getValueFromEvent={({ file }) => file.originFileObj}>
+      <Form.Item name={"profile"} getValueFromEvent={({ file }) => file.originFileObj}>
         <UploadWrapper
           className="custom-uploader"
           accept="image/png, image/jpeg"
@@ -113,6 +116,7 @@ const UploadWrapper = styled(Upload)`
     background: #fdfdfd;
     border: 0.2rem solid #f2f2f2;
     border-radius: 2.5rem;
+    margin: 0 auto;
   }
 
   &.custom-uploader .ant-upload.ant-upload-select > .ant-upload {
@@ -120,7 +124,6 @@ const UploadWrapper = styled(Upload)`
     height: 25rem;
   }
 
-  /* you need to customise top and left css attribute */
   &.custom-uploader .ant-upload.ant-upload-select > .ant-upload > button {
     font-size: 4.5rem;
     color: #a7a7a7;
@@ -131,5 +134,6 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover; /* 이미지 비율 유지 및 카드에 꽉 차게 표시 */
-  border-radius: 2rem; /* 원형 이미지 효과를 위해 */
+  object-position: center; /* 이미지 중앙에 표시 */
+  border-radius: 2rem;
 `;

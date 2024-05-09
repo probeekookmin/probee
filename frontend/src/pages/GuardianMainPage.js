@@ -9,6 +9,7 @@ import { getGuardianMissingPerson, getGuardianMissingPersonStep } from "../core/
 
 function GuardianMainPage() {
   const [form] = Form.useForm();
+  const [profile, setProfile] = useState(""); // [profile, setProfile]
   const [step, setStep] = useState(1); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   useEffect(() => {
     getGuardianMissingPerson(1).then((data) => {
@@ -18,6 +19,8 @@ function GuardianMainPage() {
         birth: data.birthdate.replace(/-/g, "."), // 1999-01-01 -> 1999.01.01
         wearingInfo: data.koQuery,
       });
+      console.log("profileImage", data.profileImage);
+      setProfile(data.profileImage);
     });
     getGuardianMissingPersonStep(1).then((data) => {
       console.log("stepD", data);
@@ -52,7 +55,7 @@ function GuardianMainPage() {
       <Row align={"middle"} gutter={[8, 20]}>
         <Col span={24}>
           <ProfileSection form={form}>
-            <ProfileCard id={1} />
+            <ProfileCard id={1} profile={profile} />
           </ProfileSection>
         </Col>
         <Col span={24}>
