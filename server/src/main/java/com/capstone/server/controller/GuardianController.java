@@ -89,7 +89,7 @@ public class GuardianController {
         Cookie cookie = new Cookie("authToken", token);
         cookie.setPath("/");
         response.addCookie(cookie);
-        URI redirectUri = new URI("http://10.30.102.8/m");
+        URI redirectUri = new URI(REDIRECT_URL);
 //        URI redirectUri = new URI("http//localhost:8080");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(redirectUri);
