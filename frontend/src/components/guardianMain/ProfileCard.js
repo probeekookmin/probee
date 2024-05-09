@@ -5,7 +5,7 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
-export const ProfileCard = ({ id }) => {
+export const ProfileCard = ({ id, profile }) => {
   const CenterInputForm = ({ label, name, lines }) => {
     return (
       <StCenterInputForm>
@@ -14,13 +14,13 @@ export const ProfileCard = ({ id }) => {
           {lines ? (
             <InputField2
               variant="borderless"
-              readOnly={"true"}
+              readOnly={true}
               autoSize={{
                 minRows: 1,
                 maxRows: 3,
               }}></InputField2>
           ) : (
-            <InputField variant="borderless" readOnly={"true"} />
+            <InputField variant="borderless" readOnly={true} />
           )}
         </InputItem>
       </StCenterInputForm>
@@ -28,7 +28,7 @@ export const ProfileCard = ({ id }) => {
   };
   return (
     <StProfileCard>
-      <UploadImage id={id} />
+      <UploadImage id={id} profile={profile} />
       <CenterInputForm label={"성명"} name={"name"} />
       <CenterInputForm label={"생년월일"} name={"birth"} />
       <CenterInputForm label={"착장정보"} name={"wearingInfo"} lines={true} />
