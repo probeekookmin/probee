@@ -33,6 +33,12 @@ function GuardianMainPage() {
         case "BETWEEN":
           setStep(1);
           break;
+        case "SECOND":
+          setStep(2);
+          break;
+        case "EXIT":
+          setStep(3);
+          break;
         default:
           setStep(1);
       }
