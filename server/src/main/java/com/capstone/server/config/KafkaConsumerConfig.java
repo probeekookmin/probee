@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,5 +56,18 @@ public class KafkaConsumerConfig {
         JsonDeserializer<KafkaDto> deserializer = new JsonDeserializer<>(KafkaDto.class);
         deserializer.addTrustedPackages("com.capstone.server.dto");
         return deserializer;
+    }
+
+    @Bean
+    public ConsumerFactory<String, Long> longConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(this.consumerConfig(), new StringDeserializer(), new LongDeserializer());
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Long> kafkaLongListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Long> factory
+                = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(this.longConsumerFactory());
+        return factory;
     }
 }
