@@ -67,7 +67,7 @@ public class KafkaConsumerService {
 
     // 사용 중 
     @Transactional
-    @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group03") // return 하지 않음. 
+    @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01") // return 하지 않음. 
     public void consumeStartCallFirstDetectionApi(Long id) {
         // TODO : 로직 추가 
         DetectionResultDto detectionResultDto = detectService.callFirstDetectAPI(id);
