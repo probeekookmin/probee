@@ -16,12 +16,12 @@ export const SelectImgList = ({ onSelect, data }) => {
     <StSelectImgList>
       <CountText>선택한 이미지({data.length})</CountText>
       <ScrollContainer>
-        {data.map((item, index) => (
+        {data.map((item) => (
           <>
             <ImageItem
-              key={index}
+              key={`select-${item.resultId}`}
               className="custom-image"
-              src={item}
+              src={item.imgUrl}
               onClick={() => setOpenPreview(true)}
               preview={false}
               // preview={{
@@ -34,6 +34,7 @@ export const SelectImgList = ({ onSelect, data }) => {
               // }}
             />{" "}
             <PreviewModal
+              key={`preview-${item.resultId}`}
               className="custom-modal"
               open={openPreview}
               centered
@@ -42,9 +43,9 @@ export const SelectImgList = ({ onSelect, data }) => {
               closeIcon={null}
               width={1000}>
               <PreviewItem
-                key={index}
+                key={`preview-i-${item.resultId}`}
                 className="custom-image"
-                src={item}
+                src={item.imgUrl}
                 onClick={() => setOpenPreview(true)}
                 preview={false}
               />{" "}

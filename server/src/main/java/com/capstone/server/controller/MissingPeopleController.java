@@ -184,6 +184,7 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImagesToS3(images, imagePath, id, searchHistoryId)));
     }
 
+    //탐색결과 가져오기
     @GetMapping("/{id}/search-result")
     public ResponseEntity<?> getSearchResult(
             @PathVariable Long id,
