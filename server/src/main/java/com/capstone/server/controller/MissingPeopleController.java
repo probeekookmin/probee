@@ -93,7 +93,7 @@ public class MissingPeopleController {
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
             MissingPeopleCreateResponseDto createResponseDto = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-            kafkaProducerService.startCallFirstDetectApiToKafka(createResponseDto.getId());
+            // kafkaProducerService.startCallFirstDetectApiToKafka(createResponseDto.getId());
             //메시지 전송
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponseDto.getId());
             return ResponseEntity.ok().body(new SuccessResponse(createResponseDto));
@@ -115,7 +115,8 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
 
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            detectService.callFirstDetectAPI(createResponse.getId());
+            // detectService.callFirstDetectAPI(createResponse.getId());
+            kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
             //메시지 전송
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
