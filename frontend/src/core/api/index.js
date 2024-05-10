@@ -131,3 +131,90 @@ export const postProfileImg = async (value) => {
     });
   return data;
 };
+
+/*리포트 화면 실종자 정보 가져오기*/
+export const getMissingPerson = async (id) => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+}
+
+/*탐색 단계 가져오기 (실종자 리포트 화면)*/
+export const getMissingPeopleStep = async (id) => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/step`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+}
+
+/* 지능형 탐색 기록 리스트 가져오기*/ 
+export const getSearchHistoryList = async (id) => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-history`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+}
+
+/* 지능형 탐색결과 사진 가져오기 todo: 주소 파싱하는거 고쳐야함*/
+export const getSearchResultImg = async (id,step,search_id) => {
+  let url = `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?`
+  if(step) url += `step=${step}&`
+  if(search_id) url += `search_id=${search_id}`
+  const data = axios
+    .get(
+      url,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+}

@@ -1,16 +1,21 @@
 import styled from "styled-components";
 import { Typography, List, Skeleton, Flex, Row, Col } from "antd";
 import { FileSearchOutlined } from "@ant-design/icons";
+import { useEffect ,useState} from "react";
+// const data = [
+//   "2024-03-26 10:03:12",
+//   "2024-03-24 10:03:12",
+//   "2024-03-22 10:03:12",
+//   "2024-03-20 10:03:12",
+//   "2024-03-14 10:03:12",
+// ];
 
-const data = [
-  "2024-03-26 10:03:12",
-  "2024-03-24 10:03:12",
-  "2024-03-22 10:03:12",
-  "2024-03-20 10:03:12",
-  "2024-03-14 10:03:12",
-];
-
-export const ReportList = () => {
+export const ReportList = ({listData}) => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    console.log("history data", listData);
+    setData(listData.map(item => new Date(item.createdAt).toLocaleString()));
+  }, []);
   const ListItems = ({ item }) => {
     return (
       <ListItemContainer>
