@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.IntegerSerializer;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -51,5 +53,21 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, KafkaDto> kafkaDtoTemplate() {
         return new KafkaTemplate<>(dtoProducerFactory());
+    }
+
+    // Producer Factory for Integer
+    @Bean
+    public ProducerFactory<String, Long> longProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class); // Integer를 위한 Serializer 추가
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    // Kafka Template for Integer
+    @Bean
+    public KafkaTemplate<String, Long> kafkaIntegerTemplate() {
+        return new KafkaTemplate<>(longProducerFactory());
     }
 }

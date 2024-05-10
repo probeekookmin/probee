@@ -1,6 +1,6 @@
 package com.capstone.server.controller;
 
-import com.capstone.server.dto.DetectionRequestDto;
+import com.capstone.server.dto.FirstDetectionRequestDto;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.DetectService;
 import com.capstone.server.service.SmsService;
@@ -20,8 +20,8 @@ public class TestController {
 
     //ai 탐색코드 테스트
     @PostMapping("/aiserver")
-    public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
-        return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
+    public ResponseEntity<?> test(@RequestBody FirstDetectionRequestDto firstDetectionRequestDto) {
+        return ResponseEntity.ok().body(new SuccessResponse(detectService.callFirstDetectAPI(firstDetectionRequestDto)));
     }
 
     @GetMapping("/url")

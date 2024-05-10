@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Row, Col, Image, Form, Input, Tag } from "antd";
+import { Link } from 'react-router-dom';
 
 /*실종자 현황 - 프로필 카드 컴포넌트 */
 export const CardView = ({ data }) => {
@@ -8,6 +9,7 @@ export const CardView = ({ data }) => {
   const [statusText, setStatusText] = useState("탐색중");
   const [status, setStatus] = useState("searching");
   const [imgUrl, setImgUrl] = useState("emptyProfile");
+  const [missingPeopleId, setMissingPeopleId] = useState(0);
 
   // 실종자 정보 적용
   useEffect(() => {
@@ -22,6 +24,7 @@ export const CardView = ({ data }) => {
     setStatus(data.status);
     setStatusText(data.status === "searching" ? "탐색중" : "종료");
     setImgUrl(data.profileImage);
+    setMissingPeopleId(data.id);
   }, []);
 
   const dateForm = (dateString) => {
@@ -54,42 +57,47 @@ export const CardView = ({ data }) => {
       </>
     );
   };
-
+  
   const CardItem = () => {
     return (
-      <StCardItem form={form} process={status}>
-        <Row gutter={[13, 10]}>
-          <Col span={8}>
-            <ProfileImage className="custom-image" src={imgUrl} style={{ width: "8.8rem", height: "8.8rem" }} />
-          </Col>
-          <Col span={16}>
-            <Row>
-              <Col span={17}>
-                <InputForm label={"성명"} name={"name"} />
-              </Col>
-              <Col span={7}>
-                <InputForm label={"성별"} name={"gender"} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <InputForm label={"생년월일"} name={"birth"} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Badge process={status} text={statusText} />
-              </Col>
-            </Row>
-          </Col>
-          <Col span={24}>
-            <InputForm label={"실종일시"} name={"missingTime"} />
-          </Col>
-          <Col span={24}>
-            <InputForm label={"실종장소"} name={"missingLocation"} />
-          </Col>
-        </Row>
-      </StCardItem>
+      <Link to={`/report`} state={{ id: missingPeopleId }} >
+        <StCardItem form={form} process={status} >
+          <Row gutter={[13, 10]}>
+            <Col span={8}>
+              <ProfileImage className="custom-image" src={imgUrl} style={{ width: "8.8rem", height: "8.8rem" }} />
+            </Col>
+            <Col span={16}>
+              <Row>
+              
+                <Col span={17}>
+                    <InputForm label={"성명"} name={"name"} />
+                  </Col>
+                
+                <Col span={7}>
+                  <InputForm label={"성별"} name={"gender"} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <InputForm label={"생년월일"} name={"birth"} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Badge process={status} text={statusText} />
+                </Col>
+              </Row>
+            </Col>
+            <Col span={24}>
+              <InputForm label={"실종일시"} name={"missingTime"} />
+            </Col>
+            <Col span={24}>
+              <InputForm label={"실종장소"} name={"missingLocation"} />
+            </Col>
+          </Row>
+        </StCardItem>
+        </Link>
+      
     );
   };
   return (
