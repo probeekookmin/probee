@@ -3,7 +3,7 @@ import { SelectImgList } from "../components/guardianSelect/SelectImgList";
 import { useEffect, useState } from "react";
 import { AllResultList } from "../components/guardianSelect/AllResultList";
 import { Button } from "antd";
-import { getGuardianSelectImage } from "../core/api";
+import { getGuardianSelectImage, postGuardianSelectImage } from "../core/api";
 
 // 더미 데이터
 const dummyData = [
@@ -81,6 +81,7 @@ const dummyData = [
 
 function GuardianSelectImgPage() {
   const [selectedImg, setSelectedImg] = useState([]);
+  const [selctedImgId, setSelectedImgId] = useState([]);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -89,13 +90,24 @@ function GuardianSelectImgPage() {
     });
   }, []);
 
-  const onSelect = (img) => {
+  const onSelect = (select) => {
     setSelectedImg((prev) => {
-      if (prev.includes(img)) {
-        return prev.filter((item) => item !== img);
+      if (prev.includes(select)) {
+        return prev.filter((item) => item !== select);
       } else {
-        return [...prev, img];
+        return [...prev, select];
       }
+    });
+  };
+
+  const onFinish = () => {
+    const value = [
+      selectedImg.map((item) => {
+        return item.resultId;
+      }),
+    ];
+    postGuardianSelectImage(value).then((data) => {
+      console.log("finishData:", data);
     });
   };
 
@@ -104,7 +116,7 @@ function GuardianSelectImgPage() {
       <SelectImgList onSelect={onSelect} data={selectedImg} />
       <AllResultList onSelect={onSelect} data={data} selectedList={selectedImg} />
       <BottomContainer>
-        <BottomButton>제출</BottomButton>
+        <BottomButton onClick={() => onFinish()}>제출</BottomButton>
       </BottomContainer>
     </StGuardianSelectImgPage>
   );

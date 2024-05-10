@@ -161,3 +161,30 @@ export const getGuardianSelectImage = async () => {
     });
   return data;
 };
+
+/*의뢰인용 이미지 선별 - 선별 이미지 (Post)*/
+export const postGuardianSelectImage = async (value) => {
+  const data = axios
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/between`,
+      { resultIds: value[0] },
+      {
+        headers: {
+          // Authorization: `${getCookie("authToken")}`,
+          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};

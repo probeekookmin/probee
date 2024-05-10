@@ -13,27 +13,24 @@ export const AllResultList = ({ onSelect, data, selectedList }) => {
         }}
         dataSource={data}
         renderItem={(item) => (
-          console.log("item", item),
-          (
-            <List.Item>
-              <ItemImage
-                className="custom-image"
-                src={item.imgUrl}
-                select={selectedList.includes(item.imgUrl) ? "true" : "false"}
-                preview={{
-                  width: 900,
+          <List.Item>
+            <ItemImage
+              className="custom-image"
+              src={item.imgUrl}
+              select={selectedList.includes(item) ? "true" : "false"}
+              preview={{
+                width: 900,
 
-                  toolbarRender: () => (
-                    <BottomContainer>
-                      <BottomButton onClick={() => onSelect(item.imgUrl)}>
-                        {selectedList.includes(item.imgUrl) ? "선택해제" : "선택"}
-                      </BottomButton>
-                    </BottomContainer>
-                  ),
-                }}
-              />
-            </List.Item>
-          )
+                toolbarRender: () => (
+                  <BottomContainer>
+                    <BottomButton onClick={() => onSelect(item)}>
+                      {selectedList.includes(item) ? "선택해제" : "선택"}
+                    </BottomButton>
+                  </BottomContainer>
+                ),
+              }}
+            />
+          </List.Item>
         )}
       />
     </StAllResultList>
