@@ -53,88 +53,6 @@ export const getAllMissingPerson = async (pageNum) => {
   return data;
 };
 
-/*의뢰인용 메인 - 실종자 정보 (Get) */
-export const getGuardianMissingPerson = async () => {
-  const data = axios
-    .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian`,
-
-      {
-        headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
-          "Content-Type": "application/json",
-        },
-      },
-    )
-    .then(function (response) {
-      console.log("response:", response.data);
-      return response.data.data;
-    })
-    .catch(function (e) {
-      // 실패 시 처리
-      console.error(e);
-      console.log(e.response.data);
-      alert("정보 불러오기 실패.");
-    });
-  return data;
-};
-
-/*의뢰인용 메인 - 진행현황 (Get) */
-export const getGuardianMissingPersonStep = async () => {
-  const data = axios
-    .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/step`,
-
-      {
-        headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
-          "Content-Type": "application/json",
-        },
-      },
-    )
-    .then(function (response) {
-      console.log("response:", response.data);
-      return response.data.data;
-    })
-    .catch(function (e) {
-      // 실패 시 처리
-      console.error(e);
-      console.log(e.response.data);
-      alert("정보 불러오기 실패.");
-    });
-  return data;
-};
-
-/*실종자 프로필 이미지 업로드 (Post)*/
-export const postProfileImg = async (value) => {
-  const data = axios
-    .post(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`,
-      value.profile,
-
-      {
-        headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    )
-    .then(function (response) {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch(function (e) {
-      // 실패 시 처리
-      console.error(e);
-      console.log(e.response.data);
-      alert("등록 실패. 재시도해주세요.");
-    });
-  return data;
-};
-
 /*리포트 화면 실종자 정보 가져오기*/
 export const getMissingPerson = async (id) => {
   const data = axios
@@ -210,6 +128,85 @@ export const getSearchResultImg = async (id, step, search_id) => {
   return data;
 };
 
+/*의뢰인용 메인 - 실종자 정보 (Get) */
+export const getGuardianMissingPerson = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian`,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
+    });
+  return data;
+};
+
+/*의뢰인용 메인 - 진행현황 (Get) */
+export const getGuardianMissingPersonStep = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/step`,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
+    });
+  return data;
+};
+
+/*실종자 프로필 이미지 업로드 (Post)*/
+export const postProfileImg = async (value) => {
+  const data = axios
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`,
+      value.profile,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
 /*의뢰인용 이미지 선별 - 1차 탐색 이미지 (Get) */
 export const getGuardianSelectImage = async () => {
   const data = axios
@@ -218,8 +215,7 @@ export const getGuardianSelectImage = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
@@ -245,8 +241,7 @@ export const postGuardianSelectImage = async (value) => {
       { resultIds: value[0] },
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
+          Authorization: `${getCookie("authToken")}`,
           "Content-Type": "application/json",
         },
       },
