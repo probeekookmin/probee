@@ -61,7 +61,8 @@ export const getGuardianMissingPerson = async () => {
 
       {
         headers: {
-          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${getCookie("authToken")}`,
+          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
           "Content-Type": "application/json",
         },
       },
@@ -87,7 +88,8 @@ export const getGuardianMissingPersonStep = async () => {
 
       {
         headers: {
-          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${getCookie("authToken")}`,
+          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
           "Content-Type": "application/json",
         },
       },
@@ -114,7 +116,8 @@ export const postProfileImg = async (value) => {
 
       {
         headers: {
-          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${getCookie("authToken")}`,
+          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
           "Content-Type": "multipart/form-data",
         },
       },
@@ -128,6 +131,33 @@ export const postProfileImg = async (value) => {
       console.error(e);
       console.log(e.response.data);
       alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/*의뢰인용 이미지 선별 - 1차 탐색 이미지 (Get) */
+export const getGuardianSelectImage = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/between`,
+
+      {
+        headers: {
+          // Authorization: `${getCookie("authToken")}`,
+          Authorization: "ztar_2gIxKQN3LvkLc_9VQ==",
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("정보 불러오기 실패.");
     });
   return data;
 };

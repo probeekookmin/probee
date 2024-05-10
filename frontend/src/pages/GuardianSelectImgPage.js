@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { SelectImgList } from "../components/guardianSelect/SelectImgList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AllResultList } from "../components/guardianSelect/AllResultList";
 import { Button } from "antd";
+import { getGuardianSelectImage } from "../core/api";
 
 // 더미 데이터
 const dummyData = [
@@ -80,6 +81,14 @@ const dummyData = [
 
 function GuardianSelectImgPage() {
   const [selectedImg, setSelectedImg] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getGuardianSelectImage().then((data) => {
+      setData(data);
+    });
+  }, []);
+
   const onSelect = (img) => {
     setSelectedImg((prev) => {
       if (prev.includes(img)) {
@@ -93,7 +102,7 @@ function GuardianSelectImgPage() {
   return (
     <StGuardianSelectImgPage>
       <SelectImgList onSelect={onSelect} data={selectedImg} />
-      <AllResultList onSelect={onSelect} data={dummyData} selectedList={selectedImg} />
+      <AllResultList onSelect={onSelect} data={data} selectedList={selectedImg} />
       <BottomContainer>
         <BottomButton>제출</BottomButton>
       </BottomContainer>
