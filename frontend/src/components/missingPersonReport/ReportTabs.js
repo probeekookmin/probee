@@ -2,22 +2,40 @@ import styled from "styled-components";
 import { Tabs, Select } from "antd";
 import { ReportList } from "./ReportList";
 import { ResultView } from "../common/ResultView";
+import { useEffect ,useState} from "react";
+const data = [
+  { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-25", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-24", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-23", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-20", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-17", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-16", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-15", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-14", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
+  { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
+];
+// const [data1, setData1] = useState([]);
+// const [dataBetween, setdataBetween] = useState([]);
+// const [data2, setData2] = useState([]);
 
 const items = [
   {
     key: "1",
     label: "1차 탐색",
-    children: "Content of Tab Pane 1",
+    children: <ResultView count={6} column={6} dataList = {data}/>,
   },
   {
     key: "2",
     label: "이미지 선별",
-    children: "Content of Tab Pane 2",
+    children: <ResultView count={6} column={6} dataList = {data}/>,
   },
   {
     key: "3",
     label: "2차 탐색",
-    children: <ResultView count={6} column={6} />,
+    children: <ResultView count={6} column={6} dataList = {data}/>,
   },
 ];
 const operations = (
@@ -43,7 +61,8 @@ const operations = (
     ]}
   />
 );
-export const ReportTabs = () => {
+export const ReportTabs = ({id}) => {
+  console.log("ReportTabs_id: " + id);
   return (
     <StReportTabs>
       <TabContainer defaultActiveKey="1" items={items} size="small" tabBarExtraContent={operations} />

@@ -1,21 +1,26 @@
 import styled from "styled-components";
 import { Select, Pagination, Skeleton, List, Card, Col, Row } from "antd";
+import { useEffect,useState } from "react";
 
-const data = [
-  { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-25", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-24", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-23", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-20", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-17", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-16", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-15", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-14", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
-];
-export const ResultView = ({ column, count }) => {
+// const data = [
+//   { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-25", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-24", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-23", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-20", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-17", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-16", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-15", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-14", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
+//   { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
+// ];
+export const ResultView = ({ column, count, dataList}) => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    setData(dataList);
+  }, [dataList]);
   const Item = ({ item }) => {
     return (
       <ItemContainer>
