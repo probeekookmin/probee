@@ -132,6 +132,7 @@ export const postProfileImg = async (value) => {
   return data;
 };
 
+/*리포트 화면 실종자 정보 가져오기*/
 export const getMissingPerson = async (id) => {
   const data = axios
     .get(
@@ -141,7 +142,6 @@ export const getMissingPerson = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData Missing Person:", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -152,6 +152,7 @@ export const getMissingPerson = async (id) => {
     });
   return data;
 }
+
 /*탐색 단계 가져오기 (실종자 리포트 화면)*/
 export const getMissingPeopleStep = async (id) => {
   const data = axios
@@ -162,7 +163,6 @@ export const getMissingPeopleStep = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData::: Step", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -173,6 +173,7 @@ export const getMissingPeopleStep = async (id) => {
     });
   return data;
 }
+
 /* 지능형 탐색 기록 리스트 가져오기*/ 
 export const getSearchHistoryList = async (id) => {
   const data = axios
@@ -183,7 +184,6 @@ export const getSearchHistoryList = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData::: History", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -194,7 +194,8 @@ export const getSearchHistoryList = async (id) => {
     });
   return data;
 }
-/* 지능형 탐색결과 사진 가져오기*/
+
+/* 지능형 탐색결과 사진 가져오기 todo: 주소 파싱하는거 고쳐야함*/
 export const getSearchResultImg = async (id,step,search_id) => {
   let url = `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?`
   if(step) url += `step=${step}&`
@@ -207,7 +208,6 @@ export const getSearchResultImg = async (id,step,search_id) => {
       },
     )
     .then(function (response) {
-      console.log("getData::: result", response.data);
       return response.data;
     })
     .catch(function (e) {

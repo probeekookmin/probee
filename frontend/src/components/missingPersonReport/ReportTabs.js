@@ -45,11 +45,11 @@ const operations = (
 export const ReportTabs = ({id}) => {
   console.log("ReportTabs_id: " + id);
   const [data1, setData1] = useState([]);
-  const [dataBetween, setdataBetween] = useState([]);
+  const [dataBetween, setdataBetween] = useState([]); /* todo 이미지 고른거 가져오기*/
   const [data2, setData2] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const firstResult = await getSearchResultImg(id, "first", null);
+      const firstResult = await getSearchResultImg(id, "first", null); /* 단계별로 정보 가져와서 담아주기*/
       setData1(firstResult.data);
 
       const secondResult = await getSearchResultImg(id, "second", null);

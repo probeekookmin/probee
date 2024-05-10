@@ -12,11 +12,12 @@ export const BasicInfo = ({ data }) => {
       name: data.missingPeopleName,
       birth: data.birthdate,
       gender: data.gender,
-      missingTime: String(data.missingAt).split("T")[0]+" "+String(String(data.missingAt).split("T")[1]).split(":")[0]+"시 경", // 함수화 필요
+      missingTime: String(data.missingAt).split("T")[0]+" "+String(String(data.missingAt).split("T")[1]).split(":")[0]+"시 경", // todo :함수화 필요
       missingLocation: data.missingLocation,
       guardianName: data.guardianName,
       relation: data.relationship,
       guardianContact: data.phoneNumber,
+      koQuery : data.koQuery //착장정보 한국어
     });
   }, []);
 
@@ -28,7 +29,12 @@ export const BasicInfo = ({ data }) => {
         <MissingPersonForm form={form} layout="vertical">
           <Row>
             <Col span={11}>
-              <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
+              {/* <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} /> */}
+              {data.profileImage ? (
+                <img src={data.profileImage} alt="Profile" style={{ width: "13rem", height: "16rem" }} />
+              ) : (
+                <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
+              )}
             </Col>
             <Col span={13}>
               <InputForm label={"성명"} name={"name"} />
@@ -77,7 +83,11 @@ export const BasicInfo = ({ data }) => {
       <InfoContainer>
         <Typography.Title level={5}>착장 정보</Typography.Title>
         <InfoForm form={form} layout="vertical">
-          <Skeleton title={false} />
+          <Row>
+            <Col span={24}>
+              <StyledParagraph>{data.koQuery}</StyledParagraph>
+            </Col>
+          </Row>
         </InfoForm>
       </InfoContainer>
     );
@@ -112,3 +122,9 @@ const InfoForm = styled(Form)`
 
 // 실종자 정보 영역
 const MissingPersonForm = styled(Form)``;
+
+//어떻게든 쿼리 보이게 해보려고 임시로 넣은 코드 - 종빈
+const StyledParagraph = styled.p`
+  margin-bottom: 0.5rem;
+  white-space: pre-wrap; /* Preserve line breaks */
+`;

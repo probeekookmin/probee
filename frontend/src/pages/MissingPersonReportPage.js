@@ -16,7 +16,6 @@ import { useLocation } from 'react-router-dom';
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [searchHistoryList, setSearchHistoryList] = useState([]);
   
   const location = useLocation();
@@ -42,14 +41,11 @@ function MissingPersonReportPage() {
   };
   
   const fetchData = (id) => {
-    setLoading(true);
     getMissingPerson(id).then((res) => {
       setMissingPerson(res.data);
-      setLoading(false);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
-      setLoading(false);
     });
     getMissingPeopleStep(id).then((res) => {
       switch (res.data.step) {
