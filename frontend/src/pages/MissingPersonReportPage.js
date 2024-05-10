@@ -41,12 +41,6 @@ function MissingPersonReportPage() {
   };
   
   const fetchData = (id) => {
-    getMissingPerson(id).then((res) => {
-      setMissingPerson(res.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
     getMissingPeopleStep(id).then((res) => {
       switch (res.data.step) {
         case "FIRST":
@@ -66,6 +60,15 @@ function MissingPersonReportPage() {
         }
       }
     )
+    getMissingPerson(id).then((res) => {
+      setMissingPerson(res.data);
+      if(res.data.status==="exit"){
+        setStep(5);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
     getSearchHistoryList(id).then((res) => {
       setSearchHistoryList(res.data);
       }
