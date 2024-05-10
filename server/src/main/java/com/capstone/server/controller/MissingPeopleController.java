@@ -43,6 +43,8 @@ public class MissingPeopleController {
     private SmsService smsService;
     @Autowired
     private EncryptionService encryptionService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -91,6 +93,7 @@ public class MissingPeopleController {
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
             MissingPeopleCreateResponseDto createResponseDto = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
+            kafkaProducerService.startCallFirstDetectApiToKafka(createResponseDto.getId());
             //메시지 전송
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponseDto.getId());
             return ResponseEntity.ok().body(new SuccessResponse(createResponseDto));
