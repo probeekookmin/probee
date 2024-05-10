@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Row, Col, Image, Form, Input, Tag } from "antd";
+import { Link } from 'react-router-dom';
 
 /*실종자 현황 - 프로필 카드 컴포넌트 */
 export const CardView = ({ data }) => {
