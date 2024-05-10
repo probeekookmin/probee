@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Select, Pagination, Skeleton, List, Card, Col, Row } from "antd";
+import { Select, Pagination, Skeleton, List, Card, Col, Row ,Form} from "antd";
 import { useEffect,useState } from "react";
 
 // const data = [
@@ -18,16 +18,21 @@ import { useEffect,useState } from "react";
 // ];
 export const ResultView = ({ column, count, dataList}) => {
   const [data, setData] = useState([]);
+  
   useEffect(() => {
     setData(dataList);
   }, [dataList]);
   const Item = ({ item }) => {
     return (
       <ItemContainer>
+        {item.imgUrl ? (
+        <img src={item.imgUrl} alt="Image" style={{ width: "7.2rem", height: "11.9rem" }} />
+      ) : (
         <Skeleton.Image active={false} style={{ width: "7.2rem", height: "11.9rem" }} />
+      )}
         <p>{item.date}</p>
         <p>{item.time}</p>
-        <p>정확도:{item.accuracy}</p>
+        <p>정확도:{item.similarity}</p>
       </ItemContainer>
     );
   };

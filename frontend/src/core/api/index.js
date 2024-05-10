@@ -141,7 +141,7 @@ export const getMissingPerson = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData:::", response.data);
+      console.log("getData Missing Person:", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -162,7 +162,7 @@ export const getMissingPeopleStep = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData:::", response.data);
+      console.log("getData::: Step", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -183,7 +183,7 @@ export const getSearchHistoryList = async (id) => {
       },
     )
     .then(function (response) {
-      console.log("getData:::", response.data);
+      console.log("getData::: History", response.data);
       return response.data;
     })
     .catch(function (e) {
@@ -194,10 +194,9 @@ export const getSearchHistoryList = async (id) => {
     });
   return data;
 }
-
 /* 지능형 탐색결과 사진 가져오기*/
 export const getSearchResultImg = async (id,step,search_id) => {
-  let url = `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-history?`
+  let url = `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?`
   if(step) url += `step=${step}&`
   if(search_id) url += `search_id=${search_id}`
   const data = axios
@@ -208,7 +207,7 @@ export const getSearchResultImg = async (id,step,search_id) => {
       },
     )
     .then(function (response) {
-      console.log("getData:::", response.data);
+      console.log("getData::: result", response.data);
       return response.data;
     })
     .catch(function (e) {

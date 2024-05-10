@@ -3,6 +3,7 @@ import { Tabs, Select } from "antd";
 import { ReportList } from "./ReportList";
 import { ResultView } from "../common/ResultView";
 import { useEffect ,useState} from "react";
+import {getSearchResultImg} from "../../core/api";
 const data = [
   { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
   { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
@@ -17,27 +18,7 @@ const data = [
   { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
   { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
 ];
-// const [data1, setData1] = useState([]);
-// const [dataBetween, setdataBetween] = useState([]);
-// const [data2, setData2] = useState([]);
 
-const items = [
-  {
-    key: "1",
-    label: "1차 탐색",
-    children: <ResultView count={6} column={6} dataList = {data}/>,
-  },
-  {
-    key: "2",
-    label: "이미지 선별",
-    children: <ResultView count={6} column={6} dataList = {data}/>,
-  },
-  {
-    key: "3",
-    label: "2차 탐색",
-    children: <ResultView count={6} column={6} dataList = {data}/>,
-  },
-];
 const operations = (
   <Select
     defaultValue="정확도순"
@@ -63,10 +44,42 @@ const operations = (
 );
 export const ReportTabs = ({id}) => {
   console.log("ReportTabs_id: " + id);
+  const [data1, setData1] = useState([]);
+  const [dataBetween, setdataBetween] = useState([]);
+  const [data2, setData2] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const firstResult = await getSearchResultImg(id, "first", null);
+      setData1(firstResult.data);
+
+      const secondResult = await getSearchResultImg(id, "second", null);
+      setData2(secondResult.data);
+    };
+    fetchData();
+  }, [id]);
+  console.log("data1", data1);
+  console.log("data2", data2);
+  const items = [
+    {
+      key: "1",
+      label: "1차 탐색",
+      children: <ResultView count={6} column={6} dataList = {data1}/>,
+    },
+    {
+      key: "2",
+      label: "이미지 선별",
+      children: <ResultView count={6} column={6} dataList = {dataBetween}/>,
+    },
+    {
+      key: "3",
+      label: "2차 탐색",
+      children: <ResultView count={6} column={6} dataList = {data2}/>,
+    },
+    ];
   return (
-    <StReportTabs>
-      <TabContainer defaultActiveKey="1" items={items} size="small" tabBarExtraContent={operations} />
-    </StReportTabs>
+  <StReportTabs>
+    <TabContainer defaultActiveKey="1" items={items} size="small" tabBarExtraContent={operations} />
+  </StReportTabs>
   );
 };
 

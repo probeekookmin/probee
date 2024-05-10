@@ -15,7 +15,7 @@ export const ReportList = ({listData}) => {
   useEffect(() => {
     console.log("history data", listData);
     setData(listData.map(item => new Date(item.createdAt).toLocaleString()));
-  }, [data]);
+  }, []);
   const ListItems = ({ item }) => {
     return (
       <ListItemContainer>
