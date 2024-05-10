@@ -35,6 +35,7 @@ function MissingPersonListPage() {
   //   }
   // };
   const fetchData = (pageNum) => {
+    console.log("fetchData", pageNum);
     setLoading(true);
     getAllMissingPerson(pageNum)
       .then((res) => {
@@ -53,7 +54,7 @@ function MissingPersonListPage() {
 
   const handleScroll = () => {
     if (
-      containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight &&
+      containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight - 10 &&
       !loading
     ) {
       setPageNum(pageNum + 1);
