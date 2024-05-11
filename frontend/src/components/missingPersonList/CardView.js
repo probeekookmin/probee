@@ -9,7 +9,7 @@ export const CardView = ({ data }) => {
   const [statusText, setStatusText] = useState("탐색중");
   const [status, setStatus] = useState("searching");
   const [imgUrl, setImgUrl] = useState("emptyProfile");
-  const [type, setType] = useState("아동");
+  const [missingPeopleType, setMissingPeopleType] = useState("아동");
   const [missingPeopleId, setMissingPeopleId] = useState(0);
 
   // 실종자 정보 적용
@@ -25,7 +25,7 @@ export const CardView = ({ data }) => {
     setStatus(data.status);
     setStatusText(data.status === "searching" ? "탐색중" : "종료");
     setImgUrl(data.profileImage);
-    setType(data.missingPeopleType);
+    setMissingPeopleType(data.missingPeopleType);
     setMissingPeopleId(data.id);
   }, []);
 
@@ -50,16 +50,18 @@ export const CardView = ({ data }) => {
     );
   };
 
-  const Badge = ({ type, value, text }) => {
+  const Badge = ({ type }) => {
     return (
       <>
         {type === "process" ? (
-          <BadgeItem bordered={false} color={value === "searching" ? "#1890FF" : "#dfe9f3"}>
-            {text}
+          <BadgeItem bordered={false} color={status === "searching" ? "#1890FF" : "#dfe9f3"}>
+            {statusText}
           </BadgeItem>
         ) : (
-          <BadgeItem bordered={false} color={value === "아동" ? "#DA9039" : "#43C32F"}>
-            {text}
+          <BadgeItem
+            bordered={false}
+            color={status === "searching" ? (missingPeopleType === "아동" ? "#DA9039" : "#43C32F") : "#dfe9f3"}>
+            {missingPeopleType}
           </BadgeItem>
         )}
       </>
@@ -90,10 +92,10 @@ export const CardView = ({ data }) => {
               </Row>
               <Row>
                 <Col>
-                  <Badge type={"type"} value={type} text={type} />
+                  <Badge type={"type"} />
                 </Col>
                 <Col>
-                  <Badge type={"process"} value={status} text={statusText} />
+                  <Badge type={"process"} />
                 </Col>
               </Row>
             </Col>
