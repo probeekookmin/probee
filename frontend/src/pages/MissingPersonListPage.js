@@ -1,17 +1,15 @@
-import { Button, Form, Input, List, Radio, Typography } from "antd";
 import styled from "styled-components";
-import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
+import { Button, Form, Input, List, Radio, Typography } from "antd";
+import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import { CardView } from "../components/missingPersonList/CardView";
-import { dummyAll } from "../data/DummyData";
-import VirtualList from "rc-virtual-list";
 import { getAllMissingPerson } from "../core/api";
-import { useForm } from "antd/es/form/Form";
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
+/*실종자 현황(리스트)*/
 function MissingPersonListPage() {
   const [form] = Form.useForm();
-  const [filter, setFilter] = useState(""); // ["all", "process", "finish"
+  const [filter, setFilter] = useState(""); // ["", "searching", "exit"]
   const [search, setSearch] = useState("");
   const [init, setInit] = useState(true);
   const [missingPersonList, setMissingPersonList] = useState([]);
@@ -34,15 +32,6 @@ function MissingPersonListPage() {
     setFilter(e.target.value);
     setInit(false);
   };
-
-  // const onScroll = (e) => {
-  //   if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - ContainerHeight) <= 1) {
-  //     getAllMissingPerson(1).then((res) => {
-  //       setMissingPersonList(res);
-  //       console.log("missingPersonList", missingPersonList);
-  //     });
-  //   }
-  // };
 
   const onFinish = (value) => {
     console.log("Success:", value);
@@ -96,6 +85,7 @@ function MissingPersonListPage() {
     }
   };
 
+  /*필터*/
   const Filter = () => {
     return (
       <StFilter>
@@ -107,6 +97,8 @@ function MissingPersonListPage() {
       </StFilter>
     );
   };
+
+  /*검색창*/
   const SearchBox = () => {
     return (
       <StSearchBox onFinish={onFinish} form={form}>
@@ -122,6 +114,8 @@ function MissingPersonListPage() {
       </StSearchBox>
     );
   };
+
+  /*실종자 현황 페이지*/
   return (
     <StMissingPersonListPage>
       <Typography.Title level={3}>실종자 현황</Typography.Title>
@@ -136,22 +130,6 @@ function MissingPersonListPage() {
             검색 초기화
           </Button>
         </TopContainer>
-
-        {/* <List grid={{ gutter: 16, column: 4 }}>
-          <VirtualList
-            data={missingPersonList}
-            height={ContainerHeight}
-            itemHeight={200}
-            itemKey="id"
-            onScroll={onScroll}>
-            {(item) => (
-              <List.Item>
-                <CardView key={item.id} data={item} />
-              </List.Item>
-            )}
-          </VirtualList>
-        </List> */}
-
         <CardContainer ref={containerRef} onScroll={handleScroll}>
           <List
             grid={{ gutter: [0, 26] }}
@@ -159,13 +137,7 @@ function MissingPersonListPage() {
             renderItem={(item) => <CardView key={item.id} data={item} />}
             loading={loading}
           />
-          {/* {missingPersonList &&
-            missingPersonList.map((missingPerson) => {
-              return <CardView key={missingPerson.id} data={missingPerson} />;
-            })} */}
         </CardContainer>
-
-        {/* <CardView /> */}
       </ContentsContainer>
     </StMissingPersonListPage>
   );
@@ -197,9 +169,9 @@ const sharedRadioStyle = `
 
 const FilterWrapper = styled(Radio.Group)`
   &.radio-custom .ant-radio-wrapper {
+    padding: 0.5rem 1.9rem;
     border: 0.1rem solid #8b8b8b;
     border-radius: 10rem;
-    padding: 0.5rem 1.9rem;
     color: #8b8b8b;
     background-color: white;
     font-size: 1.6rem;
@@ -244,10 +216,10 @@ const CardContainer = styled.div`
   /* justify-content: space-between; */
   flex-wrap: wrap;
   flex-basis: 100%;
-  gap: 2.6rem;
-
   width: 100%;
   height: 100%;
+  gap: 2.6rem;
+
   padding-right: 3rem;
   padding-bottom: 10rem;
 

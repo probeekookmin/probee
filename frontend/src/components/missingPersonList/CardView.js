@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Row, Col, Image, Form, Input, Tag } from "antd";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 /*실종자 현황 - 프로필 카드 컴포넌트 */
 export const CardView = ({ data }) => {
@@ -57,22 +57,20 @@ export const CardView = ({ data }) => {
       </>
     );
   };
-  
+
   const CardItem = () => {
     return (
-      <Link to={`/report`} state={{ id: missingPeopleId }} >
-        <StCardItem form={form} process={status} >
+      <Link to={`/report`} state={{ id: missingPeopleId }}>
+        <StCardItem form={form} process={status}>
           <Row gutter={[13, 10]}>
             <Col span={8}>
               <ProfileImage className="custom-image" src={imgUrl} style={{ width: "8.8rem", height: "8.8rem" }} />
             </Col>
             <Col span={16}>
               <Row>
-              
                 <Col span={17}>
-                    <InputForm label={"성명"} name={"name"} />
-                  </Col>
-                
+                  <InputForm label={"성명"} name={"name"} />
+                </Col>
                 <Col span={7}>
                   <InputForm label={"성별"} name={"gender"} />
                 </Col>
@@ -96,8 +94,7 @@ export const CardView = ({ data }) => {
             </Col>
           </Row>
         </StCardItem>
-        </Link>
-      
+      </Link>
     );
   };
   return (
