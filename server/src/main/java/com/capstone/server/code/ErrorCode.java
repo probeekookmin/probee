@@ -18,13 +18,14 @@ public enum ErrorCode {
     DATA_INTEGRITY_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Invalid request."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user not found by id."),
     MISSING_PEOPLE_NOT_FOUND_BY_ID(HttpStatus.NOT_FOUND, "Not found by id."),
-
+    RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "don't exist results"),
     USER_EXISTS(HttpStatus.CONFLICT, "user exists."),
 
     MESSAGE_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "message sending fail"),
     AI_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AI SERVER ERROR"),
     INVALID_REQUEST_DATA(HttpStatus.UNPROCESSABLE_ENTITY, "AI server request is wrong"),
     CONNECTION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "AI SERVER is CLOSE");
+
     private final HttpStatus httpStatus;
     private final String message;
 }

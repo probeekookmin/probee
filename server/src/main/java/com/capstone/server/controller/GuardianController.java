@@ -1,11 +1,13 @@
 package com.capstone.server.controller;
 
 import com.capstone.server.dto.guardian.BetweenPostRequestDto;
+import com.capstone.server.dto.guardian.DetectionResultDto;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.EncryptionService;
 import com.capstone.server.service.GuardianService;
+import com.capstone.server.service.MissingPeopleService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +28,8 @@ import java.net.URISyntaxException;
 public class GuardianController {
     @Autowired
     private GuardianService guardianService;
-
+    @Autowired
+    private MissingPeopleService missingPeopleService;
     @Autowired
     private EncryptionService encryptionService;
 
@@ -48,11 +51,15 @@ public class GuardianController {
     }
 
     @GetMapping("/between")
-    public ResponseEntity<?> getFirstStepResult(@RequestHeader("Authorization") String authorization, @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria, @RequestParam(required = false, defaultValue = "1", value = "page") int page, @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
+    public ResponseEntity<?> getFirstStepResult(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         Step searchStep = Step.fromValue("first");
         Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(guardianService.getBetween(id, searchStep, page - 1, pageSize, sortBy)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDto.class).getList()));
     }
 
     @PostMapping("/between")

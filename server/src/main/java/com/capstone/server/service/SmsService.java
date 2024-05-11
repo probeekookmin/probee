@@ -62,7 +62,7 @@ public class SmsService {
     public String getShortUrl(Long id) {
         try {
             String token = encryptionService.encryptToken(id.toString());
-            String longUrl = UriComponentsBuilder.fromHttpUrl(serverUrl)
+            String longUrl = UriComponentsBuilder.fromHttpUrl("http://www.naver.com")
                     .path("/api/guardian/validate-token")
                     .queryParam("token", token)
                     .toUriString();
