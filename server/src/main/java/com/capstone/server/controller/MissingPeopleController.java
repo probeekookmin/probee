@@ -79,7 +79,6 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleDetailResponseDto));
     }
 
-    // TODO : AI 모델 탐색 코드 추가
     //실종자 등록
     @PostMapping()
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
@@ -114,10 +113,9 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
 
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            // detectService.callFirstDetectAPI(createResponse.getId());
             kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
-            //메시지 전송
-            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
+            //메시지 전송 (버그때문에 주석처리)
+//            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
         }
     }
