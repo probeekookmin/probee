@@ -177,6 +177,11 @@ const FilterWrapper = styled(Radio.Group)`
     color: #8b8b8b;
     background-color: white;
     font-size: 1.6rem;
+    transition: all 0.3s;
+    &:hover {
+      border: 0.1rem solid #1890ff;
+      color: #1890ff;
+    }
   }
 
   &.radio-custom .ant-radio-wrapper-checked {
@@ -184,6 +189,10 @@ const FilterWrapper = styled(Radio.Group)`
     background-color: #1890ff;
     color: white;
     ${sharedRadioStyle}
+    &:hover {
+      background-color: #4096ff;
+      color: white;
+    }
   }
 
   //기존 라디오 버튼 숨기기

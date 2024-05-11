@@ -123,7 +123,7 @@ const StCardView = styled.div`
 `;
 
 const StCardItem = styled(Form)`
-  flex-grow: 1;
+  /* flex-grow: 1; */
   width: 32rem;
   height: 20rem;
   padding: 2rem;
@@ -131,6 +131,13 @@ const StCardItem = styled(Form)`
   background: ${(props) => (props.process === "searching" ? "#E5F3FF" : "#F9FCFF")};
   border: ${(props) => (props.process === "searching" ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;
+  /* &:hover {
+    width: 32.1rem;
+    height: 20.1rem;
+    box-shadow: 0 0 1rem 0.1rem #dfe9f3;
+    cursor: pointer;
+    transition: 0.4s;
+  } */
 `;
 
 const ProfileImage = styled(Image)`
@@ -161,7 +168,6 @@ const BadgeItem = styled(Tag)`
   padding: 0.1rem 0.9rem;
   border-radius: 10rem;
   font-size: 1.2rem;
-  /* background: ${(props) => (props.process === "searching" ? "#1890FF" : "#dfe9f3")}; */
   background: ${(props) => (props.color ? props.color : "#dfe9f3")};
   color: white;
 `;
