@@ -6,9 +6,11 @@ import { CardView } from "../components/missingPersonList/CardView";
 import { dummyAll } from "../data/DummyData";
 import VirtualList from "rc-virtual-list";
 import { getAllMissingPerson } from "../core/api";
+import { useForm } from "antd/es/form/Form";
 const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
+  const [form] = Form.useForm();
   const [filter, setFilter] = useState(""); // ["all", "process", "finish"
   const [search, setSearch] = useState("");
   const [init, setInit] = useState(true);
@@ -20,6 +22,9 @@ function MissingPersonListPage() {
   useEffect(() => {
     if (!loading) {
       fetchData();
+      form.setFieldsValue({
+        search: search,
+      });
     }
   }, [pageNum, filter, search]);
 
@@ -73,6 +78,7 @@ function MissingPersonListPage() {
             setMissingPersonList((prevList) => [...prevList, ...newPageData]);
           }
         }
+
         setLoading(false);
       })
       .catch((error) => {
@@ -103,7 +109,7 @@ function MissingPersonListPage() {
   };
   const SearchBox = () => {
     return (
-      <StSearchBox onFinish={onFinish}>
+      <StSearchBox onFinish={onFinish} form={form}>
         <Form.Item name="search">
           <Input
             suffix={<SearchOutlined />}
