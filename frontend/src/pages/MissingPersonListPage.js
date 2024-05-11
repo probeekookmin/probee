@@ -1,4 +1,4 @@
-import { Button, Input, List, Radio, Typography } from "antd";
+import { Button, Form, Input, List, Radio, Typography } from "antd";
 import styled from "styled-components";
 import { SearchOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,7 @@ const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
   const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
+  const [search, setSearch] = useState("");
   const [missingPersonList, setMissingPersonList] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,12 @@ function MissingPersonListPage() {
   //     });
   //   }
   // };
+
+  const onFinish = (value) => {
+    console.log("Success:", value);
+    setSearch(value.search);
+  };
+
   const fetchData = (pageNum) => {
     console.log("fetchData", pageNum);
     setLoading(true);
@@ -74,14 +81,16 @@ function MissingPersonListPage() {
   };
   const SearchBox = () => {
     return (
-      <StSearchBox>
-        <Input
-          suffix={<SearchOutlined />}
-          placeholder="실종자 입력"
-          size="large"
-          variant="borderless"
-          allowClear
-          style={{ borderRadius: "1rem", backgroundColor: "white" }}></Input>
+      <StSearchBox onFinish={onFinish}>
+        <Form.Item name="search">
+          <Input
+            suffix={<SearchOutlined />}
+            placeholder="실종자 입력"
+            size="large"
+            variant="borderless"
+            allowClear
+            style={{ borderRadius: "1rem", backgroundColor: "white" }}></Input>
+        </Form.Item>
       </StSearchBox>
     );
   };
@@ -177,7 +186,7 @@ const FilterWrapper = styled(Radio.Group)`
   }
 `;
 
-const StSearchBox = styled.div``;
+const StSearchBox = styled(Form)``;
 
 const ContentsContainer = styled.div`
   display: flex;
