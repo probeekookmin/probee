@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BetweenPostRequestDto {
+public class BetweenRequestDto {
     private List<Long> resultIds;
 
 }

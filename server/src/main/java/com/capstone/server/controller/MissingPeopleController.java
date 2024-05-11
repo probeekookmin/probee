@@ -2,7 +2,6 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
-import com.capstone.server.dto.guardian.DetectionResultDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
@@ -242,5 +241,16 @@ public class MissingPeopleController {
 
     }
 
+    //상호작용단계 결과 가져오기
+    @GetMapping("/{id}/between-result")
+    public ResponseEntity<?> getBetweenHistory(
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize) {
+
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria); //현재는 안씀
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getBetweenResult(id, page - 1, pageSize, DetectionResultDetailDto.class)));
+    }
 
 }

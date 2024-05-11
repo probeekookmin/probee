@@ -1,6 +1,6 @@
 package com.capstone.server.controller;
 
-import com.capstone.server.dto.guardian.BetweenPostRequestDto;
+import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.dto.guardian.DetectionResultDto;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Step;
@@ -62,12 +62,30 @@ public class GuardianController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDto.class).getList()));
     }
 
-    @PostMapping("/between")
-    public ResponseEntity<?> uploadBetweenResult(@RequestHeader("Authorization") String authorization, @RequestBody BetweenPostRequestDto betweenPostRequestDto) {
+    @GetMapping("/between-result")
+    public ResponseEntity<?> getBetweenResult(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(guardianService.postBetween(id, betweenPostRequestDto)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getBetweenResult(id, page - 1, pageSize, DetectionResultDto.class).getList()));
     }
 
+
+    @PostMapping("/between")
+    public ResponseEntity<?> uploadBetweenResult(@RequestHeader("Authorization") String authorization, @RequestBody BetweenRequestDto betweenRequestDto) {
+        Long id = encryptionService.extractIdFromToken(authorization);
+//        between 단계가 아니면 요청을 보낼 수 없음. 현재 테스트를 위해 빼놓은 상태
+//        Step step = guardianService.getStep(id).getStep();
+//        if (step.equals(Step.fromValue("between"))) {
+//            throw new CustomException(ErrorCode.BAD_REQUEST, "invalid step", "can't request step");
+//        }
+        return ResponseEntity.ok().body(new SuccessResponse(guardianService.postBetween(id, betweenRequestDto)));
+    }
+
+    //문자 전송 시 Redirect를 하여 쿠키를 받게하는 Controller
     @GetMapping("/validate-token")
     public ResponseEntity<?> validateToken(HttpServletResponse response, @RequestParam("token") String encryptedToken) throws URISyntaxException {
         try {
@@ -89,17 +107,4 @@ public class GuardianController {
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
 
-    @GetMapping("/test/{id}")
-    public ResponseEntity<?> cookieTest(@PathVariable Long id, HttpServletResponse response) throws URISyntaxException {
-        String token = encryptionService.encryptToken(id.toString());
-        System.out.println(token);
-        Cookie cookie = new Cookie("authToken", token);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        URI redirectUri = new URI(REDIRECT_URL);
-//        URI redirectUri = new URI("http//localhost:8080");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
-    }
 }

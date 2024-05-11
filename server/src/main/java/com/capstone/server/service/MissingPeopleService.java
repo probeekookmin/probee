@@ -48,6 +48,8 @@ public class MissingPeopleService {
     private KafkaProducerService kafkaProducerService;
     @Autowired
     private SearchResultRepository searchResultRepository;
+    @Autowired
+    private BetweenRepository betweenRepository;
 
     @Transactional
 
@@ -222,7 +224,8 @@ public class MissingPeopleService {
         return searchHistoryDtos;
     }
 
-    public SearchResultResponse<DetectionResultDetailDto> getSearchResultBySearchId(long id, long searchId, int page, int pageSize, SearchResultSortBy sortBy) {
+    //탐색 id로 detection 결과 받아오기
+    public SearchResultResponse<? extends DetectionResultDto> getSearchResultBySearchId(long id, long searchId, int page, int pageSize, SearchResultSortBy sortBy) {
         //유효성검사
         missingPeopleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
@@ -233,13 +236,10 @@ public class MissingPeopleService {
         }
 
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
-        long totalCount = searchResultPages.getTotalElements();
-        List<DetectionResultDetailDto> resultList = searchResultPages.getContent().stream()
-                .map(DetectionResultDetailDto::fromEntity)
-                .collect(Collectors.toList());
-        return new SearchResultResponse<>(totalCount, resultList);
+        return makeResultResponse(searchResultPages, DetectionResultDetailDto.class);
     }
 
+    //탐색 단계로 detection 결과 받아오기
     public SearchResultResponse<? extends DetectionResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy, Class<? extends DetectionResultDto> dtoClass) {
         //유효성검사
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
@@ -247,6 +247,36 @@ public class MissingPeopleService {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityAndStepOrderByCreatedAtDesc(missingPeopleEntity, step);
 
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
+        return makeResultResponse(searchResultPages, dtoClass);
+    }
+
+
+    //사용자가 고른 사진을 join을 활용해 검색 후 페이지 반환
+    public SearchResultResponse<? extends DetectionResultDto> getBetweenResult(long id, int page, int pageSize, Class<? extends DetectionResultDto> dtoClass) {
+        //해당 Id의 최신 탐색 가져오기
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityAndStepOrderByCreatedAtDesc(missingPeopleEntity, Step.fromValue("first"));
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<SearchResultEntity> searchResultPages = betweenRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
+        if (searchResultPages.isEmpty()) {
+            throw new CustomException(ErrorCode.RESULT_NOT_FOUND, "Result Not Found", "선정한 사진이 없습니다.");
+        }
+        return makeResultResponse(searchResultPages, dtoClass);
+    }
+
+    //쿼리에 관련된 데이터를 받아 searchHistory pages를 반환해줌
+    private Page<SearchResultEntity> getSearchResultEntity(int page, int pageSize, SearchResultSortBy sortBy, SearchHistoryEntity searchHistory) {
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
+        Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
+        if (searchResultPages.isEmpty()) {
+            throw new CustomException(ErrorCode.RESULT_NOT_FOUND, "Result Not Found", "결과가 없습니다.");
+        }
+        return searchResultPages;
+    }
+
+    //pages의 결과를 받아 직력화 및 캡슐화 진행
+    private SearchResultResponse<? extends DetectionResultDto> makeResultResponse(Page<SearchResultEntity> searchResultPages, Class<? extends DetectionResultDto> dtoClass) {
         long totalCount = searchResultPages.getTotalElements();
         List<DetectionResultDto> resultList = searchResultPages.getContent().stream()
                 .map(entity -> {
@@ -259,18 +289,10 @@ public class MissingPeopleService {
                     }
                 })
                 .collect(Collectors.toList());
-
         return new SearchResultResponse<>(totalCount, resultList);
     }
 
-    private Page<SearchResultEntity> getSearchResultEntity(int page, int pageSize, SearchResultSortBy sortBy, SearchHistoryEntity searchHistory) {
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getSortBy()));
-        Page<SearchResultEntity> searchResultPages = searchResultRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
-        if (searchResultPages.isEmpty()) {
-            throw new CustomException(ErrorCode.RESULT_NOT_FOUND, "Result Not Found", "결과가 없습니다.");
-        }
-        return searchResultPages;
-    }
+
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);
     //     searchHistoryService.getSearchHistoryById(searchHistoryId);
