@@ -1,6 +1,6 @@
 import { Button, Form, Input, List, Radio, Typography } from "antd";
 import styled from "styled-components";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 import { CardView } from "../components/missingPersonList/CardView";
 import { dummyAll } from "../data/DummyData";
@@ -9,8 +9,9 @@ import { getAllMissingPerson } from "../core/api";
 const { Text, Link } = Typography;
 
 function MissingPersonListPage() {
-  const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
+  const [filter, setFilter] = useState(""); // ["all", "process", "finish"
   const [search, setSearch] = useState("");
+  const [init, setInit] = useState(true);
   const [missingPersonList, setMissingPersonList] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -18,13 +19,15 @@ function MissingPersonListPage() {
 
   useEffect(() => {
     if (!loading) {
-      fetchData(pageNum);
+      fetchData();
     }
-  }, [pageNum]);
+  }, [pageNum, filter, search]);
 
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
+    setPageNum(1);
     setFilter(e.target.value);
+    setInit(false);
   };
 
   // const onScroll = (e) => {
@@ -38,18 +41,37 @@ function MissingPersonListPage() {
 
   const onFinish = (value) => {
     console.log("Success:", value);
+    setPageNum(1);
     setSearch(value.search);
+    setInit(false);
   };
 
-  const fetchData = (pageNum) => {
+  const onReset = () => {
+    setPageNum(1);
+    setFilter("");
+    setSearch("");
+    setInit(true);
+  };
+
+  const fetchData = () => {
     console.log("fetchData", pageNum);
     setLoading(true);
-    getAllMissingPerson(pageNum)
+    getAllMissingPerson(pageNum, filter, search)
       .then((res) => {
-        const newPageData = res.data.filter((item) => !missingPersonList.some((existing) => existing.id === item.id));
-        if (newPageData.length > 0) {
-          console.log("newPageData", newPageData);
-          setMissingPersonList((prevList) => [...prevList, ...newPageData]);
+        if (pageNum === 1) {
+          const newPageData = res.data;
+          if (newPageData.length > 0) {
+            console.log("newPageData", newPageData);
+            setMissingPersonList([...newPageData]);
+          } else {
+            setMissingPersonList([]);
+          }
+        } else {
+          const newPageData = res.data.filter((item) => !missingPersonList.some((existing) => existing.id === item.id));
+          if (newPageData.length > 0) {
+            console.log("newPageData", newPageData);
+            setMissingPersonList((prevList) => [...prevList, ...newPageData]);
+          }
         }
         setLoading(false);
       })
@@ -71,10 +93,10 @@ function MissingPersonListPage() {
   const Filter = () => {
     return (
       <StFilter>
-        <FilterWrapper className="radio-custom" defaultValue={"all"} onChange={onFilterChange} value={filter}>
-          <Radio value={"all"}>전체</Radio>
-          <Radio value={"process"}>탐색중</Radio>
-          <Radio value={"finish"}>종료</Radio>
+        <FilterWrapper className="radio-custom" defaultValue={""} onChange={onFilterChange} value={filter}>
+          <Radio value={""}>전체</Radio>
+          <Radio value={"searching"}>탐색중</Radio>
+          <Radio value={"exit"}>종료</Radio>
         </FilterWrapper>
       </StFilter>
     );
@@ -102,7 +124,13 @@ function MissingPersonListPage() {
         <SearchBox />
       </TopContainer>
       <ContentsContainer>
-        <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
+        <TopContainer>
+          <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
+          <Button type="link" icon={<ReloadOutlined />} disabled={init} onClick={() => onReset()}>
+            검색 초기화
+          </Button>
+        </TopContainer>
+
         {/* <List grid={{ gutter: 16, column: 4 }}>
           <VirtualList
             data={missingPersonList}
