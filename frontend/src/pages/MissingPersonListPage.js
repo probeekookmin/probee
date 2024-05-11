@@ -15,6 +15,7 @@ function MissingPersonListPage() {
   const [missingPersonList, setMissingPersonList] = useState([]);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ function MissingPersonListPage() {
             setMissingPersonList((prevList) => [...prevList, ...newPageData]);
           }
         }
-
+        setHasMore(res.data.length > 0);
         setLoading(false);
       })
       .catch((error) => {
@@ -79,7 +80,8 @@ function MissingPersonListPage() {
   const handleScroll = () => {
     if (
       containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight - 10 &&
-      !loading
+      !loading &&
+      hasMore
     ) {
       setPageNum(pageNum + 1);
     }
