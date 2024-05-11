@@ -2,7 +2,7 @@ package com.capstone.server.service;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.DetectionResponseDto;
-import com.capstone.server.dto.DetectionResultDto;
+import com.capstone.server.dto.DetectionDataDto;
 import com.capstone.server.dto.FirstDetectionRequestDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.CCTVEntity;
@@ -62,7 +62,7 @@ public class DetectService {
 
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
     //수정 완료.
-    public DetectionResultDto callFirstDetectAPI(Long id) throws CustomException {
+    public DetectionDataDto callFirstDetectAPI(Long id) throws CustomException {
         try {
             //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함)
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
@@ -77,7 +77,7 @@ public class DetectService {
             //HttpEntity 생성
             HttpEntity<FirstDetectionRequestDto> request = new HttpEntity<>(firstDetectionRequestDto, headers);
             // 요청 및 응답 반환
-            return restTemplate.postForObject(url, request, DetectionResultDto.class);
+            return restTemplate.postForObject(url, request, DetectionDataDto.class);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
                 throw new CustomException(ErrorCode.INVALID_REQUEST_DATA);
@@ -93,11 +93,11 @@ public class DetectService {
     }
 
     @Transactional
-    public void postFirstDetectionResult(DetectionResultDto detectionResultDto) throws CustomException {
+    public void postFirstDetectionResult(DetectionDataDto detectionDataDto) throws CustomException {
         try {
             //실종자 정보에 한국어 쿼리 업데이트
             //과정 1 : missing people id 있나 검사
-            Long missingPeopleId = detectionResultDto.getMissingPeopleId();
+            Long missingPeopleId = detectionDataDto.getMissingPeopleId();
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
             //과정 2 : 해당 실종자의 탐색단계 수정
@@ -106,9 +106,9 @@ public class DetectService {
 
             //과정 3 : 응답으로오는 searchId를 통해 search result 업데이트
             //searchHistory와 연결
-            SearchHistoryEntity searchHistory = searchHistoryRepository.getReferenceById(detectionResultDto.getSearchId());
+            SearchHistoryEntity searchHistory = searchHistoryRepository.getReferenceById(detectionDataDto.getSearchId());
             //과정 4 : imgaepath한줄씩 database에 업로드
-            for (DetectionResultDto.ImageData imageData : detectionResultDto.getData()) {
+            for (DetectionDataDto.ImageData imageData : detectionDataDto.getData()) {
                 SearchResultEntity searchResult = imageData.toSearchResultEntity();
                 searchResult.setSearchHistoryEntity(searchHistory);
                 CCTVEntity cctvEntity = cctvRepository.getReferenceById(imageData.getCctvId());

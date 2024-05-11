@@ -59,13 +59,12 @@ public class MissingPeopleController {
         Status statusValue;
         MissingPeopleSortBy sortBy = MissingPeopleSortBy.fromValue(criteria);
         if (name != null && status != null) {
-            statusValue = Status.valueOf(status);
+            statusValue = Status.fromValue(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, sortBy, name, statusValue);
         } else if (name != null) {
-
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, sortBy, name);
         } else if (status != null) {
-            statusValue = Status.valueOf(status);
+            statusValue = Status.fromValue(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByStatus(page - 1, pageSize, sortBy, statusValue);
         } else {
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeople(page - 1, pageSize, sortBy);
@@ -80,7 +79,6 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleDetailResponseDto));
     }
 
-    // TODO : AI 모델 탐색 코드 추가
     //실종자 등록
     @PostMapping()
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
@@ -115,18 +113,17 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
 
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            // detectService.callFirstDetectAPI(createResponse.getId());
             kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
-            //메시지 전송
-            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
+            //메시지 전송 (버그때문에 주석처리)
+//            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
         }
     }
 
     //서버에 연산결과 등록
     @PostMapping("/detect")
-    public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
-        detectService.postFirstDetectionResult(detectionResultDto);
+    public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionDataDto detectionDataDto) {
+        detectService.postFirstDetectionResult(detectionDataDto);
         return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
     }
 
@@ -195,7 +192,7 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
             @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
     ) {
-        List<SearchResultDto> searchResultDtos = null;
+        SearchResultResponse<?> searchResultResponse = null;
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         if (step == null && searchId == 0) {
             //todo 예외처리
@@ -206,13 +203,13 @@ public class MissingPeopleController {
         if (step != null) {
             //해당 step의 가장 최신 검색결과 가져오기
             Step searchStep = Step.fromValue(step);
-            searchResultDtos = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy);
+            searchResultResponse = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class);
         }
         if (searchId != 0) {
             //searchId에 해당하는 검색기록 가져오기
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
+            searchResultResponse = missingPeopleService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
         }
-        return ResponseEntity.ok().body(new SuccessResponse(searchResultDtos));
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultResponse));
     }
 
     //탐색결과 이미지 가져오기
@@ -242,5 +239,16 @@ public class MissingPeopleController {
 
     }
 
+    //상호작용단계 결과 가져오기
+    @GetMapping("/{id}/between-result")
+    public ResponseEntity<?> getBetweenHistory(
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize) {
+
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria); //현재는 안씀
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getBetweenResult(id, page - 1, pageSize, DetectionResultDetailDto.class)));
+    }
 
 }

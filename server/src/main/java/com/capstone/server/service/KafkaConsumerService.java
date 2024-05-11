@@ -1,6 +1,5 @@
 package com.capstone.server.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.server.dto.CCTVDto;
-import com.capstone.server.dto.DetectionResultDto;
+import com.capstone.server.dto.DetectionDataDto;
 import com.capstone.server.dto.KafkaDto;
-import com.capstone.server.dto.MissingPeopleCreateRequestDto;
-import com.capstone.server.dto.SearchHistoryDto;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 
@@ -70,7 +67,7 @@ public class KafkaConsumerService {
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01") // return 하지 않음. 
     public void consumeStartCallFirstDetectionApi(Long id) {
         // TODO : 로직 추가 
-        DetectionResultDto detectionResultDto = detectService.callFirstDetectAPI(id);
-        detectService.postFirstDetectionResult(detectionResultDto);
+        DetectionDataDto detectionDataDto = detectService.callFirstDetectAPI(id);
+        detectService.postFirstDetectionResult(detectionDataDto);
     }
 }

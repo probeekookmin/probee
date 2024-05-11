@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class DetectionResultDto {
+public class DetectionDataDto {
     long searchId; //backend server에 결과 넣을 때 사용
     long missingPeopleId; //backend server에 결과 넣을 때 사용
     String query; //영어쿼리
