@@ -9,6 +9,7 @@ export const CardView = ({ data }) => {
   const [statusText, setStatusText] = useState("탐색중");
   const [status, setStatus] = useState("searching");
   const [imgUrl, setImgUrl] = useState("emptyProfile");
+  const [type, setType] = useState("아동");
   const [missingPeopleId, setMissingPeopleId] = useState(0);
 
   // 실종자 정보 적용
@@ -24,6 +25,7 @@ export const CardView = ({ data }) => {
     setStatus(data.status);
     setStatusText(data.status === "searching" ? "탐색중" : "종료");
     setImgUrl(data.profileImage);
+    setType(data.missingPeopleType);
     setMissingPeopleId(data.id);
   }, []);
 
@@ -48,12 +50,18 @@ export const CardView = ({ data }) => {
     );
   };
 
-  const Badge = ({ process, text }) => {
+  const Badge = ({ type, value, text }) => {
     return (
       <>
-        <BadgeItem bordered={false} process={process}>
-          {text}
-        </BadgeItem>
+        {type === "process" ? (
+          <BadgeItem bordered={false} color={value === "searching" ? "#1890FF" : "#dfe9f3"}>
+            {text}
+          </BadgeItem>
+        ) : (
+          <BadgeItem bordered={false} color={value === "아동" ? "#DA9039" : "#43C32F"}>
+            {text}
+          </BadgeItem>
+        )}
       </>
     );
   };
@@ -82,7 +90,10 @@ export const CardView = ({ data }) => {
               </Row>
               <Row>
                 <Col>
-                  <Badge process={status} text={statusText} />
+                  <Badge type={"type"} value={type} text={type} />
+                </Col>
+                <Col>
+                  <Badge type={"process"} value={status} text={statusText} />
                 </Col>
               </Row>
             </Col>
@@ -115,8 +126,8 @@ const StCardItem = styled(Form)`
   height: 20rem;
   padding: 2rem;
   margin-right: 2.6rem;
-  background: ${(props) => (props.process ? "#E5F3FF" : "#F9FCFF")};
-  border: ${(props) => (props.process ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
+  background: ${(props) => (props.process === "searching" ? "#E5F3FF" : "#F9FCFF")};
+  border: ${(props) => (props.process === "searching" ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;
 `;
 
@@ -148,6 +159,7 @@ const BadgeItem = styled(Tag)`
   padding: 0.1rem 0.9rem;
   border-radius: 10rem;
   font-size: 1.2rem;
-  background: ${(props) => (props.process === "searching" ? "#1890FF" : "#dfe9f3")};
+  /* background: ${(props) => (props.process === "searching" ? "#1890FF" : "#dfe9f3")}; */
+  background: ${(props) => (props.color ? props.color : "#dfe9f3")};
   color: white;
 `;
