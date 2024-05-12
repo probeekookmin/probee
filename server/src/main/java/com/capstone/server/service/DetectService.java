@@ -1,7 +1,6 @@
 package com.capstone.server.service;
 
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.DetectionResponseDto;
 import com.capstone.server.dto.DetectionDataDto;
 import com.capstone.server.dto.FirstDetectionRequestDto;
 import com.capstone.server.exception.CustomException;
@@ -47,19 +46,6 @@ public class DetectService {
     @Value("${aiServer.url}")
     private String url;
 
-
-    //test용 service
-    public DetectionResponseDto callFirstDetectAPI(FirstDetectionRequestDto firstDetectionRequestDto) {
-        //헤더 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        //HttpEntity 생성
-        HttpEntity<FirstDetectionRequestDto> request = new HttpEntity<>(firstDetectionRequestDto, headers);
-        //요청 및 응답반환
-        return restTemplate.postForObject(url, request, DetectionResponseDto.class);
-    }
-
     //실 사용 service, missingpeopleId를 받아와 착장정보를 가져와 서버로 요청을 보냄.
     //수정 완료.
     public DetectionDataDto callFirstDetectAPI(Long id) throws CustomException {
@@ -95,9 +81,9 @@ public class DetectService {
     @Transactional
     public void postFirstDetectionResult(DetectionDataDto detectionDataDto) throws CustomException {
         try {
-            //실종자 정보에 한국어 쿼리 업데이트
             //과정 1 : missing people id 있나 검사
             Long missingPeopleId = detectionDataDto.getMissingPeopleId();
+
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
             //과정 2 : 해당 실종자의 탐색단계 수정

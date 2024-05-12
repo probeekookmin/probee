@@ -8,18 +8,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchHistoryDto {
+public class SearchRangeDto {
     private Long id;
     private double longitude;
     private double latitude;
 
-    private SearchHistoryDto(SearchHistoryEntity searchHistoryEntity) {
+    private SearchRangeDto(SearchHistoryEntity searchHistoryEntity) {
         this.id = searchHistoryEntity.getId();
         this.longitude = searchHistoryEntity.getLongitude();
         this.latitude = searchHistoryEntity.getLatitude();
     }
 
-    public static SearchHistoryDto fromEntity(SearchHistoryEntity searchHistoryEntity) {
-        return new SearchHistoryDto(searchHistoryEntity);
+    public static SearchRangeDto fromEntity(SearchHistoryEntity searchHistoryEntity) {
+        return new SearchRangeDto(searchHistoryEntity);
     }
 }

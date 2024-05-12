@@ -1,6 +1,5 @@
-package com.capstone.server.dto;
+package com.capstone.server.dto.detectionResult;
 
-import com.capstone.server.dto.guardian.DetectionResultDto;
 import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.SearchResultEntity;
 import lombok.*;

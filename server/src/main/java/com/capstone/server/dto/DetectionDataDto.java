@@ -15,8 +15,6 @@ import java.util.List;
 public class DetectionDataDto {
     long searchId; //backend server에 결과 넣을 때 사용
     long missingPeopleId; //backend server에 결과 넣을 때 사용
-    String query; //영어쿼리
-    String koQuery; //한국어 쿼리 //요청에 영어쿼리가 있으면 도착안함
     List<ImageData> data;
 
     @Data

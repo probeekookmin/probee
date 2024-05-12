@@ -2,6 +2,7 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
+import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
@@ -45,6 +46,8 @@ public class MissingPeopleController {
     private EncryptionService encryptionService;
     @Autowired
     private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private SearchResultService searchResultService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -161,7 +164,7 @@ public class MissingPeopleController {
     //검색기록 가져오기
     @GetMapping("/{id}/search-history")
     public ResponseEntity<?> getSearchHistoryList(@PathVariable Long id) {
-        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.getSearchHistoryList(id)));
+        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.searchHistoryService.getSearchHistoryList(id)));
     }
 
     //탐색결과 이미지 등록하기 (안쓸듯)
@@ -203,11 +206,11 @@ public class MissingPeopleController {
         if (step != null) {
             //해당 step의 가장 최신 검색결과 가져오기
             Step searchStep = Step.fromValue(step);
-            searchResultResponse = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class);
+            searchResultResponse = searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class);
         }
         if (searchId != 0) {
             //searchId에 해당하는 검색기록 가져오기
-            searchResultResponse = missingPeopleService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
+            searchResultResponse = searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultResponse));
     }
@@ -220,22 +223,25 @@ public class MissingPeopleController {
             @PathVariable Long searchHistoryId,
             @PathVariable String step
     ) {
-        Step stepValue = Step.valueOf(step.toUpperCase()); // Error
+        Step stepValue = Step.fromValue(step); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
 
     //탐색단계 돌리기
     @PatchMapping("/{id}/step")
-    public ResponseEntity<?> changeStep(@Validated @RequestBody StepDto stepDto, @PathVariable Long id) {
-        stepDto.setMissingPeopleId(id);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStatus(stepDto)));
+    public ResponseEntity<?> changeStep(
+            @RequestParam(required = false, value = "step") String step,
+            @PathVariable Long id
+    ) {
+        Step stepValue = Step.fromValue(step);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStep(stepValue, id)));
     }
 
     //탐색 단계 가져오기
     @GetMapping("/{id}/step")
     public ResponseEntity<?> getStep(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id)));
 
     }
 
@@ -245,10 +251,22 @@ public class MissingPeopleController {
             @PathVariable Long id,
             @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize) {
-
+            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
+    ) {
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria); //현재는 안씀
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getBetweenResult(id, page - 1, pageSize, DetectionResultDetailDto.class)));
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getBetweenResult(id, page - 1, pageSize, DetectionResultDetailDto.class)));
     }
 
+    // 검색의 탐색반경 가져오기
+    @GetMapping("/search-radius")
+    public ResponseEntity<?> getSearchRadius(
+            @RequestParam(required = false, value = "id") Long id,
+            @RequestParam(required = false, value = "search-id") Long searchId
+    ) {
+        if (id == null && searchId == null) {
+            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "At least one of 'id' or 'search-id' must be provided.");
+        }
+
+        return ResponseEntity.ok().body("d");
+    }
 }
