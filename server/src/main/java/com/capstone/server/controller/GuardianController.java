@@ -1,13 +1,14 @@
 package com.capstone.server.controller;
 
+import com.capstone.server.dto.detectionResult.DetectionResultDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
-import com.capstone.server.dto.guardian.DetectionResultDto;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.EncryptionService;
 import com.capstone.server.service.GuardianService;
 import com.capstone.server.service.MissingPeopleService;
+import com.capstone.server.service.SearchResultService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +30,17 @@ public class GuardianController {
     @Autowired
     private GuardianService guardianService;
     @Autowired
-    private MissingPeopleService missingPeopleService;
+    private SearchResultService searchResultService;
     @Autowired
     private EncryptionService encryptionService;
+    @Autowired
+    private MissingPeopleService missingPeopleService;
 
     @Value("${mobile.server.url}")
     private String REDIRECT_URL;
 
 
+    //실종자 정보 받기
     @GetMapping("")
     public ResponseEntity<?> getMissingPeople(@RequestHeader("Authorization") String authorization) {
         System.out.println(authorization);
@@ -44,12 +48,14 @@ public class GuardianController {
         return ResponseEntity.ok().body(new SuccessResponse(guardianService.getMissingPeople(id)));
     }
 
+    //현재 단계 받기
     @GetMapping("/step")
     public ResponseEntity<?> getStep(@RequestHeader("Authorization") String authorization) {
         Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(guardianService.getStep(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id)));
     }
 
+    //1차 탐색결과 가져오기
     @GetMapping("/between")
     public ResponseEntity<?> getFirstStepResult(
             @RequestHeader("Authorization") String authorization,
@@ -59,23 +65,14 @@ public class GuardianController {
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         Step searchStep = Step.fromValue("first");
         Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDto.class).getList()));
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDto.class).getList()));
     }
 
-    @GetMapping("/between-result")
-    public ResponseEntity<?> getBetweenResult(
-            @RequestHeader("Authorization") String authorization,
-            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
-            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
-        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
-        Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getBetweenResult(id, page - 1, pageSize, DetectionResultDto.class).getList()));
-    }
-
-
+    //보호자화면 고른 사진 보내기
     @PostMapping("/between")
-    public ResponseEntity<?> uploadBetweenResult(@RequestHeader("Authorization") String authorization, @RequestBody BetweenRequestDto betweenRequestDto) {
+    public ResponseEntity<?> uploadBetweenResult(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody BetweenRequestDto betweenRequestDto) {
         Long id = encryptionService.extractIdFromToken(authorization);
 //        between 단계가 아니면 요청을 보낼 수 없음. 현재 테스트를 위해 빼놓은 상태
 //        Step step = guardianService.getStep(id).getStep();
@@ -85,9 +82,35 @@ public class GuardianController {
         return ResponseEntity.ok().body(new SuccessResponse(guardianService.postBetween(id, betweenRequestDto)));
     }
 
+    //상호작용 단계에서 고른 사진 보기
+    @GetMapping("/between-result")
+    public ResponseEntity<?> getBetweenResult(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
+        Long id = encryptionService.extractIdFromToken(authorization);
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getBetweenResult(id, page - 1, pageSize, DetectionResultDto.class).getList()));
+    }
+
+    //2차탐색 결과 가져오기
+    @GetMapping("/second")
+    public ResponseEntity<?> getSecondResult(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "50", value = "size") int pageSize) {
+        Long id = encryptionService.extractIdFromToken(authorization);
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
+        Step searchStep = Step.fromValue("second");
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDto.class).getList()));
+    }
+
     //문자 전송 시 Redirect를 하여 쿠키를 받게하는 Controller
     @GetMapping("/validate-token")
-    public ResponseEntity<?> validateToken(HttpServletResponse response, @RequestParam("token") String encryptedToken) throws URISyntaxException {
+    public ResponseEntity<?> validateToken(HttpServletResponse response, @RequestParam("token") String
+            encryptedToken) throws URISyntaxException {
         try {
             //토큰 유효성 검사
             encryptionService.decryptToken(encryptedToken);

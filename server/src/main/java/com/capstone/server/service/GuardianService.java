@@ -1,7 +1,6 @@
 package com.capstone.server.service;
 
 
-import com.capstone.server.dto.StepDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.dto.guardian.MissingPeopleForGuardianDto;
 import com.capstone.server.model.BetweenEntity;
@@ -32,12 +31,6 @@ public class GuardianService {
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
         return MissingPeopleForGuardianDto.fromEntity(missingPeopleEntity);
-    }
-
-    public StepDto getStep(Long id) {
-        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
-        return StepDto.fromEntity(missingPeopleEntity);
     }
 
 
