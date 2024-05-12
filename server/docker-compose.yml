@@ -32,3 +32,12 @@ services:
     ports:
       - "8080:8080"
     build: .
+
+  frontend:
+    container_name: frontend
+    depends_on:
+      - spring-server
+    image: suhwani/capstone_frontend:latest
+    ports:
+      - "80:80"
+    build: .

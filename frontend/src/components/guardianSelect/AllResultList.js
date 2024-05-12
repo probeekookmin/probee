@@ -2,6 +2,7 @@ import { List, Image, Button } from "antd";
 import styled from "styled-components";
 
 export const AllResultList = ({ onSelect, data, selectedList }) => {
+  console.log("data", data);
   return (
     <StAllResultList>
       <Title>1차 탐색 결과</Title>
@@ -15,15 +16,15 @@ export const AllResultList = ({ onSelect, data, selectedList }) => {
           <List.Item>
             <ItemImage
               className="custom-image"
-              src={item.url}
-              select={selectedList.includes(item.url) ? "true" : "false"}
+              src={item.imgUrl}
+              select={selectedList.includes(item) ? "true" : "false"}
               preview={{
                 width: 900,
 
                 toolbarRender: () => (
                   <BottomContainer>
-                    <BottomButton onClick={() => onSelect(item.url)}>
-                      {selectedList.includes(item.url) ? "선택해제" : "선택"}
+                    <BottomButton onClick={() => onSelect(item)}>
+                      {selectedList.includes(item) ? "선택해제" : "선택"}
                     </BottomButton>
                   </BottomContainer>
                 ),

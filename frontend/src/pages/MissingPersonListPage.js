@@ -1,63 +1,123 @@
-import { Button, Input, Radio, Typography } from "antd";
 import styled from "styled-components";
-import { SearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button, Form, Input, List, Radio, Typography } from "antd";
+import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import { CardView } from "../components/missingPersonList/CardView";
-import { dummyAll } from "../data/DummyData";
-import List from "rc-virtual-list";
 import { getAllMissingPerson } from "../core/api";
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
+/*실종자 현황(리스트)*/
 function MissingPersonListPage() {
-  const [filter, setFilter] = useState("all"); // ["all", "process", "finish"
+  const [form] = Form.useForm();
+  const [filter, setFilter] = useState(""); // ["", "searching", "exit"]
+  const [search, setSearch] = useState("");
+  const [init, setInit] = useState(true);
   const [missingPersonList, setMissingPersonList] = useState([]);
-  const ContainerHeight = 1000;
+  const [pageNum, setPageNum] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const containerRef = useRef(null);
+
   useEffect(() => {
-    //setMissingPersonList(dummyAll);
-    getAllMissingPerson(1).then((res) => {
-      setMissingPersonList(res.data);
-      console.log("getData", res);
-    });
-    console.log(missingPersonList);
-  }, []);
+    if (!loading) {
+      fetchData();
+      form.setFieldsValue({
+        search: search,
+      });
+    }
+  }, [pageNum, filter, search]);
 
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
+    setPageNum(1);
     setFilter(e.target.value);
+    setInit(false);
   };
 
-  const onScroll = (e) => {
-    if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - ContainerHeight) <= 1) {
-      getAllMissingPerson(1).then((res) => {
-        setMissingPersonList(res);
-        console.log("missingPersonList", missingPersonList);
+  const onFinish = (value) => {
+    console.log("Success:", value);
+    setPageNum(1);
+    setSearch(value.search);
+    setInit(false);
+  };
+
+  const onReset = () => {
+    setPageNum(1);
+    setFilter("");
+    setSearch("");
+    setInit(true);
+  };
+
+  const fetchData = () => {
+    console.log("fetchData", pageNum);
+    setLoading(true);
+    getAllMissingPerson(pageNum, filter, search)
+      .then((res) => {
+        if (pageNum === 1) {
+          const newPageData = res.data;
+          if (newPageData.length > 0) {
+            console.log("newPageData", newPageData);
+            setMissingPersonList([...newPageData]);
+          } else {
+            setMissingPersonList([]);
+          }
+        } else {
+          const newPageData = res.data.filter((item) => !missingPersonList.some((existing) => existing.id === item.id));
+          if (newPageData.length > 0) {
+            console.log("newPageData", newPageData);
+            setMissingPersonList((prevList) => [...prevList, ...newPageData]);
+          }
+        }
+        setHasMore(res.data.length > 0);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
       });
+  };
+
+  const handleScroll = () => {
+    if (
+      containerRef.current.scrollTop + containerRef.current.clientHeight >= containerRef.current.scrollHeight - 10 &&
+      !loading &&
+      hasMore
+    ) {
+      setPageNum(pageNum + 1);
     }
   };
+
+  /*필터*/
   const Filter = () => {
     return (
       <StFilter>
-        <FilterWrapper className="radio-custom" defaultValue={"all"} onChange={onFilterChange} value={filter}>
-          <Radio value={"all"}>전체</Radio>
-          <Radio value={"process"}>탐색중</Radio>
-          <Radio value={"finish"}>종료</Radio>
+        <FilterWrapper className="radio-custom" defaultValue={""} onChange={onFilterChange} value={filter}>
+          <Radio value={""}>전체</Radio>
+          <Radio value={"searching"}>탐색중</Radio>
+          <Radio value={"exit"}>종료</Radio>
         </FilterWrapper>
       </StFilter>
     );
   };
+
+  /*검색창*/
   const SearchBox = () => {
     return (
-      <StSearchBox>
-        <Input
-          suffix={<SearchOutlined />}
-          placeholder="실종자 입력"
-          size="large"
-          variant="borderless"
-          allowClear
-          style={{ borderRadius: "1rem", backgroundColor: "white" }}></Input>
+      <StSearchBox onFinish={onFinish} form={form}>
+        <Form.Item name="search">
+          <Input
+            suffix={<SearchOutlined />}
+            placeholder="실종자 입력"
+            size="large"
+            variant="borderless"
+            allowClear
+            style={{ borderRadius: "1rem", backgroundColor: "white" }}></Input>
+        </Form.Item>
       </StSearchBox>
     );
   };
+
+  /*실종자 현황 페이지*/
   return (
     <StMissingPersonListPage>
       <Typography.Title level={3}>실종자 현황</Typography.Title>
@@ -66,18 +126,20 @@ function MissingPersonListPage() {
         <SearchBox />
       </TopContainer>
       <ContentsContainer>
-        <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
-        {/* <List data={missingPersonList} height={ContainerHeight} itemHeight={200} itemKey="id" onScroll={onScroll}>
-          {(item) => <CardView key={item.id} data={item} />}
-        </List> */}
-        <CardContainer>
-          {missingPersonList &&
-            missingPersonList.map((missingPerson) => {
-              return <CardView key={missingPerson.id} data={missingPerson} />;
-            })}
+        <TopContainer>
+          <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
+          <Button type="link" icon={<ReloadOutlined />} disabled={init} onClick={() => onReset()}>
+            검색 초기화
+          </Button>
+        </TopContainer>
+        <CardContainer ref={containerRef} onScroll={handleScroll}>
+          <List
+            grid={{ gutter: [0, 26] }}
+            dataSource={missingPersonList}
+            renderItem={(item) => <CardView key={item.id} data={item} />}
+            loading={loading}
+          />
         </CardContainer>
-
-        {/* <CardView /> */}
       </ContentsContainer>
     </StMissingPersonListPage>
   );
@@ -109,12 +171,17 @@ const sharedRadioStyle = `
 
 const FilterWrapper = styled(Radio.Group)`
   &.radio-custom .ant-radio-wrapper {
+    padding: 0.5rem 1.9rem;
     border: 0.1rem solid #8b8b8b;
     border-radius: 10rem;
-    padding: 0.5rem 1.9rem;
     color: #8b8b8b;
     background-color: white;
     font-size: 1.6rem;
+    transition: all 0.3s;
+    &:hover {
+      border: 0.1rem solid #1890ff;
+      color: #1890ff;
+    }
   }
 
   &.radio-custom .ant-radio-wrapper-checked {
@@ -122,6 +189,10 @@ const FilterWrapper = styled(Radio.Group)`
     background-color: #1890ff;
     color: white;
     ${sharedRadioStyle}
+    &:hover {
+      background-color: #4096ff;
+      color: white;
+    }
   }
 
   //기존 라디오 버튼 숨기기
@@ -132,15 +203,15 @@ const FilterWrapper = styled(Radio.Group)`
   }
 `;
 
-const StSearchBox = styled.div``;
+const StSearchBox = styled(Form)``;
 
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 1.4rem 1.4rem 1.4rem 4.4rem;
-  gap: 1rem;
+  padding: 1.8rem 1.4rem 1.4rem 4.4rem;
+  gap: 1.6rem;
   border-radius: 1rem;
   background-color: white;
 `;
@@ -156,10 +227,10 @@ const CardContainer = styled.div`
   /* justify-content: space-between; */
   flex-wrap: wrap;
   flex-basis: 100%;
-  gap: 2.6rem;
-
   width: 100%;
   height: 100%;
+  gap: 2.6rem;
+
   padding-right: 3rem;
   padding-bottom: 10rem;
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class MissingPeopleListResponseDto {
 
     private Long id;
-    private String name;
+    private String name; //MissingpeopleDetail과 합치려면 name, missingPeopleName 통일 필요
     private String gender;
     private String status;
     private LocalDate birthdate;

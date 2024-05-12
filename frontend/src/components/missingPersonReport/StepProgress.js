@@ -1,14 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { Steps, Typography } from "antd";
-
-export const StepProgress = () => {
+import { useEffect } from "react";
+export const StepProgress = ({step}) => {
   const [current, setCurrent] = useState(0);
   const description = "This is a description.";
   const onChange = (value) => {
     console.log("onChange:", value);
     setCurrent(value);
   };
+  useEffect(() => {
+    console.log("step", step);
+    setCurrent(step);
+  }, [step]);
+  
   return (
     <StStepProgress>
       <Typography.Title level={5}>현황</Typography.Title>

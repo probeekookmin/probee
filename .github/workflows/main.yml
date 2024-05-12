@@ -1,16 +1,14 @@
-name: Build And Deploy for Main branch to test server
+name: Build And Deploy for Main branch to main server
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 permissions:
   contents: read
 
 jobs:
-  build-and-push:
+  server-build-and-push:
     runs-on: ubuntu-latest 
 
     steps:
@@ -32,9 +30,9 @@ jobs:
       run: |
           cd ./server/src/main/resources
           touch ./application.properties
-          echo "${{ secrets.PROPERTIES_DEVELOP }}" > ./application.properties
+          echo "${{ secrets.PROPERTIES }}" > ./application.properties
     
-    - name: Build with Gradle
+    - name: Build with gradle
       run: |
           cd server
           chmod +x ./gradlew
@@ -47,8 +45,42 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
           docker push ${{ secrets.DOCKER_REPO }}:latest
 
+  frontend-build-and-push:
+    runs-on: ubuntu-latest 
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Check node version  
+      run: node -v
+
+    - name: Change frontend .env
+      run: |
+          rm -f ./frontend/.env
+          touch ./frontend/.env
+          echo "${{ secrets.FRONTEND_ENV_API_ROOT_MAIN_SERVER }}" >> ./frontend/.env 
+      
+    - name: Yarn install dependencies 
+      run: |
+          cd ./frontend
+          yarn install --frozen-lockfile
+
+    - name: Yarn Build                   
+      run: |
+          cd ./frontend
+          yarn build
+    
+    - name: Frontend docker build & push to docker repo
+      run: |
+          cd frontend
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_FRONTEND_REPO }}:latest .
+          docker push ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
+
   pull-and-deploy:
-    needs: build-and-push
+    needs: 
+      - server-build-and-push
+      - frontend-build-and-push
     runs-on: ubuntu-latest
     steps:
     - name: Set LocalTime Asia/Seoul
@@ -61,7 +93,7 @@ jobs:
         script: |
           sudo timedatectl set-timezone Asia/Seoul
 
-    - name: Install Docker
+    - name: Install docker
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_PUBLIC_IP }}
@@ -86,7 +118,7 @@ jobs:
             sudo docker run hello-world
           fi
     
-    - name: Install Docker-compose
+    - name: Install docker-compose
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_PUBLIC_IP }}
@@ -116,7 +148,7 @@ jobs:
           curl -o docker-compose.yml -L https://raw.githubusercontent.com/kookmin-sw/capstone-2024-14/main/server/docker-compose.yml
           cat docker-compose.yml
     
-    - name: Remove & Change Server Docker image
+    - name: Remove & Change server docker image
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_PUBLIC_IP }}
@@ -134,10 +166,11 @@ jobs:
           fi
 
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
+          sudo docker pull ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
           
           sudo docker image prune -f
 
-    - name: Docker-compose Execute
+    - name: Execute docker-compose 
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_PUBLIC_IP }}

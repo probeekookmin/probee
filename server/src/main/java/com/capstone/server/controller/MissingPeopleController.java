@@ -2,16 +2,14 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
+import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
-import com.capstone.server.service.DetectService;
-import com.capstone.server.service.MissingPeopleService;
-import com.capstone.server.service.S3Service;
-import com.capstone.server.service.SmsService;
+import com.capstone.server.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +42,14 @@ public class MissingPeopleController {
     private DetectService detectService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private EncryptionService encryptionService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+    @Autowired
+    private SearchResultService searchResultService;
+    @Autowired
+    private SearchHistoryService searchHistoryService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -61,7 +67,6 @@ public class MissingPeopleController {
             statusValue = Status.fromValue(status);
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContainingAndStatus(page - 1, pageSize, sortBy, name, statusValue);
         } else if (name != null) {
-
             missingPeopleListResponseDtos = missingPeopleService.getAllMissingPeopleByNameContaining(page - 1, pageSize, sortBy, name);
         } else if (status != null) {
             statusValue = Status.fromValue(status);
@@ -79,7 +84,6 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleDetailResponseDto));
     }
 
-    // TODO : AI 모델 탐색 코드 추가
     //실종자 등록
     @PostMapping()
     public ResponseEntity<?> createMissingPeople(@Validated @RequestBody MissingPeopleCreateRequestDto missingPeopleCreateRequestDto, BindingResult bindingResult) {
@@ -91,7 +95,11 @@ public class MissingPeopleController {
             }
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
-            return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto)));
+            MissingPeopleCreateResponseDto createResponseDto = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
+            // kafkaProducerService.startCallFirstDetectApiToKafka(createResponseDto.getId());
+            //메시지 전송
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponseDto.getId());
+            return ResponseEntity.ok().body(new SuccessResponse(createResponseDto));
         }
     }
 
@@ -108,31 +116,27 @@ public class MissingPeopleController {
         } else {
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-            //생성된 MissingpeopleId와 searchid로 탐색 todo : 서버 코드에따라서 error처리 해야함
-            detectService.callDetectAPI(createResponse.getId(), Step.valueOf("FIRST"));
-            //메시지 전송
-            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName());
+
+            //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
+            kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
+            //메시지 전송 (버그때문에 주석처리)
+//            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
         }
     }
 
-    //서버에 연산결과 등록
-    @PostMapping("/detect")
-    public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionResultDto detectionResultDto) {
-        detectService.postDetectionResult(detectionResultDto);
-        return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
-    }
 
     //실종자 프로필 사진 등록
-    @PostMapping("/{id}/profile")
+    @PostMapping("/profile")
     public ResponseEntity<?> uploadProfileImageToS3(
             @RequestPart(value = "profile", required = false) MultipartFile image,
-            @PathVariable Long id
+            @RequestHeader("Authorization") String authorization
     ) {
         if (image == null || image.isEmpty()) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.BAD_REQUEST, "Empty Image Error", "please Upload Image ");
         }
+        Long id = encryptionService.extractIdFromToken(authorization);
         String imageName = String.format("missingPeopleId=%d/profile/001", id);
         //s3에 이미지 업로드
         S3UploadResponseDto s3UploadResponseDto = missingPeopleService.uploadImageToS3(image, imageName, id);
@@ -156,7 +160,7 @@ public class MissingPeopleController {
     //검색기록 가져오기
     @GetMapping("/{id}/search-history")
     public ResponseEntity<?> getSearchHistoryList(@PathVariable Long id) {
-        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.getSearchHistoryList(id)));
+        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.searchHistoryService.getSearchHistoryList(id)));
     }
 
     //탐색결과 이미지 등록하기 (안쓸듯)
@@ -177,6 +181,7 @@ public class MissingPeopleController {
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.uploadImagesToS3(images, imagePath, id, searchHistoryId)));
     }
 
+    //탐색결과 가져오기
     @GetMapping("/{id}/search-result")
     public ResponseEntity<?> getSearchResult(
             @PathVariable Long id,
@@ -186,24 +191,18 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
             @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
     ) {
-        List<SearchResultDto> searchResultDtos = null;
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         if (step == null && searchId == 0) {
             //todo 예외처리
             throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "At least one of 'step' or 'searchId' must be provided.");
-        } else if (step != null && searchId != 0) {
-            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "Can't provide both parameter.");
-        }
-        if (step != null) {
-            //해당 step의 가장 최신 검색결과 가져오기
-            Step searchStep = Step.fromValue(step);
-            searchResultDtos = missingPeopleService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy);
         }
         if (searchId != 0) {
-            //searchId에 해당하는 검색기록 가져오기
-            searchResultDtos = missingPeopleService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
+            //searchId가 있으면 해당하는 검색기록 가져오기
+            return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy)));
         }
-        return ResponseEntity.ok().body(new SuccessResponse(searchResultDtos));
+        //step만 있으면 해당 step의 최신 결과만 가져오기
+        Step searchStep = Step.fromValue(step);
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class)));
     }
 
     //탐색결과 이미지 가져오기
@@ -214,30 +213,64 @@ public class MissingPeopleController {
             @PathVariable Long searchHistoryId,
             @PathVariable String step
     ) {
-        Step stepValue = Step.valueOf(step.toUpperCase()); // Error
+        Step stepValue = Step.fromValue(step); // Error
         String imagePath = String.format("missingPeopleId=%d/searchHistoryId=%d/step=%s/", id, searchHistoryId, stepValue.toString());
         return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.downloadImagesFromS3(imagePath, id, searchHistoryId)));
     }
 
     //탐색단계 돌리기
     @PatchMapping("/{id}/step")
-    public ResponseEntity<?> changeStep(@Validated @RequestBody StepDto stepDto, @PathVariable Long id) {
-        stepDto.setMissingPeopleId(id);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStatus(stepDto)));
+    public ResponseEntity<?> changeStep(
+            @RequestParam(required = false, value = "step") String step,
+            @PathVariable Long id
+    ) {
+        Step stepValue = Step.fromValue(step);
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.changeStep(stepValue, id)));
     }
 
     //탐색 단계 가져오기
     @GetMapping("/{id}/step")
     public ResponseEntity<?> getStep(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStatus(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id)));
 
     }
 
-    //ai 탐색코드 테스트
-    @PostMapping("/test")
-    public ResponseEntity<?> test(@RequestBody DetectionRequestDto detectionRequestDto) {
-        return ResponseEntity.ok().body(new SuccessResponse(detectService.callDetectAPI(detectionRequestDto)));
+    //상호작용단계 결과 가져오기
+    @GetMapping("/{id}/between-result")
+    public ResponseEntity<?> getBetweenHistory(
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "similarity", value = "criteria") String criteria,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
+    ) {
+        SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria); //현재는 안씀
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getBetweenResult(id, page - 1, pageSize, DetectionResultDetailDto.class)));
     }
 
+    // 검색의 탐색반경 가져오기
+    @GetMapping("/{id}/search-radius")
+    public ResponseEntity<?> getSearchRadius(
+            @PathVariable Long id,
+            @RequestParam(required = false, value = "search-id") Long searchId
+    ) {
+        if (searchId != null) {//search-id가 있으면 searchid기준으로 결과를 보내줌
+            return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryBySearchId(searchId)));
+        }
+        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryById(id)));
+    }
 
+    //지능형 탐색 시작하기
+    @PostMapping("/{id}/search")
+    public ResponseEntity<?> startSearching(
+            @PathVariable Long id,
+            @Validated @RequestBody SearchRequestDto searchRequestDto
+    ) {
+        //Todo : 1차인지, 2차인지 고를 수 있어야 함
+        //DB에 탐색 등록
+        searchHistoryService.createSearchHistory(searchRequestDto, id);
+        //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
+//        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
+        kafkaProducerService.startCallFirstDetectApiToKafka(id);
+        return ResponseEntity.ok().body(new SuccessResponse());
+    }
 }

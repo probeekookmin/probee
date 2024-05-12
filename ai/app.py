@@ -1,6 +1,7 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel
+from typing import List
 import sys
 import os
 import json
@@ -10,15 +11,16 @@ import os
 import boto3
 import datetime
 import requests
+from typing import List
 
 sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
-sys.path.append(str(Path(__file__).parent)+"/make_query")
+sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
 
 from TextReID.test_net import findByText 
 from yolov5_crowdhuman.detect import run_detection
-from make_query.make_query import create_query, translate_english_to_korean
+from yolov8.run import run_Yolo
 
 app = FastAPI(port = 8080)
 
@@ -30,97 +32,49 @@ SERVER_URL = os.getenv("SERVER_URL")
 s3_client = boto3.client('s3')
 bucket_name = "spring-server-image-storage"
 
-class ClothesInfo(BaseModel):
-    gender : str
-    hairStyle : str
-    topColor:str
-    topType:str
-    bottomColor:str
-    bottomType:str
-    bagType:str
-    # shoesColor:str
+class CCTVInfo(BaseModel):
+    id : int
+    longitude : float
+    latitude : float
 
 class TotalInput(BaseModel):
-    cctvId : str
+    cctvId : List[CCTVInfo]
     startTime : str
     endTime : str
     searchId: int
     missingPeopleId : int
     step : str
-    query : str|None
-    clothesInfo : ClothesInfo
-    
+    query : str
+
 
 
 class DetectResult(BaseModel):
     searchId : int
     missingPeopleId : int
     query : str
-    koQuery : str | None
     data : list
-    
 
-class CallResult(BaseModel):
-    code : int
-    message : str
-
-#테스트용    
-@app.post('/test', response_model=DetectResult)
-async def test(input: TotalInput):
+@app.post('/run', response_model=DetectResult)
+async def test(input :TotalInput):
     print(input)
-    query, result_json_dir = await logic(input)
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
+    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    query = input.query
+    result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
-    return DetectResult(query = query["en_query"], ko_query = query["ko_query"], data = result[1:])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:]
 
-@app.post('/run', response_model=CallResult)
-async def run(input: TotalInput, background_tasks: BackgroundTasks):
-    background_tasks.add_task(detect, input)
-    return {"code" : 200, "message": "Task started"}
-
-#비동기적 응답을 위해 연산과정 분리
-async def detect(input : TotalInput):
-    await runYolo(input)
-    #이미 영문쿼리가 존재하면 생성안함.
-    en_query = input.query
-    ko_query = None
-    if en_query==None:
-        en_query,ko_query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
-    result_dir = await runTextReID(input, en_query) 
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
-    with open(result_json_dir, 'r') as file:
-        result = json.load(file)
-    response = requests.post(SERVER_URL + "/api/missing-people/detect", json = DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, query = en_query, koQuery = ko_query, data = result[1:]).__dict__)
-    print(response.text)
-
-async def logic(input: TotalInput):
-    await runYolo(input)
-    query = await make_query(input.clothesInfo) #한글쿼리,영어쿼리 생성
-    result_dir = await runTextReID(input, query["en_query"]) 
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
-    return query,result_json_dir
-    
-async def make_query(clothesInfo : ClothesInfo):
-    en_query = await create_query(clothesInfo.gender, clothesInfo.hairStyle, clothesInfo.topColor, clothesInfo.topType, clothesInfo.bottomColor, clothesInfo.bottomType,  clothesInfo.bagType)
-    ko_query = await translate_english_to_korean(en_query)
-    return en_query,  ko_query
-
-# todo : 시작시간, 종료시간 지정해서 연산을 돌려야함
-async def runYolo(input : TotalInput):
-    home_path = os.path.expanduser("~")
-    cctv_path = os.path.join(home_path, "Desktop", "cctv", input.cctvId, input.startTime.split("T")[0]) #경로는 각자 환경에 맞게 조장하시오
-    return run_detection(weights='crowdhuman_yolov5m.pt', source=cctv_path, name = str(input.searchId),project=home_path+"/Desktop/yolo",cctv_id = input.cctvId) #Result dir을 받아 다음 단계로 넘겨줘야함.
-
-async def runTextReID(input : TotalInput, query : str):
+async def runTextReID(input : TotalInput, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
     print(root_path)
     ## 저장경로 지정
     home_path = os.path.expanduser("~")
     result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
-    findByText(root_path, search_num=input.searchId, query = query, data_dir = os.path.expanduser("~")+"/Desktop/yolo/"+str(input.searchId), save_folder = result_dir)
-    
-    
+    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
     return result_dir
 
 
