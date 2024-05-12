@@ -39,8 +39,6 @@ public class MissingPeopleController {
     @Autowired
     private S3Service s3Service;
     @Autowired
-    private DetectService detectService;
-    @Autowired
     private SmsService smsService;
     @Autowired
     private EncryptionService encryptionService;
