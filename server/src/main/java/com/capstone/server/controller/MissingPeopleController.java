@@ -48,6 +48,8 @@ public class MissingPeopleController {
     private KafkaProducerService kafkaProducerService;
     @Autowired
     private SearchResultService searchResultService;
+    @Autowired
+    private SearchHistoryService searchHistoryService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -123,12 +125,6 @@ public class MissingPeopleController {
         }
     }
 
-    //서버에 연산결과 등록
-    @PostMapping("/detect")
-    public ResponseEntity<?> uploadDetectResult(@Validated @RequestBody DetectionDataDto detectionDataDto) {
-        detectService.postFirstDetectionResult(detectionDataDto);
-        return ResponseEntity.ok().body(new SuccessResponse("등록성공"));
-    }
 
     //실종자 프로필 사진 등록
     @PostMapping("/profile")
@@ -195,24 +191,18 @@ public class MissingPeopleController {
             @RequestParam(required = false, defaultValue = "1", value = "page") int page,
             @RequestParam(required = false, defaultValue = "5", value = "size") int pageSize
     ) {
-        SearchResultResponse<?> searchResultResponse = null;
         SearchResultSortBy sortBy = SearchResultSortBy.fromValue(criteria);
         if (step == null && searchId == 0) {
             //todo 예외처리
             throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "At least one of 'step' or 'searchId' must be provided.");
-        } else if (step != null && searchId != 0) {
-            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "Can't provide both parameter.");
-        }
-        if (step != null) {
-            //해당 step의 가장 최신 검색결과 가져오기
-            Step searchStep = Step.fromValue(step);
-            searchResultResponse = searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class);
         }
         if (searchId != 0) {
-            //searchId에 해당하는 검색기록 가져오기
-            searchResultResponse = searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy);
+            //searchId가 있으면 해당하는 검색기록 가져오기
+            return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy)));
         }
-        return ResponseEntity.ok().body(new SuccessResponse(searchResultResponse));
+        //step만 있으면 해당 step의 최신 결과만 가져오기
+        Step searchStep = Step.fromValue(step);
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class)));
     }
 
     //탐색결과 이미지 가져오기
@@ -258,15 +248,29 @@ public class MissingPeopleController {
     }
 
     // 검색의 탐색반경 가져오기
-    @GetMapping("/search-radius")
+    @GetMapping("/{id}/search-radius")
     public ResponseEntity<?> getSearchRadius(
-            @RequestParam(required = false, value = "id") Long id,
+            @PathVariable Long id,
             @RequestParam(required = false, value = "search-id") Long searchId
     ) {
-        if (id == null && searchId == null) {
-            throw new CustomException(ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR, "RequestParamError", "At least one of 'id' or 'search-id' must be provided.");
+        if (searchId != null) {//search-id가 있으면 searchid기준으로 결과를 보내줌
+            return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryBySearchId(searchId)));
         }
+        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryById(id)));
+    }
 
-        return ResponseEntity.ok().body("d");
+    //지능형 탐색 시작하기
+    @PostMapping("/{id}/search")
+    public ResponseEntity<?> startSearching(
+            @PathVariable Long id,
+            @Validated @RequestBody SearchRequestDto searchRequestDto
+    ) {
+        //Todo : 1차인지, 2차인지 고를 수 있어야 함
+        //DB에 탐색 등록
+        searchHistoryService.createSearchHistory(searchRequestDto, id);
+        //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
+//        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
+        kafkaProducerService.startCallFirstDetectApiToKafka(id);
+        return ResponseEntity.ok().body(new SuccessResponse());
     }
 }

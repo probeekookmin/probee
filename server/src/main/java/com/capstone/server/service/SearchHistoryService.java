@@ -1,11 +1,14 @@
 package com.capstone.server.service;
 
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.SearchRangeDto;
 import com.capstone.server.dto.SearchHistoryListDto;
+import com.capstone.server.dto.SearchRangeDto;
+import com.capstone.server.dto.SearchRequestDto;
 import com.capstone.server.exception.CustomException;
+import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.enums.Step;
+import com.capstone.server.repository.MissingPeopleRepository;
 import com.capstone.server.repository.SearchHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,25 @@ import java.util.NoSuchElementException;
 public class SearchHistoryService {
     @Autowired
     private SearchHistoryRepository searchHistoryRepository;
+    @Autowired
+    private MissingPeopleRepository missingPeopleRepository;
 
     public SearchRangeDto getSearchHistoryBySearchId(Long searchId) {
         try {
             SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findById(searchId)
                     .orElseThrow(() -> new NoSuchElementException("Search History not found with search-ID: " + searchId));
+            return SearchRangeDto.fromEntity(searchHistoryEntity);
+        } catch (NoSuchElementException e) {
+            // TODO : 에러코드 수정
+            throw new CustomException(ErrorCode.MISSING_PEOPLE_NOT_FOUND_BY_ID, e);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
+        }
+    }
+
+    public SearchRangeDto getSearchHistoryById(Long id) {
+        try {
+            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdOrderByCreatedAtDesc(id);
             return SearchRangeDto.fromEntity(searchHistoryEntity);
         } catch (NoSuchElementException e) {
             // TODO : 에러코드 수정
@@ -51,4 +68,20 @@ public class SearchHistoryService {
         }
         return searchHistoryDtos;
     }
+
+    //탐색 시작하기
+    @Transactional
+    public void createSearchHistory(SearchRequestDto searchRequestDto, Long missingPeopleId) {
+        //검색기록 생성
+        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(missingPeopleId)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
+        SearchHistoryEntity searchHistoryEntity = searchRequestDto.toSearchHistoryEntity();
+        searchHistoryEntity.setMissingPeopleEntity(missingPeopleEntity);
+        Step step = Step.valueOf("FIRST");
+        searchHistoryEntity.setStep(step);
+        //실종자 step을 First로 설정
+        missingPeopleEntity.setStep(step);
+        searchHistoryRepository.save(searchHistoryEntity);
+    }
+
 }

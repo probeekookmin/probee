@@ -82,11 +82,9 @@ public class MissingPeopleService {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findAll(pageable);
 
-        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        return missingPeoplePage.getContent().stream()
                 .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
-
-        return missingPeopleDtos;
     }
 
     //실종자 리스트 상태별 가져오기
@@ -95,11 +93,9 @@ public class MissingPeopleService {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, sortBy.getValue()));
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByStatus(pageable, status);
 
-        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        return missingPeoplePage.getContent().stream()
                 .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
-
-        return missingPeopleDtos;
     }
 
     //실종자 리스트 이름 검색
@@ -109,11 +105,9 @@ public class MissingPeopleService {
 
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContaining(pageable, name.trim());
 
-        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        return missingPeoplePage.getContent().stream()
                 .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
-
-        return missingPeopleDtos;
     }
 
     //실종자 리스트 상태별 이름검색
@@ -123,21 +117,18 @@ public class MissingPeopleService {
 
         Page<MissingPeopleEntity> missingPeoplePage = missingPeopleRepository.findByNameContainingAndStatus(pageable, name.trim(), status);
 
-        List<MissingPeopleListResponseDto> missingPeopleDtos = missingPeoplePage.getContent().stream()
+        return missingPeoplePage.getContent().stream()
                 .map(MissingPeopleListResponseDto::fromEntity) // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
-
-        return missingPeopleDtos;
     }
 
     //실종자 세부정보 가져오기
-    public MissingPeopleDetailResponseDto getMissingPeopleById(Long id) throws CustomException {
+    public MissingPeopleDetailResponseDto getMissingPeopleById(Long missingPeopleId) throws CustomException {
         try {
-            MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
             MissingPeopleDetailResponseDto missingPeopleDetailResponseDto = MissingPeopleDetailResponseDto.fromEntity(missingPeopleEntity);
-            //보호자 정보 가져오기
-            GuardianEntity guardianEntity = guardianRepository.findByMissingPeopleEntityId(id);
+            //보호자 정보 가져오기 todo : refectoring
+            GuardianEntity guardianEntity = guardianRepository.findByMissingPeopleEntityId(missingPeopleId);
             missingPeopleDetailResponseDto.setGuardianName(guardianEntity.getName());
             missingPeopleDetailResponseDto.setPhoneNumber(guardianEntity.getPhoneNumber());
             missingPeopleDetailResponseDto.setRelationship(guardianEntity.getRelationship());
@@ -152,10 +143,8 @@ public class MissingPeopleService {
 
     //실종자 상태 수정
     @Transactional
-    public void modifyStatus(Long id, Status status) {
-        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
-
+    public void modifyStatus(Long missingPeopleId, Status status) {
+        MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setStatus(status);
     }
 
@@ -182,13 +171,12 @@ public class MissingPeopleService {
     }
 
     //실종자 탐색단계 수정 todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
-    public StepDto changeStep(Step step, Long id) {
-        MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id).
-                orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+    public StepDto changeStep(Step step, Long missingPeopleId) {
+        MissingPeopleEntity missingPeople = getMissingPeopleEntity(missingPeopleId);
         try {
             missingPeople.setStep(step);
             missingPeopleRepository.save(missingPeople);
-            return new StepDto(id, step);
+            return new StepDto(missingPeopleId, step);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
@@ -197,17 +185,20 @@ public class MissingPeopleService {
 
     //실종자 탐색단계 가져오기
     public StepDto getStep(Long missingPeopleId) {
-        MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId).
-                orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
-        return StepDto.fromEntity(missingPeople);
+        MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
+        return StepDto.fromEntity(missingPeopleEntity);
     }
 
     //프로필사진 경로 수정
-    public void setProfileImagePath(Long id, String imagePath) {
-        MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+    public void setProfileImagePath(Long missingPeopleId, String imagePath) {
+        MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setProfileImage(imagePath);
         missingPeopleRepository.save(missingPeopleEntity);
+    }
+
+    protected MissingPeopleEntity getMissingPeopleEntity(Long missingPeopleId) throws NoSuchElementException {
+        return missingPeopleRepository.findById(missingPeopleId)
+                .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
     }
 
 

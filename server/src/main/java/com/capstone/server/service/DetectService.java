@@ -50,12 +50,14 @@ public class DetectService {
     //수정 완료.
     public DetectionDataDto callFirstDetectAPI(Long id) throws CustomException {
         try {
-            //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함)
-            MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
+
+            //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함) todo : 리팩토링. 현재 너무 과도하게 데이터를 불러오고있음.
+            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
-            SearchHistoryEntity searchHistoryEntity = missingPeopleEntity.getSearchHistoryEntities().get(missingPeopleEntity.getSearchHistoryEntities().size() - 1);
+            //해당 Id의 가장 최신 탐색기록을 가져와 요청 보낼 dto생성
+            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(id, Step.fromValue("first"));
             //과정2 : ai server요청에 쓸 dto를생성합니다
-            FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeopleEntity, searchHistoryEntity);
+            FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeople, searchHistoryEntity);
             firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()));
             firstDetectionRequestDto.setQuery("a man weraing a black skirt and blue coat"); // 테스트용 임시 쿼리
             HttpHeaders headers = new HttpHeaders();

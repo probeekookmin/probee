@@ -21,7 +21,7 @@ public class TestController {
     //ai 탐색코드 테스트
     @PostMapping("/aiserver")
     public ResponseEntity<?> test(@RequestBody FirstDetectionRequestDto firstDetectionRequestDto) {
-        return ResponseEntity.ok().body(new SuccessResponse(detectService.callFirstDetectAPI(firstDetectionRequestDto)));
+        return ResponseEntity.ok().body(new SuccessResponse(detectService.callFirstDetectAPI(firstDetectionRequestDto.getMissingPeopleId())));
     }
 
     @GetMapping("/url")
