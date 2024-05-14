@@ -15,17 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KafkaProducerService {
 
-    @Value("${testTopic.name}")
-    private String testTopicName;
-
-    @Value("${startSearchingTopic.name}")
-    private String startSearchingTopicName;
-
-    @Value("${startSecondSearchingTopic.name}")
-    private String startSecondSearchingTopicName;
-
     @Value("${startCallFirstDetectApiTopic.name}")
     private String startCallFirstDetectApiTopicName;
+
+    @Value("${startCallSecondDetectApiTopic.name}")
+    private String startCallSecondDetectApiTopicName;
 
     /* Kafka Template 을 이용해 Kafka Broker 전송 */
     private final KafkaTemplate<String, String> kafkaStringTemplate;
@@ -33,5 +27,9 @@ public class KafkaProducerService {
     // Detection 하는 Producer
     public void startCallFirstDetectApiToKafka(String id) {
         this.kafkaStringTemplate.send(startCallFirstDetectApiTopicName, id);
+    }
+
+    public void startCallSecondDetectApiToKafka(String id) {
+        this.kafkaStringTemplate.send(startCallSecondDetectApiTopicName, id);
     }
 }
