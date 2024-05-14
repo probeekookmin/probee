@@ -40,9 +40,6 @@ public class MissingPeopleDetailEntity {
     @Enumerated(EnumType.STRING)
     private BagType bagType;
 
-    @Enumerated(EnumType.STRING)
-    private Color shoesColor;
-
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
     private MissingPeopleEntity missingPeopleEntity;
