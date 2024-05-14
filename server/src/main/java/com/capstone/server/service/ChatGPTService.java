@@ -1,5 +1,8 @@
 package com.capstone.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -7,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.capstone.server.dto.ChatGPTRequest;
 import com.capstone.server.dto.ChatGPTResponse;
+import com.capstone.server.dto.MissingPeopleCreateRequestDto;
 import com.capstone.server.model.enums.BagType;
 import com.capstone.server.model.enums.BottomType;
 import com.capstone.server.model.enums.Color;
@@ -27,24 +31,26 @@ public class ChatGPTService {
 
     // TODO : 파라미터 추가
     // 아래 함수 사용
-    public String translateEnglishToKorean(Integer age, String genderExceptAge, String hair, String topColor, String topType,
-                                        String bottomColor, String bottomType, String bag) {
-
-        String text = this.createUserText(age,
-                                        Gender.fromKor(genderExceptAge).getValue(),
-                                        HairStyle.fromKor(hair).getValue(),
-                                        Color.fromKor(topColor).getValue(),
-                                        TopType.fromKor(topType).getValue(),
-                                        Color.fromKor(bottomColor).getValue(),
-                                        BottomType.fromKor(bottomType).getValue(),
-                                        BagType.fromKor(bag).getValue());
+    public MissingPeopleCreateRequestDto translateEnglishToKorean(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) {
+        
+        String text = this.createUserText(missingPeopleCreateRequestDto.getAgeWhenMissing(),
+                                        Gender.fromKor(missingPeopleCreateRequestDto.getGender()).getValue(),
+                                        HairStyle.fromKor(missingPeopleCreateRequestDto.getHairStyle()).getValue(),
+                                        Color.fromKor(missingPeopleCreateRequestDto.getTopColor()).getValue(),
+                                        TopType.fromKor(missingPeopleCreateRequestDto.getTopType()).getValue(),
+                                        Color.fromKor(missingPeopleCreateRequestDto.getBottomColor()).getValue(),
+                                        BottomType.fromKor(missingPeopleCreateRequestDto.getBottomType()).getValue(),
+                                        BagType.fromKor(missingPeopleCreateRequestDto.getBagType()).getValue());
 
         ChatGPTRequest request = new ChatGPTRequest(model, text, "user");
         request.setPresencePenalty(0.9);
         request.addMessages(this.createSystemPrompt(), "system");
 
         ChatGPTResponse chatGPTResponse = template.postForObject(apiURL, request, ChatGPTResponse.class);
-        return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+        missingPeopleCreateRequestDto.setQuery(text);
+        missingPeopleCreateRequestDto.setKo_query(chatGPTResponse.getChoices().get(0).getMessage().getContent());
+
+        return missingPeopleCreateRequestDto; 
     }
 
     // ex) A boy has long hair. He wearing a red short sleeve and a blue a short pants. He is carrying a backpack.
@@ -181,7 +187,8 @@ public class ChatGPTService {
             Input sentence: A woman has short hair. She wearing a beige coat. She is holding a backpack."
             Desired Translation: 짧은 머리. 베이지색 코트를 입고, 가방을 들고 있음.
 
-            Please respond to every sentence simply.
+            Please respond to every sentence simply, 
+            and Please accurately translate the example sentences and format written in Desired Translation.
             """;
         return prompt;
     }

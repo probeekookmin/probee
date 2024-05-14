@@ -48,6 +48,8 @@ public class MissingPeopleController {
     private SearchResultService searchResultService;
     @Autowired
     private SearchHistoryService searchHistoryService;
+    @Autowired
+    private ChatGPTService chatGPTService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -112,6 +114,9 @@ public class MissingPeopleController {
             }
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
+            // ChatGPT query 생성, [ko_query, en_query]
+            missingPeopleCreateRequestDto = chatGPTService.translateEnglishToKorean(missingPeopleCreateRequestDto);
+            
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
             

@@ -43,7 +43,6 @@ public class MissingPeopleService {
 
 
     @Transactional
-
     public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) throws CustomException {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleCreateRequestDto.toMissingPeopleEntity();
@@ -201,6 +200,17 @@ public class MissingPeopleService {
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
     }
 
+    @Transactional
+    public void setQuerys(Long missingPeopleId, List<String> querys) {
+        if (querys.size() < 2) {
+            throw new IllegalArgumentException("querys list must contain at least 2 elements.");
+        }
+        
+        MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
+        missingPeopleEntity.setQuery(querys.get(0));
+        // // missingPeopleEntity.setKoQuery(querys.get(1));
+        // missingPeopleRepository.save(missingPeopleEntity);
+    }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {
     //     this.getMissingPeopleById(id);
