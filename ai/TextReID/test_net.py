@@ -78,6 +78,11 @@ def main():
         default="./output/output.json",
         type=str,
     )
+    parser.add_argument(
+        "--top-k",
+        default=10,
+        type=int,
+    )
 
     args = parser.parse_args()
     detect(args)
@@ -114,6 +119,7 @@ def detect(args):
     cfg.merge_from_list(args.opts)
     cfg.ROOT = args.root
     cfg.DATASETS.DIR = args.data_dir
+    cfg.TEST.TOP_K = args.top_k
     cfg.freeze()
 
     model = build_model(cfg)
