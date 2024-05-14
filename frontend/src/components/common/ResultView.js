@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Select, Pagination, Skeleton, List, Card, Col, Row ,Form} from "antd";
-import { useEffect,useState } from "react";
+import { Select, Pagination, Skeleton, List, Card, Col, Row, Form } from "antd";
+import { useEffect, useState } from "react";
+import { SelectOptions } from "./SelectOptions";
 
 // const data = [
 //   { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
@@ -16,9 +17,9 @@ import { useEffect,useState } from "react";
 //   { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
 //   { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
 // ];
-export const ResultView = ({ column, count, dataList}) => {
+export const ResultView = ({ column, count, dataList }) => {
   const [data, setData] = useState([]);
-  
+
   useEffect(() => {
     setData(dataList);
   }, [dataList]);
@@ -26,10 +27,10 @@ export const ResultView = ({ column, count, dataList}) => {
     return (
       <ItemContainer>
         {item.imgUrl ? (
-        <img src={item.imgUrl} alt="Image" style={{ width: "7.2rem", height: "11.9rem" }} />
-      ) : (
-        <Skeleton.Image active={false} style={{ width: "7.2rem", height: "11.9rem" }} />
-      )}
+          <ItemImage src={item.imgUrl} alt="Image" />
+        ) : (
+          <Skeleton.Image active={false} style={{ width: "7.2rem", height: "11.9rem" }} />
+        )}
         <p>{item.date}</p>
         <p>{item.time}</p>
         <p>정확도:{item.similarity}</p>
@@ -38,16 +39,11 @@ export const ResultView = ({ column, count, dataList}) => {
   };
   return (
     <StResultView>
-      {/* <MiddleContainer>
-        {data.map((item, idx) => (
-          <Item key={idx} item={item} />
-        ))}
-      </MiddleContainer>
+      <MiddleContainer>{data && data.map((item, idx) => <Item key={idx} item={item} />)}</MiddleContainer>
       <BottomContainer>
-        <Paging size="small" defaultCurrent={1} total={6} />
-      </BottomContainer> */}
-
-      <List
+        <Paging size="small" defaultCurrent={1} defaultPageSize={6} total={count} />
+      </BottomContainer>
+      {/* <List
         grid={{
           gutter: 16,
           column: column,
@@ -58,12 +54,12 @@ export const ResultView = ({ column, count, dataList}) => {
           // xl: 8,
           // xxl: 8,
         }}
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: count,
-        }}
+        // pagination={{
+        //   onChange: (page) => {
+        //     console.log(page);
+        //   },
+        //   pageSize: count,
+        // }}
         dataSource={data}
         renderItem={(item) => (
           // <List.Item>
@@ -71,11 +67,7 @@ export const ResultView = ({ column, count, dataList}) => {
           // </List.Item>
           <Item item={item} />
         )}
-      />
-
-      {/* <BottomContainer>
-        <Paging size="small" defaultCurrent={1} total={6} />
-      </BottomContainer> */}
+      /> */}
     </StResultView>
   );
 };
@@ -117,7 +109,19 @@ const ItemContainer = styled.div`
   margin-top: 0.9rem;
 
   p {
-    font-size: 1rem;
+    @media all and (max-width: 1537px) {
+      font-size: 1rem;
+    }
+    font-size: 1.3rem;
+  }
+`;
+
+const ItemImage = styled.img`
+  width: 14.4rem;
+  height: 23.8rem;
+  @media all and (max-width: 1537px) {
+    width: 7.2rem;
+    height: 11.9rem;
   }
 `;
 

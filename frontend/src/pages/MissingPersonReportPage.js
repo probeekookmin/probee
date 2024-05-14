@@ -11,24 +11,18 @@ import { IntelligentSearchOption } from "../components/reportIntelligent/Intelli
 import { IntelligentBasicInfo } from "../components/reportIntelligent/IntelligentBasicInfo";
 import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
-import { getMissingPerson,getMissingPeopleStep,getSearchHistoryList } from "../core/api";
-import { useLocation } from 'react-router-dom';
+import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList } from "../core/api";
+import { useLocation } from "react-router-dom";
+import { ReportMain } from "../components/missingPersonReport/ReportMain";
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
   const [searchHistoryList, setSearchHistoryList] = useState([]);
-  
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   console.log("sssdfsadfsad location", location);
-  const { id } = location.state || { id: 89 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
-  console.log("id", id);
 
-  /*실종자 정보 받아오기*/
-  useEffect(() => {
-    if (id ) {
-      fetchData(id);
-    }
-  }, []); // 의존성 배열 비움
+  const { userId } = location.state || { userId: 89 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
 
   /*지능형 탐색 시작하기 스크롤 이벤트 */
   const scrollToIntelligent = () => {
@@ -39,9 +33,15 @@ function MissingPersonReportPage() {
       });
     }
   };
-  
-  const fetchData = (id) => {
-    getMissingPeopleStep(id).then((res) => {
+
+  useEffect(() => {
+    console.log("useEffect", userId);
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    console.log("fetchData", userId);
+    getMissingPeopleStep(userId).then((res) => {
       switch (res.data.step) {
         case "FIRST":
           setStep(1);
@@ -57,23 +57,24 @@ function MissingPersonReportPage() {
           break;
         default:
           setStep(0);
-        }
       }
-    )
-    getMissingPerson(id).then((res) => {
-      setMissingPerson(res.data);
-      if(res.data.status==="exit"){
-        setStep(5);
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
     });
-    getSearchHistoryList(id).then((res) => {
+    getMissingPerson(userId)
+      .then((res) => {
+        console.log("missingPerson", res.data);
+        setMissingPerson(res.data);
+        if (res.data.status === "exit") {
+          setStep(5);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    getSearchHistoryList(userId).then((res) => {
       setSearchHistoryList(res.data);
-      }
-    )
-  }
+    });
+  };
+
   /*지능형 탐색 시작하기 버튼 */
   const ReportStartBtn = () => {
     return (
@@ -87,34 +88,34 @@ function MissingPersonReportPage() {
     );
   };
   /*실종자 리포트 - 메인*/
-  const ReportMain = () => {
-    return (
-      <StReport>
-        <Row gutter={[8, 10]}>
-          <Col span={6}>
-            <BasicInfo data={missingPerson}/>
-          </Col>
-          <Col span={14}>
-            <ReportMap />
-          </Col>
-          <Col span={4}>
-            <StepProgress step={step}/>
-          </Col>
-          <Col span={6} md={6}>
-            <Row style={{ marginBottom: 8 }}>
-              <ReportList listData = {searchHistoryList}/>
-            </Row>
-            <Row>
-              <ReportStartBtn />
-            </Row>
-          </Col>
-          <Col span={18} md={18}>
-            <ReportTabs id = {id}/>
-          </Col>
-        </Row>
-      </StReport>
-    );
-  };
+  // const ReportMain = () => {
+  //   return (
+  //     <StReport>
+  //       <Row gutter={[8, 10]}>
+  //         <Col span={6}>
+  //           <BasicInfo data={missingPerson} />
+  //         </Col>
+  //         <Col span={14}>
+  //           <ReportMap />
+  //         </Col>
+  //         <Col span={4}>
+  //           <StepProgress step={step} />
+  //         </Col>
+  //         <Col span={6} md={6}>
+  //           <Row style={{ marginBottom: 8 }}>
+  //             <ReportList listData={searchHistoryList} />
+  //           </Row>
+  //           <Row>
+  //             <ReportStartBtn />
+  //           </Row>
+  //         </Col>
+  //         <Col span={18} md={18}>
+  //           <ReportTabs id={id} />
+  //         </Col>
+  //       </Row>
+  //     </StReport>
+  //   );
+  // };
   /*실종자 리포트 - 지능형 탐색*/
   const ReportIntelligent = () => {
     return (
@@ -148,15 +149,16 @@ function MissingPersonReportPage() {
 
   return (
     <StMissingPersonReportPage>
-      <ReportMain />
-      <ReportIntelligent />
+      {/* <ReportMain />
+      <ReportIntelligent /> */}
+      <ReportMain data={missingPerson} step={step} history={searchHistoryList} />
     </StMissingPersonReportPage>
   );
 }
 export default MissingPersonReportPage;
 
 const StMissingPersonReportPage = styled.div`
-  padding: 1rem 1rem;
+  padding: 1rem 3rem;
   gap: 1rem;
   height: 100vh;
   overflow-y: auto;
@@ -165,6 +167,7 @@ const StMissingPersonReportPage = styled.div`
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 `;
+
 const StReportStartBtn = styled.div`
   display: flex;
   flex-direction: row;

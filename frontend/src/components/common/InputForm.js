@@ -29,6 +29,9 @@ const StInputForm = styled.div`
   flex-direction: column;
   height: 3.9rem;
   margin-bottom: 0.6rem;
+  @media all and (max-width: 1536px) {
+    height: 3.2rem;
+  }
 `;
 const InputItem = styled(Form.Item)`
   padding: 0;
@@ -41,6 +44,9 @@ const InputLabel = styled.span`
   padding-bottom: 0;
   color: #00000060;
   font-size: 1rem;
+  @media all and (max-width: 1536px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const InputField = styled(Input)`
@@ -49,6 +55,9 @@ const InputField = styled(Input)`
   font-size: 1.4rem;
   line-height: 2.2rem;
   margin-bottom: 0.6rem;
+  @media all and (max-width: 1536px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const StCenterInputForm = styled(StInputForm)`

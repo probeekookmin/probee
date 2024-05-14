@@ -70,7 +70,7 @@ export const CardView = ({ data }) => {
 
   const CardItem = () => {
     return (
-      <Link to={`/report`} state={{ id: missingPeopleId }}>
+      <Link to={`/report`} state={{ userId: missingPeopleId }}>
         <StCardItem form={form} process={status}>
           <Row gutter={[13, 10]}>
             <Col span={8}>
