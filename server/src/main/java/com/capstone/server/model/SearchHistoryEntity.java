@@ -63,7 +63,6 @@ public class SearchHistoryEntity {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-//        startTime = LocalDateTime.now(); #검색시작시간 아닌가요???
     }
 
     @PreUpdate
