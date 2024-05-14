@@ -55,7 +55,7 @@ public class SearchResultService {
 
     //탐색 단계로 detection 결과 받아오기
     public SearchResultResponse<? extends DetectionResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy, Class<? extends DetectionResultDto> dtoClass) {
-        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(id, step);
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, step);
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
         return makeResultResponse(searchResultPages, dtoClass);
     }
@@ -65,7 +65,7 @@ public class SearchResultService {
     public SearchResultResponse<? extends DetectionResultDto> getBetweenResult(long id, int page, int pageSize, Class<? extends DetectionResultDto> dtoClass) {
         Step step = Step.fromValue("first");
         //해당 Id의 최신 탐색 가져오기
-        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(id, step);
+        SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, step);
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<SearchResultEntity> searchResultPages = betweenRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
         return makeResultResponse(searchResultPages, dtoClass);

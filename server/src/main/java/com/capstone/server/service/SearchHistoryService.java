@@ -40,7 +40,7 @@ public class SearchHistoryService {
 
     public SearchRangeDto getSearchHistoryById(Long id) {
         try {
-            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdOrderByCreatedAtDesc(id);
+            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdOrderByCreatedAtAsc(id);
             return SearchRangeDto.fromEntity(searchHistoryEntity);
         } catch (NoSuchElementException e) {
             // TODO : 에러코드 수정
@@ -64,6 +64,7 @@ public class SearchHistoryService {
         List<SearchHistoryEntity> searchHistory = searchHistoryRepository.findByMissingPeopleEntityId(id);
         List<SearchHistoryListDto> searchHistoryDtos = new ArrayList<>();
         for (SearchHistoryEntity searchHistoryEntity : searchHistory) {
+            if (searchHistoryEntity.getStep() != Step.FIRST) continue;
             searchHistoryDtos.add(SearchHistoryListDto.fromEntity(searchHistoryEntity));
         }
         return searchHistoryDtos;
