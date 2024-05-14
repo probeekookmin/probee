@@ -28,46 +28,14 @@ public class KafkaConsumerService {
     private SearchHistoryService searchHistoryService;
     @Autowired
     private DetectService detectService;
-    
-    @Value("${startSearchingTopic.name}")
-    private String startSearchingTopicName;
-
-    @Value("${startSecondSearchingTopic.name}")
-    private String startSecondSearchingTopicName;
-
-    // 현재 사용 x, 추후 수정
-    @Transactional
-    @KafkaListener(topics = "start-searching", groupId = "consumer_group01") // return 하지 않음. 
-    public void consumeStartSearching(KafkaDto kafkaDto) {
-        List<CCTVDto> cctvDtos = cctvService.findCCTVsNearbyLocationWithinDistance(
-            kafkaDto.getLongitude(), kafkaDto.getLatitude());
-
-        // POLICY : 상태 업데이트는 해당 로직 시작 전 수행
-        missingPeopleService.modifyStatus(kafkaDto.getMissingPeopleId(), Status.SEARCHING);
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.FIRST);
-
-        // TODO : 쿼리 생성 + AI 서버 요청
-    }
-
-    // 현재 사용 x, 추후 수정
-    @Transactional
-    @KafkaListener(topics = "start-second-searching", groupId = "consumer_group02") // return 하지 않음. 
-    public void consumeStartSecondSearching(KafkaDto kafkaDto) {
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.SECOND);
-
-        // TODO : 2차 모델 연산 시작 요청
-
-        missingPeopleService.modifyStatus(kafkaDto.getMissingPeopleId(), Status.EXIT);
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.EXIT);
-
-    }
 
     // 사용 중 
     @Transactional
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01") // return 하지 않음. 
-    public void consumeStartCallFirstDetectionApi(Long id) {
+    public void consumeStartCallFirstDetectionApi(String id) {
         // TODO : 로직 추가 
-        DetectionDataDto detectionDataDto = detectService.callFirstDetectAPI(id);
+        Long idValue = Long.valueOf(id);
+        DetectionDataDto detectionDataDto = detectService.callFirstDetectAPI(idValue);
         detectService.postFirstDetectionResult(detectionDataDto);
     }
 }

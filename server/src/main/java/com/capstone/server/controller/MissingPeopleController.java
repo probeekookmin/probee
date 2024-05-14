@@ -48,6 +48,8 @@ public class MissingPeopleController {
     private SearchResultService searchResultService;
     @Autowired
     private SearchHistoryService searchHistoryService;
+    @Autowired
+    private ChatGPTService chatGPTService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -112,13 +114,17 @@ public class MissingPeopleController {
             }
             throw new CustomException(ErrorCode.BAD_REQUEST, errorMap);
         } else {
+            // ChatGPT query 생성, [ko_query, en_query]
+            missingPeopleCreateRequestDto = chatGPTService.translateEnglishToKorean(missingPeopleCreateRequestDto);
+            
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-
+            
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
+            kafkaProducerService.startCallFirstDetectApiToKafka(Long.toString(createResponse.getId()));
+            
             //메시지 전송 (버그때문에 주석처리)
-//            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
+            smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
             return ResponseEntity.ok().body(createResponse);
         }
     }
@@ -268,7 +274,7 @@ public class MissingPeopleController {
         searchHistoryService.createSearchHistory(searchRequestDto, id);
         //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
 //        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
-        kafkaProducerService.startCallFirstDetectApiToKafka(id);
+        // kafkaProducerService.startCallFirstDetectApiToKafka(id);
         return ResponseEntity.ok().body(new SuccessResponse());
     }
 }

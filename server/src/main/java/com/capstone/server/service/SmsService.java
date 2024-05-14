@@ -62,7 +62,7 @@ public class SmsService {
     public String getShortUrl(Long id) {
         try {
             String token = encryptionService.encryptToken(id.toString());
-            String longUrl = UriComponentsBuilder.fromHttpUrl("http://www.naver.com")
+            String longUrl = UriComponentsBuilder.fromHttpUrl(serverUrl)
                     .path("/api/guardian/validate-token")
                     .queryParam("token", token)
                     .toUriString();
@@ -88,7 +88,7 @@ public class SmsService {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e);
         }
     }
-
+// 쓸모없는 주석
     private void setMessageService() {
         messageService = NurigoApp.INSTANCE.initialize(smsApiKey, smsApiSecret, "https://api.solapi.com");
     }

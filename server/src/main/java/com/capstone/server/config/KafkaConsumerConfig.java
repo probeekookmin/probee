@@ -30,44 +30,21 @@ public class KafkaConsumerConfig {
     
 
     @Bean
-    public Map<String, Object> consumerConfig() {
+    public ConsumerFactory<String, String> stringConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, offsetReset);
-        return props;
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); // Long을 위한 Deserializer 추가
+        return new DefaultKafkaConsumerFactory<>(props);
     }
     
+    // Kafka Listener Container Factory for Long
     @Bean
-    public ConsumerFactory<String, KafkaDto> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(this.consumerConfig(), new StringDeserializer(), jsonDeserializer());
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, KafkaDto> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String,KafkaDto> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(this.consumerFactory());
-        return factory;
-    }
-
-    @Bean
-    public JsonDeserializer<KafkaDto> jsonDeserializer() {
-        JsonDeserializer<KafkaDto> deserializer = new JsonDeserializer<>(KafkaDto.class);
-        deserializer.addTrustedPackages("com.capstone.server.dto");
-        return deserializer;
-    }
-
-    @Bean
-    public ConsumerFactory<String, Long> longConsumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(this.consumerConfig(), new StringDeserializer(), new LongDeserializer());
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Long> kafkaLongListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Long> factory
-                = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(this.longConsumerFactory());
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaStringListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(stringConsumerFactory());
         return factory;
     }
 }
