@@ -22,7 +22,7 @@ public class KafkaProducerController {
     @PostMapping
     public ResponseEntity<?> sendMassage(
             @RequestParam String message) {
-        this.kafkaProducerService.sendMessageToKafka(message);
+        // this.kafkaProducerService.sendMessageToKafka(message);
         return ResponseEntity.ok().body("Good");
     }
 }
