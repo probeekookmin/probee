@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Select, Pagination, Skeleton, List, Card, Col, Row, Form } from "antd";
 import { useEffect, useState } from "react";
 import { SelectOptions } from "./SelectOptions";
+import { getBetweenResultImg, getSearchResultImg } from "../../core/api";
 
 // const data = [
 //   { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
@@ -17,12 +18,51 @@ import { SelectOptions } from "./SelectOptions";
 //   { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
 //   { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
 // ];
-export const ResultView = ({ column, count, dataList }) => {
+export const ResultView = ({ count, dataList, type, id }) => {
   const [data, setData] = useState([]);
+  const [dataCount, setDataCount] = useState(0);
 
   useEffect(() => {
-    setData(dataList);
+    if (type === "first") {
+      console.log("useEffect-first");
+      setData(dataList);
+      setDataCount(count);
+    } else {
+      console.log("useEffect-other");
+      fetchData();
+    }
   }, [dataList]);
+
+  const fetchData = () => {
+    if (type === "between") {
+      console.log("between");
+      getBetweenResultImg(1, id).then((res) => {
+        console.log("between", res.data);
+        setData(res.data.list);
+      });
+    } else {
+      getSearchResultImg(1, id, type).then((res) => {
+        console.log("step2data", res.data);
+        setData(res.data.list);
+      });
+    }
+  };
+  const onChangePage = (page) => {
+    if (type === "between") {
+      console.log("between");
+      getBetweenResultImg(page, id).then((res) => {
+        console.log("between", res.data);
+        setData(res.data.list);
+        setDataCount(res.data.count);
+      });
+    } else {
+      getSearchResultImg(page, id, type).then((res) => {
+        console.log("step2data", res.data);
+        setData(res.data.list);
+        setDataCount(res.data.count);
+      });
+    }
+  };
   const Item = ({ item }) => {
     return (
       <ItemContainer>
@@ -41,7 +81,13 @@ export const ResultView = ({ column, count, dataList }) => {
     <StResultView>
       <MiddleContainer>{data && data.map((item, idx) => <Item key={idx} item={item} />)}</MiddleContainer>
       <BottomContainer>
-        <Paging size="small" defaultCurrent={1} defaultPageSize={6} total={count} />
+        <Paging
+          size="small"
+          defaultCurrent={1}
+          defaultPageSize={6}
+          total={dataCount}
+          onChange={(page) => onChangePage(page)}
+        />
       </BottomContainer>
       {/* <List
         grid={{

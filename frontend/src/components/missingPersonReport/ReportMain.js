@@ -7,11 +7,12 @@ import { IntelligentReportList } from "./IntelligentReportList";
 import { ReportTabs } from "./ReportTabs";
 import { ReportResultImages } from "./ReportResultImages";
 
-export const ReportMain = ({ data, step, history }) => {
+export const ReportMain = ({ data, step, history, step1data }) => {
   //console.log("ReportMain_id: " + id.id);
   console.log("ReportMain_data: ", data);
   console.log("ReportMain_step: ", step);
   console.log("ReportMain_history: ", history);
+  console.log("ReportMain_step1data: ", step1data);
   return (
     <StReportMain>
       <TitleContainer>
@@ -38,7 +39,9 @@ export const ReportMain = ({ data, step, history }) => {
             <ReportMap />
             <StepProgress step={step} />
           </Container1>
-          <Container2>{/* <ReportTabs id={id} /> */}</Container2>
+          <Container2>
+            <ReportTabs id={data.id} step1data={step1data} />
+          </Container2>
         </ContainerRight>
       </ContentsContainer>
     </StReportMain>

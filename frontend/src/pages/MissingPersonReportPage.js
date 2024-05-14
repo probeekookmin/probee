@@ -11,13 +11,14 @@ import { IntelligentSearchOption } from "../components/reportIntelligent/Intelli
 import { IntelligentBasicInfo } from "../components/reportIntelligent/IntelligentBasicInfo";
 import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
-import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList } from "../core/api";
+import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList, getSearchResultImg } from "../core/api";
 import { useLocation } from "react-router-dom";
 import { ReportMain } from "../components/missingPersonReport/ReportMain";
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
   const [searchHistoryList, setSearchHistoryList] = useState([]);
+  const [step1data, setStep1data] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   console.log("sssdfsadfsad location", location);
@@ -72,6 +73,10 @@ function MissingPersonReportPage() {
       });
     getSearchHistoryList(userId).then((res) => {
       setSearchHistoryList(res.data);
+    });
+    getSearchResultImg(1, userId, "first").then((res) => {
+      console.log("step1data", res.data);
+      setStep1data(res.data);
     });
   };
 
@@ -151,7 +156,7 @@ function MissingPersonReportPage() {
     <StMissingPersonReportPage>
       {/* <ReportMain />
       <ReportIntelligent /> */}
-      <ReportMain data={missingPerson} step={step} history={searchHistoryList} />
+      <ReportMain data={missingPerson} step={step} history={searchHistoryList} step1data={step1data} />
     </StMissingPersonReportPage>
   );
 }

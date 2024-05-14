@@ -43,29 +43,31 @@ const operations = (
   />
 );
 
-export const ReportTabs = ({ id }) => {
+export const ReportTabs = ({ id, step1data }) => {
   console.log("ReportTabs_id: " + id);
   const [data1, setData1] = useState([]);
   const [dataBetween, setdataBetween] = useState([]); /* todo 이미지 고른거 가져오기*/
   const [data2, setData2] = useState([]);
-
+  useEffect(() => {
+    setData1(step1data);
+  }, [step1data]);
   console.log("data1", data1);
   console.log("data2", data2);
   const items = [
     {
       key: "1",
       label: "1차 탐색",
-      children: <ResultView count={data1.count} column={6} dataList={data1.list} />,
+      children: <ResultView count={data1.count} dataList={data1.list} type={"first"} id={id} />,
     },
     {
       key: "2",
       label: "이미지 선별",
-      children: <ResultView count={6} column={6} dataList={dataBetween.list} />,
+      children: <ResultView count={6} dataList={dataBetween.list} type={"between"} id={id} />,
     },
     {
       key: "3",
       label: "2차 탐색",
-      children: <ResultView count={data2.count} column={6} dataList={data2.list} />,
+      children: <ResultView count={data2.count} dataList={data2.list} type={"second"} id={id} />,
     },
   ];
   return (
