@@ -55,7 +55,7 @@ public class DetectService {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
             //해당 Id의 가장 최신 탐색기록을 가져와 요청 보낼 dto생성
-            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(id, Step.fromValue("first"));
+            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, Step.fromValue("first"));
             //과정2 : ai server요청에 쓸 dto를생성합니다
             FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeople, searchHistoryEntity);
             firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()));

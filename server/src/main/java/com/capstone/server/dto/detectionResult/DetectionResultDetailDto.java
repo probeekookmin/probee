@@ -4,6 +4,8 @@ import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.SearchResultEntity;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,7 +18,7 @@ public class DetectionResultDetailDto extends DetectionResultDto {
 
     public DetectionResultDetailDto(SearchResultEntity searchResultEntity) {
         super(searchResultEntity.getId(), searchResultEntity.getImageUrl());
-        this.similarity = searchResultEntity.getSimilarity();
+        this.similarity = roundTo8DecimalPlaces(searchResultEntity.getSimilarity());
         this.time = searchResultEntity.getTime();
         CCTVEntity cctvEntity = searchResultEntity.getCctvEntity();
         this.cctv = new CCTV(cctvEntity.getId(), cctvEntity.getGps().getX(), cctvEntity.getGps().getY());
@@ -33,5 +35,11 @@ public class DetectionResultDetailDto extends DetectionResultDto {
 
     public static DetectionResultDetailDto fromEntity(SearchResultEntity searchResultEntity) {
         return new DetectionResultDetailDto(searchResultEntity);
+    }
+
+    private double roundTo8DecimalPlaces(double value) {
+        BigDecimal bigDecimal = BigDecimal.valueOf(value);
+        bigDecimal = bigDecimal.setScale(8, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
     }
 }

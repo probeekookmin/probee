@@ -198,7 +198,7 @@ public class MissingPeopleController {
             //searchId가 있으면 해당하는 검색기록 가져오기
             return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy)));
         }
-        //step만 있으면 해당 step의 최신 결과만 가져오기
+        //step만 있으면 해당 step의 가장 처음탐색 결과 가져오기
         Step searchStep = Step.fromValue(step);
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class)));
     }
