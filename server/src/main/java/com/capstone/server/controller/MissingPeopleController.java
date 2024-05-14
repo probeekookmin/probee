@@ -158,7 +158,7 @@ public class MissingPeopleController {
     //검색기록 가져오기
     @GetMapping("/{id}/search-history")
     public ResponseEntity<?> getSearchHistoryList(@PathVariable Long id) {
-        return ResponseEntity.ok(new SuccessResponse(missingPeopleService.searchHistoryService.getSearchHistoryList(id)));
+        return ResponseEntity.ok(new SuccessResponse(searchHistoryService.getSearchHistoryList(id)));
     }
 
     //탐색결과 이미지 등록하기 (안쓸듯)
