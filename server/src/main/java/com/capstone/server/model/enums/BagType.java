@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum BagType {
     NONE("없음", "none"),
     BACKPACK("백팩", "backpack"),
-    OTHERS("그 외", "others");
+    BAG("그 외", "bag");
 
     private final String kor;
     private final String value;

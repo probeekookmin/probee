@@ -29,7 +29,15 @@ public class ChatGPTController {
 
     @GetMapping("/chat")
     public String chat(@RequestParam(name = "prompt")String prompt){
-        String response = chatGPTService.translateEnglishToKorean();
+        String response = chatGPTService.translateEnglishToKorean(
+                                                                16,
+                                                                "남성",
+                                                                "긴 머리", 
+                                                                "빨강", 
+                                                                "반팔",
+                                                                "파랑",
+                                                                "반바지",
+                                                                "백팩");
         return response;
     }
 }

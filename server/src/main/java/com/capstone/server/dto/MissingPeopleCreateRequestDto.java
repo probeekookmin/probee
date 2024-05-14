@@ -137,4 +137,8 @@ public class MissingPeopleCreateRequestDto {
                 .locationAddress(locationAddress)
                 .build();
     }
+
+    public Integer getAgeWhenMissing() {
+        return this.missingAt.getYear() - this.birthdate.getYear();
+    }
 }
