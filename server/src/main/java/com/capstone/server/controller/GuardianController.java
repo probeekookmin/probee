@@ -58,7 +58,7 @@ public class GuardianController {
     @GetMapping("/step")
     public ResponseEntity<?> getStep(@RequestHeader("Authorization") String authorization) {
         Long id = encryptionService.extractIdFromToken(authorization);
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id, false)));
     }
 
     //1차 탐색결과 가져오기

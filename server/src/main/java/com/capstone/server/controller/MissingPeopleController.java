@@ -239,7 +239,7 @@ public class MissingPeopleController {
     //탐색 단계 가져오기
     @GetMapping("/{id}/step")
     public ResponseEntity<?> getStep(@PathVariable Long id) {
-        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(missingPeopleService.getStep(id, true)));
 
     }
 

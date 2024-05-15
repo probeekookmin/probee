@@ -13,6 +13,7 @@ import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.GuardianRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
+import com.capstone.server.repository.SearchHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -35,11 +36,15 @@ public class MissingPeopleService {
     @Autowired
     private MissingPeopleRepository missingPeopleRepository;
     @Autowired
+    private SearchHistoryRepository searchHistoryRepository;
+    @Autowired
     private GuardianRepository guardianRepository;
     @Autowired
     private S3Service s3Service;
     @Autowired
     public SearchHistoryService searchHistoryService;
+    @Autowired
+    private CCTVService cctvService;
 
 
     @Transactional
@@ -183,9 +188,16 @@ public class MissingPeopleService {
     }
 
     //실종자 탐색단계 가져오기
-    public StepDto getStep(Long missingPeopleId) {
+    public StepDto getStep(Long missingPeopleId, boolean police) {
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
-        return StepDto.fromEntity(missingPeopleEntity);
+        StepDto stepDto = StepDto.fromEntity(missingPeopleEntity);
+        SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, stepDto.getStep());
+        if (police && (stepDto.getStep().equals(Step.FIRST) || stepDto.getStep().equals(Step.SECOND))) {
+            int count = cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()).size();
+            stepDto = new StepDetailDto(stepDto, String.format("CCTV %s개 탐색중", count));
+        }
+
+        return stepDto;
     }
 
     //프로필사진 경로 수정
@@ -205,7 +217,7 @@ public class MissingPeopleService {
         if (querys.size() < 2) {
             throw new IllegalArgumentException("querys list must contain at least 2 elements.");
         }
-        
+
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setQuery(querys.get(0));
         // // missingPeopleEntity.setKoQuery(querys.get(1));
