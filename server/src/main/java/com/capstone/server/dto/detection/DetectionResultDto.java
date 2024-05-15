@@ -1,4 +1,4 @@
-package com.capstone.server.dto.detectionResult;
+package com.capstone.server.dto.detection;
 
 
 import com.capstone.server.model.SearchResultEntity;
