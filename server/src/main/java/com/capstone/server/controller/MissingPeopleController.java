@@ -2,7 +2,7 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
-import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
+import com.capstone.server.dto.detection.DetectionResultDetailDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
@@ -116,13 +116,13 @@ public class MissingPeopleController {
         } else {
             // ChatGPT query 생성, [ko_query, en_query]
             missingPeopleCreateRequestDto = chatGPTService.translateEnglishToKorean(missingPeopleCreateRequestDto);
-            
+
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-            
+
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
             kafkaProducerService.startCallFirstDetectApiToKafka(Long.toString(createResponse.getId()));
-            
+
             // 2차 모델 사용한다고 하면 주석 풀기
             // kafkaProducerService.startCallSecondDetectApiToKafka(Long.toString(createResponse.getId()));
 
@@ -274,7 +274,8 @@ public class MissingPeopleController {
     ) {
         //Todo : 1차인지, 2차인지 고를 수 있어야 함
         //DB에 탐색 등록
-        searchHistoryService.createSearchHistory(searchRequestDto, id);
+        Step step = Step.fromValue("first");
+        searchHistoryService.createSearchHistory(searchRequestDto, id, step);
         //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
 //        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
         // kafkaProducerService.startCallFirstDetectApiToKafka(id);

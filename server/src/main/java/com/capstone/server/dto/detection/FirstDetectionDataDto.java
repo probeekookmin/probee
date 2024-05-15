@@ -1,4 +1,4 @@
-package com.capstone.server.dto;
+package com.capstone.server.dto.detection;
 
 
 import com.capstone.server.model.SearchResultEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class DetectionDataDto {
+public class FirstDetectionDataDto {
     long searchId; //backend server에 결과 넣을 때 사용
     long missingPeopleId; //backend server에 결과 넣을 때 사용
     List<ImageData> data;

@@ -1,8 +1,8 @@
 package com.capstone.server.service;
 
 import com.capstone.server.dto.SearchResultResponse;
-import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
-import com.capstone.server.dto.detectionResult.DetectionResultDto;
+import com.capstone.server.dto.detection.DetectionResultDetailDto;
+import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.SearchResultEntity;

@@ -1,14 +1,12 @@
 package com.capstone.server.controller;
 
-import com.capstone.server.dto.detectionResult.DetectionResultDto;
+import com.capstone.server.dto.SearchRequestDto;
+import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
-import com.capstone.server.service.EncryptionService;
-import com.capstone.server.service.GuardianService;
-import com.capstone.server.service.MissingPeopleService;
-import com.capstone.server.service.SearchResultService;
+import com.capstone.server.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 
 
 @Slf4j
@@ -35,6 +34,12 @@ public class GuardianController {
     private EncryptionService encryptionService;
     @Autowired
     private MissingPeopleService missingPeopleService;
+    @Autowired
+    private DetectService detectService;
+    @Autowired
+    private SearchHistoryService searchHistoryService;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     @Value("${mobile.server.url}")
     private String REDIRECT_URL;
@@ -79,7 +84,20 @@ public class GuardianController {
 //        if (step.equals(Step.fromValue("between"))) {
 //            throw new CustomException(ErrorCode.BAD_REQUEST, "invalid step", "can't request step");
 //        }
-        return ResponseEntity.ok().body(new SuccessResponse(guardianService.postBetween(id, betweenRequestDto)));
+        //상화작용 단계 결과 db저장
+        guardianService.postBetween(id, betweenRequestDto);
+
+        SearchRequestDto searchRequestDto = new SearchRequestDto(
+                LocalDateTime.parse("2021-09-06T01:01:01")
+                , LocalDateTime.parse("2021-09-06T01:01:01"),
+                37.6100, 126.9967, "도로명 주소"); //todo : 기능추가;
+        //2차탐색기록 생성
+        Step step = Step.fromValue("second");
+        Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);
+        //2차탐색 시작
+        detectService.postSecondDetectionResult(detectService.callSecondDetectApi(id, betweenRequestDto, searchId));
+        //사진을 업로드하면 바로 2차탐색하게 구현하기
+        return ResponseEntity.ok().body(new SuccessResponse("success"));
     }
 
     //상호작용 단계에서 고른 사진 보기
