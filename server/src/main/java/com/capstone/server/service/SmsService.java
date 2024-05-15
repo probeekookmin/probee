@@ -47,7 +47,7 @@ public class SmsService {
         Message message = new Message();
         message.setFrom(phoneNum);
         message.setTo(guardianPhoneNumber);
-        message.setText(String.format("[probee]\n%s님의 탐색이 시작되었습니다.\n%s", name, getShortUrl(id)));
+        message.setText(String.format("[probee]\n%s님의 정보가 등록되었습니다.\n%s", name, getShortUrl(id)));
         try {
             messageService.send(message);
         } catch (NurigoMessageNotReceivedException exception) {
