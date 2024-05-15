@@ -44,6 +44,8 @@ public class ChatGPTService {
 
         ChatGPTRequest request = new ChatGPTRequest(model, text, "user");
         request.setPresencePenalty(0.9);
+        request.setTemperature(0.3);
+        request.setFrequencyPenalty(-1);
         request.addMessages(this.createSystemPrompt(), "system");
 
         ChatGPTResponse chatGPTResponse = template.postForObject(apiURL, request, ChatGPTResponse.class);
@@ -137,19 +139,25 @@ public class ChatGPTService {
             You are a translator.
             I will provide you with the information of the character's description in English, so please translate this information into Korean correctly.
 
+            Please follow the following rules when translating into Korean.
+
+            1. Please translate 'short sleeved shirt' into '반팔' and 'long sleeved shirt' into '긴팔'.
+            2. Please translate ‘red’ into ‘빨간색’, ‘orange’ into ‘주황색’, ‘yellow’ into ‘노란색’, ‘green’ into ‘초록색’, ‘khaki' into '카키색', 'light blue' into '하늘색', ‘blue’ into ‘파란색’, ‘dark blue' into '남색', ‘purple’ into ‘보라색’, ‘pink' into '분홍색', 'maroon' into '자주색', ‘white’ into ‘흰색’, ‘beige' into '베이지색’, ‘black’ into ‘검은색’
+            3. Please translate 'backpack' into '백팩', 'bag' into '가방'
+
             An example is as follows.
 
             Case 1.
             Input sentence: A woman has long hair. She wearing a blue long sleeve shirt and white short pants. She is holding a bag.
-            Desired Translation: 긴 머리. 파란색 긴팔 셔츠와 흰 반바지를 입고, 가방을 들고 있음.
+            Desired Translation: 긴 머리. 파란색 긴팔과 흰색 반바지를 입고, 가방을 들고 있음.
 
             Case 2.
             Input sentence: A boy has long hair. He wearing a maroon long sleeve shirt and black long pants. 
-            Desired Translation: 긴 머리. 자주색 긴팔 셔츠와 검정 긴 바지를 입고 있음.
+            Desired Translation: 긴 머리. 자주색 긴팔과 검정색 긴 바지를 입고 있음.
 
             Case 3.
             Input sentence: A girl has short hair. She wearing a red long sleeve shirt and a dark blue skirt. She is carrying a backpack.
-            Desired Translation: 짧은 머리. 빨간 긴팔 셔츠와 남색 치마를 입고, 가방을 메고 있음.
+            Desired Translation: 짧은 머리. 빨간색 긴팔과 남색 치마를 입고, 가방을 메고 있음.
 
             Case 4.
             Input sentence: A man has short hair. He wearing a orange winter coat and blue long pants. He is carrying a backpack.
@@ -157,7 +165,7 @@ public class ChatGPTService {
 
             Case 5.
             Input sentence: A girl has short hair. She wearing a purple short sleeve shirt and pink short pants. She is holding a backpack.
-            Desired Translation: 짧은 머리. 보라색 반팔 셔츠와 핑크색 반바지를 입고, 가방을 들고 있음.
+            Desired Translation: 짧은 머리. 보라색 반팔과 분홍색 반바지를 입고, 가방을 들고 있음.
 
             Case 6.
             Input sentence: A man has short hair. He wearing a coat and long pants.
@@ -189,6 +197,7 @@ public class ChatGPTService {
 
             Please respond to every sentence simply, 
             and Please accurately translate the example sentences and format written in Desired Translation.
+            
             """;
         return prompt;
     }
