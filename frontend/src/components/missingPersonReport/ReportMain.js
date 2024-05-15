@@ -7,7 +7,7 @@ import { IntelligentReportList } from "./IntelligentReportList";
 import { ReportTabs } from "./ReportTabs";
 import { ReportResultImages } from "./ReportResultImages";
 
-export const ReportMain = ({ data, step, history, step1data }) => {
+export const ReportMain = ({ data, step, history, step1data, onClick }) => {
   //console.log("ReportMain_id: " + id.id);
   console.log("ReportMain_data: ", data);
   console.log("ReportMain_step: ", step);
@@ -31,7 +31,7 @@ export const ReportMain = ({ data, step, history, step1data }) => {
             <BasicInfo data={data} />
           </Container1>
           <Container2>
-            <IntelligentReportList history={history} />
+            <IntelligentReportList history={history} onClick={onClick} />
           </Container2>
         </ContainerLeft>
         <ContainerRight>

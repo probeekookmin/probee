@@ -14,6 +14,7 @@ import { IntelligentSearchResult } from "../components/reportIntelligent/Intelli
 import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList, getSearchResultImg } from "../core/api";
 import { useLocation } from "react-router-dom";
 import { ReportMain } from "../components/missingPersonReport/ReportMain";
+import { ReportIntelligent } from "../components/reportIntelligent/ReportIntelligent";
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
@@ -122,41 +123,48 @@ function MissingPersonReportPage() {
   //   );
   // };
   /*실종자 리포트 - 지능형 탐색*/
-  const ReportIntelligent = () => {
-    return (
-      <StReport id="intelligent">
-        <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
-          <Col span={20} style={{ height: "2%" }}>
-            <Typography.Title
-              level={5}
-              style={{
-                margin: 0,
-              }}>
-              지능형 탐색
-            </Typography.Title>
-          </Col>
-          <Col span={14} style={{ height: "33%" }}>
-            <IntelligentBasicInfo />
-          </Col>
-          <Col span={10} style={{ height: "33%" }}>
-            <IntelligentSearchOption />
-          </Col>
-          <Col span={14}>
-            <IntelligentMap />
-          </Col>
-          <Col span={10} style={{ height: "62%" }}>
-            <IntelligentSearchResult />
-          </Col>
-        </Row>
-      </StReport>
-    );
-  };
+  // const ReportIntelligent = () => {
+  //   return (
+  //     <StReport id="intelligent">
+  //       <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
+  //         <Col span={20} style={{ height: "2%" }}>
+  //           <Typography.Title
+  //             level={5}
+  //             style={{
+  //               margin: 0,
+  //             }}>
+  //             지능형 탐색
+  //           </Typography.Title>
+  //         </Col>
+  //         <Col span={14} style={{ height: "33%" }}>
+  //           <IntelligentBasicInfo />
+  //         </Col>
+  //         <Col span={10} style={{ height: "33%" }}>
+  //           <IntelligentSearchOption />
+  //         </Col>
+  //         <Col span={14}>
+  //           <IntelligentMap />
+  //         </Col>
+  //         <Col span={10} style={{ height: "62%" }}>
+  //           <IntelligentSearchResult />
+  //         </Col>
+  //       </Row>
+  //     </StReport>
+  //   );
+  // };
 
   return (
     <StMissingPersonReportPage>
       {/* <ReportMain />
       <ReportIntelligent /> */}
-      <ReportMain data={missingPerson} step={step} history={searchHistoryList} step1data={step1data} />
+      <ReportMain
+        data={missingPerson}
+        step={step}
+        history={searchHistoryList}
+        step1data={step1data}
+        onClick={scrollToIntelligent}
+      />
+      <ReportIntelligent />
     </StMissingPersonReportPage>
   );
 }

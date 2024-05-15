@@ -2,10 +2,10 @@ import { Button, Typography } from "antd";
 import styled from "styled-components";
 import { ReportList } from "./ReportList";
 
-export const IntelligentReportList = ({ history }) => {
-  const MoveButton = () => {
+export const IntelligentReportList = ({ history, onClick }) => {
+  const MoveButton = ({ onClick }) => {
     return (
-      <ButtonContainer>
+      <ButtonContainer onClick={onClick}>
         <ButtonContents>
           <ButtonTitle>지능형 탐색 시작하기</ButtonTitle>
           <ButtonDescription>조건을 입력하여 추가적으로 지능형 탐색을</ButtonDescription>
@@ -17,7 +17,7 @@ export const IntelligentReportList = ({ history }) => {
   return (
     <StIntelligentReportList>
       {/* <Title>지능형 탐색</Title> */}
-      <MoveButton />
+      <MoveButton onClick={onClick} />
       <ReportList history={history} />
     </StIntelligentReportList>
   );
