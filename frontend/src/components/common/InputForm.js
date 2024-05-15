@@ -23,10 +23,20 @@ export const CenterInputForm = ({ label, name }) => {
   );
 };
 
-export const HorizontalInputForm = ({ label, name }) => {
+export const HorizontalInputForm = ({ label, name, lines }) => {
   return (
     <StHorizontalInputForm label={label} name={name} colon={false} className="form-custom">
-      <HorizontalInputText variant="borderless" readOnly={true} />
+      {lines ? (
+        <MultiLineInputField
+          variant="borderless"
+          readOnly={true}
+          autoSize={{
+            minRows: 1,
+            maxRows: 3,
+          }}></MultiLineInputField>
+      ) : (
+        <HorizontalInputText variant="borderless" readOnly={true} />
+      )}
     </StHorizontalInputForm>
   );
 };
@@ -108,4 +118,8 @@ const HorizontalInputText = styled(Input)`
   padding-right: 0;
   font-size: 1.5rem;
   font-weight: 500;
+`;
+const MultiLineInputField = styled(Input.TextArea)`
+  padding: 0;
+  font-size: 1.5rem;
 `;

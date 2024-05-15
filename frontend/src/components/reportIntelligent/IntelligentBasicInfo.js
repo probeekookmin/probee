@@ -111,9 +111,9 @@ export const IntelligentBasicInfo = ({ data }) => {
               {" "}
               <HorizontalInputForm label={"실종장소"} name={"missingLocation"} />
             </Col>
-
-            <Col span={24}></Col>
           </Row>
+          <ContentsDivider />
+          <HorizontalInputForm label={""} name={"koQuery"} lines={true} />
         </ContentsContainer>
       </InfoForm>
     </StIntelligentBasicInfo>
@@ -173,4 +173,13 @@ const ImageWrapper = styled(Image)`
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ContentsDivider = styled(Divider)`
+  &.ant-divider-horizontal {
+  }
+  margin: 1rem;
+  @media all and (max-width: 1536px) {
+    margin: 0;
+  }
 `;
