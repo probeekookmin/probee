@@ -3,7 +3,6 @@ package com.capstone.server.service;
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.detection.FirstDetectionDataDto;
 import com.capstone.server.dto.detection.FirstDetectionRequestDto;
-import com.capstone.server.dto.detection.SecondDetectionDataDto;
 import com.capstone.server.dto.detection.SecondDetectionRequestDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.exception.CustomException;
@@ -63,7 +62,6 @@ public class DetectService {
             //과정2 : ai server요청에 쓸 dto를생성합니다
             FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeople, searchHistoryEntity);
             firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()));
-            firstDetectionRequestDto.setQuery("a man weraing a black skirt and blue coat"); // 테스트용 임시 쿼리
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             //HttpEntity 생성
