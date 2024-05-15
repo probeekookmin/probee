@@ -1,5 +1,7 @@
 package com.capstone.server.service;
 
+import com.capstone.server.dto.SearchRangeDto;
+import com.capstone.server.dto.SearchResultDetailResponse;
 import com.capstone.server.dto.SearchResultResponse;
 import com.capstone.server.dto.detection.DetectionResultDetailDto;
 import com.capstone.server.dto.detection.DetectionResultDto;
@@ -50,14 +52,14 @@ public class SearchResultService {
             throw new CustomException(DATA_INTEGRITY_VALIDATION_ERROR, "Not matched", "missingPeople id and search-id Do not matched");
         }
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
-        return makeResultResponse(searchResultPages, DetectionResultDetailDto.class);
+        return makeResultResponse(searchResultPages, DetectionResultDetailDto.class, searchHistory);
     }
 
     //탐색 단계로 detection 결과 받아오기
     public SearchResultResponse<? extends DetectionResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy, Class<? extends DetectionResultDto> dtoClass) {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, step);
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
-        return makeResultResponse(searchResultPages, dtoClass);
+        return makeResultResponse(searchResultPages, dtoClass, searchHistory);
     }
 
 
@@ -68,7 +70,7 @@ public class SearchResultService {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, step);
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<SearchResultEntity> searchResultPages = betweenRepository.findAllBySearchHistoryEntity(pageable, searchHistory);
-        return makeResultResponse(searchResultPages, dtoClass);
+        return makeResultResponse(searchResultPages, dtoClass, searchHistory);
     }
 
     //SearchHistoryEntity를  받아 searchResult pages를 반환해줌
@@ -78,11 +80,7 @@ public class SearchResultService {
         return searchResultPages;
     }
 
-    //searchResult pages를 받아 직력화 및 캡슐화 진행
     private SearchResultResponse<? extends DetectionResultDto> makeResultResponse(Page<SearchResultEntity> searchResultPages, Class<? extends DetectionResultDto> dtoClass) {
-//        if (searchResultPages.isEmpty()) {
-//            throw new CustomException(ErrorCode.RESULT_NOT_FOUND, "Result Not Found", "결과가 없습니다.");
-//        }
         long totalCount = searchResultPages.getTotalElements();
         List<DetectionResultDto> resultList = searchResultPages.getContent().stream()
                 .map(entity -> {
@@ -97,4 +95,32 @@ public class SearchResultService {
                 .collect(Collectors.toList());
         return new SearchResultResponse<>(totalCount, resultList);
     }
+
+    //searchResult pages를 받아 직력화 및 캡슐화 진행
+    private SearchResultResponse<? extends DetectionResultDto> makeResultResponse(Page<SearchResultEntity> searchResultPages, Class<? extends DetectionResultDto> dtoClass, SearchHistoryEntity searchHistory) {
+        long totalCount = searchResultPages.getTotalElements();
+        List<? extends DetectionResultDto> resultList = searchResultPages.getContent().stream()
+                .map(entity -> {
+                    if (dtoClass.equals(DetectionResultDetailDto.class)) {
+                        return DetectionResultDetailDto.fromEntity(entity);
+                    } else if (dtoClass.equals(DetectionResultDto.class)) {
+                        return DetectionResultDto.fromEntity(entity);
+                    } else {
+                        throw new IllegalArgumentException("Unsupported DTO class: " + dtoClass);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        if (dtoClass.equals(DetectionResultDetailDto.class)) {
+            // SearchResultDetailResponse를 사용
+            SearchRangeDto searchRangeDto = SearchRangeDto.fromEntity(searchHistory);
+            return new SearchResultDetailResponse<>(totalCount, resultList, searchRangeDto, searchHistory.getStartTime(), searchHistory.getEndTime());
+        } else if (dtoClass.equals(DetectionResultDto.class)) {
+            // SearchResultResponse를 사용
+            return new SearchResultResponse<>(totalCount, resultList);
+        } else {
+            throw new IllegalArgumentException("Unsupported DTO class: " + dtoClass);
+        }
+    }
+
 }

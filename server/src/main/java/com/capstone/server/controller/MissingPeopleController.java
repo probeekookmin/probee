@@ -263,7 +263,7 @@ public class MissingPeopleController {
         if (searchId != null) {//search-id가 있으면 searchid기준으로 결과를 보내줌
             return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryBySearchId(searchId)));
         }
-        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryById(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
     }
 
     //지능형 탐색 시작하기

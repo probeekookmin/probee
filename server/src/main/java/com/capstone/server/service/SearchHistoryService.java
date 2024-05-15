@@ -38,7 +38,7 @@ public class SearchHistoryService {
         }
     }
 
-    public SearchRangeDto getSearchHistoryById(Long id) {
+    public SearchRangeDto getSearchRangeById(Long id) {
         try {
             SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdOrderByCreatedAtAsc(id);
             return SearchRangeDto.fromEntity(searchHistoryEntity);
