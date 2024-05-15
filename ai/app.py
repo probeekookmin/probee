@@ -17,10 +17,12 @@ sys.path.append(str(Path(__file__).parent))
 sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
 sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
+sys.path.append(str(Path(__file__).parent)+"/imageSearch")
 
 from TextReID.test_net import findByText 
 from yolov5_crowdhuman.detect import run_detection
 from yolov8.run import run_Yolo
+from imageSearch.imgSearch_server import run_Image_to_Image
 
 app = FastAPI(port = 8080)
 
@@ -46,19 +48,26 @@ class TotalInput(BaseModel):
     step : str
     query : str
 
-
-
 class DetectResult(BaseModel):
     searchId : int
     missingPeopleId : int
     query : str
     data : list
+    
+class SecondInput(BaseModel):
+    firstSearchId : int
+
+# @app.get('/')
+# async def root():
+#     run_Yolo([CCTVInfo(id=1,longitude=1,latitude=1)],'/home/jongbin/Desktop/test/2-results','2021-09-01T000000')
+# @app.post("/test")
+# async def test(input : TotalInput):
 
 @app.post('/run', response_model=DetectResult)
-async def test(input :TotalInput):
+async def firstDetection(input :TotalInput):
     print(input)
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
-    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    run_Yolo([CCTVInfo(id=1,longitude=1,latitude=1)],yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
 
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
@@ -66,6 +75,12 @@ async def test(input :TotalInput):
         result = json.load(file)
     
     return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:])
+#2차탐색
+@app.post("/second")
+async def secondDetection(input: SecondInput):
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.firstSearchId}"
+    query_image_path = "/home/jongbin/Desktop/yolo/164/1_2024-05-14_16-07-56_155.jpg" #s3에서 다운로드해야될듯
+    return run_Image_to_Image(yolo_save_path,10, query_image_path)
 
 async def runTextReID(input : TotalInput, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
@@ -73,7 +88,8 @@ async def runTextReID(input : TotalInput, yolo_save_path:str):
     ## 저장경로 지정
     home_path = os.path.expanduser("~")
     result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
-    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
+    # findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
+    findByText(root_path, search_num=input.searchId, query = "a man wearing a white shirt and black long pants. he has short hair.", data_dir = yolo_save_path, save_folder = result_dir)
     return result_dir
 
 

@@ -32,7 +32,7 @@ args = parser.parse_args()
 # ===== 사전학습 모델 세팅 및 특징 추출기 세팅
 start_time = time.time()
 
-BATCH = 16
+BATCH = 8
 model_ckpt = "microsoft/swinv2-large-patch4-window12to16-192to256-22kto1k-ft"
 # model_ckpt = "microsoft/swinv2-tiny-patch4-window16-256"
 processor = ViTImageProcessor.from_pretrained(model_ckpt)

@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import json
 import re
+import time
 
 
 # source video FPS 계산 함수
@@ -26,13 +27,11 @@ def get_video_fps(video_path):
     video.release()
     return fps
 
-
-# 학습된 weight path 넣기
-model = YOLO('/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/yolov8/best.pt')
-
-
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = YOLO('/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/yolov8/best.pt').to(device)
 
 def run_Yolo(cctvIds,save_path,startTime):
+    start_total_time = time.time()  # 전체 실행 시간 측정을 위한 시작 시간 기록
     # 테스트 할 소스 디렉토리   
     save_path = Path(save_path)
     save_path.mkdir(parents=True, exist_ok=True)
@@ -45,7 +44,7 @@ def run_Yolo(cctvIds,save_path,startTime):
             start_time = extract_video_info(filename)
             cap = cv2.VideoCapture(source)  # 비디오 파일
             fps = get_video_fps(source)  # FPS
-            stride = int(fps * 10)  # 현재는 10초당 한 번 탐색 진행, 수정 필요할 경우 fps * __ 수정하면 됨
+            stride = int(fps * 7)  # 현재는 10초당 한 번 탐색 진행, 수정 필요할 경우 fps * __ 수정하면 됨
 
             """
             NOTE 결과 저장 옵션
@@ -57,8 +56,7 @@ def run_Yolo(cctvIds,save_path,startTime):
             show_conf: 정확도 표시
             show_labels: 라벨 표시
             """
-            results = model.predict(source, save_crop=False, stream=True, show_conf=False, vid_stride = stride)
-
+            results = model.predict(source, save_crop=True, stream=True, show_conf=False, vid_stride = stride, device = device)
             frame_num = 1   
             for i, r in enumerate(results):
                 frame_num += stride
@@ -100,7 +98,7 @@ def run_Yolo(cctvIds,save_path,startTime):
                             # 검출된 이미지 저장
                             
                             # 해당 프레임을 컬러 이미지 input으로 변환
-                            im0 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                            im0 = frame
 
                             # 파일 경로 생성 및 이름 지정
                             file_path = save_path/ f"{img_name}.jpg"
@@ -116,7 +114,7 @@ def run_Yolo(cctvIds,save_path,startTime):
         h, w = img.shape[:2]
 
         # 검출 정확도 향상을 위해 h <= w인 이미지 삭제
-        if h <= w:
+        if h <= w or w<80:
             os.remove(file_path)
         
         # 종횡비 안 맞는 이미지 한 번 더 삭제
@@ -145,15 +143,17 @@ def run_Yolo(cctvIds,save_path,startTime):
     with open(jsonfiledir, "w") as f:
         json.dump(data, f)
     print("Save Json file.")
+    end_total_time = time.time()  # 전체 실행 시간 측정을 위한 끝 시간 기록
+    total_time = end_total_time - start_total_time  # 전체 실행 시간 계산
+    print(f"Total time taken: {total_time} seconds")  # 전체 실행 시간 출력
     return jsonfiledir
 
 def extract_video_info(filename):
     try:
         start_time = datetime.strptime(filename, '%Y%m%d-%H%M%S')# 탐색 시작 시간
     except:
-        #테스트용 제목파싱 재설정
-        title =  filename.split('_')[0].replace("-","")+'-'+filename.split('_')[1].replace("-","")
-        print(title)
-        start_time = datetime.strptime(title, '%Y%m%d-%H%M%S')  # 테스트용
-    
+        temp = filename.split(".")[0]
+        temp2 = temp.split("_")
+        title = temp2[0].replace("-", "") + '-' + temp2[1].replace("-", "")
+        start_time = datetime.strptime(title, '%Y%m%d-%H%M%S')
     return start_time  # 시간 형식 변환하여 반환
