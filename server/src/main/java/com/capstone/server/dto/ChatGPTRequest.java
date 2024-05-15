@@ -17,10 +17,15 @@ public class ChatGPTRequest {
     @JsonProperty("presence_penalty")
     private double presencePenalty = 0.9;
 
+    @JsonProperty("temperature")
+    private double temperature = 0.3;
+
+    @JsonProperty("frequency_penalty")
+    private double frequencyPenalty = -1;
+
     public ChatGPTRequest(String model, String prompt, String role) { // String role
         this.model = model;
         this.messages =  new ArrayList<>();
-        // this.messageDtos.add(new MessageDto(role, prompt));
         this.messages.add(new Message(role, prompt));
     }
 

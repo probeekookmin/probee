@@ -64,8 +64,6 @@ public class MissingPeopleCreateRequestDto {
     @NotBlank
     private String bagType;
 
-    private String shoesColor;// 신발 필요없음.
-
     // Guardian
     @NotBlank
     private String guardianName;
@@ -120,7 +118,6 @@ public class MissingPeopleCreateRequestDto {
                 .bottomType(BottomType.fromKor(bottomType))
                 .bottomColor(Color.fromKor(bottomColor))
                 .bagType(BagType.fromKor(bagType))
-                .shoesColor(Color.fromKor(shoesColor))
                 .build();
     }
 

@@ -40,12 +40,6 @@ public class MissingPeopleDetailEntity {
     @Enumerated(EnumType.STRING)
     private BagType bagType;
 
-    @Enumerated(EnumType.STRING)
-    private Color shoesColor;
-
-    // TODO: 빼는 게 나을지도
-    // private Boolean stripes;
-
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
     private MissingPeopleEntity missingPeopleEntity;
@@ -64,15 +58,4 @@ public class MissingPeopleDetailEntity {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
-    // public void setMissingPeopleEntity2(MissingPeopleEntity missingPeopleEntity) {
-    //     if (this.missingPeopleEntity != null) {
-    //         this.missingPeopleEntity.setMissingPeopleDetailEntity(null);
-    //     }
-
-    //     this.missingPeopleEntity = missingPeopleEntity;
-    //     if (missingPeopleEntity != null) {
-    //         missingPeopleEntity.setMissingPeopleDetailEntity(this);
-    //     }
-    // }
 }
