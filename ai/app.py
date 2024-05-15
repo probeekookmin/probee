@@ -51,12 +51,18 @@ class TotalInput(BaseModel):
 class DetectResult(BaseModel):
     searchId : int
     missingPeopleId : int
-    query : str
     data : list
     
 class SecondInput(BaseModel):
+    missingPeopleId : int
     firstSearchId : int
+    secondSearchId : int
+    topK:int
+    queryImagePath : List[str]
 
+class SecondDetectResult(BaseModel):
+    data : list
+    secondSearchId : int
 # @app.get('/')
 # async def root():
 #     run_Yolo([CCTVInfo(id=1,longitude=1,latitude=1)],'/home/jongbin/Desktop/test/2-results','2021-09-01T000000')
@@ -74,13 +80,31 @@ async def firstDetection(input :TotalInput):
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId,query = input.query, data = result[1:])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:])
 #2차탐색
-@app.post("/second")
-async def secondDetection(input: SecondInput):
-    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.firstSearchId}"
-    query_image_path = "/home/jongbin/Desktop/yolo/164/1_2024-05-14_16-07-56_155.jpg" #s3에서 다운로드해야될듯
-    return run_Image_to_Image(yolo_save_path,10, query_image_path)
+@app.post("/second", response_model=DetectResult)
+async def secondDetection(input:SecondInput):
+    print(input)
+    img_download_url = "/home/jongbin/Desktop/imgDown"
+    data_path = f"/home/jongbin/Desktop/yolo/{input.firstSearchId}"
+    result = []
+    for img_path in input.queryImagePath:
+        #img_path는 s3주소 특정폴더에 다운로드하고 경로가져오기
+        local_image_path = os.path.join(img_download_url, os.path.basename(img_path))
+        download_image_from_s3(img_path, local_image_path)
+        print("dfasdfsad",local_image_path)
+        data_to_save = run_Image_to_Image(data_path,10, local_image_path)
+        for output in data_to_save['output']:
+            #해당 주소에 있는 이미지 s3업로드하고 이미지 주소 result에 넣기
+            local_output_path = output['output_dir']
+            s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{local_output_path}"
+            s3_key = s3_key.replace(' ', '-').replace(':', '').replace('/', '+')
+            s3_url = upload_image_to_s3(local_output_path, s3_key)
+            a = {"img_path" : s3_url, "cctvId" : 1, "similarity" :0 }
+            result.append(a)
+            
+        print(result)
+    return DetectResult(searchId= input.secondSearchId, missingPeopleId= 1, data = result)
 
 async def runTextReID(input : TotalInput, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
@@ -135,3 +159,35 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
 
     return updated_json_path
 
+def download_image_from_s3(s3_url, download_path):
+    """
+    S3 URL로부터 이미지를 다운로드하여 지정된 경로에 저장합니다.
+    """
+    # S3 URL을 분석하여 버킷 이름과 키를 추출
+    s3_bucket, s3_key = parse_s3_url(s3_url)
+    s3_client.download_file(s3_bucket, s3_key, download_path)
+
+def parse_s3_url(s3_url):
+    """
+    S3 URL에서 버킷 이름과 키를 추출합니다.
+    """
+    if not s3_url.startswith("https://"):
+        raise ValueError("S3 URL은 'https://'로 시작해야 합니다.")
+    
+    # URL의 앞부분 제거
+    s3_url = s3_url.replace("https://", "")
+    
+    # 버킷 이름 추출
+    s3_bucket = s3_url.split(".s3.amazonaws.com")[0]
+    
+    # 객체 키 추출
+    s3_key = s3_url.split(".s3.amazonaws.com/")[1]
+    
+    return s3_bucket, s3_key
+
+def upload_image_to_s3(local_path, s3_key):
+    """
+    로컬 경로의 이미지를 S3 버킷의 지정된 키에 업로드합니다.
+    """
+    s3_client.upload_file(local_path, bucket_name, s3_key)
+    return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
