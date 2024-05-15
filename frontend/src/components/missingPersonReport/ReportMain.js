@@ -102,6 +102,10 @@ const Container2 = styled.div`
   margin-bottom: 1rem;
 
   /* background-color: lightcoral; */
+  @media all and (max-width: 1536px) {
+    margin: 0;
+    padding-bottom: 0;
+  }
 `;
 
 const ContentsContainer = styled.div`

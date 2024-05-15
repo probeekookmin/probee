@@ -44,7 +44,7 @@ export const ReportList = ({ history }) => {
   };
   return (
     <StReportList>
-      <Typography.Title level={5}>지능형 탐색 결과</Typography.Title>
+      <Title>지능형 탐색 결과</Title>
       <ListContainer
         size="small"
         itemLayout="horizontal"
@@ -52,7 +52,6 @@ export const ReportList = ({ history }) => {
         renderItem={(item) => <ListItems item={item} />}
         pagination={{
           pageSize: 4,
-
           position: "bottom",
           // showSizeChanger: false,
           size: "small",
@@ -73,9 +72,18 @@ const StReportList = styled.div`
   flex-direction: column;
   justify-content: start;
   padding: 1.2rem 1.5rem;
-  gap: 0.62rem;
   border-radius: 0.3rem;
   background-color: white;
+`;
+const Title = styled.p`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  @media all and (max-width: 1536px) {
+    margin: 0.7rem 0;
+    font-size: 1.4rem;
+  }
 `;
 
 const ListContainer = styled(List)`
@@ -97,6 +105,12 @@ const ListItemContainer = styled.div`
   margin: 0.5rem 0;
   border-radius: 0.5rem;
   background-color: white;
+  font-size: 1.4rem;
+  @media all and (max-width: 1536px) {
+    padding: 0.6rem 0.5rem;
+
+    font-size: 1.2rem;
+  }
 `;
 
 const ItemLeft = styled.div`

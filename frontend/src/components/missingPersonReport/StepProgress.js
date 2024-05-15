@@ -28,7 +28,6 @@ export const StepProgress = ({ step }) => {
           },
           {
             title: "1차 탐색",
-            description,
           },
           {
             title: "이미지 선별",
@@ -36,11 +35,9 @@ export const StepProgress = ({ step }) => {
           },
           {
             title: "2차 탐색",
-            description,
           },
           {
             title: "수색",
-            description,
           },
           {
             title: "종료",
@@ -59,23 +56,44 @@ const StStepProgress = styled.div`
   height: 100%;
 
   padding: 1.5rem;
-  gap: 1.5rem;
 
   border-radius: 0.4rem;
   background-color: rgba(255, 255, 255, 0.9);
+  @media all and (max-width: 1536px) {
+    padding: 1rem 1.5rem;
+  }
 `;
 
 const Title = styled.p`
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 1.6rem;
   font-weight: 600;
   @media all and (max-width: 1536px) {
+    margin-bottom: 1rem;
+
     font-size: 1.4rem;
   }
 `;
 
 const Step = styled(Steps)`
+  @media all and (min-width: 1680px) {
+    &.ant-steps .ant-steps-item-icon {
+      width: 3.2rem;
+      height: 3.2rem;
+      /* font-size: 1.2rem;
+    span {
+      top: -0.4rem;
+    } */
+    }
+    &.ant-steps .ant-steps-item-title {
+      font-size: 1.6rem;
+    }
+    &.ant-steps .ant-steps-item-description {
+      font-size: 1.4rem;
+    }
+  }
+
   @media all and (max-width: 1536px) {
     &.ant-steps .ant-steps-item-icon {
       width: 2.4rem;
@@ -90,6 +108,26 @@ const Step = styled(Steps)`
     }
     &.ant-steps .ant-steps-item-description {
       font-size: 1.2rem;
+    }
+    &.ant-steps.ant-steps-vertical > .ant-steps-item > .ant-steps-item-container > .ant-steps-item-tail {
+      left: 1rem;
+      padding: 3rem 0 0.6rem;
+    }
+  }
+  @media all and (max-width: 1300px) {
+    &.ant-steps .ant-steps-item-icon {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      span {
+        top: -0.6rem;
+      }
+    }
+    &.ant-steps .ant-steps-item-title {
+      font-size: 1.2rem;
+    }
+    &.ant-steps .ant-steps-item-description {
+      font-size: 1rem;
     }
   }
 `;

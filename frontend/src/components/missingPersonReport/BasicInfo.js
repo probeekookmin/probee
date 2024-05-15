@@ -207,6 +207,14 @@ const StBasicInfo = styled.div`
 
   border-radius: 1rem;
   background-color: white;
+
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-align: center;
+  @media all and (max-width: 1536px) {
+    padding: 1rem 1.5rem;
+  }
 `;
 
 const InfoContainer = styled.div`
@@ -238,8 +246,13 @@ const Title = styled.p`
   margin-bottom: 1rem;
   font-size: 1.6rem;
   font-weight: 600;
-  @media all and (max-width: 1536px) {
-    font-size: 1.4rem;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    /* margin: 0.8rem 0; */
+    font-size: 1.3rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    margin: 0.6rem 0;
+    font-size: 1.1rem;
   }
 `;
 
@@ -248,8 +261,13 @@ const StyledParagraph = styled.p`
   margin-bottom: 0.5rem;
   white-space: pre-wrap; /* Preserve line breaks */
   font-size: 1.4rem;
-  @media all and (max-width: 1537px) {
-    font-size: 1.3rem;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    margin-bottom: 0.4rem;
+
+    font-size: 1.1rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    font-size: 0.9rem;
   }
 `;
 
@@ -261,6 +279,13 @@ const PersonInfoContainer = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
+  width: 14rem;
+  height: 17rem;
+  @media all and (max-width: 1536px) {
+    width: 12rem;
+    height: 15rem;
+    object-fit: cover;
+  }
 `;
 
 const ImageWrapper = styled(Image)`
@@ -269,6 +294,15 @@ const ImageWrapper = styled(Image)`
     height: 17rem;
     object-fit: cover;
 
+    @media all and (max-width: 1536px) {
+      width: 12rem;
+      height: 15rem;
+      object-fit: cover;
+    }
+  }
+  &.custom-image.ant-imag {
+    width: 14rem;
+    height: 17rem;
     @media all and (max-width: 1536px) {
       width: 12rem;
       height: 15rem;

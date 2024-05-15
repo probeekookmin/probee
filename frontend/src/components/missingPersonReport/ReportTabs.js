@@ -56,7 +56,13 @@ export const ReportTabs = ({ id, step1data }) => {
   ];
   return (
     <StReportTabs>
-      <TabContainer defaultActiveKey="1" type="card" items={items} size="small" tabBarExtraContent={operations} />
+      <TabContainer
+        defaultActiveKey="1"
+        type="card"
+        items={items}
+        size="small"
+        // tabBarExtraContent={operations}
+      />
     </StReportTabs>
   );
 };

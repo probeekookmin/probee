@@ -50,6 +50,9 @@ const ButtonContainer = styled(Button)`
   height: 11.5rem;
   border-radius: 0.5rem;
   background-color: white;
+  @media all and (max-width: 1500px) {
+    height: 9rem;
+  }
 `;
 
 const ButtonContents = styled.div`
@@ -62,10 +65,16 @@ const ButtonContents = styled.div`
 
 const ButtonTitle = styled.p`
   font-size: 1.6rem;
+  @media all and (max-width: 1500px) {
+    font-size: 1.4rem;
+  }
 `;
 
 const ButtonDescription = styled.p`
   font-size: 1.2rem;
   white-space: pre-line;
   color: #686767;
+  @media all and (max-width: 1500px) {
+    font-size: 1rem;
+  }
 `;
