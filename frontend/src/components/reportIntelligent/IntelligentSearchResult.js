@@ -1,18 +1,19 @@
 import styled from "styled-components";
 import { Typography, Select, Skeleton } from "antd";
 import { ResultView } from "../common/ResultView";
+import { IntelligentResultView } from "./IntelligentResultView";
 
 export const IntelligentSearchResult = () => {
   return (
     <StSearchResult>
-      <Typography.Title
+      <Title
         level={5}
         style={{
           margin: 0,
         }}>
         탐색 결과
-      </Typography.Title>
-      <TopContainer>
+      </Title>
+      {/* <TopContainer>
         <Select
           defaultValue="정확도순"
           size="small"
@@ -34,8 +35,8 @@ export const IntelligentSearchResult = () => {
             },
           ]}
         />
-      </TopContainer>
-      <ResultView count={8} column={4} />
+      </TopContainer> */}
+      <IntelligentResultView />
     </StSearchResult>
   );
 };
@@ -43,9 +44,24 @@ export const IntelligentSearchResult = () => {
 const StSearchResult = styled.div`
   width: 100%;
   height: 100%;
-  padding: 1.5rem 2rem 1rem 2rem;
+  padding: 2rem;
+
   background-color: white;
-  border-radius: 0.3rem;
+  border-radius: 1rem;
+`;
+const Title = styled.p`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    /* margin: 0.8rem 0; */
+    font-size: 1.3rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    margin: 0.6rem 0;
+    font-size: 1.1rem;
+  }
 `;
 
 const TopContainer = styled.div`

@@ -157,21 +157,26 @@ function MissingPersonReportPage() {
     <StMissingPersonReportPage>
       {/* <ReportMain />
       <ReportIntelligent /> */}
-      <ReportMain
-        data={missingPerson}
-        step={step}
-        history={searchHistoryList}
-        step1data={step1data}
-        onClick={scrollToIntelligent}
-      />
-      <ReportIntelligent />
+      <StReport>
+        <ReportMain
+          data={missingPerson}
+          step={step}
+          history={searchHistoryList}
+          step1data={step1data}
+          onClick={scrollToIntelligent}
+        />
+      </StReport>
+      <StReport>
+        <ReportIntelligent data={missingPerson} />
+      </StReport>
     </StMissingPersonReportPage>
   );
 }
 export default MissingPersonReportPage;
 
 const StMissingPersonReportPage = styled.div`
-  padding: 1rem 3rem;
+  padding: 1rem 3rem 0 3rem;
+  margin-bottom: 1rem;
   gap: 1rem;
   height: 100vh;
   overflow-y: auto;

@@ -23,6 +23,14 @@ export const CenterInputForm = ({ label, name }) => {
   );
 };
 
+export const HorizontalInputForm = ({ label, name }) => {
+  return (
+    <StHorizontalInputForm label={label} name={name} colon={false} className="form-custom">
+      <HorizontalInputText variant="borderless" readOnly={true} />
+    </StHorizontalInputForm>
+  );
+};
+
 /* 각 정보 input 영역 */
 const StInputForm = styled.div`
   display: flex;
@@ -81,4 +89,23 @@ const InputField = styled(Input)`
 
 const StCenterInputForm = styled(StInputForm)`
   align-items: center;
+`;
+
+const StHorizontalInputForm = styled(Form.Item)`
+  margin: 0;
+  &.form-custom .ant-form-item-label > label {
+    margin: 0;
+    color: #8b8b8b;
+    font-size: 1.5rem;
+  }
+  &.form-custom .ant-form-item-label > label::after {
+    margin: 0;
+  }
+`;
+
+const HorizontalInputText = styled(Input)`
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 `;
