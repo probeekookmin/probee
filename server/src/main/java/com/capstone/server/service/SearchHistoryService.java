@@ -38,7 +38,7 @@ public class SearchHistoryService {
         }
     }
 
-    public SearchRangeDto getSearchHistoryById(Long id) {
+    public SearchRangeDto getSearchRangeById(Long id) {
         try {
             SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdOrderByCreatedAtAsc(id);
             return SearchRangeDto.fromEntity(searchHistoryEntity);
@@ -72,17 +72,16 @@ public class SearchHistoryService {
 
     //탐색 시작하기
     @Transactional
-    public void createSearchHistory(SearchRequestDto searchRequestDto, Long missingPeopleId) {
+    public Long createSearchHistory(SearchRequestDto searchRequestDto, Long missingPeopleId, Step step) {
         //검색기록 생성
         MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(missingPeopleId)
                 .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
         SearchHistoryEntity searchHistoryEntity = searchRequestDto.toSearchHistoryEntity();
         searchHistoryEntity.setMissingPeopleEntity(missingPeopleEntity);
-        Step step = Step.valueOf("FIRST");
         searchHistoryEntity.setStep(step);
         //실종자 step을 First로 설정
         missingPeopleEntity.setStep(step);
-        searchHistoryRepository.save(searchHistoryEntity);
+        return searchHistoryRepository.save(searchHistoryEntity).getId();
     }
 
 }

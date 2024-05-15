@@ -1,5 +1,6 @@
-package com.capstone.server.dto;
+package com.capstone.server.dto.detection;
 
+import com.capstone.server.dto.CCTVDto;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.enums.Step;

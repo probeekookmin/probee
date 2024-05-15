@@ -88,7 +88,7 @@ def main():
     detect(args)
 
 def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml", checkpoint_file="output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth", 
-               local_rank=0, opts=[], load_result=False, search_num=0,query="",data_dir = "./datasets/", save_folder = "./output/output.json"):
+               local_rank=0, opts=[], load_result=False, search_num=0,query="",data_dir = "./datasets/", save_folder = "./output/output.json", result_num = 10):
     # 매개변수를 Namespace 객체로 묶기
     args = Namespace(
         root=root,
@@ -100,7 +100,8 @@ def findByText(root="./", config_file="configs/cuhkpedes/moco_gru_cliprn50_ls_bs
         search_num=search_num,
         query = query,
         data_dir = data_dir,
-        save_folder = save_folder
+        save_folder = save_folder,
+        top_k = result_num
     )
     detect(args)
 
