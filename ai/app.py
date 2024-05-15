@@ -71,9 +71,10 @@ class SecondDetectResult(BaseModel):
 
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
-    print(input)
+    if input.query == none:
+        raise HTTPException(status_code=400, detail="Query cannot be None")
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
-    run_Yolo([CCTVInfo(id=1,longitude=1,latitude=1)],yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
 
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
