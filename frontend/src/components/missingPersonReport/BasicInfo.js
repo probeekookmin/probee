@@ -1,7 +1,7 @@
-import { Typography, Image, Skeleton, Form, Input, Row, Col } from "antd";
 import styled from "styled-components";
-import { InputForm } from "../common/InputForm";
 import { useEffect } from "react";
+import { Typography, Image, Skeleton, Form, Input, Row, Col } from "antd";
+import { InputForm } from "../common/InputForm";
 
 export const BasicInfo = ({ data }) => {
   const [form] = Form.useForm();
@@ -200,10 +200,10 @@ const StBasicInfo = styled.div`
   justify-content: start;
   align-items: start;
   flex: 1;
-  padding: 1.5rem 1.5rem;
-
   width: 100%;
   height: 100%;
+
+  padding: 1.5rem 1.5rem;
 
   border-radius: 1rem;
   background-color: white;

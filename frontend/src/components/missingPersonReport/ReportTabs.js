@@ -1,23 +1,7 @@
 import styled from "styled-components";
-import { Tabs, Select } from "antd";
-import { ReportList } from "./ReportList";
-import { ResultView } from "../common/ResultView";
 import { useEffect, useState } from "react";
-import { getSearchResultImg } from "../../core/api";
-const data = [
-  { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-25", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-24", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-23", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-20", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-17", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-16", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-15", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-14", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
-  { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
-];
+import { Tabs, Select } from "antd";
+import { ResultView } from "../common/ResultView";
 
 const operations = (
   <Select

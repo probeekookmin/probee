@@ -1,7 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { Steps, Typography } from "antd";
-import { useEffect } from "react";
+
 export const StepProgress = ({ step }) => {
   const [current, setCurrent] = useState(0);
   const description = "This is a description.";
@@ -54,12 +54,13 @@ const StStepProgress = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+
   max-width: 20rem;
   height: 100%;
 
   padding: 1.5rem;
-
   gap: 1.5rem;
+
   border-radius: 0.4rem;
   background-color: rgba(255, 255, 255, 0.9);
 `;
