@@ -5,7 +5,7 @@ import DaumPostcode from "react-daum-postcode";
 import { useState } from "react";
 
 //도로명 주소 검색
-export const SeacrchBox = ({ title, form, name }) => {
+export const IntelligentSeacrchBox = ({ title, form, name }) => {
   const [openPostcode, setOpenPostcode] = useState(false);
 
   const [location, setLocation] = useState("");
@@ -55,15 +55,30 @@ const SearchBoxContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 40rem;
+  width: 40.5rem;
   height: 3.2rem;
   border: 0.1rem solid #d9d9d9;
   border-radius: 0.5rem;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    width: 32.5rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    width: 32.5rem;
+  }
 `;
 
 const SearchInput = styled(Input)`
   display: flex;
-  width: 34.6rem;
+  width: 34rem;
+  font-size: 1.6rem;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    width: 30rem;
+    font-size: 1.2rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    width: 30rem;
+    font-size: 1.2rem;
+  }
 `;
 
 const SearchIconWrapper = styled.div`

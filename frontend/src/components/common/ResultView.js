@@ -1,35 +1,62 @@
 import styled from "styled-components";
-import { Select, Pagination, Skeleton, List, Card, Col, Row ,Form} from "antd";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+import { Select, Pagination, Skeleton, List, Card, Col, Row, Form } from "antd";
+import { SelectOptions } from "./SelectOptions";
+import { getBetweenResultImg, getSearchResultImg } from "../../core/api";
 
-// const data = [
-//   { date: "2024-03-27", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-26", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-25", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-24", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-23", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-20", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-17", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-16", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-15", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-14", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-13", time: "17:03:14", accuracy: "0.0000" },
-//   { date: "2024-03-10", time: "17:03:14", accuracy: "0.0000" },
-// ];
-export const ResultView = ({ column, count, dataList}) => {
+export const ResultView = ({ count, dataList, type, id }) => {
   const [data, setData] = useState([]);
-  
+  const [dataCount, setDataCount] = useState(0);
+
   useEffect(() => {
-    setData(dataList);
+    if (type === "first") {
+      console.log("useEffect-first");
+      setData(dataList);
+      setDataCount(count);
+    } else {
+      console.log("useEffect-other");
+      fetchData();
+    }
   }, [dataList]);
+
+  const fetchData = () => {
+    if (type === "between") {
+      console.log("between");
+      getBetweenResultImg(1, id).then((res) => {
+        console.log("between", res.data);
+        setData(res.data.list);
+      });
+    } else {
+      getSearchResultImg(1, id, type).then((res) => {
+        console.log("step2data", res.data);
+        setData(res.data.list);
+      });
+    }
+  };
+  const onChangePage = (page) => {
+    if (type === "between") {
+      console.log("between");
+      getBetweenResultImg(page, id).then((res) => {
+        console.log("between", res.data);
+        setData(res.data.list);
+        setDataCount(res.data.count);
+      });
+    } else {
+      getSearchResultImg(page, id, type).then((res) => {
+        console.log("step2data", res.data);
+        setData(res.data.list);
+        setDataCount(res.data.count);
+      });
+    }
+  };
   const Item = ({ item }) => {
     return (
       <ItemContainer>
         {item.imgUrl ? (
-        <img src={item.imgUrl} alt="Image" style={{ width: "7.2rem", height: "11.9rem" }} />
-      ) : (
-        <Skeleton.Image active={false} style={{ width: "7.2rem", height: "11.9rem" }} />
-      )}
+          <ItemImage src={item.imgUrl} alt="Image" />
+        ) : (
+          <Skeleton.Image active={false} style={{ width: "7.2rem", height: "11.9rem" }} />
+        )}
         <p>{item.date}</p>
         <p>{item.time}</p>
         <p>정확도:{item.similarity}</p>
@@ -38,16 +65,17 @@ export const ResultView = ({ column, count, dataList}) => {
   };
   return (
     <StResultView>
-      {/* <MiddleContainer>
-        {data.map((item, idx) => (
-          <Item key={idx} item={item} />
-        ))}
-      </MiddleContainer>
+      <MiddleContainer>{data && data.map((item, idx) => <Item key={idx} item={item} />)}</MiddleContainer>
       <BottomContainer>
-        <Paging size="small" defaultCurrent={1} total={6} />
-      </BottomContainer> */}
-
-      <List
+        <Paging
+          size="small"
+          defaultCurrent={1}
+          defaultPageSize={6}
+          total={dataCount}
+          onChange={(page) => onChangePage(page)}
+        />
+      </BottomContainer>
+      {/* <List
         grid={{
           gutter: 16,
           column: column,
@@ -58,12 +86,12 @@ export const ResultView = ({ column, count, dataList}) => {
           // xl: 8,
           // xxl: 8,
         }}
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: count,
-        }}
+        // pagination={{
+        //   onChange: (page) => {
+        //     console.log(page);
+        //   },
+        //   pageSize: count,
+        // }}
         dataSource={data}
         renderItem={(item) => (
           // <List.Item>
@@ -71,11 +99,7 @@ export const ResultView = ({ column, count, dataList}) => {
           // </List.Item>
           <Item item={item} />
         )}
-      />
-
-      {/* <BottomContainer>
-        <Paging size="small" defaultCurrent={1} total={6} />
-      </BottomContainer> */}
+      /> */}
     </StResultView>
   );
 };
@@ -83,12 +107,12 @@ const StResultView = styled.div`
   display: flex;
   flex-direction: column;
   align-items: space-between;
-  gap: 1.5rem;
 
   width: 100%;
   height: 100%;
   //bottom: 0;
   padding: 0rem 2rem;
+  gap: 1.5rem;
 `;
 
 const MiddleContainer = styled.div`
@@ -117,7 +141,19 @@ const ItemContainer = styled.div`
   margin-top: 0.9rem;
 
   p {
-    font-size: 1rem;
+    @media all and (max-width: 1537px) {
+      font-size: 1rem;
+    }
+    font-size: 1.3rem;
+  }
+`;
+
+const ItemImage = styled.img`
+  width: 14.4rem;
+  height: 23.8rem;
+  @media all and (max-width: 1537px) {
+    width: 7.2rem;
+    height: 11.9rem;
   }
 `;
 

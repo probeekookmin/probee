@@ -74,6 +74,7 @@ export const getMissingPerson = async (id) => {
 
 /*탐색 단계 가져오기 (실종자 리포트 화면)*/
 export const getMissingPeopleStep = async (id) => {
+  console.log("getMissingPeopleStep", id);
   const data = axios
     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/step`, {
       headers: { "Content-Type": "application/json" },
@@ -92,6 +93,7 @@ export const getMissingPeopleStep = async (id) => {
 
 /* 지능형 탐색 기록 리스트 가져오기*/
 export const getSearchHistoryList = async (id) => {
+  console.log("getSearchHistoryList", id);
   const data = axios
     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-history`, {
       headers: { "Content-Type": "application/json" },
@@ -108,13 +110,33 @@ export const getSearchHistoryList = async (id) => {
   return data;
 };
 
-/* 지능형 탐색결과 사진 가져오기 todo: 주소 파싱하는거 고쳐야함*/
-export const getSearchResultImg = async (id, step, search_id) => {
-  let url = `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?`;
-  if (step) url += `step=${step}&`;
-  if (search_id) url += `search_id=${search_id}`;
+/* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색 (Get)*/
+export const getSearchResultImg = async (page, id, step, search_id) => {
+  console.log("getSearchResultImg", id, step, search_id);
+
   const data = axios
-    .get(url, {
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=6${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/* 이미지 선별 결과 가져오기 (Get)*/
+export const getBetweenResultImg = async (page, id) => {
+  const data = axios
+    .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/between-result?page=${page}&size=6`, {
       headers: { "Content-Type": "application/json" },
     })
     .then(function (response) {
