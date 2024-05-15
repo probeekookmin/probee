@@ -1,20 +1,12 @@
 package com.capstone.server.service;
 
-import java.util.List;
-
+import com.capstone.server.dto.detection.FirstDetectionDataDto;
+import com.capstone.server.dto.guardian.BetweenRequestDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.capstone.server.dto.CCTVDto;
-import com.capstone.server.dto.DetectionDataDto;
-import com.capstone.server.dto.KafkaDto;
-import com.capstone.server.model.enums.Status;
-import com.capstone.server.model.enums.Step;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -28,46 +20,27 @@ public class KafkaConsumerService {
     private SearchHistoryService searchHistoryService;
     @Autowired
     private DetectService detectService;
-    
-    @Value("${startSearchingTopic.name}")
-    private String startSearchingTopicName;
-
-    @Value("${startSecondSearchingTopic.name}")
-    private String startSecondSearchingTopicName;
-
-    // 현재 사용 x, 추후 수정
-    @Transactional
-    @KafkaListener(topics = "start-searching", groupId = "consumer_group01") // return 하지 않음. 
-    public void consumeStartSearching(KafkaDto kafkaDto) {
-        List<CCTVDto> cctvDtos = cctvService.findCCTVsNearbyLocationWithinDistance(
-            kafkaDto.getLongitude(), kafkaDto.getLatitude());
-
-        // POLICY : 상태 업데이트는 해당 로직 시작 전 수행
-        missingPeopleService.modifyStatus(kafkaDto.getMissingPeopleId(), Status.SEARCHING);
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.FIRST);
-
-        // TODO : 쿼리 생성 + AI 서버 요청
-    }
-
-    // 현재 사용 x, 추후 수정
-    @Transactional
-    @KafkaListener(topics = "start-second-searching", groupId = "consumer_group02") // return 하지 않음. 
-    public void consumeStartSecondSearching(KafkaDto kafkaDto) {
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.SECOND);
-
-        // TODO : 2차 모델 연산 시작 요청
-
-        missingPeopleService.modifyStatus(kafkaDto.getMissingPeopleId(), Status.EXIT);
-        searchHistoryService.modifyStep(kafkaDto.getSearchHistoryId(), Step.EXIT);
-
-    }
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
     // 사용 중 
     @Transactional
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01") // return 하지 않음. 
-    public void consumeStartCallFirstDetectionApi(Long id) {
+    public void consumeStartCallFirstDetectionApi(String id) {
         // TODO : 로직 추가 
-        DetectionDataDto detectionDataDto = detectService.callFirstDetectAPI(id);
-        detectService.postFirstDetectionResult(detectionDataDto);
+        Long idValue = Long.valueOf(id);
+        FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(idValue);
+        detectService.postFirstDetectionResult(firstDetectionDataDto);
+
+        // 만약 2차 모델을 사용한다고 하면 주석 풀기
+        // kafkaProducerService.startCallSecondDetectApiToKafka(id);
+    }
+
+    // TODO : 2차 모델 로직 추가 
+    @Transactional
+    @KafkaListener(topics = "start-call-second-detection-api", groupId = "consumer_group01") // return 하지 않음. 
+    public void consumeStartCallSecondDetectionApi(BetweenRequestDto betweenRequestDto, String id) {
+        // TODO : 로직 추가 
+        System.out.println("SECOND CONSUMER");
     }
 }

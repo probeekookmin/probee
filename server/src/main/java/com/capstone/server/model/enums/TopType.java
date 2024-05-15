@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TopType {
-    SHORT_SLEEVE("반팔", "shortSleeve"),
-    LONG_SLEEVE("긴팔", "longSleeve");
+    NONE("없음", "none"),
+    SHORT_SLEEVE("반팔", "short sleeve"),
+    LONG_SLEEVE("긴팔", "long sleeve"),
+    COAT("코트", "coat"),
+    WINTER_COAT("패딩", "winter coat");
 
     private final String kor;
     private final String value;

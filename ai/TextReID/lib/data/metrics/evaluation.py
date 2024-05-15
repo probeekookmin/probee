@@ -5,6 +5,7 @@ import json
 import numpy as np
 import torch
 import torch.nn.functional as F
+from lib.config import cfg
 
 from lib.utils.logger import table_log
 
@@ -131,7 +132,7 @@ def evaluation(
         # top 10 results 반환
         sorted_indices = torch.argsort(similarity[0], descending=True)
         sorted_values = similarity[0][sorted_indices]
-        top_k = 10
+        top_k = cfg.TEST.TOP_K
         write = [cap[0]] # 저장할 output
         for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
             # image_id, pid = dataset.get_id_info(idx)

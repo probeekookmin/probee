@@ -130,6 +130,7 @@ _C.TEST = CN()
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 16, each GPU will
 # see 2 images per batch
 _C.TEST.IMS_PER_BATCH = 16
+_C.TEST.TOP_K = 10
 
 
 # ---------------------------------------------------------------------------- #

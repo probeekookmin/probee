@@ -11,7 +11,7 @@ import java.util.List;
 public interface SearchHistoryRepository extends JpaRepository<SearchHistoryEntity, Long> {
     List<SearchHistoryEntity> findByMissingPeopleEntityId(Long id);
 
-    SearchHistoryEntity findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(Long missingPeopleEntityId, Step step);
+    SearchHistoryEntity findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(Long missingPeopleEntityId, Step step);
 
-    SearchHistoryEntity findFirstByMissingPeopleEntityIdOrderByCreatedAtDesc(Long missingPeopleEntityId);
+    SearchHistoryEntity findFirstByMissingPeopleEntityIdOrderByCreatedAtAsc(Long missingPeopleEntityId);
 }

@@ -55,10 +55,10 @@ const SearchBoxContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 40.2rem;
+  width: 40rem;
   height: 3.2rem;
   border: 0.1rem solid #d9d9d9;
-  border-radius: 0.2rem;
+  border-radius: 0.5rem;
 `;
 
 const SearchInput = styled(Input)`

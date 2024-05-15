@@ -40,6 +40,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation group: 'com.theokanning.openai-gpt3-java', name: 'client', version: '0.9.0'
 }
 
 tasks.named('test') {

@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 
+
   * {
     box-sizing: border-box;
 	}
@@ -21,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
   button:hover {
     cursor: pointer;
   }
+  
 `;
 
 export default GlobalStyle;

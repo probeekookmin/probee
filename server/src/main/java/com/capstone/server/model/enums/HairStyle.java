@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum HairStyle {
-    LONG_HAIR("긴 머리", "longHair"),
-    SHORT_HAIR("짧은 머리", "shortHair");
+    LONG_HAIR("긴 머리", "long hair"),
+    SHORT_HAIR("짧은 머리", "short hair");
 
     private final String kor;
     private final String value;
