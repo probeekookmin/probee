@@ -63,16 +63,33 @@ class SecondInput(BaseModel):
 class SecondDetectResult(BaseModel):
     data : list
     secondSearchId : int
-# @app.get('/')
-# async def root():
-#     run_Yolo([CCTVInfo(id=1,longitude=1,latitude=1)],'/home/jongbin/Desktop/test/2-results','2021-09-01T000000')
+@app.get('/')
+async def root():
+    input = TotalInput(cctvId = [CCTVInfo(id=1,longitude=1,latitude=1)],startTime='2021-09-01T000000',endTime='2021-09-01T000000',searchId=2222,missingPeopleId=2222,step="first",query="a woman wearinga red shirt and black pants. she has a long hair")
+    yolo_save_path= '/home/jongbin/Desktop/yolo/2222'
+    run_Yolo(input.cctvId,yolo_save_path,input.startTime)
+    result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
+    with open(result_json_dir, 'r') as file:
+        imgurl = json.load(file)
+    
+    print(imgurl[1:][0]["img_path"])
+    aa=SecondInput(missingPeopleId=input.missingPeopleId,firstSearchId=input.searchId,secondSearchId="2221", topK=20,queryImagePath = [imgurl[1:][0]["img_path"]]) 
+    print(aa)
+    await secondDetection(aa)
+    # run_Yolo(input.cctvId,yolo_save_path,input.startTime)
+    # result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+    # await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
+
 # @app.post("/test")
 # async def test(input : TotalInput):
 
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
-    if input.query == none:
+    if input.query == None:
         raise HTTPException(status_code=400, detail="Query cannot be None")
+    if input.cctvId[0]==None:
+        raise HTTPException(status_code=400, detail="cctv is undefined")
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
     run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
@@ -98,10 +115,11 @@ async def secondDetection(input:SecondInput):
         for output in data_to_save['output']:
             #해당 주소에 있는 이미지 s3업로드하고 이미지 주소 result에 넣기
             local_output_path = output['output_dir']
-            s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{local_output_path}"
-            s3_key = s3_key.replace(' ', '-').replace(':', '').replace('/', '+')
+            new_file_name = f"{os.path.basename(local_output_path).split('.')[0]}"
+            new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
+            s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{new_file_name}"
             s3_url = upload_image_to_s3(local_output_path, s3_key)
-            a = {"img_path" : s3_url, "cctvId" : 1, "similarity" :0 }
+            a = {"img_path" : s3_url, "cctvId" : 1, "similarity" :0 } #todo : 버그수정
             result.append(a)
             
         print(result)
@@ -114,7 +132,7 @@ async def runTextReID(input : TotalInput, yolo_save_path:str):
     home_path = os.path.expanduser("~")
     result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
     # findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
-    findByText(root_path, search_num=input.searchId, query = "a man wearing a white shirt and black long pants. he has short hair.", data_dir = yolo_save_path, save_folder = result_dir)
+    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
     return result_dir
 
 
@@ -145,7 +163,7 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
             }
                 )
             item['img_path'] = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
-            item['cctvId'] = 1 #new_file_name.split('_')[0]
+            item['cctvId'] = new_file_name.split('_')[0]
 
         except Exception as e:
             errors.append(f"Error uploading {img_path}: {str(e)}")
@@ -179,7 +197,7 @@ def parse_s3_url(s3_url):
     s3_url = s3_url.replace("https://", "")
     
     # 버킷 이름 추출
-    s3_bucket = s3_url.split(".s3.amazonaws.com")[0]
+    s3_bucket = s3_url.split(".s3.amazonaws.com/")[0]
     
     # 객체 키 추출
     s3_key = s3_url.split(".s3.amazonaws.com/")[1]
