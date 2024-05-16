@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Button } from "antd";
+import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
+import { Button, Switch } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-export const ReportMap = ({ step1data }) => {
+export const ReportMap = ({ start, end, searchRange, step1data }) => {
   const [cctvState, setCctvState] = useState({});
+  const [rangeState, setRangeState] = useState(true);
+  const [rangePosition, setRangePosition] = useState([]);
   const [step1Position, setStep1Position] = useState([]);
   const [betweenState, setBetweenState] = useState({});
   const [step2State, setStep2State] = useState({});
@@ -14,6 +16,13 @@ export const ReportMap = ({ step1data }) => {
     console.log("ReportMap", step1data);
     if (step1data) {
       console.log("step1data", step1data);
+
+      setRangePosition({
+        lat: searchRange.latitude,
+        lng: searchRange.longitude,
+      });
+      console.log("rangePosition", rangePosition);
+
       const processedData = step1data.reduce((acc, curr) => {
         const existingCctvIndex = acc.findIndex((item) => item.id === curr.cctv.id);
         if (existingCctvIndex !== -1) {
@@ -22,14 +31,14 @@ export const ReportMap = ({ step1data }) => {
           acc.push({
             id: curr.cctv.id,
             images: [{ resultId: curr.resultId, imgUrl: curr.imgUrl }],
-            latlng: { lat: curr.cctv.longitude, lng: curr.cctv.latitude },
+            latlng: { lat: curr.cctv.latitude, lng: curr.cctv.longitude },
           });
         }
         return acc;
       }, []);
       setStep1Position(processedData);
     }
-  }, [step1data]);
+  }, [searchRange, step1data]);
 
   useEffect(() => {
     console.log("step1Position", step1Position);
@@ -90,6 +99,21 @@ export const ReportMap = ({ step1data }) => {
   return (
     <StReportMap>
       <Map center={{ lat: 37.610826, lng: 126.994317 }} style={{ width: "100%", height: "100%" }}>
+        {rangeState && rangePosition.lat && rangePosition.lng && (
+          <>
+            <Circle
+              center={rangePosition}
+              radius={1000}
+              strokeWeight={2} // 선의 두께입니다
+              strokeColor={"#1890ff"} // 선의 색깔입니다
+              strokeOpacity={0.5} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+              strokeStyle={"line"} // 선의 스타일 입니다
+              fillColor={"#CFE7FF"} // 채우기 색깔입니다
+              fillOpacity={0.6} // 채우기 불투명도 입니다
+            />
+            <MapMarker position={rangePosition} />
+          </>
+        )}
         {step1State &&
           step1Position &&
           step1Position.map(
@@ -117,6 +141,9 @@ export const ReportMap = ({ step1data }) => {
             ),
           )}
       </Map>
+      <FilterContainer>
+        <SwitchButton value={rangeState} onChange={() => setRangeState(!rangeState)} size="small" />
+      </FilterContainer>
     </StReportMap>
   );
 };
@@ -126,6 +153,7 @@ const StReportMap = styled.div`
   flex-direction: column;
   flex: 1;
   flex-grow: 1;
+  position: relative;
   width: 100%;
   height: 100%;
   max-width: 90rem;
@@ -192,4 +220,24 @@ const ItemImage = styled.img`
     width: 7.2rem;
     height: 11.9rem;
   }
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  z-index: 1;
+  float: right;
+  top: 1rem;
+  right: 1rem;
+  width: 7rem;
+  height: 10rem;
+
+  background-color: white;
+  border-radius: 1rem;
+`;
+
+const SwitchButton = styled(Switch)`
+  width: 3rem;
 `;

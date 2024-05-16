@@ -36,7 +36,12 @@ export const ReportMain = ({ data, step, history, step1data, onClick }) => {
         </ContainerLeft>
         <ContainerRight>
           <Container1>
-            <ReportMap step1data={step1data.list} />
+            <ReportMap
+              start={step1data.startTime}
+              end={step1data.endTime}
+              searchRange={step1data.searchRange}
+              step1data={step1data.list}
+            />
             <StepProgress step={step} />
           </Container1>
           <Container2>
