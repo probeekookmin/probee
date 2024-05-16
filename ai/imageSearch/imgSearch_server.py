@@ -63,7 +63,6 @@ def run_Image_to_Image(data_path:str,topk:int,query:str):
     scores, retrieved_examples = get_neighbors(query, dataset, topk)
 
     
-
     sec = time.time() - start_time
     times = str(datetime.timedelta(seconds=sec))
     short = times.split(".")[0]
