@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class SearchRangeDto {
     private double longitude;
     private double latitude;
-    private int searchRadius;
+    private Double searchRadius;
 
     private SearchRangeDto(SearchHistoryEntity searchHistoryEntity) {
         this.longitude = searchHistoryEntity.getLongitude();
