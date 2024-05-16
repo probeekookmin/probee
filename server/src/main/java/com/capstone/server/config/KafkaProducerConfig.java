@@ -38,4 +38,20 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, String> kafkaStringTemplate() {
         return new KafkaTemplate<>(stringProducerFactory());
     }
+
+    // Producer Factory for KafkaDto
+    @Bean
+    public ProducerFactory<String, KafkaDto> dtoProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class); // 예시로 JsonSerializer 사용
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    // Kafka Template for KafkaDto
+    @Bean
+    public KafkaTemplate<String, KafkaDto> kafkaDtoTemplate() {
+        return new KafkaTemplate<>(dtoProducerFactory());
+    }
 }

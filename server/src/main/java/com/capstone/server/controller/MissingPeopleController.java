@@ -2,7 +2,7 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
-import com.capstone.server.dto.detection.DetectionResultDetailDto;
+import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
@@ -116,13 +116,14 @@ public class MissingPeopleController {
         } else {
             // ChatGPT query 생성, [ko_query, en_query]
             missingPeopleCreateRequestDto = chatGPTService.translateEnglishToKorean(missingPeopleCreateRequestDto);
-
+            
             //DB에 실종자 정보 등록
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
-
+            
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            kafkaProducerService.startCallFirstDetectApiToKafka(Long.toString(createResponse.getId()));
-
+            // kafkaProducerService.startCallFirstDetectApiToKafka(Long.toString(createResponse.getId()));
+            kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
+            
             // 2차 모델 사용한다고 하면 주석 풀기
             // kafkaProducerService.startCallSecondDetectApiToKafka(Long.toString(createResponse.getId()));
 
@@ -207,7 +208,7 @@ public class MissingPeopleController {
             //searchId가 있으면 해당하는 검색기록 가져오기
             return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultBySearchId(id, searchId, page - 1, pageSize, sortBy)));
         }
-        //step만 있으면 해당 step의 가장 처음탐색 결과 가져오기
+        //step만 있으면 해당 step의 최신 결과만 가져오기
         Step searchStep = Step.fromValue(step);
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByStep(id, searchStep, page - 1, pageSize, sortBy, DetectionResultDetailDto.class)));
     }
@@ -263,7 +264,7 @@ public class MissingPeopleController {
         if (searchId != null) {//search-id가 있으면 searchid기준으로 결과를 보내줌
             return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryBySearchId(searchId)));
         }
-        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchHistoryById(id)));
     }
 
     //지능형 탐색 시작하기
@@ -274,8 +275,7 @@ public class MissingPeopleController {
     ) {
         //Todo : 1차인지, 2차인지 고를 수 있어야 함
         //DB에 탐색 등록
-        Step step = Step.fromValue("first");
-        searchHistoryService.createSearchHistory(searchRequestDto, id, step);
+        searchHistoryService.createSearchHistory(searchRequestDto, id);
         //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
 //        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
         // kafkaProducerService.startCallFirstDetectApiToKafka(id);
