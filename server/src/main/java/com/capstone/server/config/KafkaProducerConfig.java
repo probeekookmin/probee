@@ -25,18 +25,18 @@ public class KafkaProducerConfig {
 
     // Producer Factory for String
     @Bean
-    public ProducerFactory<String, String> stringProducerFactory() {
+    public ProducerFactory<String, Long> longProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     // Kafka Template for String
     @Bean
-    public KafkaTemplate<String, String> kafkaStringTemplate() {
-        return new KafkaTemplate<>(stringProducerFactory());
+    public KafkaTemplate<String, Long> kafkaLongTemplate() {
+        return new KafkaTemplate<>(longProducerFactory());
     }
 
     // Producer Factory for KafkaDto

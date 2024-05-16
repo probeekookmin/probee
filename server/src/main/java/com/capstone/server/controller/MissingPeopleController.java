@@ -2,7 +2,7 @@ package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
-import com.capstone.server.dto.detectionResult.DetectionResultDetailDto;
+import com.capstone.server.dto.detection.DetectionResultDetailDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.SearchResultSortBy;
