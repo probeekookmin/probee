@@ -1,5 +1,6 @@
 package com.capstone.server.controller;
 
+import com.capstone.server.dto.KafkaDto;
 import com.capstone.server.dto.SearchRequestDto;
 import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
@@ -48,7 +49,6 @@ public class GuardianController {
     //실종자 정보 받기
     @GetMapping("")
     public ResponseEntity<?> getMissingPeople(@RequestHeader("Authorization") String authorization) {
-        System.out.println(authorization);
         Long id = encryptionService.extractIdFromToken(authorization);
         return ResponseEntity.ok().body(new SuccessResponse(guardianService.getMissingPeople(id)));
     }
@@ -94,8 +94,11 @@ public class GuardianController {
         //2차탐색기록 생성
         Step step = Step.fromValue("second");
         Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);
+        
         //2차탐색 시작
-        detectService.postSecondDetectionResult(detectService.callSecondDetectApi(id, betweenRequestDto, searchId));
+        KafkaDto kafkaDto = KafkaDto.toKafkaDto(id, betweenRequestDto, searchId);
+        kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
+
         //사진을 업로드하면 바로 2차탐색하게 구현하기
         return ResponseEntity.ok().body(new SuccessResponse("success"));
     }
