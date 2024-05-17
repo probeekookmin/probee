@@ -269,7 +269,10 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
           )}
       </Map>
       <OverlayTopContainer>
-        <OverlayLocationWrapper>
+        <OverlayLocationWrapper
+          onClick={() => {
+            handleCenter();
+          }}>
           <img src={LocationMarker} />
           <p>{location}</p>
         </OverlayLocationWrapper>
@@ -477,6 +480,8 @@ const OverlayLocationWrapper = styled.div`
   padding: 0 1.2rem 0 1rem;
   margin-right: 1rem;
   opacity: 0.9;
+
+  cursor: pointer;
 
   img {
     width: 2rem;
