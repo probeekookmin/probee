@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Button, Divider, FloatButton, Segmented, Switch, Tooltip } from "antd";
+import { Button, Divider, FloatButton, List, Segmented, Switch, Tooltip } from "antd";
 import Icon, { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
@@ -110,8 +110,6 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
     }
   };
 
-  const handleDataFilter = () => {};
-
   const handleLocation = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     var coord = new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng);
@@ -143,18 +141,11 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
   const EventMarkerContainer = ({ position, images, markerStyle }) => {
     const map = useMap();
     const [isVisible, setIsVisible] = useState(false);
-    const mapR = mapRef.current;
-    if (mapR) {
-      console.log("markerPosition", rangePosition);
-      map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
-      map.setLevel(4);
-    }
 
     return (
       <>
         <MapMarker
           position={position} // 마커를 표시할 위치
-          // @ts-ignore
           onClick={(marker) => {
             map.panTo(marker.getPosition());
             setIsVisible(true);
@@ -174,10 +165,36 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
                 <p>이미지 목록</p>
                 <Button type="link" icon={<CloseOutlined />} onClick={() => setIsVisible(false)}></Button>
               </TopContainer>
-
-              <ImageContainer>
-                {images && images.map((item) => <Item key={item.resultId} item={item} />)}
-              </ImageContainer>
+              <ExplainText>탐색 결과는 최신순으로 정렬됩니다.</ExplainText>
+              {/* <ImageContainer> */}
+              {/* {images && images.map((item) => <Item key={item.resultId} item={item} />)} */}
+              <ImageList
+                grid={{
+                  gutter: 8,
+                  // xs: 1,
+                  // sm: 2,
+                  // md: 4,
+                  // lg: 4,
+                  // xl: 8,
+                  // xxl: 8,
+                }}
+                pagination={{
+                  onChange: (page) => {
+                    console.log(page);
+                  },
+                  pageSize: 3,
+                  size: "small",
+                  position: "bottom",
+                }}
+                dataSource={images}
+                renderItem={(item) => (
+                  // <List.Item>
+                  //   <Card title={item.title}>Card content</Card>
+                  // </List.Item>
+                  <Item key={item.resultId} item={item} />
+                )}
+              />
+              {/* </ImageContainer> */}
             </ContentsContainer>
           </CustomOverlayMap>
         )}
@@ -333,7 +350,7 @@ const ContentsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 30rem;
+  width: 37.3rem;
   height: 30rem;
   padding: 1rem;
   background-color: white;
@@ -349,25 +366,40 @@ const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  p {
+    font-size: 1.5rem;
+  }
 `;
-
-const ImageContainer = styled.div`
+const ExplainText = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: start;
+  width: 100%;
+  font-size: 1.2rem;
+  color: #8b8b8b;
+`;
+// const ImageContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   height: 100%;
+//   overflow-y: auto;
+//   &::-webkit-scrollbar {
+//     width: 0.4rem;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     border-radius: 10rem;
+//     background: #8b8b8b;
+//   }
+// `;
+
+const ImageList = styled(List)`
   width: 100%;
   height: 100%;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 0.4rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10rem;
-    background: #8b8b8b;
-  }
 `;
+
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -383,9 +415,11 @@ const ItemContainer = styled.div`
 `;
 
 const ItemImage = styled.img`
-  width: 14.4rem;
-  height: 23.8rem;
-  margin-right: 0.9rem;
+  /* width: 14.4rem;
+  height: 23.8rem; */
+  width: 11.52rem;
+  height: 19.04rem;
+  margin-right: 0.5rem;
   @media all and (max-width: 1537px) {
     width: 7.2rem;
     height: 11.9rem;
