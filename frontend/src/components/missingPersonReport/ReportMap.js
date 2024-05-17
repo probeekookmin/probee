@@ -8,8 +8,10 @@ import Icon, { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/ic
 import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
 import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
+import LocationMarker from "../../assets/icons/locationMarker.svg";
 export const ReportMap = ({ start, end, searchRange, firstData, betweenData, secondData }) => {
   const mapRef = useRef();
+  const [location, setLocation] = useState("");
 
   /*Overlay filter*/
   const [showStep, setShowStep] = useState("first");
@@ -59,7 +61,8 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
 
   useEffect(() => {
     console.log("step1Position", firstPosition);
-  }, [firstPosition]);
+    handleLocation();
+  }, [rangePosition]);
 
   const handleData = (data) => {
     console.log("handleData", data);
@@ -91,6 +94,8 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
       map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
       map.setLevel(5);
     }
+    console.log("handleCenter", rangePosition);
+    // handleLocation();
   };
 
   const handleLevel = (type) => {
@@ -106,6 +111,23 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
   };
 
   const handleDataFilter = () => {};
+
+  const handleLocation = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    var coord = new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng);
+
+    console.log("handleLocation", rangePosition);
+    var callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        console.log("handleLocation", result);
+        if (result[0].road_address) {
+          setLocation(result[0].road_address.address_name);
+        }
+        console.log("location", location);
+      }
+    };
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+  };
 
   const Item = ({ item }) => {
     return (
@@ -125,7 +147,7 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
     if (mapR) {
       console.log("markerPosition", rangePosition);
       map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
-      map.setLevel(5);
+      map.setLevel(4);
     }
 
     return (
@@ -168,7 +190,7 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
       <Map
         ref={mapRef}
         center={rangePosition} //{ lat: 37.610826, lng: 126.994317 }
-        level={5}
+        level={4}
         style={{ width: "100%", height: "100%" }}
         zoomable={true}
         isPanto={true}>
@@ -246,7 +268,11 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
           )}
       </Map>
       <OverlayTopContainer>
-        <Segmented
+        <OverlayLocationWrapper>
+          <img src={LocationMarker} />
+          <p>{location}</p>
+        </OverlayLocationWrapper>
+        <OverlaySegmented
           options={[
             {
               label: "1차 탐색",
@@ -278,11 +304,11 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
           </SingleButton>
         </OverlayTooltip>
         <GroupButton>
-          <ButtonWrapper onClick={() => handleLevel("increase")}>
+          <ButtonWrapper onClick={() => handleLevel("decrease")}>
             <PlusOutlined />
           </ButtonWrapper>
           <Divider style={{ margin: 0 }} />
-          <ButtonWrapper onClick={() => handleLevel("decrease")}>
+          <ButtonWrapper onClick={() => handleLevel("increase")}>
             <MinusOutlined />
           </ButtonWrapper>
         </GroupButton>
@@ -299,7 +325,7 @@ const StReportMap = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 90rem;
+  /* max-width: 90rem; */
 `;
 
 const ContentsContainer = styled.div`
@@ -382,7 +408,7 @@ const OverlaySideContainer = styled.div`
 
   position: absolute;
   z-index: 1;
-  top: 1rem;
+  top: 10rem;
   right: 1rem;
 `;
 
@@ -391,22 +417,23 @@ const OverlayTooltip = styled(Tooltip)``;
 const OverlayButtonStyle = `
   display: flex;
   margin-bottom: 1rem;
-  border-radius: 0.5rem;
-background-color: white;`;
+  border-radius: 0.4rem;
+  background-color: white;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);`;
 
 const SingleButton = styled.div`
   ${OverlayButtonStyle}
 
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   justify-content: center;
 `;
 
 const GroupButton = styled.div`
   ${OverlayButtonStyle}
 
-  width: 3rem;
-  height: 6rem;
+  width: 3.5rem;
+  height: 7rem;
   flex-direction: column;
   justify-content: space-between;
 `;
@@ -416,8 +443,52 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  height: 3rem;
+  height: 3.5rem;
 `;
+
+const OverlayLocationWrapper = styled.div`
+  ${OverlayButtonStyle}
+  flex-direction:row;
+  justify-content: start;
+  align-items: center;
+  /* width: 25rem; */
+  height: 4rem;
+  padding: 0 1.2rem 0 1rem;
+  margin-right: 1rem;
+  opacity: 0.9;
+
+  img {
+    width: 2rem;
+    margin-right: 0.2rem;
+  }
+  p {
+    color: #555555;
+  }
+`;
+
+const OverlaySegmented = styled(Segmented)`
+  height: 4rem;
+  &.ant-segmented {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    background-color: white;
+  }
+
+  &.ant-segmented .ant-segmented-item-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3.4rem;
+  }
+
+  &.ant-segmented .ant-segmented-item-selected {
+    background-color: #1890ff;
+    color: white;
+  }
+`;
+
 const FilterContainer = styled.div`
   display: flex;
   flex-direction: column;
