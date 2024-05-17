@@ -27,7 +27,7 @@ cloud.aws.s3.bucketName = S3_BUCKET_NAME
 cloud.aws.region.static = S3_REGION
 cloud.aws.stack.auto=false
 
-# AI Server
+# AI Server.
 aiServer.url= AISERVER_URL
 
 #Sms service (SOLAPI)
