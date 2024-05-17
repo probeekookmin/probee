@@ -130,10 +130,11 @@ public class SearchResultService {
 
     //id와 step을 받아 해당 step 결과에 대해 좌표찍기
     public List<MapCCTV> getSearchResultByHistoryId(Long missingPeopleId, Step step) {
-        Long searchHistoryId = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, step).getId();
-        if (searchHistoryId == null) {
+        SearchHistoryEntity searchResultEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, step);
+        if (searchResultEntity == null) {
             throw new CustomException(NOT_FOUND, "data not found", "data no exit");
         }
+        Long searchHistoryId = searchResultEntity.getId();
         List<SearchResultEntity> searchResults = searchResultRepository.findAllBySearchHistoryEntityId(searchHistoryId);
         Map<Long, MapCCTV> mapCCTVMap = new HashMap<>();
         for (SearchResultEntity searchResult : searchResults) {
@@ -144,7 +145,7 @@ public class SearchResultService {
                 mapCCTV = convertToMapCCTV(searchResult);
                 mapCCTVMap.put(cctvId, mapCCTV);
             } else {
-                mapCCTV.getImgUrl().add(searchResult.getImageUrl());
+                mapCCTV.getImages().add(new MapCCTV.ImageUrlInfo(searchResult.getId(), searchResult.getImageUrl()));
             }
         }
         return new ArrayList<>(mapCCTVMap.values());
@@ -153,8 +154,8 @@ public class SearchResultService {
     private MapCCTV convertToMapCCTV(SearchResultEntity searchResult) {
         CCTVEntity cctvEntity = searchResult.getCctvEntity();
         Long cctvId = cctvEntity.getId();
-        List<Object> imgUrl = new ArrayList<>(); // imageUrl이 단일 URL 문자열이라고 가정합니다.
-        imgUrl.add(searchResult.getImageUrl());
+        List<MapCCTV.ImageUrlInfo> imgUrl = new ArrayList<>(); // imageUrl이 단일 URL 문자열이라고 가정합니다.
+        imgUrl.add(new MapCCTV.ImageUrlInfo(searchResult.getId(), searchResult.getImageUrl()));
         Point gps = cctvEntity.getGps();
         MapCCTV.LatLng latlng = new MapCCTV.LatLng(gps.getY(), gps.getX());
 

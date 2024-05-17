@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MapCCTV {
     Long id; //cctv id
-    List<Object> imgUrl;
+    List<ImageUrlInfo> images;
     LatLng latlng;
 
     @Data
@@ -20,6 +20,14 @@ public class MapCCTV {
     public static class LatLng {
         double lat;
         double lng;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ImageUrlInfo {
+        Long resultId;
+        String imgUrl;
     }
 
 }
