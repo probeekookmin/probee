@@ -121,11 +121,7 @@ public class MissingPeopleController {
             MissingPeopleCreateResponseDto createResponse = missingPeopleService.createMissingPeople(missingPeopleCreateRequestDto);
 
             //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-            // kafkaProducerService.startCallFirstDetectApiToKafka(Long.toString(createResponse.getId()));
             kafkaProducerService.startCallFirstDetectApiToKafka(createResponse.getId());
-
-            // 2차 모델 사용한다고 하면 주석 풀기
-            // kafkaProducerService.startCallSecondDetectApiToKafka(Long.toString(createResponse.getId()));
 
             //메시지 전송 (버그때문에 주석처리)
             smsService.sendRegistrationMessage(missingPeopleCreateRequestDto.getPhoneNumber(), missingPeopleCreateRequestDto.getMissingPeopleName(), createResponse.getId());
@@ -265,6 +261,7 @@ public class MissingPeopleController {
             return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(searchId)));
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
     }
 
     //지능형 탐색 시작하기
@@ -275,8 +272,8 @@ public class MissingPeopleController {
     ) {
         //Todo : 1차인지, 2차인지 고를 수 있어야 함
         //DB에 탐색 등록
-
-        searchHistoryService.createSearchHistory(searchRequestDto, id, Step.fromValue("first"));
+        Step step = Step.fromValue("first");
+        searchHistoryService.createSearchHistory(searchRequestDto, id, step);
         //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
 //        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
         // kafkaProducerService.startCallFirstDetectApiToKafka(id);

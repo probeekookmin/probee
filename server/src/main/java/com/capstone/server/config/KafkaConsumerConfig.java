@@ -36,6 +36,8 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, firstGroupId);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 12000000); // 200분
+        props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 12000000); // 200분
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new LongDeserializer());
     }
     
@@ -55,7 +57,8 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, secondGroupId);
-
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 12000000); // 200분
+        props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 12000000); // 200분
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(KafkaDto.class));
     }
     

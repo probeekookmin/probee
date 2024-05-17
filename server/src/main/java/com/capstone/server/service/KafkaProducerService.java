@@ -25,7 +25,9 @@ public class KafkaProducerService {
 
     // Detection 하는 Producer.
     public void startCallFirstDetectApiToKafka(Long id) {
+        System.out.println("************** PRODUCER 01 Start *************");
         this.kafkaLongTemplate.send(startCallFirstDetectApiTopicName, id);
+        System.out.println("************** PRODUCER 01 EXIT *************");
     }
 
     public void startCallSecondDetectApiToKafka(KafkaDto kafkaDto) {

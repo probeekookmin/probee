@@ -28,9 +28,11 @@ public class KafkaConsumerService {
     @Transactional
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01", containerFactory = "kafkaLongListenerContainerFactory")
     public void consumeStartCallFirstDetectionApi(Long id) {
-        // Long idValue = Long.valueOf(id);
+        System.out.println("************** Consumer01 FIRST Start *************");
         FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(id);
+        System.out.println("************** Consumer01 SECOND Start *************");
         detectService.postFirstDetectionResult(firstDetectionDataDto);
+        System.out.println("************** Consumer01 THIRD Start *************");
     }
 
     // TODO : 2차 모델 로직 추가 

@@ -66,9 +66,6 @@ public class MissingPeopleService {
             // 검색 기록 추가
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
-            System.out.println("-----------------------");
-            System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
-//            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
 
             return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
 
