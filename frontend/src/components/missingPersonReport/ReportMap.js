@@ -3,11 +3,18 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Button, Switch } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Button, FloatButton, Segmented, Switch, Tooltip } from "antd";
+import Icon, { CloseOutlined } from "@ant-design/icons";
 import CenterMarker from "../../assets/icons/centerMarker.svg";
+import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
+import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
 export const ReportMap = ({ start, end, searchRange, step1data }) => {
   const mapRef = useRef();
+  /*Overlay filter*/
+  const [showStep, setShowStep] = useState("1차 탐색");
+  const [showRange, setShowRange] = useState(true);
+
+  /*Marker State*/
   const [cctvState, setCctvState] = useState({});
   const [rangeState, setRangeState] = useState(true);
   const [rangePosition, setRangePosition] = useState({
@@ -125,7 +132,7 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
         level={5}
         style={{ width: "100%", height: "100%" }}
         isPanto={true}>
-        {rangeState && rangePosition.lat && rangePosition.lng && (
+        {showRange && rangePosition.lat && rangePosition.lng && (
           <>
             <Circle
               center={rangePosition}
@@ -176,9 +183,19 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
             ),
           )}
       </Map>
-      <FilterContainer>
-        <SwitchButton value={rangeState} onChange={() => setRangeState(!rangeState)} size="small" />
-      </FilterContainer>
+      <OverlayTopContainer>
+        <Segmented options={["1차 탐색", "이미지 선별", "2차 탐색"]} value={showStep} onChange={setShowStep} />
+      </OverlayTopContainer>
+      <OverlaySideContainer>
+        <OverlayTooltip placement="left" title={"탐색범위"} arrow={true}>
+          <SingleButton
+            onClick={() => {
+              setShowRange(!showRange);
+            }}>
+            {showRange ? <img src={ActivateRangeMarker} /> : <img src={DisabledRangeMarker} />}
+          </SingleButton>
+        </OverlayTooltip>
+      </OverlaySideContainer>
     </StReportMap>
   );
 };
@@ -256,6 +273,41 @@ const ItemImage = styled.img`
     width: 7.2rem;
     height: 11.9rem;
   }
+`;
+
+const OverlayTopContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  left: 1rem;
+`;
+
+const OverlaySideContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  right: 1rem;
+`;
+
+const OverlayTooltip = styled(Tooltip)``;
+
+const OverlayButtonStyle = `
+  display: flex;
+  border-radius: 0.5rem;
+background-color: white;`;
+
+const SingleButton = styled.div`
+  ${OverlayButtonStyle}
+
+  width: 3rem;
+  height: 3rem;
+  justify-content: center;
 `;
 
 const FilterContainer = styled.div`
