@@ -9,9 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BetweenRepository extends JpaRepository<BetweenEntity, Long> {
     @Query("SELECT sr FROM between bt JOIN bt.searchResult sr WHERE sr.searchHistoryEntity = :searchHistoryEntity ORDER BY sr.similarity DESC, sr.time DESC")
     Page<SearchResultEntity> findAllBySearchHistoryEntity(Pageable pageable, SearchHistoryEntity searchHistoryEntity);
 
+    List<BetweenEntity> findByMissingPeopleId(Long missingPeopleId);
 }
