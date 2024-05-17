@@ -172,6 +172,7 @@ public class MissingPeopleService {
     }
 
     //실종자 탐색단계 수정 todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
+    @Transactional
     public StepDto changeStep(Step step, Long missingPeopleId) {
         MissingPeopleEntity missingPeople = getMissingPeopleEntity(missingPeopleId);
         try {
