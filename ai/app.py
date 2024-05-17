@@ -63,20 +63,20 @@ class SecondInput(BaseModel):
 class SecondDetectResult(BaseModel):
     data : list
     secondSearchId : int
-@app.get('/')
-async def root():
-    input = TotalInput(cctvId = [CCTVInfo(id=1,longitude=1,latitude=1)],startTime='2021-09-01T000000',endTime='2021-09-01T000000',searchId=2222,missingPeopleId=2222,step="first",query="a woman wearinga red shirt and black pants. she has a long hair")
-    yolo_save_path= '/home/jongbin/Desktop/yolo/2222'
-    run_Yolo(input.cctvId,yolo_save_path,input.startTime)
-    result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
-    with open(result_json_dir, 'r') as file:
-        imgurl = json.load(file)
+# @app.get('/')
+# async def root():
+#     input = TotalInput(cctvId = [CCTVInfo(id=1,longitude=1,latitude=1)],startTime='2021-09-01T000000',endTime='2021-09-01T000000',searchId=2222,missingPeopleId=2222,step="first",query="a woman wearinga red shirt and black pants. she has a long hair")
+#     yolo_save_path= '/home/jongbin/Desktop/yolo/2222'
+#     run_Yolo(input.cctvId,yolo_save_path,input.startTime)
+#     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+#     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
+#     with open(result_json_dir, 'r') as file:
+#         imgurl = json.load(file)
     
-    print(imgurl[1:][0]["img_path"])
-    aa=SecondInput(missingPeopleId=input.missingPeopleId,firstSearchId=input.searchId,secondSearchId="2221", topK=20,queryImagePath = [imgurl[1:][0]["img_path"]]) 
-    print(aa)
-    await secondDetection(aa)
+#     print(imgurl[1:][0]["img_path"])
+#     aa=SecondInput(missingPeopleId=input.missingPeopleId,firstSearchId=input.searchId,secondSearchId="2221", topK=20,queryImagePath = [imgurl[1:][0]["img_path"]]) 
+#     print(aa)
+#     await secondDetection(aa)
     # run_Yolo(input.cctvId,yolo_save_path,input.startTime)
     # result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
     # await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
@@ -119,10 +119,10 @@ async def secondDetection(input:SecondInput):
             new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
             s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{new_file_name}"
             s3_url = upload_image_to_s3(local_output_path, s3_key)
-            a = {"img_path" : s3_url, "cctvId" : 1, "similarity" :0 } #todo : 버그수정
+            a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :output['score'] } #todo : 버그수정
             result.append(a)
             
-        print(result)
+        result = sorted(result,key = lambda x:x["score"])
     return DetectResult(searchId= input.secondSearchId, missingPeopleId= 1, data = result)
 
 async def runTextReID(input : TotalInput, yolo_save_path:str):
@@ -208,5 +208,7 @@ def upload_image_to_s3(local_path, s3_key):
     """
     로컬 경로의 이미지를 S3 버킷의 지정된 키에 업로드합니다.
     """
-    s3_client.upload_file(local_path, bucket_name, s3_key)
+    s3_client.upload_file(local_path, bucket_name, s3_key,ExtraArgs={
+        'ACL': 'public-read'  # 원하는 ACL 권한으로 설정
+    })
     return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
