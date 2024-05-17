@@ -302,7 +302,7 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
         />
       </OverlayTopContainer>
       <OverlaySideContainer>
-        <OverlayTooltip placement="left" title={"탐색범위"} arrow={true}>
+        <OverlayTooltip placement="left" title={"탐색범위"} color="rgba(1, 1, 1, 0.6)">
           <SingleButton
             onClick={() => {
               setShowRange(!showRange);
@@ -312,11 +312,13 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
         </OverlayTooltip>
         <GroupButton>
           <ButtonWrapper onClick={() => handleLevel("decrease")}>
-            <PlusOutlined />
+            <IconWrapper component={PlusOutlined} />
+            {/* <PlusOutlined /> */}
           </ButtonWrapper>
           <Divider style={{ margin: 0 }} />
           <ButtonWrapper onClick={() => handleLevel("increase")}>
-            <MinusOutlined />
+            {/* <MinusOutlined /> */}
+            <IconWrapper component={MinusOutlined} />
           </ButtonWrapper>
         </GroupButton>
       </OverlaySideContainer>
@@ -367,23 +369,6 @@ const ExplainText = styled.div`
   font-size: 1.2rem;
   color: #8b8b8b;
 `;
-// const ImageContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: center;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   height: 100%;
-//   overflow-y: auto;
-//   &::-webkit-scrollbar {
-//     width: 0.4rem;
-//   }
-//   &::-webkit-scrollbar-thumb {
-//     border-radius: 10rem;
-//     background: #8b8b8b;
-//   }
-// `;
 
 const ImageList = styled(List)`
   width: 100%;
@@ -482,6 +467,10 @@ const OverlayLocationWrapper = styled.div`
   opacity: 0.9;
 
   cursor: pointer;
+  &:hover {
+    color: rgba(0, 0, 0, 0.88);
+    opacity: 1;
+  }
 
   img {
     width: 2rem;
@@ -515,22 +504,12 @@ const OverlaySegmented = styled(Segmented)`
   }
 `;
 
-const FilterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  position: absolute;
-  z-index: 1;
-  float: right;
-  top: 1rem;
-  right: 1rem;
-  width: 7rem;
-  height: 10rem;
-
-  background-color: white;
-  border-radius: 1rem;
-`;
-
-const SwitchButton = styled(Switch)`
-  width: 3rem;
+const IconWrapper = styled(Icon)`
+  color: #555555;
+  &:focus {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  &:active {
+    color: rgba(0, 0, 0, 0.5);
+  }
 `;
