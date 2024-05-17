@@ -198,6 +198,7 @@ public class MissingPeopleService {
     }
 
     //프로필사진 경로 수정
+    @Transactional
     public void setProfileImagePath(Long missingPeopleId, String imagePath) {
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setProfileImage(imagePath);
