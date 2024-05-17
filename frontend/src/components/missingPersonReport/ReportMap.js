@@ -8,54 +8,76 @@ import Icon, { CloseOutlined } from "@ant-design/icons";
 import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
 import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
-export const ReportMap = ({ start, end, searchRange, step1data }) => {
+export const ReportMap = ({ start, end, searchRange, firstData, betweenData, secondData }) => {
   const mapRef = useRef();
+
   /*Overlay filter*/
-  const [showStep, setShowStep] = useState("1차 탐색");
+  const [showStep, setShowStep] = useState("first");
   const [showRange, setShowRange] = useState(true);
 
   /*Marker State*/
   const [cctvState, setCctvState] = useState({});
-  const [rangeState, setRangeState] = useState(true);
+  const [firstState, setFirstState] = useState(true);
+  const [betweenState, setBetweenState] = useState(false);
+  const [secondState, setSecondState] = useState(false);
+
+  /*position */
   const [rangePosition, setRangePosition] = useState({
     lat: 37.610826,
     lng: 126.994317,
   });
-  const [step1Position, setStep1Position] = useState([]);
-  const [betweenState, setBetweenState] = useState({});
-  const [step2State, setStep2State] = useState({});
-  const [step1State, setStep1State] = useState(true);
+  const [firstPosition, setFirstPosition] = useState([]);
+  const [betweenPosition, setBetweenPosition] = useState([]);
+  const [secondPosition, setSecondPosition] = useState([]);
 
   useEffect(() => {
-    console.log("ReportMap", step1data);
+    console.log("ReportMap", firstData);
     if (searchRange) {
       handleCenter();
     }
-    if (step1data) {
-      console.log("step1data", step1data);
-
-      console.log("rangePosition", rangePosition);
-
-      const processedData = step1data.reduce((acc, curr) => {
-        const existingCctvIndex = acc.findIndex((item) => item.id === curr.cctv.id);
-        if (existingCctvIndex !== -1) {
-          acc[existingCctvIndex].images.push({ resultId: curr.resultId, imgUrl: curr.imgUrl });
-        } else {
-          acc.push({
-            id: curr.cctv.id,
-            images: [{ resultId: curr.resultId, imgUrl: curr.imgUrl }],
-            latlng: { lat: curr.cctv.latitude, lng: curr.cctv.longitude },
-          });
-        }
-        return acc;
-      }, []);
-      setStep1Position(processedData);
+    if (firstData) {
+      const processedData = handleData(firstData);
+      console.log("processedData", processedData);
+      setFirstPosition(processedData);
+      setFirstState(true);
     }
-  }, [searchRange, step1data]);
+    if (betweenData) {
+      console.log("betweenData", betweenData);
+      const data = handleData(betweenData);
+      console.log("processedData", data);
+      setBetweenPosition(data);
+      setBetweenState(true);
+    }
+    if (secondData) {
+      console.log("secondData", secondData);
+      const data = handleData(secondData);
+      console.log("processedData", data);
+      setSecondPosition(data);
+      setSecondState(true);
+    }
+  }, [searchRange, firstData, betweenData, secondData]);
 
   useEffect(() => {
-    console.log("step1Position", step1Position);
-  }, [step1Position]);
+    console.log("step1Position", firstPosition);
+  }, [firstPosition]);
+
+  const handleData = (data) => {
+    console.log("handleData", data);
+    const processedData = data.reduce((acc, curr) => {
+      const existingCctvIndex = acc.findIndex((item) => item.id === curr.cctv.id);
+      if (existingCctvIndex !== -1) {
+        acc[existingCctvIndex].images.push({ resultId: curr.resultId, imgUrl: curr.imgUrl });
+      } else {
+        acc.push({
+          id: curr.cctv.id,
+          images: [{ resultId: curr.resultId, imgUrl: curr.imgUrl }],
+          latlng: { lat: curr.cctv.latitude, lng: curr.cctv.longitude },
+        });
+      }
+      return acc;
+    }, []);
+    return processedData;
+  };
 
   const handleCenter = () => {
     setRangePosition({
@@ -66,11 +88,12 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
     const map = mapRef.current;
     if (map) {
       console.log("markerPosition", rangePosition);
-      // map.setCenter(rangePosition);
       map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
       map.setLevel(5);
     }
   };
+
+  const handleDataFilter = () => {};
 
   const Item = ({ item }) => {
     return (
@@ -86,6 +109,12 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
   const EventMarkerContainer = ({ position, images, markerStyle }) => {
     const map = useMap();
     const [isVisible, setIsVisible] = useState(false);
+    const mapR = mapRef.current;
+    if (mapR) {
+      console.log("markerPosition", rangePosition);
+      map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
+      map.setLevel(5);
+    }
 
     return (
       <>
@@ -96,8 +125,6 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
             map.panTo(marker.getPosition());
             setIsVisible(true);
           }}
-          // onMouseOver={() => setIsVisible(true)}
-          // onMouseOut={() => setIsVisible(false)}
           image={{
             src: markerStyle, // 마커이미지의 주소입니다
             size: {
@@ -156,23 +183,13 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
             />
           </>
         )}
-        {step1State &&
-          step1Position &&
-          step1Position.map(
+        {showStep == "first" &&
+          firstState &&
+          firstPosition &&
+          firstPosition.map(
             (position) => (
               console.log("position", position),
               (
-                // <MapMarker
-                //   key={`step1-${position.id}`}
-                //   position={position.latlng}
-                //   image={{
-                //     src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
-                //     size: {
-                //       width: 24,
-                //       height: 35,
-                //     }, // 마커이미지의 크기입니다
-                //   }}
-                // />
                 <EventMarkerContainer
                   key={`step1-${position.id}`}
                   position={position.latlng}
@@ -182,9 +199,61 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
               )
             ),
           )}
+        {showStep == "between" &&
+          betweenState &&
+          betweenPosition &&
+          betweenPosition.map(
+            (position) => (
+              console.log("position", position),
+              (
+                <EventMarkerContainer
+                  key={`between-${position.id}`}
+                  position={position.latlng}
+                  images={position.images}
+                  markerStyle={"https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"}
+                />
+              )
+            ),
+          )}
+        {showStep == "second" &&
+          secondState &&
+          secondPosition &&
+          secondPosition.map(
+            (position) => (
+              console.log("position", position),
+              (
+                <EventMarkerContainer
+                  key={`second-${position.id}`}
+                  position={position.latlng}
+                  images={position.images}
+                  markerStyle={"https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"}
+                />
+              )
+            ),
+          )}
       </Map>
       <OverlayTopContainer>
-        <Segmented options={["1차 탐색", "이미지 선별", "2차 탐색"]} value={showStep} onChange={setShowStep} />
+        <Segmented
+          options={[
+            {
+              label: "1차 탐색",
+              value: "first",
+              disabled: firstState ? false : true,
+            },
+            {
+              label: "이미지 선별",
+              value: "between",
+              disabled: betweenState ? false : true,
+            },
+            {
+              label: "2차 탐색",
+              value: "second",
+              disabled: false,
+            },
+          ]}
+          value={showStep}
+          onChange={setShowStep}
+        />
       </OverlayTopContainer>
       <OverlaySideContainer>
         <OverlayTooltip placement="left" title={"탐색범위"} arrow={true}>

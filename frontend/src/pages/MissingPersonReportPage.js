@@ -11,7 +11,13 @@ import { IntelligentSearchOption } from "../components/reportIntelligent/Intelli
 import { IntelligentBasicInfo } from "../components/reportIntelligent/IntelligentBasicInfo";
 import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
-import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList, getSearchResultImg } from "../core/api";
+import {
+  getMissingPerson,
+  getMissingPeopleStep,
+  getSearchHistoryList,
+  getSearchResultImg,
+  getBetweenResultImg,
+} from "../core/api";
 import { useLocation } from "react-router-dom";
 import { ReportMain } from "../components/missingPersonReport/ReportMain";
 import { ReportIntelligent } from "../components/reportIntelligent/ReportIntelligent";
@@ -19,7 +25,9 @@ function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
   const [searchHistoryList, setSearchHistoryList] = useState([]);
-  const [step1data, setStep1data] = useState([]);
+  const [firstdata, setFirstdata] = useState([]);
+  const [betweenData, setBetweenData] = useState([]);
+  const [secondData, setSecondData] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   console.log("sssdfsadfsad location", location);
@@ -39,6 +47,7 @@ function MissingPersonReportPage() {
   useEffect(() => {
     console.log("useEffect", userId);
     fetchData();
+    fetchResultData();
   }, []);
 
   const fetchData = () => {
@@ -75,9 +84,20 @@ function MissingPersonReportPage() {
     getSearchHistoryList(userId).then((res) => {
       setSearchHistoryList(res.data);
     });
+  };
+
+  const fetchResultData = () => {
     getSearchResultImg(1, userId, "first").then((res) => {
-      console.log("step1data", res.data);
-      setStep1data(res.data);
+      console.log("firstData", res.data);
+      setFirstdata(res.data);
+    });
+    getBetweenResultImg(1, userId).then((res) => {
+      console.log("betweenData", res.data);
+      setBetweenData(res.data);
+    });
+    getSearchResultImg(1, userId, "second").then((res) => {
+      console.log("secondData", res.data);
+      setSecondData(res.data);
     });
   };
 
@@ -162,7 +182,9 @@ function MissingPersonReportPage() {
           data={missingPerson}
           step={step}
           history={searchHistoryList}
-          step1data={step1data}
+          firstdata={firstdata}
+          betweenData={betweenData}
+          secondData={secondData}
           onClick={scrollToIntelligent}
         />
       </StReport>
