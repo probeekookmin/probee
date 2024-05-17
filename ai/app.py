@@ -119,7 +119,7 @@ async def secondDetection(input:SecondInput):
             new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
             s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{new_file_name}"
             s3_url = upload_image_to_s3(local_output_path, s3_key)
-            a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :output['score'] } #todo : 버그수정
+            a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :output['score'] }
             result.append(a)
             
         result = sorted(result,key = lambda x:x["score"])
