@@ -261,7 +261,6 @@ public class MissingPeopleController {
             return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(searchId)));
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
-        return ResponseEntity.ok().body(new SuccessResponse(searchHistoryService.getSearchRangeById(id)));
     }
 
     //지능형 탐색 시작하기
