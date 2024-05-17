@@ -88,7 +88,7 @@ export const SeacrchBox = ({ title, form, name }) => {
                 <>
                   <Circle
                     center={markerPosition}
-                    radius={1000}
+                    radius={500}
                     strokeWeight={2} // 선의 두께입니다
                     strokeColor={"#1890ff"} // 선의 색깔입니다
                     strokeOpacity={0.5} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
