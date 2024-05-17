@@ -70,7 +70,7 @@ public class DetectService {
             return restTemplate.postForObject(url + "/run", request, FirstDetectionDataDto.class);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
-                throw new CustomException(ErrorCode.INVALID_REQUEST_DATA, e);
+                throw new CustomException(ErrorCode.INVALID_REQUEST_DATA);
             } else {
                 // 그 외의 서버 오류에 대한 처리
                 throw new CustomException(ErrorCode.AI_SERVER_ERROR, e);
