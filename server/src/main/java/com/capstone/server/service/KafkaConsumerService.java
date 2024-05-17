@@ -29,7 +29,7 @@ public class KafkaConsumerService {
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01", containerFactory = "kafkaLongListenerContainerFactory")
     public void consumeStartCallFirstDetectionApi(Long id) {
         System.out.println("************** Consumer01 FIRST Start *************");
-        FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(id);
+        FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(id); 
         System.out.println("************** Consumer01 SECOND Start *************");
         detectService.postFirstDetectionResult(firstDetectionDataDto);
         System.out.println("************** Consumer01 THIRD Start *************");
@@ -39,6 +39,10 @@ public class KafkaConsumerService {
     @Transactional
     @KafkaListener(topics = "start-call-second-detection-api", groupId = "consumer_group02",  containerFactory = "kafkaJsonListenerContainerFactory")
     public void consumeStartCallSecondDetectionApi(KafkaDto kafkaDto) {
-        detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
+        System.out.println("************** Consumer02 FIRST Start *************");
+        FirstDetectionDataDto firstDetectionDataDto = detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
+        System.out.println("************** Consumer02 SECOND Start *************");
+        detectService.postSecondDetectionResult(firstDetectionDataDto);
+        System.out.println("************** Consumer02 THIRD Start *************");
     }
 }
