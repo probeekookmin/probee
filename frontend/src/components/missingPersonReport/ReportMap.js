@@ -3,8 +3,8 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Button, FloatButton, Segmented, Switch, Tooltip } from "antd";
-import Icon, { CloseOutlined } from "@ant-design/icons";
+import { Button, Divider, FloatButton, Segmented, Switch, Tooltip } from "antd";
+import Icon, { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
 import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
@@ -93,6 +93,18 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
     }
   };
 
+  const handleLevel = (type) => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (type === "increase") {
+      map.setLevel(map.getLevel() + 1);
+    } else {
+      type === "decrease";
+      map.setLevel(map.getLevel() - 1);
+    }
+  };
+
   const handleDataFilter = () => {};
 
   const Item = ({ item }) => {
@@ -158,6 +170,7 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
         center={rangePosition} //{ lat: 37.610826, lng: 126.994317 }
         level={5}
         style={{ width: "100%", height: "100%" }}
+        zoomable={true}
         isPanto={true}>
         {showRange && rangePosition.lat && rangePosition.lng && (
           <>
@@ -264,6 +277,15 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
             {showRange ? <img src={ActivateRangeMarker} /> : <img src={DisabledRangeMarker} />}
           </SingleButton>
         </OverlayTooltip>
+        <GroupButton>
+          <ButtonWrapper onClick={() => handleLevel("increase")}>
+            <PlusOutlined />
+          </ButtonWrapper>
+          <Divider style={{ margin: 0 }} />
+          <ButtonWrapper onClick={() => handleLevel("decrease")}>
+            <MinusOutlined />
+          </ButtonWrapper>
+        </GroupButton>
       </OverlaySideContainer>
     </StReportMap>
   );
@@ -368,6 +390,7 @@ const OverlayTooltip = styled(Tooltip)``;
 
 const OverlayButtonStyle = `
   display: flex;
+  margin-bottom: 1rem;
   border-radius: 0.5rem;
 background-color: white;`;
 
@@ -379,6 +402,22 @@ const SingleButton = styled.div`
   justify-content: center;
 `;
 
+const GroupButton = styled.div`
+  ${OverlayButtonStyle}
+
+  width: 3rem;
+  height: 6rem;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 3rem;
+`;
 const FilterContainer = styled.div`
   display: flex;
   flex-direction: column;
