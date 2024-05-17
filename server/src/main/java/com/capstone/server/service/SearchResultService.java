@@ -58,6 +58,9 @@ public class SearchResultService {
     //탐색 단계로 detection 결과 받아오기
     public SearchResultResponse<? extends DetectionResultDto> getSearchResultByStep(long id, Step step, int page, int pageSize, SearchResultSortBy sortBy, Class<? extends DetectionResultDto> dtoClass) {
         SearchHistoryEntity searchHistory = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, step);
+        if (searchHistory == null) {
+            return new SearchResultResponse<>();
+        }
         Page<SearchResultEntity> searchResultPages = getSearchResultEntity(page, pageSize, sortBy, searchHistory);
         return makeResultResponse(searchResultPages, dtoClass, searchHistory);
     }
