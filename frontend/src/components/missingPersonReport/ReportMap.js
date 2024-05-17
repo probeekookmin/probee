@@ -1,12 +1,19 @@
+/*global kakao*/
+
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 import { Button, Switch } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import CenterMarker from "../../assets/icons/centerMarker.svg";
 export const ReportMap = ({ start, end, searchRange, step1data }) => {
+  const mapRef = useRef();
   const [cctvState, setCctvState] = useState({});
   const [rangeState, setRangeState] = useState(true);
-  const [rangePosition, setRangePosition] = useState([]);
+  const [rangePosition, setRangePosition] = useState({
+    lat: 37.610826,
+    lng: 126.994317,
+  });
   const [step1Position, setStep1Position] = useState([]);
   const [betweenState, setBetweenState] = useState({});
   const [step2State, setStep2State] = useState({});
@@ -14,13 +21,12 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
 
   useEffect(() => {
     console.log("ReportMap", step1data);
+    if (searchRange) {
+      handleCenter();
+    }
     if (step1data) {
       console.log("step1data", step1data);
 
-      setRangePosition({
-        lat: searchRange.latitude,
-        lng: searchRange.longitude,
-      });
       console.log("rangePosition", rangePosition);
 
       const processedData = step1data.reduce((acc, curr) => {
@@ -43,6 +49,21 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
   useEffect(() => {
     console.log("step1Position", step1Position);
   }, [step1Position]);
+
+  const handleCenter = () => {
+    setRangePosition({
+      lat: searchRange.latitude,
+      lng: searchRange.longitude,
+    });
+
+    const map = mapRef.current;
+    if (map) {
+      console.log("markerPosition", rangePosition);
+      // map.setCenter(rangePosition);
+      map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
+      map.setLevel(5);
+    }
+  };
 
   const Item = ({ item }) => {
     return (
@@ -98,7 +119,12 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
 
   return (
     <StReportMap>
-      <Map center={{ lat: 37.610826, lng: 126.994317 }} style={{ width: "100%", height: "100%" }}>
+      <Map
+        ref={mapRef}
+        center={rangePosition} //{ lat: 37.610826, lng: 126.994317 }
+        level={5}
+        style={{ width: "100%", height: "100%" }}
+        isPanto={true}>
         {rangeState && rangePosition.lat && rangePosition.lng && (
           <>
             <Circle
@@ -111,7 +137,16 @@ export const ReportMap = ({ start, end, searchRange, step1data }) => {
               fillColor={"#CFE7FF"} // 채우기 색깔입니다
               fillOpacity={0.6} // 채우기 불투명도 입니다
             />
-            <MapMarker position={rangePosition} />
+            <MapMarker
+              position={rangePosition}
+              image={{
+                src: CenterMarker, // 마커이미지의 주소입니다
+                size: {
+                  width: 20,
+                  height: 20,
+                }, // 마커이미지의 크기입니다
+              }}
+            />
           </>
         )}
         {step1State &&
