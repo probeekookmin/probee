@@ -6,6 +6,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import com.capstone.server.dto.CCTVDto;
@@ -37,6 +38,7 @@ public class CCTVController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<?> createCCTV(@RequestBody CCTVDto CCTVDto) {
         CCTVEntity createdCCTV = cctvRepository.save(CCTVDto.toEntity());
         return ResponseEntity.ok().body(new SuccessResponse(CCTVDto.fromEntity(createdCCTV)));
