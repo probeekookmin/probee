@@ -1,11 +1,13 @@
 package com.capstone.server.service;
 
+import com.capstone.server.dto.MapCCTV;
 import com.capstone.server.dto.SearchRangeDto;
 import com.capstone.server.dto.SearchResultDetailResponse;
 import com.capstone.server.dto.SearchResultResponse;
 import com.capstone.server.dto.detection.DetectionResultDetailDto;
 import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.exception.CustomException;
+import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 import com.capstone.server.model.SearchResultEntity;
 import com.capstone.server.model.enums.SearchResultSortBy;
@@ -14,6 +16,7 @@ import com.capstone.server.repository.BetweenRepository;
 import com.capstone.server.repository.MissingPeopleRepository;
 import com.capstone.server.repository.SearchHistoryRepository;
 import com.capstone.server.repository.SearchResultRepository;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +24,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.capstone.server.code.ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR;
+import static com.capstone.server.code.ErrorCode.NOT_FOUND;
 
 @Service
 public class SearchResultService {
@@ -126,4 +128,36 @@ public class SearchResultService {
         }
     }
 
+    //id와 step을 받아 해당 step 결과에 대해 좌표찍기
+    public List<MapCCTV> getSearchResultByHistoryId(Long missingPeopleId, Step step) {
+        Long searchHistoryId = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, step).getId();
+        if (searchHistoryId == null) {
+            throw new CustomException(NOT_FOUND, "data not found", "data no exit");
+        }
+        List<SearchResultEntity> searchResults = searchResultRepository.findAllBySearchHistoryEntityId(searchHistoryId);
+        Map<Long, MapCCTV> mapCCTVMap = new HashMap<>();
+        for (SearchResultEntity searchResult : searchResults) {
+            Long cctvId = searchResult.getCctvEntity().getId();
+            MapCCTV mapCCTV = mapCCTVMap.get(cctvId);
+
+            if (mapCCTV == null) {
+                mapCCTV = convertToMapCCTV(searchResult);
+                mapCCTVMap.put(cctvId, mapCCTV);
+            } else {
+                mapCCTV.getImgUrl().add(searchResult.getImageUrl());
+            }
+        }
+        return new ArrayList<>(mapCCTVMap.values());
+    }
+
+    private MapCCTV convertToMapCCTV(SearchResultEntity searchResult) {
+        CCTVEntity cctvEntity = searchResult.getCctvEntity();
+        Long cctvId = cctvEntity.getId();
+        List<Object> imgUrl = new ArrayList<>(); // imageUrl이 단일 URL 문자열이라고 가정합니다.
+        imgUrl.add(searchResult.getImageUrl());
+        Point gps = cctvEntity.getGps();
+        MapCCTV.LatLng latlng = new MapCCTV.LatLng(gps.getY(), gps.getX());
+
+        return new MapCCTV(cctvId, imgUrl, latlng);
+    }
 }

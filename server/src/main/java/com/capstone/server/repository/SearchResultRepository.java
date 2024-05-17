@@ -15,4 +15,5 @@ public interface SearchResultRepository extends JpaRepository<SearchResultEntity
 
     Page<SearchResultEntity> findAllBySearchHistoryEntity(Pageable pageable, SearchHistoryEntity searchHistoryEntity);
 
+    List<SearchResultEntity> findAllBySearchHistoryEntityId(Long searchHistoryId);
 }

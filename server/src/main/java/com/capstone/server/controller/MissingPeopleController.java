@@ -278,4 +278,12 @@ public class MissingPeopleController {
         // kafkaProducerService.startCallFirstDetectApiToKafka(id);
         return ResponseEntity.ok().body(new SuccessResponse());
     }
+
+    @GetMapping("/{id}/mapposition")
+    public ResponseEntity<?> getMapPosition(
+            @PathVariable Long id,
+            @RequestParam(required = false, value = "step") String s) {
+        Step step = Step.fromValue(s);
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
+    }
 }
