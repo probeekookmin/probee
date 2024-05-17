@@ -18,15 +18,14 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
   const [showRange, setShowRange] = useState(true);
 
   /*Marker State*/
-  const [cctvState, setCctvState] = useState({});
   const [firstState, setFirstState] = useState(true);
   const [betweenState, setBetweenState] = useState(false);
   const [secondState, setSecondState] = useState(false);
 
   /*position */
   const [rangePosition, setRangePosition] = useState({
-    lat: 37.610826,
-    lng: 126.994317,
+    lat: 37.410826,
+    lng: 126.894317,
   });
   const [firstPosition, setFirstPosition] = useState([]);
   const [betweenPosition, setBetweenPosition] = useState([]);
@@ -35,6 +34,10 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
   useEffect(() => {
     console.log("ReportMap", firstData);
     if (searchRange) {
+      setRangePosition({
+        lat: searchRange.latitude,
+        lng: searchRange.longitude,
+      });
       handleCenter();
     }
     if (firstData) {
@@ -83,19 +86,13 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
   };
 
   const handleCenter = () => {
-    setRangePosition({
-      lat: searchRange.latitude,
-      lng: searchRange.longitude,
-    });
-
     const map = mapRef.current;
     if (map) {
       console.log("markerPosition", rangePosition);
       map.setCenter(new kakao.maps.LatLng(rangePosition.lat, rangePosition.lng));
-      map.setLevel(5);
+      map.setLevel(4);
     }
     console.log("handleCenter", rangePosition);
-    // handleLocation();
   };
 
   const handleLevel = (type) => {
@@ -166,17 +163,10 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
                 <Button type="link" icon={<CloseOutlined />} onClick={() => setIsVisible(false)}></Button>
               </TopContainer>
               <ExplainText>탐색 결과는 최신순으로 정렬됩니다.</ExplainText>
-              {/* <ImageContainer> */}
-              {/* {images && images.map((item) => <Item key={item.resultId} item={item} />)} */}
+
               <ImageList
                 grid={{
                   gutter: 8,
-                  // xs: 1,
-                  // sm: 2,
-                  // md: 4,
-                  // lg: 4,
-                  // xl: 8,
-                  // xxl: 8,
                 }}
                 pagination={{
                   onChange: (page) => {
@@ -187,14 +177,8 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
                   position: "bottom",
                 }}
                 dataSource={images}
-                renderItem={(item) => (
-                  // <List.Item>
-                  //   <Card title={item.title}>Card content</Card>
-                  // </List.Item>
-                  <Item key={item.resultId} item={item} />
-                )}
+                renderItem={(item) => <Item key={item.resultId} item={item} />}
               />
-              {/* </ImageContainer> */}
             </ContentsContainer>
           </CustomOverlayMap>
         )}
@@ -216,21 +200,21 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
             <Circle
               center={rangePosition}
               radius={500}
-              strokeWeight={2} // 선의 두께입니다
-              strokeColor={"#1890ff"} // 선의 색깔입니다
-              strokeOpacity={0.5} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-              strokeStyle={"line"} // 선의 스타일 입니다
-              fillColor={"#CFE7FF"} // 채우기 색깔입니다
-              fillOpacity={0.6} // 채우기 불투명도 입니다
+              strokeWeight={2} // 선의 두께
+              strokeColor={"#1890ff"} // 선의 색상
+              strokeOpacity={0.5} // 선의 불투명도, 1~0, 0에 가까울수록 투명
+              strokeStyle={"line"} // 선의 스타일
+              fillColor={"#CFE7FF"} // 채우기 색상
+              fillOpacity={0.6} // 채우기 불투명도
             />
             <MapMarker
               position={rangePosition}
               image={{
-                src: CenterMarker, // 마커이미지의 주소입니다
+                src: CenterMarker, // 마커이미지의 주소
                 size: {
                   width: 20,
                   height: 20,
-                }, // 마커이미지의 크기입니다
+                }, // 마커이미지의 크기
               }}
             />
           </>
@@ -308,7 +292,10 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
             },
           ]}
           value={showStep}
-          onChange={setShowStep}
+          onChange={(value) => {
+            setShowStep(value);
+            handleCenter();
+          }}
         />
       </OverlayTopContainer>
       <OverlaySideContainer>
