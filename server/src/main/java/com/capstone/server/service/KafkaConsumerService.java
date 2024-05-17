@@ -1,6 +1,5 @@
 package com.capstone.server.service;
 
-import com.capstone.server.dto.KafkaDto;
 import com.capstone.server.dto.detection.FirstDetectionDataDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
 import lombok.extern.slf4j.Slf4j;
@@ -26,19 +25,22 @@ public class KafkaConsumerService {
 
     // 사용 중 
     @Transactional
-    @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01", containerFactory = "kafkaLongListenerContainerFactory")
-    public void consumeStartCallFirstDetectionApi(Long id) {
-        System.out.println("************** Consumer01 FIRST Start *************");
-        FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(id);
-        System.out.println("************** Consumer01 SECOND Start *************");
+    @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01") // return 하지 않음. 
+    public void consumeStartCallFirstDetectionApi(String id) {
+        // TODO : 로직 추가 
+        Long idValue = Long.valueOf(id);
+        FirstDetectionDataDto firstDetectionDataDto = detectService.callFirstDetectAPI(idValue);
         detectService.postFirstDetectionResult(firstDetectionDataDto);
-        System.out.println("************** Consumer01 THIRD Start *************");
+
+        // 만약 2차 모델을 사용한다고 하면 주석 풀기
+        // kafkaProducerService.startCallSecondDetectApiToKafka(id);
     }
 
     // TODO : 2차 모델 로직 추가 
     @Transactional
-    @KafkaListener(topics = "start-call-second-detection-api", groupId = "consumer_group02",  containerFactory = "kafkaJsonListenerContainerFactory")
-    public void consumeStartCallSecondDetectionApi(KafkaDto kafkaDto) {
-        detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
+    @KafkaListener(topics = "start-call-second-detection-api", groupId = "consumer_group01") // return 하지 않음. 
+    public void consumeStartCallSecondDetectionApi(BetweenRequestDto betweenRequestDto, String id) {
+        // TODO : 로직 추가 
+        System.out.println("SECOND CONSUMER");
     }
 }

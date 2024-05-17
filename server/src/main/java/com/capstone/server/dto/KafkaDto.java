@@ -1,6 +1,5 @@
 package com.capstone.server.dto;
 
-import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
 
@@ -14,15 +13,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KafkaDto {
-    private Long id;
-    private BetweenRequestDto betweenRequestDto;
-    private Long searchId;
+    private Long missingPeopleId;
+    private Long searchHistoryId;
+    private double longitude;
+    private double latitude;
 
-    public static KafkaDto toKafkaDto(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
+    public static KafkaDto fromEntity(MissingPeopleEntity missingPeopleEntity, SearchHistoryEntity searchHistoryEntity) {
         KafkaDto kafkaDto = new KafkaDto();
-        kafkaDto.setId(id);
-        kafkaDto.setBetweenRequestDto(betweenRequestDto);
-        kafkaDto.setSearchId(searchId);
+        kafkaDto.setMissingPeopleId(missingPeopleEntity.getId());
+        kafkaDto.setSearchHistoryId(searchHistoryEntity.getId());
+        kafkaDto.setLongitude(searchHistoryEntity.getLongitude());
+        kafkaDto.setLatitude(searchHistoryEntity.getLatitude());
         return kafkaDto;
     }
 }
