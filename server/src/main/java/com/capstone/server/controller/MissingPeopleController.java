@@ -50,6 +50,8 @@ public class MissingPeopleController {
     private SearchHistoryService searchHistoryService;
     @Autowired
     private ChatGPTService chatGPTService;
+    @Autowired
+    private BetweenService betweenService;
 
     @GetMapping("")
     public ResponseEntity<?> getMissingPeopleList(
@@ -280,5 +282,15 @@ public class MissingPeopleController {
 //        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
         // kafkaProducerService.startCallFirstDetectApiToKafka(id);
         return ResponseEntity.ok().body(new SuccessResponse());
+    }
+
+    @GetMapping("/{id}/mapposition")
+    public ResponseEntity<?> getMapPosition(
+            @PathVariable Long id,
+            @RequestParam(required = false, value = "step") String s) {
+        Step step = Step.fromValue(s);
+        if (s.equals("between"))
+            return ResponseEntity.ok().body(new SuccessResponse(betweenService.getSearchResultsByMissingPeopleId(id)));
+        return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
     }
 }
