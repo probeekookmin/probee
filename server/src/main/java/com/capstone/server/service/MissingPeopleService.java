@@ -66,9 +66,6 @@ public class MissingPeopleService {
             // 검색 기록 추가
             missingPeopleEntity.addSearchHistoryEntities(searchHistoryEntity);
             MissingPeopleEntity savedMissingPeopleEntity = missingPeopleRepository.save(missingPeopleEntity);
-            System.out.println("-----------------------");
-            System.out.println(savedMissingPeopleEntity.getSearchHistoryEntities().get(0).getId());
-//            kafkaProducerService.startSearchingToKafka(KafkaDto.fromEntity(savedMissingPeopleEntity, savedMissingPeopleEntity.getSearchHistoryEntities().get(0)));
 
             return MissingPeopleCreateResponseDto.fromEntity(savedMissingPeopleEntity);
 
@@ -175,6 +172,7 @@ public class MissingPeopleService {
     }
 
     //실종자 탐색단계 수정 todo : (필요에따라서) 탐색단계를 뒤로 못가게 해야함.
+    @Transactional
     public StepDto changeStep(Step step, Long missingPeopleId) {
         MissingPeopleEntity missingPeople = getMissingPeopleEntity(missingPeopleId);
         try {
@@ -201,6 +199,7 @@ public class MissingPeopleService {
     }
 
     //프로필사진 경로 수정
+    @Transactional
     public void setProfileImagePath(Long missingPeopleId, String imagePath) {
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setProfileImage(imagePath);
@@ -220,8 +219,6 @@ public class MissingPeopleService {
 
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setQuery(querys.get(0));
-        // // missingPeopleEntity.setKoQuery(querys.get(1));
-        // missingPeopleRepository.save(missingPeopleEntity);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

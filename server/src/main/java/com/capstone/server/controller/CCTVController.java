@@ -15,6 +15,8 @@ import com.capstone.server.repository.CCTVRepository;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.CCTVService;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 @RestController
@@ -36,6 +38,7 @@ public class CCTVController {
         return ResponseEntity.ok().body(CCTVList);
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<?> createCCTV(@RequestBody CCTVDto CCTVDto) {
         CCTVEntity createdCCTV = cctvRepository.save(CCTVDto.toEntity());
