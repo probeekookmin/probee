@@ -46,6 +46,7 @@
 8. [기대효과](#기대효과)
 9. [관련문서](#관련문서)
 
+
 ## 프로젝트 소개
 
 <div align="center"> 
@@ -64,6 +65,7 @@ Pro_bee의 이용자는 경찰과 보호자, 둘로 나뉩니다. 경찰은 관�
 
 Pro_bee는 실종 경보 문자를 대체하고, 실종자 탐색 과정의 일부를 인공지능으로 대체함으로써 잦은 재난 문자로 인한 시민들의 피로감을 낮추고, 실종자 수색이 빠르고 효율적으로 이루어질 수 있도록 합니다.
 
+
 ## Abstract
 
 ```
@@ -76,12 +78,21 @@ The users of Pro_bee are divided into police officers and guardians. The police 
 
 Pro_bee replaces the need for missing person alert messages and automates parts of the search process with artificial intelligence. This reduces the fatigue caused by frequent disaster alerts among citizens and ensures that the search for missing persons is conducted more quickly and efficiently.
 
+
 ## 주요기능
 
--   인공지능을 활용한 CCTV 영상 분석
--   의뢰인과의 상호작용
+**인공지능을 활용한 두 단계 탐색**
+실종자의 성별, 나이, 인상착의 등의 텍스트 정보를 바탕으로 1차 탐색을 진행한 후, 보호자에 의해 선택된 이미지에 대하여 이미지와 유사한 사람을 찾는 2차 탐색을 진행합니다.
+<br>
+
+**실종자 탐색 프로세스에서의 보호자 참여**
+텍스트 정보를 바탕으로 찾은 결과에 대해 보호자의 확인을 거칩니다. 보호자는 결과 이미지 중 실종자와 유사하다고 판단되는 이미지를 선택하여 제출합니다. 해당 선택을 바탕으로 2차 탐색이 진행됩니다.
+<br>
+
 
 ## 소개영상
+
+*해당 위치에 영상 첨부*
 
 ## 디자인
 
