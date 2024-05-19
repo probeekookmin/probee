@@ -246,16 +246,10 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 
 ## 관련문서
 
-### 중간 발표자료
-
-<div style="display: flex; justify-content: center; align-items: center;">
-    <a align = "center" href = "https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/45b5fbdb-6789-49d5-88b0-24ad95240fb3" alt = "middlePPT" width="80%">
-    </a>
-    
-</div>
-
-### 중간 보고서
-
--   [중간보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
--   [회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
+[중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
+[중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
+시연 동영상
+포스터
+[최종 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EYE8CAkp8dtJoZCEUD7ouS0BLVE5dqfoT0zpGGJcZOGsqQ?e=xJ3ThE)
+[결과 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/nobin313_kookmin_kr/ET0PsewLTgxPr8nzA-LSBrUBYQofkCpti-cj9dpEHLhjeg?e=wuc5Cv)
+[회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
