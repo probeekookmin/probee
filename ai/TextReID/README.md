@@ -22,6 +22,7 @@ python3 test_net.py \
 --checkpoint-file output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth \
 --data-dir datasets/cuhkpedes \
 --query "a man wearing a white black top and white pants"
+--top-k 10
 # 코드 안에서 QUERY를 받게 바꿨음
 ```
 
