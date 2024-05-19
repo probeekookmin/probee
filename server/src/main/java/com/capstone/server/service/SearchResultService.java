@@ -28,7 +28,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.capstone.server.code.ErrorCode.DATA_INTEGRITY_VALIDATION_ERROR;
-import static com.capstone.server.code.ErrorCode.NOT_FOUND;
 
 @Service
 public class SearchResultService {
@@ -132,7 +131,7 @@ public class SearchResultService {
     public List<MapCCTV> getSearchResultByHistoryId(Long missingPeopleId, Step step) {
         SearchHistoryEntity searchResultEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, step);
         if (searchResultEntity == null) {
-            throw new CustomException(NOT_FOUND, "data not found", "data no exit");
+            return new ArrayList<>();
         }
         Long searchHistoryId = searchResultEntity.getId();
         List<SearchResultEntity> searchResults = searchResultRepository.findAllBySearchHistoryEntityId(searchHistoryId);
