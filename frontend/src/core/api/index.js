@@ -110,13 +110,13 @@ export const getSearchHistoryList = async (id) => {
   return data;
 };
 
-/* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색 (Get)*/
-export const getSearchResultImg = async (page, id, step, search_id) => {
+/* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색, 추가 탐색 (Get)*/
+export const getSearchResultImg = async (page, id, step, search_id, size) => {
   console.log("getSearchResultImg", id, step, search_id);
 
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=6${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=${size ? size : 6}${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
       {
         headers: { "Content-Type": "application/json" },
       },

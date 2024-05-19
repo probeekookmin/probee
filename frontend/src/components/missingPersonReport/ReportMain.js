@@ -15,6 +15,7 @@ export const ReportMain = ({
   betweenData,
   secondData,
   onClick,
+  handleClickList,
   firstCCTVData,
   betweenCCTVData,
   secondCCTVData,
@@ -42,7 +43,7 @@ export const ReportMain = ({
             <BasicInfo data={data} />
           </Container1>
           <Container2>
-            <IntelligentReportList history={history} onClick={onClick} />
+            <IntelligentReportList history={history} onClick={onClick} handleClickList={handleClickList} />
           </Container2>
         </ContainerLeft>
         <ContainerRight>

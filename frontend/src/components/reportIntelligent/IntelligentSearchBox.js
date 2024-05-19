@@ -7,18 +7,23 @@ import DaumPostcode from "react-daum-postcode";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 
 // 지능형 탐색 - 도로명 주소 검색
-export const IntelligentSeacrchBox = ({ title, form, name, getLocation }) => {
+export const IntelligentSeacrchBox = ({ title, form, name, getLocation, location }) => {
   const mapRef = useRef();
   const [openPostcode, setOpenPostcode] = useState(false);
-
-  const [location, setLocation] = useState("");
+  const [inputLocation, setInputLocation] = useState(location);
   const [markerPosition, setMarkerPosition] = useState({});
+
   useEffect(() => {
-    console.log("selectAddress", location);
-    if (location) {
+    console.log("location", location);
+    setInputLocation(location);
+  }, [location]);
+
+  useEffect(() => {
+    console.log("selectAddress", inputLocation);
+    if (inputLocation) {
       handleGeocoder();
     }
-  }, [location]);
+  }, [inputLocation]);
 
   const handle = {
     // 버튼 클릭 이벤트
@@ -28,7 +33,7 @@ export const IntelligentSeacrchBox = ({ title, form, name, getLocation }) => {
 
     // 주소 선택 이벤트
     selectAddress: (data) => {
-      setLocation(data.address);
+      setInputLocation(data.address);
       form.setFieldsValue({ [name]: data.address }); // 주소 정보를 Form.Item에 직접 설정
       // setOpenPostcode(false);
     },
@@ -62,7 +67,7 @@ export const IntelligentSeacrchBox = ({ title, form, name, getLocation }) => {
   return (
     <StSearchBox>
       <SearchBoxContainer onClick={handle.clickButton}>
-        <SearchInput placeholder="도로명주소" variant="borderless" value={location ?? location} />
+        <SearchInput placeholder="도로명주소" variant="borderless" value={inputLocation ?? ""} />
         <SearchIconWrapper>
           <SearchOutlined style={{ color: "#00000060" }} />
         </SearchIconWrapper>

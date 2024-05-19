@@ -3,6 +3,7 @@ import { Row, Col, Typography, Form, Button, DatePicker, TimePicker } from "antd
 import moment from "moment";
 import { SeacrchBox } from "../common/SearchBox";
 import { IntelligentSeacrchBox } from "./IntelligentSearchBox";
+import { useEffect, useState } from "react";
 const { RangePicker } = DatePicker;
 
 const config = {
@@ -24,8 +25,16 @@ const rangeConfig = {
   ],
 };
 
-export const IntelligentSearchOption = ({ form, name, getLocation }) => {
+export const IntelligentSearchOption = ({ form, name, getLocation, location }) => {
   // const [form] = Form.useForm();
+  // const [inputLocation, setInputLocation] = useState(location ?? "");
+  console.log("IntelligentSearchOption", location);
+  // useEffect(() => {
+  //   if (location) {
+  //     console.log("IntelligentSearchOption", location);
+  //     setInputLocation(location);
+  //   }
+  // }, [location]);
 
   return (
     <StIntelligentSearchOption>
@@ -42,7 +51,13 @@ export const IntelligentSearchOption = ({ form, name, getLocation }) => {
         />
       </InputItem>
       <InputItem name="searchLocation" label="위치" {...config} colon={false} className="form-custom">
-        <IntelligentSeacrchBox title={"탐색 위치"} form={form} name="searchLocation" getLocation={getLocation} />
+        <IntelligentSeacrchBox
+          title={"탐색 위치"}
+          form={form}
+          name="searchLocation"
+          getLocation={getLocation}
+          location={location}
+        />
       </InputItem>
       <InputItem>
         <ButtonWrapper type="primary" htmlType="submit">

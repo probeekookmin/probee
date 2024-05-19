@@ -32,6 +32,8 @@ function MissingPersonReportPage() {
   const [firstCCTVData, setFirstCCTVData] = useState([]);
   const [betweenCCTVData, setBetweenCCTVData] = useState([]);
   const [secondCCTVData, setSecondCCTVData] = useState([]);
+  const [clickData, setClickData] = useState([]); //클릭한 리스트 데이터
+  const [clickId, setClickId] = useState(); //클릭한 리스트 아이디
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   console.log("sssdfsadfsad location", location);
@@ -121,17 +123,13 @@ function MissingPersonReportPage() {
     });
   };
 
-  /*지능형 탐색 시작하기 버튼 */
-  const ReportStartBtn = () => {
-    return (
-      <StReportStartBtn onClick={scrollToIntelligent}>
-        <ReportStartBtnLeft>
-          <ReconciliationOutlined style={{ fontSize: "2rem", color: "#1890FF" }} />
-          <p>지능형 탐색</p>
-        </ReportStartBtnLeft>
-        <a> 시작하기</a>
-      </StReportStartBtn>
-    );
+  const handleClickList = (id) => {
+    getSearchResultImg(1, userId, "", id, 8).then((res) => {
+      console.log("clickData", res.data);
+      setClickData(res.data);
+      setClickId(id);
+    });
+    scrollToIntelligent();
   };
 
   return (
@@ -145,13 +143,14 @@ function MissingPersonReportPage() {
           betweenData={betweenData}
           secondData={secondData}
           onClick={scrollToIntelligent}
+          handleClickList={handleClickList}
           firstCCTVData={firstCCTVData}
           betweenCCTVData={betweenCCTVData}
           secondCCTVData={secondCCTVData}
         />
       </StReport>
       <StReport>
-        <ReportIntelligent data={missingPerson} />
+        <ReportIntelligent data={missingPerson} clickData={clickData} clickId={clickId} />
       </StReport>
     </StMissingPersonReportPage>
   );
@@ -168,31 +167,6 @@ const StMissingPersonReportPage = styled.div`
   scrollbar-width: none;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-`;
-
-const StReportStartBtn = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  width: 100%;
-  height: 5.2rem;
-  padding: 0rem 0.94rem;
-  border-radius: 0.3rem;
-  background-color: #f0f3ff;
-`;
-
-const ReportStartBtnLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-
-  p {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
 `;
 
 const StReport = styled.div`

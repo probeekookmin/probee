@@ -1,19 +1,56 @@
+/*global kakao*/
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Form, Row } from "antd";
 import { IntelligentSearchOption } from "./IntelligentSearchOption";
 import { IntelligentBasicInfo } from "./IntelligentBasicInfo";
 import { IntelligentMap } from "./IntelligentMap";
 import { IntelligentSearchResult } from "./IntelligentSearchResult";
 import { postIntelligentSearch } from "../../core/api";
+import moment from "moment";
 
-export const ReportIntelligent = ({ data }) => {
+export const ReportIntelligent = ({ data, clickData, clickId }) => {
   const [form] = Form.useForm();
   const [latlng, setLatlng] = useState({});
+  const [location, setLocation] = useState("");
+
+  useEffect(() => {
+    if (clickData && Object.keys(clickData).length > 0) {
+      console.log("clickData", clickData);
+      const start = moment(clickData.startTime, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm");
+      const end = moment(clickData.endTime, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm");
+      setLatlng({ lat: clickData.searchRange.latitude, lng: clickData.searchRange.longitude });
+
+      form.setFieldsValue({
+        searchPeriod: [moment(start, "YYYY-MM-DD HH:mm"), moment(end, "YYYY-MM-DD HH:mm")],
+        searchLocation: location,
+      });
+    }
+  }, [clickData]);
+
+  useEffect(() => {
+    handleLocation();
+  }, [latlng]);
 
   const getLocation = (latlng) => {
     setLatlng(latlng);
     console.log("latlng", latlng);
+  };
+
+  const handleLocation = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    var coord = new kakao.maps.LatLng(latlng.lat, latlng.lng);
+
+    var callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        console.log("handleLocation", result);
+        if (result[0].road_address) {
+          setLocation(result[0].road_address.address_name);
+        }
+        console.log("location", location);
+      }
+    };
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
   const onFinish = (fieldsValue) => {
@@ -34,7 +71,12 @@ export const ReportIntelligent = ({ data }) => {
       <ContainerTop>
         <ContainerLeft>
           <InputForm form={form} onFinish={onFinish}>
-            <IntelligentSearchOption form={form} name={data.missingPeopleName} getLocation={getLocation} />
+            <IntelligentSearchOption
+              form={form}
+              name={data.missingPeopleName}
+              getLocation={getLocation}
+              location={location}
+            />
           </InputForm>
         </ContainerLeft>
         <ContainerRight>
@@ -43,10 +85,10 @@ export const ReportIntelligent = ({ data }) => {
       </ContainerTop>
       <ContainerBottom>
         <ContainerLeft>
-          <IntelligentMap />
+          <IntelligentMap searchRange={latlng} location={location} />
         </ContainerLeft>
         <ContainerRight>
-          <IntelligentSearchResult />
+          <IntelligentSearchResult userId={data.id} resultData={clickData} resultId={clickId} />
         </ContainerRight>
       </ContainerBottom>
     </StReportIntelligent>

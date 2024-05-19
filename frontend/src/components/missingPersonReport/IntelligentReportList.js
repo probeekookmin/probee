@@ -2,7 +2,7 @@ import { Button, Typography } from "antd";
 import styled from "styled-components";
 import { ReportList } from "./ReportList";
 
-export const IntelligentReportList = ({ history, onClick }) => {
+export const IntelligentReportList = ({ history, onClick, handleClickList }) => {
   const MoveButton = ({ onClick }) => {
     return (
       <ButtonContainer onClick={onClick}>
@@ -18,7 +18,7 @@ export const IntelligentReportList = ({ history, onClick }) => {
     <StIntelligentReportList>
       {/* <Title>지능형 탐색</Title> */}
       <MoveButton onClick={onClick} />
-      <ReportList history={history} />
+      <ReportList history={history} handleClickList={handleClickList} />
     </StIntelligentReportList>
   );
 };
