@@ -50,12 +50,12 @@
 
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/862268e3-74b1-4fc9-93f9-a67953c64f24">
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8c6823b7-e9e1-4880-a453-382fac53e87c" width = "70%"/>
     </p>
 </div>
 
 ```
-**인공지능을 활용한 실종자 탐색 서비스**
+인공지능을 활용한 실종자 탐색 서비스
 ```
 
 본 프로젝트, Pro_bee는 실종 신고가 접수되었을 때 인공지능을 활용하여 CCTV 영상을 분석하고, 수색 범위를 좁혀 골든타임을 확보하는 것이 목표입니다.
@@ -67,7 +67,7 @@ Pro_bee는 실종 경보 문자를 대체하고, 실종자 탐색 과정의 일�
 ## Abstract
 
 ```
-**Missing Person Search Service by using AI**
+Missing Person Search Service by using AI
 ```
 
 The project "Pro_bee" aims to utilize artificial intelligence to analyze CCTV footage and narrow down the search area when a missing person report is received, thus securing the golden time for finding the missing person.
