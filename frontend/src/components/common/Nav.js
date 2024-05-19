@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import { DesktopOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 import { Outlet, Link, useLocation } from "react-router-dom";
@@ -14,11 +14,9 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  //getItem(<Link to="/">Option 1</Link>, "1", <PieChartOutlined />),
   getItem(<Link to="/list">실종자 리스트</Link>, "2", <DesktopOutlined />),
   getItem(<Link to="/report">실종자 리포트</Link>, "3", <UserOutlined />),
   getItem(<Link to="/add">실종정보 등록</Link>, "4", <TeamOutlined />),
-  // getItem("Option 5", "5", <FileOutlined />),
 ];
 
 const Nav = () => {
