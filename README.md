@@ -97,7 +97,7 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 ## 페이지 안내
 
 **경찰 측 화면**
-- 실종 정보 등록
+- **실종 정보 등록**
     + 실종자 및 보호자 정보 등록
     + 탐색 기간 및 위치 설정
     + 정보 입력 시 안내사항
@@ -105,7 +105,8 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
     <img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
 </div>
 <br/>
-- 실종자 리포트 (메인)
+
+- **실종자 리포트 (메인)**
     + 실종자 정보
     + 지도 (단계 별 CCTV 위치 및 검출 결과 확인)
     + 진행 현황
@@ -115,7 +116,8 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
         <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
 <br/>
-- 실종자 리포트 (지능형 탐색)
+
+- **실종자 리포트 (지능형 탐색)**
     + 탐색 기간 및 위치 재설정 (채워져 있음)
     + 지도 (해당 단계 CCTV 위치 및 검출 결과 확인)
 <div align="center">
@@ -124,11 +126,11 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <br/>
 
 **보호자 측 화면**
-- 메인
+- **메인**
     + 실종자 정보 확인 및 사진 추가 가능
     + 실시간 진행 단계 안내
     + 도움말
-- 이미지 선별
+- **이미지 선별**
     + 보호자 선택 이미지
     + 1차 탐색 결과
 <div align="center">
