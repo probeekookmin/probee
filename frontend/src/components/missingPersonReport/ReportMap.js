@@ -9,8 +9,11 @@ import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
 import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
 import LocationMarker from "../../assets/icons/locationMarker.svg";
-import CCTVMarker from "../../assets/icons/cctvMarker_y.svg";
-import { getCCTVResult } from "../../core/api";
+import CCTVMarker from "../../assets/icons/cctvMarker_yy.svg";
+import CCTVMarkerBlue from "../../assets/icons/cctvMarker_b.svg";
+import CCTVMarkerDisabled from "../../assets/icons/Marker_d.svg";
+
+/*실종자 리포트 맵 컴포넌트 */
 export const ReportMap = ({ start, end, searchRange, step, firstData, betweenData, secondData }) => {
   const mapRef = useRef();
   const [location, setLocation] = useState("");
@@ -32,6 +35,7 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
   const [firstPosition, setFirstPosition] = useState([]);
   const [betweenPosition, setBetweenPosition] = useState([]);
   const [secondPosition, setSecondPosition] = useState([]);
+  const [filterPosition, setFilterPosition] = useState([]);
 
   useEffect(() => {
     console.log("ReportMap", firstData);
@@ -43,29 +47,20 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
       handleCenter();
     }
     if (firstData) {
-      // const processedData = handleData(firstData);
-      // console.log("processedData", processedData);
-      // setFirstPosition(processedData);
       setFirstPosition(firstData);
-
       setFirstState(true);
     }
     if (betweenData) {
       console.log("betweenData", betweenData);
-      // const data = handleData(betweenData);
-      // console.log("processedData", data);
-      // setBetweenPosition(data);
       setBetweenPosition(betweenData);
-
+      const excludedIds = new Set(betweenData.map((item) => item.id));
+      const filteredMarkers = firstData.filter((marker) => !excludedIds.has(marker.id));
+      setFilterPosition(filteredMarkers);
       setBetweenState(true);
     }
     if (secondData) {
       console.log("secondData", secondData);
-      // const data = handleData(secondData);
-      // console.log("processedData", data);
-      // setSecondPosition(data);
       setSecondPosition(secondData);
-
       setSecondState(true);
     }
   }, [searchRange, firstData, betweenData, secondData]);
@@ -74,24 +69,6 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
     console.log("step1Position", firstPosition);
     handleLocation();
   }, [rangePosition]);
-
-  const handleData = (data) => {
-    console.log("handleData", data);
-    const processedData = data.reduce((acc, curr) => {
-      const existingCctvIndex = acc.findIndex((item) => item.id === curr.cctv.id);
-      if (existingCctvIndex !== -1) {
-        acc[existingCctvIndex].images.push({ resultId: curr.resultId, imgUrl: curr.imgUrl });
-      } else {
-        acc.push({
-          id: curr.cctv.id,
-          images: [{ resultId: curr.resultId, imgUrl: curr.imgUrl }],
-          latlng: { lat: curr.cctv.latitude, lng: curr.cctv.longitude },
-        });
-      }
-      return acc;
-    }, []);
-    return processedData;
-  };
 
   const handleCenter = () => {
     const map = mapRef.current;
@@ -136,9 +113,6 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
     return (
       <ItemContainer>
         <ItemImage src={item.imgUrl} alt="Image" />
-        {/* <p>{item.date}</p>
-        <p>{item.time}</p>
-        <p>정확도:{item.similarity}</p> */}
       </ItemContainer>
     );
   };
@@ -158,8 +132,8 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
           image={{
             src: markerStyle, // 마커이미지의 주소입니다
             size: {
-              width: 24,
-              height: 35,
+              width: 30,
+              height: 40,
             }, // 마커이미지의 크기입니다
           }}
         />
@@ -190,6 +164,36 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
             </ContentsContainer>
           </CustomOverlayMap>
         )}
+      </>
+    );
+  };
+
+  const FilterMarkerContainer = ({ marker }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    return (
+      <>
+        <MapMarker
+          key={marker.id}
+          position={marker.latlng}
+          clickable={false}
+          // clickable={true}
+          // onMouseOver={() => setIsVisible(true)}
+          // onMouseOut={() => setIsVisible(false)}
+          image={{
+            src: CCTVMarkerDisabled,
+            size: {
+              width: 18,
+              height: 24,
+            },
+          }}
+        />
+        {/* {isVisible && (
+          <CustomOverlayMap position={marker.latlng}>
+            <CustomInfoWindow>
+              <p>1차 탐색 결과 중 선별된 이미지가 없는 cctv입니다.</p>
+            </CustomInfoWindow>
+          </CustomOverlayMap>
+        )} */}
       </>
     );
   };
@@ -243,22 +247,26 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
               )
             ),
           )}
-        {showStep == "between" &&
-          betweenState &&
-          betweenPosition &&
-          betweenPosition.map(
-            (position) => (
-              console.log("position", position),
-              (
-                <EventMarkerContainer
-                  key={`between-${position.id}`}
-                  position={position.latlng}
-                  images={position.images}
-                  markerStyle={"https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"}
-                />
-              )
-            ),
-          )}
+
+        {showStep == "between" && betweenState && betweenPosition && (
+          <>
+            {betweenPosition.map(
+              (position) => (
+                console.log("position", position),
+                (
+                  <EventMarkerContainer
+                    key={`between-${position.id}`}
+                    position={position.latlng}
+                    images={position.images}
+                    markerStyle={CCTVMarker}
+                  />
+                )
+              ),
+            )}
+            {filterPosition &&
+              filterPosition.map((position) => <FilterMarkerContainer key={position.id} marker={position} />)}
+          </>
+        )}
         {showStep == "second" &&
           secondState &&
           secondPosition &&
@@ -270,7 +278,7 @@ export const ReportMap = ({ start, end, searchRange, step, firstData, betweenDat
                   key={`second-${position.id}`}
                   position={position.latlng}
                   images={position.images}
-                  markerStyle={"https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"}
+                  markerStyle={CCTVMarkerBlue}
                 />
               )
             ),
@@ -520,4 +528,15 @@ const IconWrapper = styled(Icon)`
   &:active {
     color: rgba(0, 0, 0, 0.5);
   }
+`;
+
+const CustomInfoWindow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 20rem;
+  height: 4rem;
+  border-radius: 1rem;
+
+  background-color: white;
+  opacity: 0.9;
 `;
