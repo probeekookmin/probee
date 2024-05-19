@@ -10,6 +10,7 @@ import { ReportResultImages } from "./ReportResultImages";
 export const ReportMain = ({
   data,
   step,
+  stepDetail,
   history,
   firstdata,
   betweenData,
@@ -57,7 +58,7 @@ export const ReportMain = ({
               betweenData={betweenCCTVData}
               secondData={secondCCTVData}
             />
-            <StepProgress step={step} />
+            <StepProgress step={step} stepDetail={stepDetail} />
           </Container1>
           <Container2>
             <ReportTabs id={data.id} firstdata={firstdata} betweenData={betweenData} secondData={secondData} />

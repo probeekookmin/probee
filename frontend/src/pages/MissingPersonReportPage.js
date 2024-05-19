@@ -25,6 +25,7 @@ import { ReportIntelligent } from "../components/reportIntelligent/ReportIntelli
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
+  const [stepDetail, setStepDetail] = useState(""); //step별 상세정보
   const [searchHistoryList, setSearchHistoryList] = useState([]);
   const [firstdata, setFirstdata] = useState([]);
   const [betweenData, setBetweenData] = useState([]);
@@ -63,12 +64,14 @@ function MissingPersonReportPage() {
       switch (res.data.step) {
         case "FIRST":
           setStep(1);
+          setStepDetail(res.data.detail);
           break;
         case "BETWEEN":
           setStep(2);
           break;
         case "SECOND":
           setStep(3);
+          setStepDetail(res.data.detail);
           break;
         case "EXIT":
           setStep(4);
@@ -138,6 +141,7 @@ function MissingPersonReportPage() {
         <ReportMain
           data={missingPerson}
           step={step}
+          stepDetail={stepDetail}
           history={searchHistoryList}
           firstdata={firstdata}
           betweenData={betweenData}
