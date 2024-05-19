@@ -27,14 +27,14 @@ const operations = (
   />
 );
 
-export const ReportTabs = ({ id, step1data }) => {
+export const ReportTabs = ({ id, firstdata, betweenData, secondData }) => {
   console.log("ReportTabs_id: " + id);
   const [data1, setData1] = useState([]);
   const [dataBetween, setdataBetween] = useState([]); /* todo 이미지 고른거 가져오기*/
   const [data2, setData2] = useState([]);
   useEffect(() => {
-    setData1(step1data);
-  }, [step1data]);
+    setData1(firstdata);
+  }, [firstdata]);
   console.log("data1", data1);
   console.log("data2", data2);
   const items = [

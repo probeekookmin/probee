@@ -151,6 +151,24 @@ export const getBetweenResultImg = async (page, id) => {
   return data;
 };
 
+/* 탐색 결과에 대한 cctv 위치 (Get)*/
+export const getCCTVResult = async (id, step) => {
+  const data = axios
+    .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/mapposition?step=${step}`, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("cctv 위치 가져오기 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
 /*의뢰인용 메인 - 실종자 정보 (Get) */
 export const getGuardianMissingPerson = async () => {
   const data = axios

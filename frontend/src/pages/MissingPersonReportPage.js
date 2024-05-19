@@ -11,7 +11,14 @@ import { IntelligentSearchOption } from "../components/reportIntelligent/Intelli
 import { IntelligentBasicInfo } from "../components/reportIntelligent/IntelligentBasicInfo";
 import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
 import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
-import { getMissingPerson, getMissingPeopleStep, getSearchHistoryList, getSearchResultImg } from "../core/api";
+import {
+  getMissingPerson,
+  getMissingPeopleStep,
+  getSearchHistoryList,
+  getSearchResultImg,
+  getBetweenResultImg,
+  getCCTVResult,
+} from "../core/api";
 import { useLocation } from "react-router-dom";
 import { ReportMain } from "../components/missingPersonReport/ReportMain";
 import { ReportIntelligent } from "../components/reportIntelligent/ReportIntelligent";
@@ -19,7 +26,12 @@ function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);
   const [searchHistoryList, setSearchHistoryList] = useState([]);
-  const [step1data, setStep1data] = useState([]);
+  const [firstdata, setFirstdata] = useState([]);
+  const [betweenData, setBetweenData] = useState([]);
+  const [secondData, setSecondData] = useState([]);
+  const [firstCCTVData, setFirstCCTVData] = useState([]);
+  const [betweenCCTVData, setBetweenCCTVData] = useState([]);
+  const [secondCCTVData, setSecondCCTVData] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   console.log("sssdfsadfsad location", location);
@@ -39,6 +51,8 @@ function MissingPersonReportPage() {
   useEffect(() => {
     console.log("useEffect", userId);
     fetchData();
+    fetchResultData();
+    fetchCCTVData();
   }, []);
 
   const fetchData = () => {
@@ -75,9 +89,35 @@ function MissingPersonReportPage() {
     getSearchHistoryList(userId).then((res) => {
       setSearchHistoryList(res.data);
     });
+  };
+
+  const fetchResultData = () => {
     getSearchResultImg(1, userId, "first").then((res) => {
-      console.log("step1data", res.data);
-      setStep1data(res.data);
+      console.log("firstData", res.data);
+      setFirstdata(res.data);
+    });
+    getBetweenResultImg(1, userId).then((res) => {
+      console.log("betweenData", res.data);
+      setBetweenData(res.data);
+    });
+    getSearchResultImg(1, userId, "second").then((res) => {
+      console.log("secondData", res.data);
+      setSecondData(res.data);
+    });
+  };
+
+  const fetchCCTVData = () => {
+    getCCTVResult(userId, "first").then((res) => {
+      console.log("firstCCTVData", res.data);
+      setFirstCCTVData(res.data);
+    });
+    getCCTVResult(userId, "between").then((res) => {
+      console.log("betweenCCTVData", res.data);
+      setBetweenCCTVData(res.data);
+    });
+    getCCTVResult(userId, "second").then((res) => {
+      console.log("secondCCTVData", res.data);
+      setSecondCCTVData(res.data);
     });
   };
 
@@ -93,77 +133,21 @@ function MissingPersonReportPage() {
       </StReportStartBtn>
     );
   };
-  /*실종자 리포트 - 메인*/
-  // const ReportMain = () => {
-  //   return (
-  //     <StReport>
-  //       <Row gutter={[8, 10]}>
-  //         <Col span={6}>
-  //           <BasicInfo data={missingPerson} />
-  //         </Col>
-  //         <Col span={14}>
-  //           <ReportMap />
-  //         </Col>
-  //         <Col span={4}>
-  //           <StepProgress step={step} />
-  //         </Col>
-  //         <Col span={6} md={6}>
-  //           <Row style={{ marginBottom: 8 }}>
-  //             <ReportList listData={searchHistoryList} />
-  //           </Row>
-  //           <Row>
-  //             <ReportStartBtn />
-  //           </Row>
-  //         </Col>
-  //         <Col span={18} md={18}>
-  //           <ReportTabs id={id} />
-  //         </Col>
-  //       </Row>
-  //     </StReport>
-  //   );
-  // };
-  /*실종자 리포트 - 지능형 탐색*/
-  // const ReportIntelligent = () => {
-  //   return (
-  //     <StReport id="intelligent">
-  //       <Row gutter={[10, 8]} type="flex" style={{ height: "100%" }}>
-  //         <Col span={20} style={{ height: "2%" }}>
-  //           <Typography.Title
-  //             level={5}
-  //             style={{
-  //               margin: 0,
-  //             }}>
-  //             지능형 탐색
-  //           </Typography.Title>
-  //         </Col>
-  //         <Col span={14} style={{ height: "33%" }}>
-  //           <IntelligentBasicInfo />
-  //         </Col>
-  //         <Col span={10} style={{ height: "33%" }}>
-  //           <IntelligentSearchOption />
-  //         </Col>
-  //         <Col span={14}>
-  //           <IntelligentMap />
-  //         </Col>
-  //         <Col span={10} style={{ height: "62%" }}>
-  //           <IntelligentSearchResult />
-  //         </Col>
-  //       </Row>
-  //     </StReport>
-  //   );
-  // };
 
   return (
     <StMissingPersonReportPage>
-      {/* <ReportMain />
-      <ReportIntelligent /> */}
       <StReport>
         <ReportMain
           data={missingPerson}
           step={step}
           history={searchHistoryList}
-          step1data={step1data}
+          firstdata={firstdata}
+          betweenData={betweenData}
+          secondData={secondData}
           onClick={scrollToIntelligent}
+          firstCCTVData={firstCCTVData}
+          betweenCCTVData={betweenCCTVData}
+          secondCCTVData={secondCCTVData}
         />
       </StReport>
       <StReport>
