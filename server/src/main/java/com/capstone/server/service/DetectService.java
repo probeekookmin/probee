@@ -111,8 +111,14 @@ public class DetectService {
         }
     }
 
+    @Transactional
     public FirstDetectionDataDto callSecondDetectApi(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
         try {
+            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
+            missingPeople.setStep(Step.valueOf("EXIT"));
+            missingPeopleRepository.save(missingPeople);
             //과정1 : ai server요청에 쓸 dto를 생성
             SecondDetectionRequestDto secondDetectionRequestDto = new SecondDetectionRequestDto();
             secondDetectionRequestDto.setTopK(20);
