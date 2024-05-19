@@ -38,5 +38,6 @@ public class KafkaConsumerService {
     public void consumeStartCallSecondDetectionApi(KafkaDto kafkaDto) {
         FirstDetectionDataDto firstDetectionDataDto = detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
         detectService.postSecondDetectionResult(firstDetectionDataDto);
+
     }
 }
