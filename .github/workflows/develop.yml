@@ -59,7 +59,7 @@ jobs:
       run: |
           rm -f ./frontend/.env
           touch ./frontend/.env
-          echo "${{ secrets.FRONTEND_ENV_API_ROOT_DEVELOP_SERVER }}" >> ./frontend/.env 
+          echo "${{ secrets.ENV_DEVELOP }}" >> ./frontend/.env 
       
     - name: Yarn install dependencies 
       run: |
