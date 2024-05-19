@@ -1,4 +1,4 @@
-# Pro_bee
+# Pro_bee: 실종자 탐색 시스템
 
 <div align="center"> 
     <p align = "center">
@@ -48,23 +48,33 @@
 
 ## 프로젝트 소개
 
-프로젝트(이하, Pro_bee)의 목표는 실종자 인상착의 정보를 통해 CCTV에서 유사한 인물을 찾아내는, 지능형 실종자 탐색 시스템의 제작입니다.
+<div align="center"> 
+    <p align = "center">
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/862268e3-74b1-4fc9-93f9-a67953c64f24">
+    </p>
+</div>
 
-Pro_bee는 실종 경보 문자를 줄임과 동시에 시민 제보를 대체할 수단을 찾고자 하는 곳에서 시작했습니다.
+```
+**인공지능을 활용한 실종자 탐색 서비스**
+```
 
-경보 문자에서 활용되던 정보(인상착의, 나이, 성별, 사진 등)을 활용한 지능형 실종자 검출 시스템을 기획하였습니다. 좀 더 세부적으로는 시민 제보를 통하지 않고도 실종자 검출 효과를 증대 시킬 수 있는 메커니즘을 개발, 사람이 아닌 AI에 의한 1차 탐색을 도입해 직접적 탐색 범위를 줄여 한정된 경찰 인력이 효율적 운영되도록 함을 목표로 하였습니다.
+본 프로젝트, Pro_bee는 실종 신고가 접수되었을 때 인공지능을 활용하여 CCTV 영상을 분석하고, 수색 범위를 좁혀 골든타임을 확보하는 것이 목표입니다.
 
-이번 프로젝트의 이용 타겟층은 행정기관(이하, 경찰로 한정)과 실종자의 보호자(이하, 의뢰인)로 정의 내렸으며, 각종 지자체에서 도입하고 있는 지능형 CCTV와의 차별점을 두기 위해 이용자 간의 상호작용이 가능한 웹 시스템을 추가 구축하였습니다. 이용자 간의 빠르고 신속한 정보 공유가 가능해지도록 함으로써, 탐색 과정을 효율적으로 단축시키고 의뢰인의 불안을 낮춰주는 효과를 내고자 하였습니다.
+Pro_bee의 이용자는 경찰과 보호자, 둘로 나뉩니다. 경찰은 관리자 화면을 통해 실종자 정보, CCTV 영상 분석 정보, 실종자 탐색 단계를 확인할 수 있습니다. 경찰은 인공지능을 활용한 탐색 결과를 바탕으로 현장 수색을 나감으로써, 한정된 인력을 효율적으로 활용할 수 있습니다. 보호자는 실종자와 유사한 이미지를 선별하는 과정을 통해 AI 실종자 탐색 프로세스에 참여, 실종자 탐색에 도움을 주게 됩니다. 또한 보호자 화면을 통해 실시간으로 진행 현황을 확인할 수 있어서, 실종자 수색 중 보호자의 불안감을 낮출 수 있을 것으로 기대됩니다.
 
-([중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=xKc0jb) 발췌)
+Pro_bee는 실종 경보 문자를 대체하고, 실종자 탐색 과정의 일부를 인공지능으로 대체함으로써 잦은 재난 문자로 인한 시민들의 피로감을 낮추고, 실종자 수색이 빠르고 효율적으로 이루어질 수 있도록 합니다.
 
 ## Abstract
 
-The goal of the project, Pro_bee, is to develop an intelligent missing person search system that identifies similar individuals from CCTV footage based on the characteristics of the missing person's appearance.
+```
+**Missing Person Search Service by using AI**
+```
 
-Pro_bee originated from the need to reduce missing person alerts and find alternatives to citizen reports. We planned an intelligent missing person detection system utilizing information commonly found in missing person alerts such as physical descriptions, age, gender, and photographs. Specifically, our aim was to enhance the effectiveness of missing person detection without relying solely on citizen reports by introducing a mechanism for AI-driven initial search, thereby reducing the direct search range and enabling efficient utilization of limited police resources.
+The project "Pro_bee" aims to utilize artificial intelligence to analyze CCTV footage and narrow down the search area when a missing person report is received, thus securing the golden time for finding the missing person.
 
-The target users of this project are governmental institutions, specifically law enforcement agencies (referred to as the police), and the guardians of missing persons (referred to as clients). To differentiate from intelligent CCTV systems adopted by various local governments, we additionally developed a web system facilitating interaction among users. By enabling rapid and efficient information sharing among users, we aimed to streamline the search process and alleviate the anxieties of the clients.
+The users of Pro_bee are divided into police officers and guardians. The police can use the administrator interface to check the information on the missing person, CCTV video analysis data, and the stages of the search. By relying on AI-based search results, the police can conduct field searches more effectively, making efficient use of their limited manpower. Guardians participate in the AI search process by selecting images that resemble the missing person, thereby assisting in the search. Additionally, guardians can monitor the progress in real-time through their interface, which is expected to reduce their anxiety during the search process.
+
+Pro_bee replaces the need for missing person alert messages and automates parts of the search process with artificial intelligence. This reduces the fatigue caused by frequent disaster alerts among citizens and ensures that the search for missing persons is conducted more quickly and efficiently.
 
 ## 주요기능
 
@@ -130,7 +140,7 @@ The target users of this project are governmental institutions, specifically law
               ****1663
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/mirageciel">
+            <a href="https://github.com/chaews0327">
               <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
               <br />
               <b>신채원</b>
@@ -176,7 +186,7 @@ The target users of this project are governmental institutions, specifically law
             <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
                 <td>
-            <span style="font-size: 12px;">mirageciel@kookmin.ac.kr</span>
+            <span style="font-size: 12px;">chaews0327@gmail.com</span>
         </td>
                 <td>
             <span style="font-size: 12px;">tory912@gmail.com</span>
