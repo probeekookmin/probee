@@ -39,7 +39,7 @@
 1. [프로젝트 소개](#프로젝트-소개)
 2. [주요기능](#주요기능)
 3. [소개영상](#소개영상)
-4. [디자인](#디자인)
+4. [페이지 안내](#페이지-안내)
 5. [팀원소개](#팀원-소개)
 6. [시스템 구조도](#시스템-구조도)
 7. [작업방식](#작업방식)
@@ -94,29 +94,45 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 
 *해당 위치에 영상 첨부*
 
-## 디자인
+## 페이지 안내
 
--   실종자 리포트
+**경찰 측 화면**
+- 실종 정보 등록
+    + 실종자 및 보호자 정보 등록
+    + 탐색 기간 및 위치 설정
+    + 정보 입력 시 안내사항
+<div align="center">
+    <img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
+</div>
+<br/>
+- 실종자 리포트 (메인)
+    + 실종자 정보
+    + 지도 (단계 별 CCTV 위치 및 검출 결과 확인)
+    + 진행 현황
+    + 1차/2차 탐색 결과 및 보호자 선택 이미지 확인
+    + 이전 지능형 탐색 결과 확인
 <div align="center">
         <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
 <br/>
-
--   지능형탐색
+- 실종자 리포트 (지능형 탐색)
+    + 탐색 기간 및 위치 재설정 (채워져 있음)
+    + 지도 (해당 단계 CCTV 위치 및 검출 결과 확인)
 <div align="center">
         <img width="80%" alt="지능형탐색" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/adcbf567-e373-4c27-984a-77401de75420">
 </div>
 <br/>
 
--   실종 정보 등록
+**보호자 측 화면**
+- 메인
+    + 실종자 정보 확인 및 사진 추가 가능
+    + 실시간 진행 단계 안내
+    + 도움말
+- 이미지 선별
+    + 보호자 선택 이미지
+    + 1차 탐색 결과
 <div align="center">
-<img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
-</div>
-<br/>
-
--   보호자 회면
-<div align="center">
-        <img width="40%" alt="스크린샷 2024-03-30 오후 8 22 46" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/a8291324-981c-40ba-8654-8caa9c29938c">
+        <img width="80%" alt="보호자 화면" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/40c77f16-45ec-44f8-a98f-4821ac991256">
 </div>
 
 ## 팀원 소개
