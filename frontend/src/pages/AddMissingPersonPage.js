@@ -7,6 +7,7 @@ import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 import { postMissingPerson } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { AnnotationInfo } from "../components/addMisingPerson/AnnotationInfo";
+import { useState } from "react";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -21,7 +22,15 @@ const validateMessages = {
 
 function AddMissingPersonPage() {
   const [form] = Form.useForm();
+  const [latlng, setLatlng] = useState({});
+
   const navigate = useNavigate();
+
+  const getLocation = (latlng) => {
+    setLatlng(latlng);
+    console.log("latlng", latlng);
+  };
+
   const onFinish = (fieldsValue) => {
     console.log("gender", fieldsValue["user"]["gender"]);
     const values = {
@@ -49,8 +58,8 @@ function AddMissingPersonPage() {
         fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
       endTime:
         fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
-      latitude: 37.610767,
-      longitude: 126.996967,
+      latitude: latlng["lat"],
+      longitude: latlng["lng"],
       locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
       shoesColor: "빨강",
       missingPeopleType: "아동",
@@ -92,7 +101,7 @@ function AddMissingPersonPage() {
                 지능형 탐색 초기 정보 등록
               </Typography.Title>
               <Divider />
-              <IntelligentSearchInfo form={form} />
+              <IntelligentSearchInfo form={form} getLocation={getLocation} />
             </Container>
             <ButtonContainer>
               <Form.Item wrapperCol={{}}>

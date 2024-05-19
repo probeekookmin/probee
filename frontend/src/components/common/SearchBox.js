@@ -9,7 +9,7 @@ import { debounce } from "lodash";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 
 //도로명 주소 검색
-export const SeacrchBox = ({ title, form, name }) => {
+export const SeacrchBox = ({ title, form, name, getLocation }) => {
   const mapRef = useRef();
   const [openPostcode, setOpenPostcode] = useState(false);
 
@@ -20,6 +20,7 @@ export const SeacrchBox = ({ title, form, name }) => {
     console.log("selectAddress", location);
     handleGeocoder();
   }, [location]);
+
   const handle = {
     // 버튼 클릭 이벤트
     clickButton: () => {
@@ -30,8 +31,13 @@ export const SeacrchBox = ({ title, form, name }) => {
     selectAddress: (data) => {
       setLocation(data.address);
       form.setFieldsValue({ [name]: data.address }); // 주소 정보를 Form.Item에 직접 설정
-      // setOpenPostcode(false);
       console.log("selectAddress", data.address);
+    },
+
+    // 선택 완료 이벤트
+    clickOK: () => {
+      getLocation(markerPosition);
+      setOpenPostcode(false);
     },
   };
 
@@ -68,7 +74,7 @@ export const SeacrchBox = ({ title, form, name }) => {
         centered={true}
         width={900}
         open={openPostcode}
-        onOk={() => setOpenPostcode(false)}
+        onOk={handle.clickOK}
         onCancel={() => setOpenPostcode(false)}>
         <ModalContent>
           <DaumPostcodeWrapper>
