@@ -18,7 +18,9 @@ export const SeacrchBox = ({ title, form, name, getLocation }) => {
 
   useEffect(() => {
     console.log("selectAddress", location);
-    handleGeocoder();
+    if (location) {
+      handleGeocoder();
+    }
   }, [location]);
 
   const handle = {
