@@ -7,7 +7,18 @@ import { IntelligentReportList } from "./IntelligentReportList";
 import { ReportTabs } from "./ReportTabs";
 import { ReportResultImages } from "./ReportResultImages";
 
-export const ReportMain = ({ data, step, history, firstdata, betweenData, secondData, onClick }) => {
+export const ReportMain = ({
+  data,
+  step,
+  history,
+  firstdata,
+  betweenData,
+  secondData,
+  onClick,
+  firstCCTVData,
+  betweenCCTVData,
+  secondCCTVData,
+}) => {
   //console.log("ReportMain_id: " + id.id);
   console.log("ReportMain_data: ", data);
   console.log("ReportMain_step: ", step);
@@ -40,9 +51,10 @@ export const ReportMain = ({ data, step, history, firstdata, betweenData, second
               start={firstdata.startTime}
               end={firstdata.endTime}
               searchRange={firstdata.searchRange}
-              firstData={firstdata.list}
-              betweenData={betweenData.list}
-              secondData={secondData.list}
+              step={step}
+              firstData={firstCCTVData}
+              betweenData={betweenCCTVData}
+              secondData={secondCCTVData}
             />
             <StepProgress step={step} />
           </Container1>

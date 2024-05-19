@@ -9,7 +9,9 @@ import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
 import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
 import LocationMarker from "../../assets/icons/locationMarker.svg";
-export const ReportMap = ({ start, end, searchRange, firstData, betweenData, secondData }) => {
+import CCTVMarker from "../../assets/icons/cctvMarker_y.svg";
+import { getCCTVResult } from "../../core/api";
+export const ReportMap = ({ start, end, searchRange, step, firstData, betweenData, secondData }) => {
   const mapRef = useRef();
   const [location, setLocation] = useState("");
 
@@ -41,23 +43,29 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
       handleCenter();
     }
     if (firstData) {
-      const processedData = handleData(firstData);
-      console.log("processedData", processedData);
-      setFirstPosition(processedData);
+      // const processedData = handleData(firstData);
+      // console.log("processedData", processedData);
+      // setFirstPosition(processedData);
+      setFirstPosition(firstData);
+
       setFirstState(true);
     }
     if (betweenData) {
       console.log("betweenData", betweenData);
-      const data = handleData(betweenData);
-      console.log("processedData", data);
-      setBetweenPosition(data);
+      // const data = handleData(betweenData);
+      // console.log("processedData", data);
+      // setBetweenPosition(data);
+      setBetweenPosition(betweenData);
+
       setBetweenState(true);
     }
     if (secondData) {
       console.log("secondData", secondData);
-      const data = handleData(secondData);
-      console.log("processedData", data);
-      setSecondPosition(data);
+      // const data = handleData(secondData);
+      // console.log("processedData", data);
+      // setSecondPosition(data);
+      setSecondPosition(secondData);
+
       setSecondState(true);
     }
   }, [searchRange, firstData, betweenData, secondData]);
@@ -230,7 +238,7 @@ export const ReportMap = ({ start, end, searchRange, firstData, betweenData, sec
                   key={`step1-${position.id}`}
                   position={position.latlng}
                   images={position.images}
-                  markerStyle={"https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"}
+                  markerStyle={CCTVMarker}
                 />
               )
             ),
