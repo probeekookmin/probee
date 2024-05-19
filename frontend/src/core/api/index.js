@@ -169,6 +169,32 @@ export const getCCTVResult = async (id, step) => {
   return data;
 };
 
+/*실종자 리포트 - 지능형 탐색 추가 (Post) */
+export const postIntelligentSearch = async (id, values) => {
+  const data = axios
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search`,
+      {
+        ...values,
+      },
+
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("탐색 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
 /*의뢰인용 메인 - 실종자 정보 (Get) */
 export const getGuardianMissingPerson = async () => {
   const data = axios

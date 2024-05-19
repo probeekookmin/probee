@@ -1,16 +1,41 @@
 import styled from "styled-components";
-import { IntelligentSearchOption } from "./IntelligentSearchOption";
+import { useState } from "react";
 import { Col, Form, Row } from "antd";
+import { IntelligentSearchOption } from "./IntelligentSearchOption";
 import { IntelligentBasicInfo } from "./IntelligentBasicInfo";
 import { IntelligentMap } from "./IntelligentMap";
 import { IntelligentSearchResult } from "./IntelligentSearchResult";
+import { postIntelligentSearch } from "../../core/api";
 
 export const ReportIntelligent = ({ data }) => {
+  const [form] = Form.useForm();
+  const [latlng, setLatlng] = useState({});
+
+  const getLocation = (latlng) => {
+    setLatlng(latlng);
+    console.log("latlng", latlng);
+  };
+
+  const onFinish = (fieldsValue) => {
+    const values = {
+      startTime:
+        fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
+      endTime:
+        fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
+      latitude: latlng["lat"],
+      longitude: latlng["lng"],
+      locationAddress: fieldsValue["searchLocation"],
+    };
+    console.log("Received values of form: ", values);
+    // postIntelligentSearch(data.id, values);
+  };
   return (
     <StReportIntelligent id="intelligent">
       <ContainerTop>
         <ContainerLeft>
-          <IntelligentSearchOption name={data.missingPeopleName} />
+          <InputForm form={form} onFinish={onFinish}>
+            <IntelligentSearchOption form={form} name={data.missingPeopleName} getLocation={getLocation} />
+          </InputForm>
         </ContainerLeft>
         <ContainerRight>
           <IntelligentBasicInfo data={data} />
@@ -76,4 +101,11 @@ const ContainerRight = styled.div`
 
   width: 40%;
   height: 100%;
+`;
+
+const InputForm = styled(Form)`
+  width: 100%;
+  &.ant-form-vertical .ant-form-item-label {
+    padding: 0;
+  }
 `;

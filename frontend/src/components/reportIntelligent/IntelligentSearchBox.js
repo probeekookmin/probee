@@ -1,14 +1,25 @@
+/*global kakao*/
 import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
 import { Input, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import DaumPostcode from "react-daum-postcode";
-import { useState } from "react";
+import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 
-//도로명 주소 검색
-export const IntelligentSeacrchBox = ({ title, form, name }) => {
+// 지능형 탐색 - 도로명 주소 검색
+export const IntelligentSeacrchBox = ({ title, form, name, getLocation }) => {
+  const mapRef = useRef();
   const [openPostcode, setOpenPostcode] = useState(false);
 
   const [location, setLocation] = useState("");
+  const [markerPosition, setMarkerPosition] = useState({});
+  useEffect(() => {
+    console.log("selectAddress", location);
+    if (location) {
+      handleGeocoder();
+    }
+  }, [location]);
+
   const handle = {
     // 버튼 클릭 이벤트
     clickButton: () => {
@@ -19,8 +30,33 @@ export const IntelligentSeacrchBox = ({ title, form, name }) => {
     selectAddress: (data) => {
       setLocation(data.address);
       form.setFieldsValue({ [name]: data.address }); // 주소 정보를 Form.Item에 직접 설정
+      // setOpenPostcode(false);
+    },
+
+    // 선택 완료 이벤트
+    clickOK: () => {
+      getLocation(markerPosition);
       setOpenPostcode(false);
     },
+  };
+
+  const handleGeocoder = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    var callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        console.log(result);
+        setMarkerPosition({
+          lat: result[0].y,
+          lng: result[0].x,
+        });
+        const map = mapRef.current;
+        if (map) {
+          map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
+          map.setLevel(6);
+        }
+      }
+    };
+    geocoder.addressSearch(location, callback);
   };
 
   return (
@@ -33,16 +69,43 @@ export const IntelligentSeacrchBox = ({ title, form, name }) => {
       </SearchBoxContainer>
       <Modal
         title={title}
-        style={{
-          top: 20,
-        }}
+        centered={true}
+        width={900}
         open={openPostcode}
-        onOk={() => setOpenPostcode(false)}
+        onOk={handle.clickOK}
         onCancel={() => setOpenPostcode(false)}>
-        <DaumPostcode
-          onComplete={handle.selectAddress} // 값선택
-          autoClose={false} // 값선택 시 자동 닫힘
-        />
+        <ModalContent>
+          <DaumPostcodeWrapper>
+            <DaumPostcode
+              onComplete={handle.selectAddress} // 값선택
+              autoClose={false} // 값선택 시 자동 닫힘
+            />
+          </DaumPostcodeWrapper>
+
+          <MapWrapper>
+            <Map
+              center={{ lat: 37.610767, lng: 126.996967 }}
+              isPanto={true}
+              style={{ width: "100%", height: "40rem" }}
+              ref={mapRef}>
+              {markerPosition.lat && markerPosition.lng && (
+                <>
+                  <Circle
+                    center={markerPosition}
+                    radius={500}
+                    strokeWeight={2}
+                    strokeColor={"#1890ff"}
+                    strokeOpacity={0.5}
+                    strokeStyle={"line"}
+                    fillColor={"#CFE7FF"}
+                    fillOpacity={0.6}
+                  />
+                  <MapMarker position={markerPosition} />
+                </>
+              )}
+            </Map>
+          </MapWrapper>
+        </ModalContent>
       </Modal>
     </StSearchBox>
   );
@@ -88,4 +151,21 @@ const SearchIconWrapper = styled.div`
   width: 3.2rem;
   padding: 0.9rem;
   border-left: 0.1rem solid #d9d9d9;
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+
+const DaumPostcodeWrapper = styled.div`
+  width: 50%;
+  height: 100%;
+`;
+
+const MapWrapper = styled.div`
+  width: 50%;
+  height: 100%;
 `;

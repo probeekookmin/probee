@@ -23,95 +23,33 @@ const rangeConfig = {
     },
   ],
 };
-const onFinish = (fieldsValue) => {
-  const values = {
-    ...fieldsValue,
-  };
-  console.log("Received values of form: ", values);
-};
 
-export const IntelligentSearchOption = ({ name }) => {
-  const [form] = Form.useForm();
+export const IntelligentSearchOption = ({ form, name, getLocation }) => {
+  // const [form] = Form.useForm();
 
   return (
-    // <StIntelligentSearchOption>
-    //   <Typography.Title
-    //     level={5}
-    //     style={{
-    //       marginBottom: "3rem",
-    //     }}>
-    //     탐색 시간대/위치 설정
-    //   </Typography.Title>
-    //   <Form onFinish={onFinish} colon={false} hideRequiredMark={true}>
-    //     <Row type="flex" gutter={[0, 6]} style={{ marginBottom: "1.2rem" }}>
-    //       <Col span={3}>
-    //         <p>시작일</p>
-    //       </Col>
-    //       <Col span={8}>
-    //         <FormItem name={["intelligentSearch", "startDate"]} {...config} label="    ">
-    //           <DatePicker placeholder="날짜 입력" />
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={13}>
-    //         <FormItem name={["intelligentSearch", "startTime"]} {...config} label="    ">
-    //           <TimePicker format="HH:mm" placeholder="시간 입력" />
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={3}>
-    //         <p>종료일</p>
-    //       </Col>
-    //       <Col span={8}>
-    //         <FormItem name={["intelligentSearch", "endDate"]} {...config} label="    ">
-    //           <DatePicker placeholder="날짜 입력" />
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={13}>
-    //         <FormItem name={["intelligentSearch", "endTime"]} {...config} label="    ">
-    //           <TimePicker format="HH:mm" placeholder="시간 입력" />
-    //         </FormItem>
-    //       </Col>
-    //     </Row>
-    //     <Row gutter={[0, 20]}>
-    //       <Col span={3}>
-    //         <p>탐색 위치</p>
-    //       </Col>
-    //       <Col>
-    //         <FormItem name={["intelligentSearch", "searchLocation"]} {...config} label="    ">
-    //           <SeacrchBox title={"탐색 위치"} />
-    //         </FormItem>
-    //       </Col>
-    //       <Col span={24}>
-    //         <ButtonContainer>
-    //           <FormItem>
-    //             <ButtonWrapper type="primary" htmlType="submit">
-    //               탐색시작
-    //             </ButtonWrapper>
-    //           </FormItem>
-    //         </ButtonContainer>
-    //       </Col>
-    //     </Row>
-    //   </Form>
-    // </StIntelligentSearchOption>
     <StIntelligentSearchOption>
       <TitleContainer>{name}님의 지능형 탐색</TitleContainer>
-      <InputForm form={form}>
-        <InputItem name="searchPeriod" label="기간" {...rangeConfig} colon={false} className="form-custom">
-          <RangePickerWrapper
-            className="custom-range-picker"
-            showTime
-            format="YYYY-MM-DD HH:mm"
-            placeholder={["시작일시", "종료일시"]}
-            disabledDate={(d) => !d || d.isAfter(moment())}
-            disabledTime={(d) => !d || d.isAfter(moment())}
-          />
-        </InputItem>
-        <InputItem name="searchLocation" label="위치" {...config} colon={false} className="form-custom">
-          <IntelligentSeacrchBox title={"탐색 위치"} form={form} name="searchLocation" />
-        </InputItem>
-        <InputItem>
-          <ButtonWrapper type="primary">시작하기</ButtonWrapper>
-        </InputItem>
-      </InputForm>
+      {/* <InputForm form={form}> */}
+      <InputItem name="searchPeriod" label="기간" {...rangeConfig} colon={false} className="form-custom">
+        <RangePickerWrapper
+          className="custom-range-picker"
+          showTime
+          format="YYYY-MM-DD HH:mm"
+          placeholder={["시작일시", "종료일시"]}
+          disabledDate={(d) => !d || d.isAfter(moment())}
+          disabledTime={(d) => !d || d.isAfter(moment())}
+        />
+      </InputItem>
+      <InputItem name="searchLocation" label="위치" {...config} colon={false} className="form-custom">
+        <IntelligentSeacrchBox title={"탐색 위치"} form={form} name="searchLocation" getLocation={getLocation} />
+      </InputItem>
+      <InputItem>
+        <ButtonWrapper type="primary" htmlType="submit">
+          시작하기
+        </ButtonWrapper>
+      </InputItem>
+      {/* </InputForm> */}
     </StIntelligentSearchOption>
   );
 };
@@ -126,15 +64,6 @@ const StIntelligentSearchOption = styled.div`
   border-radius: 1.5rem;
   background-color: white;
   //box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-`;
-
-const FormItem = styled(Form.Item)`
-  margin-bottom: 0;
-`;
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
 `;
 
 const ButtonWrapper = styled(Button)`
