@@ -286,7 +286,7 @@ public class MissingPeopleController {
             @PathVariable Long id,
             @RequestParam(required = false, value = "step") String s) {
         Step step = Step.fromValue(s);
-        if (s.equals("between"))
+        if (step == Step.BETWEEN)
             return ResponseEntity.ok().body(new SuccessResponse(betweenService.getSearchResultsByMissingPeopleId(id)));
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
     }
