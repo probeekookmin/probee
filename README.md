@@ -139,89 +139,92 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 
 ## 팀원 소개
 
-<table>
-    <tr align="center">
-        <td style="min-width: 150px;">
-            <a href="https://github.com/begong313">
-              <img src="https://avatars.githubusercontent.com/u/95959567?v=4" width="80">
-              <br />
-              <b>노종빈</b>
-            </a> 
-            <br/>
-              ****0891
-        </td>
-        <td style="min-width: 150px;">
-            <a href="https://github.com/KJW988">
-              <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="80">
-              <br />
-              <b>김지원</b>
-            </a>
-            <br/>
-              ****0812
-        </td>
-        <td style="min-width: 150px;">
-            <a href="https://github.com/su-hwani">
-              <img src="https://avatars.githubusercontent.com/u/54920289?v=4" width="80">
-              <br />
-              <b>정수환</b>
-            </a> 
-            <br/>
-              ****1663
-        </td>
-        <td style="min-width: 150px;">
-            <a href="https://github.com/chaews0327">
-              <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
-              <br />
-              <b>신채원</b>
-            </a> 
-            <br/>
-              ****3021
-        </td>
-        <td style="min-width: 150px;">
-            <a href="https://github.com/ancy0">
-              <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="80">
-              <br />
-              <b>안채영</b>
-            </a> 
-            <br/>
-              ****3024 
-        </td>
-    </tr>
-    <tr align="center">
-        <td>
-            팀장, Backend
-        </td>
-        <td>
-            AI
-        </td>
-        <td>
-            Backend
-        </td>
-        <td>
-            AI
-        </td>
-        <td>
-            Frontend
-        </td>
-    </tr>
-    <tr align="center">
-        <td>
-            <span style="font-size: 12px;">nobin313@kookmin.ac.kr</span>
-        </td>
-        <td>
-            <span style="font-size: 12px;">livelim313@gmail.com</span>
-        </td>
-        <td>
-            <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
-        </td>
-        <td>
-            <span style="font-size: 12px;">chaews0327@gmail.com</span>
-        </td>
-        <td>
-            <span style="font-size: 12px;">tory912@gmail.com</span>
-        </td>
-    </tr>
-</table>
+<div style="overflow-x: auto;">
+    <table style="width: auto; min-width: 800px;">
+        <tr align="center">
+            <td style="min-width: 150px;">
+                <a href="https://github.com/begong313">
+                  <img src="https://avatars.githubusercontent.com/u/95959567?v=4" width="80">
+                  <br />
+                  <b>노종빈</b>
+                </a> 
+                <br/>
+                  ****0891
+            </td>
+            <td style="min-width: 150px;">
+                <a href="https://github.com/KJW988">
+                  <img src="https://avatars.githubusercontent.com/u/71117552?v=4" width="80">
+                  <br />
+                  <b>김지원</b>
+                </a>
+                <br/>
+                  ****0812
+            </td>
+            <td style="min-width: 150px;">
+                <a href="https://github.com/su-hwani">
+                  <img src="https://avatars.githubusercontent.com/u/54920289?v=4" width="80">
+                  <br />
+                  <b>정수환</b>
+                </a> 
+                <br/>
+                  ****1663
+            </td>
+            <td style="min-width: 150px;">
+                <a href="https://github.com/chaews0327">
+                  <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
+                  <br />
+                  <b>신채원</b>
+                </a> 
+                <br/>
+                  ****3021
+            </td>
+            <td style="min-width: 150px;">
+                <a href="https://github.com/ancy0">
+                  <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="80">
+                  <br />
+                  <b>안채영</b>
+                </a> 
+                <br/>
+                  ****3024 
+            </td>
+        </tr>
+        <tr align="center">
+            <td>
+                팀장, Backend
+            </td>
+            <td>
+                AI
+            </td>
+            <td>
+                Backend
+            </td>
+            <td>
+                AI
+            </td>
+            <td>
+                Frontend
+            </td>
+        </tr>
+        <tr align="center">
+            <td>
+                <span style="font-size: 12px;">nobin313@kookmin.ac.kr</span>
+            </td>
+            <td>
+                <span style="font-size: 12px;">livelim313@gmail.com</span>
+            </td>
+            <td>
+                <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
+            </td>
+            <td>
+                <span style="font-size: 12px;">chaews0327@gmail.com</span>
+            </td>
+            <td>
+                <span style="font-size: 12px;">tory912@gmail.com</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
 
 
 ## 시스템 구조도
