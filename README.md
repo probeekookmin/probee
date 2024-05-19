@@ -156,16 +156,16 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
               <br />
               <b>김지원</b>
             </a>
-                       <br/>
+            <br/>
               ****0812
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/su-hwani">
               <img src="https://avatars.githubusercontent.com/u/54920289?v=4" width="80">
               <br />
-              <b>정수환 </b>
+              <b>정수환</b>
             </a> 
-                       <br/>
+            <br/>
               ****1663
         </td>
         <td style="min-width: 150px;">
@@ -174,16 +174,16 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
               <br />
               <b>신채원</b>
             </a> 
-                       <br/>
+            <br/>
               ****3021
         </td>
-                <td style="min-width: 150px;">
+        <td style="min-width: 150px;">
             <a href="https://github.com/ancy0">
               <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="80">
               <br />
               <b>안채영</b>
             </a> 
-                       <br/>
+            <br/>
               ****3024 
         </td>
     </tr>
@@ -197,10 +197,10 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
         <td>
             Backend
         </td>
-                <td>
+        <td>
             AI
         </td>
-                <td>
+        <td>
             Frontend
         </td>
     </tr>
@@ -214,14 +214,15 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
         <td>
             <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
-                <td>
+        <td>
             <span style="font-size: 12px;">chaews0327@gmail.com</span>
         </td>
-                <td>
+        <td>
             <span style="font-size: 12px;">tory912@gmail.com</span>
         </td>
     </tr>
 </table>
+
 
 ## 시스템 구조도
 
