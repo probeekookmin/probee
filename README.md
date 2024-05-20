@@ -125,15 +125,12 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 </div>
 
 ### 보호자 측 화면 📱
-#### 메인
-+ 실종자 정보 확인 및 사진 추가 가능
-+ 실시간 진행 단계 안내
-+ 도움말
-#### 이미지 선별
-+ 보호자 선택 이미지
-+ 1차 탐색 결과
 <div align="center">
-        <img width="80%" alt="보호자 화면" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/40c77f16-45ec-44f8-a98f-4821ac991256">
+        <img width="80%" alt="보호자 화면 플로우" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/40c77f16-45ec-44f8-a98f-4821ac991256">
+</div>
+<br/>
+<div align="center">
+        <img width="80%" alt="보호자 화면 설명" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/1710fa24-b461-4fbe-9105-ee36d5421492">
 </div>
 
 <br/>
