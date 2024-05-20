@@ -284,10 +284,16 @@ public class MissingPeopleController {
     @GetMapping("/{id}/mapposition")
     public ResponseEntity<?> getMapPosition(
             @PathVariable Long id,
-            @RequestParam(required = false, value = "step") String s) {
+            @RequestParam(required = false, value = "step") String s,
+            @RequestParam(required = false, value = "search-id") long searchHistoryId
+    ) {
+        if (searchHistoryId != 0) {
+            return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultsBySearchId(searchHistoryId)));
+        }
         Step step = Step.fromValue(s);
-        if (step == Step.BETWEEN)
+        if (step == Step.BETWEEN) {
             return ResponseEntity.ok().body(new SuccessResponse(betweenService.getSearchResultsByMissingPeopleId(id)));
+        }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
     }
 }
