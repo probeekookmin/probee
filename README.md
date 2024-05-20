@@ -36,15 +36,15 @@
 
 ## 목차
 
-1. 🚨 [프로젝트 소개](#프로젝트-소개)
-2. 💻 [주요 기능](#주요-기능)
-3. 🎬 [소개 영상](#소개-영상)
-4. 🔎 [페이지 안내](#페이지-안내)
-5. 👨‍💻 [팀원 소개](#팀원-소개)
-6. 📢 [시스템 구조도](#시스템-구조도)
-7. 🎯 [작업 방식](#작업-방식)
-8. ✨ [기대 효과](#기대-효과)
-9. 📝 [관련 문서](#관련-문서)
+1. 🚨 [프로젝트 소개](#-프로젝트-소개)
+2. 💻 [주요 기능](#-주요-기능)
+3. 🎬 [소개 영상](#-소개-영상)
+4. 🔎 [페이지 안내](#-페이지-안내)
+5. 👨‍💻 [팀원 소개](#-팀원-소개)
+6. 📢 [시스템 구조도](#-시스템-구조도)
+7. 🎯 [작업 방식](#-작업-방식)
+8. ✨ [기대 효과](#-기대-효과)
+9. 📝 [관련 문서](#-관련-문서)
 
 
 
@@ -105,7 +105,6 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <div align="center">
     <img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
 </div>
-<br/>
 
 #### 실종자 리포트 (메인)
 + 실종자 정보
@@ -116,7 +115,6 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <div align="center">
         <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
-<br/>
 
 #### 실종자 리포트 (지능형 탐색)
 + 탐색 기간 및 위치 재설정 (채워져 있음)
@@ -124,7 +122,6 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <div align="center">
         <img width="80%" alt="지능형탐색" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/adcbf567-e373-4c27-984a-77401de75420">
 </div>
-<br/>
 
 ### 보호자 측 화면
 #### 메인
