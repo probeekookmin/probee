@@ -7,7 +7,7 @@ import DaumPostcode from "react-daum-postcode";
 import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 
 //도로명 주소 검색
-export const SeacrchBox = ({ title, form, name, getLocation }) => {
+export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
   const mapRef = useRef();
   const [openPostcode, setOpenPostcode] = useState(false);
 
@@ -36,7 +36,10 @@ export const SeacrchBox = ({ title, form, name, getLocation }) => {
 
     // 선택 완료 이벤트
     clickOK: () => {
-      getLocation(markerPosition);
+      if (name === "searchLocation") {
+        getLocation(markerPosition);
+      }
+
       setOpenPostcode(false);
     },
   };
