@@ -2,10 +2,10 @@
 
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
+        <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
     </p>
     <p align = "center">
-    <a href = "https://probee.co.kr"> Pro-bee </a>
+        <a href = "https://probee.co.kr"> Pro-bee </a>
     </p>
 
 </div>
@@ -68,13 +68,13 @@ Pro_bee는 실종 경보 문자를 대체하고, 실종자 탐색 과정의 일�
 
 <br/>
 
-## Abstract
+## 👋 Abstract
 
 ```
 Missing Person Search Service by using AI
 ```
 
-The project "Pro_bee" aims to utilize artificial intelligence to analyze CCTV footage and narrow down the search area when a missing person report is received, thus securing the golden time for finding the missing person.
+The project, "Pro_bee", aims to utilize artificial intelligence to analyze CCTV footage and narrow down the search area when a missing person report is received, thus securing the golden time for finding the missing person.
 
 The users of Pro_bee are divided into police officers and guardians. The police can use the administrator interface to check the information on the missing person, CCTV video analysis data, and the stages of the search. By relying on AI-based search results, the police can conduct field searches more effectively, making efficient use of their limited manpower. Guardians participate in the AI search process by selecting images that resemble the missing person, thereby assisting in the search. Additionally, guardians can monitor the progress in real-time through their interface, which is expected to reduce their anxiety during the search process.
 
@@ -234,19 +234,23 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 
 ### 시스템 아키텍처
 <div align="center">
-<img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1dce6e6b-d384-4f5f-aa12-a23d9f028871">
+    <img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/1dce6e6b-d384-4f5f-aa12-a23d9f028871">
 </div>
 
 <br/>
 
 ### ERD
 <div align="center">
-<img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/3598f3c2-176b-463d-867a-b4c10b226b04">
+    <img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/3598f3c2-176b-463d-867a-b4c10b226b04">
 </div>
 
 <br/>
 
 ## 🎯 작업 방식
+Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습니다.
+<div align="center">
+    <img width="70%" alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b7eebea4-8fbd-40b8-84d8-fdb5f401d3b2">
+</div>
 
 <br/>
 
