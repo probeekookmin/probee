@@ -3,11 +3,8 @@
 <div align="center"> 
     <p align = "center">
         <a href="https://probee.co.kr">
-            <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/186ffe5a-5657-4d82-8f2c-1056fa9ed50f" width = "50%"/>
+            <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/6e0d2476-00d8-4e0e-bd3e-59d899a0af87" width = "30%"/>
         </a>
-    </p>
-    <p align = "center">
-        <a href = "https://probee.co.kr"> Pro-bee </a>
     </p>
 </div>
 
