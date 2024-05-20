@@ -36,19 +36,19 @@
 
 ## 목차
 
-1. :police_car_light: [프로젝트 소개](#프로젝트-소개)
-2. :laptop: [주요기능](#주요기능)
-3. :clapper_board: [소개영상](#소개영상)
-4. :magnifying_glass_tilted_right: [페이지 안내](#페이지-안내)
-5. :man_technologist: [팀원소개](#팀원-소개)
-6. :loudspeaker: [시스템 구조도](#시스템-구조도)
-7. :bullseye: [작업방식](#작업방식)
-8. :sparkles: [기대효과](#기대효과)
-9. :memo: [관련문서](#관련문서)
+1. 🚨 [프로젝트 소개](#프로젝트-소개)
+2. 💻 [주요 기능](#주요-기능)
+3. 🎬 [소개 영상](#소개-영상)
+4. 🔎 [페이지 안내](#페이지-안내)
+5. 👨‍💻 [팀원 소개](#팀원-소개)
+6. 📢 [시스템 구조도](#시스템-구조도)
+7. 🎯 [작업 방식](#작업-방식)
+8. ✨ [기대 효과](#기대-효과)
+9. 📝 [관련 문서](#관련-문서)
 
 
 
-## :police_Car_light: 프로젝트 소개
+## 🚨 프로젝트 소개
 
 <div align="center"> 
     <p align = "center">
@@ -80,7 +80,7 @@ The users of Pro_bee are divided into police officers and guardians. The police 
 Pro_bee replaces the need for missing person alert messages and automates parts of the search process with artificial intelligence. This reduces the fatigue caused by frequent disaster alerts among citizens and ensures that the search for missing persons is conducted more quickly and efficiently.
 
 
-## :laptop: 주요기능
+## 💻 주요 기능
 
 **인공지능을 활용한 두 단계 탐색** <br>
 실종자의 성별, 나이, 인상착의 등의 텍스트 정보를 바탕으로 1차 탐색을 진행한 후, 보호자에 의해 선택된 이미지에 대하여 이미지와 유사한 사람을 찾는 2차 탐색을 진행합니다.
@@ -91,54 +91,54 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <br>
 
 
-## :clapper_board: 소개영상
+## 🎬 소개 영상
 
 *해당 위치에 영상 첨부*
 
-## :magnifying_glass_tilted_right: 페이지 안내
+## 🔎 페이지 안내
 
-**경찰 측 화면**
-- **실종 정보 등록**
-    + 실종자 및 보호자 정보 등록
-    + 탐색 기간 및 위치 설정
-    + 정보 입력 시 안내사항
+### 경찰 측 화면
+#### 실종 정보 등록
++ 실종자 및 보호자 정보 등록
++ 탐색 기간 및 위치 설정
++ 정보 입력 시 안내사항
 <div align="center">
     <img width="80%" alt="실종 정보등록" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/8ad7de72-2e4d-4ef7-9b4a-6fdb8901ea23">
 </div>
 <br/>
 
-- **실종자 리포트 (메인)**
-    + 실종자 정보
-    + 지도 (단계 별 CCTV 위치 및 검출 결과 확인)
-    + 진행 현황
-    + 1차/2차 탐색 결과 및 보호자 선택 이미지 확인
-    + 이전 지능형 탐색 결과 확인
+#### 실종자 리포트 (메인)
++ 실종자 정보
++ 지도 (단계 별 CCTV 위치 및 검출 결과 확인)
++ 진행 현황
++ 1차/2차 탐색 결과 및 보호자 선택 이미지 확인
++ 이전 지능형 탐색 결과 확인
 <div align="center">
         <img width="80%" alt="실종자 리포트" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4b41769c-05bb-4fff-afbb-b1cf42d2b44f">
 </div>
 <br/>
 
-- **실종자 리포트 (지능형 탐색)**
-    + 탐색 기간 및 위치 재설정 (채워져 있음)
-    + 지도 (해당 단계 CCTV 위치 및 검출 결과 확인)
+#### 실종자 리포트 (지능형 탐색)
++ 탐색 기간 및 위치 재설정 (채워져 있음)
++ 지도 (해당 단계 CCTV 위치 및 검출 결과 확인)
 <div align="center">
         <img width="80%" alt="지능형탐색" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/adcbf567-e373-4c27-984a-77401de75420">
 </div>
 <br/>
 
-**보호자 측 화면**
-- **메인**
-    + 실종자 정보 확인 및 사진 추가 가능
-    + 실시간 진행 단계 안내
-    + 도움말
-- **이미지 선별**
-    + 보호자 선택 이미지
-    + 1차 탐색 결과
+### 보호자 측 화면
+#### 메인
++ 실종자 정보 확인 및 사진 추가 가능
++ 실시간 진행 단계 안내
++ 도움말
+#### 이미지 선별
++ 보호자 선택 이미지
++ 1차 탐색 결과
 <div align="center">
         <img width="80%" alt="보호자 화면" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/40c77f16-45ec-44f8-a98f-4821ac991256">
 </div>
 
-## :man_technologist: 팀원 소개
+## 👨‍💻 팀원 소개
 
 <div style="overflow-x: auto;">
     <table style="width: auto; min-width: 800px;">
@@ -228,7 +228,7 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 
 
 
-## :loudspeaker: 시스템 구조도
+## 📢 시스템 구조도
 
 -   시스템 아키텍처
 <div align="center">
@@ -241,13 +241,13 @@ Pro_bee replaces the need for missing person alert messages and automates parts 
 <img width="90%" alt="스크린샷 2024-03-28 오후 10 39 48" src="https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/3598f3c2-176b-463d-867a-b4c10b226b04">
 </div>
 
-## :bullseye: 작업방식
+## 🎯 작업 방식
 
-## :sparkles: 기대효과
+## ✨ 기대 효과
 **보호자의 불안감 감소**
 별도의 경찰 연락 없이 
 
-## :memo: 관련문서
+## 📝 관련 문서
 
 ### [중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
 ### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
