@@ -283,9 +283,9 @@ public class MissingPeopleController {
     public ResponseEntity<?> getMapPosition(
             @PathVariable Long id,
             @RequestParam(required = false, value = "step") String s,
-            @RequestParam(required = false, value = "search-id") long searchHistoryId
+            @RequestParam(required = false, value = "search-id") Long searchHistoryId
     ) {
-        if (searchHistoryId != 0) {
+        if (searchHistoryId != null) {
             return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultsBySearchId(searchHistoryId)));
         }
         Step step = Step.fromValue(s);
