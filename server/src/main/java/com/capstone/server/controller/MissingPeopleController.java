@@ -271,23 +271,27 @@ public class MissingPeopleController {
             @PathVariable Long id,
             @Validated @RequestBody SearchRequestDto searchRequestDto
     ) {
-        //Todo : 1차인지, 2차인지 고를 수 있어야 함
         //DB에 탐색 등록
         Step step = Step.fromValue("first");
         searchHistoryService.createSearchHistory(searchRequestDto, id, step);
-        //생성된 MissingpeopleId와 searchid로 탐색 todo : 이 함수를 kafka에 넣고 돌아오는 결과처리
-//        detectService.callFirstDetectAPI(id); //Kafka안돼서 테스트용
-        // kafkaProducerService.startCallFirstDetectApiToKafka(id);
+        //생성된 MissingpeopleId로 탐색
+        kafkaProducerService.startCallFirstDetectApiToKafka(id);
         return ResponseEntity.ok().body(new SuccessResponse());
     }
 
     @GetMapping("/{id}/mapposition")
     public ResponseEntity<?> getMapPosition(
             @PathVariable Long id,
-            @RequestParam(required = false, value = "step") String s) {
+            @RequestParam(required = false, value = "step") String s,
+            @RequestParam(required = false, value = "search-id") long searchHistoryId
+    ) {
+        if (searchHistoryId != 0) {
+            return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultsBySearchId(searchHistoryId)));
+        }
         Step step = Step.fromValue(s);
-        if (step == Step.BETWEEN)
+        if (step == Step.BETWEEN) {
             return ResponseEntity.ok().body(new SuccessResponse(betweenService.getSearchResultsByMissingPeopleId(id)));
+        }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
     }
 }

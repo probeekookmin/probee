@@ -160,4 +160,21 @@ public class SearchResultService {
 
         return new MapCCTV(cctvId, imgUrl, latlng);
     }
+
+    public List<MapCCTV> getSearchResultsBySearchId(long searchHistoryId) {
+        List<SearchResultEntity> searchResults = searchResultRepository.findAllBySearchHistoryEntityId(searchHistoryId);
+        Map<Long, MapCCTV> mapCCTVMap = new HashMap<>();
+        for (SearchResultEntity searchResult : searchResults) {
+            Long cctvId = searchResult.getCctvEntity().getId();
+            MapCCTV mapCCTV = mapCCTVMap.get(cctvId);
+
+            if (mapCCTV == null) {
+                mapCCTV = convertToMapCCTV(searchResult);
+                mapCCTVMap.put(cctvId, mapCCTV);
+            } else {
+                mapCCTV.getImages().add(new MapCCTV.ImageUrlInfo(searchResult.getId(), searchResult.getImageUrl()));
+            }
+        }
+        return new ArrayList<>(mapCCTVMap.values());
+    }
 }
