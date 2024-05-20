@@ -91,7 +91,9 @@ public class DetectService {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
             //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
-            missingPeople.setStep(Step.valueOf("BETWEEN"));
+            if (missingPeople.getStep().equals(Step.fromValue("first"))) {
+                missingPeople.setStep(Step.valueOf("BETWEEN"));
+            }
             missingPeopleRepository.save(missingPeople);
 
             //과정 3 : 응답으로오는 searchId를 통해 search result 업데이트
