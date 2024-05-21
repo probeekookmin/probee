@@ -10,7 +10,7 @@ import { Circle, Map, MapMarker } from "react-kakao-maps-sdk";
 export const IntelligentSeacrchBox = ({ title, form, name, getLocation, location }) => {
   const mapRef = useRef();
   const [openPostcode, setOpenPostcode] = useState(false);
-  const [inputLocation, setInputLocation] = useState(location);
+  const [inputLocation, setInputLocation] = useState("");
   const [markerPosition, setMarkerPosition] = useState({});
 
   useEffect(() => {
@@ -36,6 +36,7 @@ export const IntelligentSeacrchBox = ({ title, form, name, getLocation, location
       setInputLocation(data.address);
       form.setFieldsValue({ [name]: data.address }); // 주소 정보를 Form.Item에 직접 설정
       // setOpenPostcode(false);
+      console.log("selectAddress", data.address);
     },
 
     // 선택 완료 이벤트
@@ -46,6 +47,7 @@ export const IntelligentSeacrchBox = ({ title, form, name, getLocation, location
   };
 
   const handleGeocoder = () => {
+    console.log("handleGeocoder");
     const geocoder = new kakao.maps.services.Geocoder();
     var callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
@@ -61,7 +63,7 @@ export const IntelligentSeacrchBox = ({ title, form, name, getLocation, location
         }
       }
     };
-    geocoder.addressSearch(location, callback);
+    geocoder.addressSearch(inputLocation, callback);
   };
 
   return (
