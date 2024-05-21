@@ -1,5 +1,5 @@
 # 지능형 실종자 탐색 시스템, PROBEE
-
+TODO : 수정
 <div align="center"> 
     <p align = "center">
     <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
@@ -7,9 +7,23 @@
 </div>
 
 ## 💡 프로젝트 소개
+### | 인공지능을 활용한 실종자 탐색 서비스
 ✅ **PROBEE**는 코로나 이후 재난 문자 발송 건수가 급증하며 국민 피로도가 높아진 문제를 해결하기 위해, 실종자 경보 문자를 대체하기 위한 프로세스 구축을 시작했습니다.
 
 ✅ **PROBEE**는 지능형 실종자 탐색 시스템으로써 실종자 경보 문자에서 활용되던 인상착의 정보를 활용해 AI 탐색을 진행합니다. 또한, 보호자와의 직접적인 상호작용 과정을 추가해 탐색 과정에서 보호자의 불안감이 감소할 수 있도록 하였습니다.
+
+✅ **PROBEE**는 실종 경보 문자를 대체하고, 인공지능을 활용하여 실종자 탐색 과정을 부분적으로 자동화함으로써 잦은 재난 문자로 인한 시민들의 피로감을 줄이고, 실종자 수색이 빠르고 효율적으로 이루어지는 것을 목표로 합니다.
+
+<br/>
+
+
+## 💡 Project Introduction
+### | Missing Person Search Service Utilizing Artificial Intelligence
+✅ **PROBEE** started building a process to replace missing person alert messages to address the issue of increased public fatigue due to the surge in emergency text messages after the COVID-19 pandemic.
+
+✅ **PROBEE** is an intelligent missing person search system that uses AI to search based on the physical descriptions utilized in missing person alert messages. Additionally, it includes direct interaction with guardians to reduce their anxiety during the search process.
+
+✅ **PROBEE** aims to replace missing person alert messages and partially automate the search process using artificial intelligence, thereby reducing public fatigue caused by frequent emergency texts and making missing person searches faster and more efficient.
 
 <br/>
 
@@ -28,38 +42,14 @@ AI 프로세스를 통한 자동 CCTV 분석이 시작되면, 각 단계별 탐�
 실시간 탐색 진행 현황을 제공하여 보호자의 불안감을 감소시킬 수 있습니다. 
 
 ### 👨‍👩‍👧‍👦 보호자가 직접 참여하는 탐색 과정  
-1차 탐색 이후, 보호자가 실종자와 닮은 인물을 직접 선별하고, 2차 탐색을 진행하여 정확한 탐색 결과 제공 가능합니다. 
+1차 탐색 이후, 보호자가 실종자와 닮은 인물을 직접 선별하고, 2차 탐색을 진행하여 정확한 탐색 결과 제공 가능합니다.
+
+### 상업적 확장 가능성
+실종자 탐색, 도난 추적, 범죄 용의자 동선 추적, 유실동물 탐색 시스템을 통해 상업적 확장 가능합니다.
 
 <br/>
 
-## 💡 Project Introduction
-
-✅ **PROBEE** began developing a process to replace missing person alert messages to address the increased number of disaster alert messages and the resulting public fatigue following COVID-19.
-
-✅ **PROBEE** is an intelligent missing person search system that utilizes the descriptive information used in missing person alert messages to conduct AI searches. Additionally, it incorporates direct interaction with guardians to reduce their anxiety during the search process.
-
-<br/>
-
-## 🦾 Project Features
-
-### 🧐 Descriptive-Based CCTV Analysis Using AI
-By utilizing AI for text-based CCTV video analysis, limited police resources can be used more efficiently.
-
-### 🗺️ Comprehensive Missing Person Reports
-Once the automatic CCTV analysis via AI process begins, search results at each stage can be viewed through the bottom tabs and map markers.
-
-### 🚨 Status Cards for Missing Person Overview
-Special notes are indicated with color badges, and missing persons in the search process are differentiated by the color of their profile cards, allowing for an overview of all missing persons in the list.
-
-### 🔍 Real-Time Search Progress Updates
-Providing real-time search progress updates helps reduce guardian anxiety.
-
-### 👨‍👩‍👧‍👦 Guardian Participation in the Search Process
-After the initial search, guardians can directly select individuals resembling the missing person for a secondary search, providing more accurate search results.
-
-<br/>
-
-## 🎥 소개영상
+## 🎬 소개영상
 TODO: 영상 첨부
 
 <br/>
@@ -153,6 +143,7 @@ TODO: 영상 첨부
 
 
 ## 🌐 시스템 구조
+TODO : 변경
 <img width="918" alt="시스템구조" src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/39d53248-266e-41c8-a90d-7d3ce1389f7e">
 
 <br/>
@@ -162,12 +153,11 @@ TODO: 영상 첨부
 ### 🖥 Frontend
 |역할|종류|
 |-|-|
-|**Library**|![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white)  
-|**Styling**| TODO
-|**State Management**| TODO
-|**Programming Language**|![Javascript](https://img.shields.io/badge/Javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=white)
-|**Data Fetching**| TODO
-|**Formatting**| TODO
+|**Library**| ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white)
+|**UI Component Library**| ![Ant Design](https://img.shields.io/badge/Ant_Design-0170FE?style=for-the-badge&logo=AntDesign&logoColor=white)
+|**Styling**| ![styled-components](https://img.shields.io/badge/styled_components-DB7093.svg?style=for-the-badge&logo=styledcomponents&logoColor=white)
+|**Programming Language**| ![Javascript](https://img.shields.io/badge/Javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=white)
+|**Formatting**| ![ESLint](https://img.shields.io/badge/ESLint-4B32C3.svg?style=for-the-badge&logo=ESLint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E.svg?style=for-the-badge&logo=Prettier&logoColor=white)
 |**Package Manager**|![Yarn](https://img.shields.io/badge/Yarn-2C8EBB.svg?style=for-the-badge&logo=Yarn&logoColor=white)                             
 |**Web Server**|![Nginx](https://img.shields.io/badge/Nginx-009639.svg?style=for-the-badge&logo=Nginx&logoColor=white)
 
@@ -190,7 +180,9 @@ TODO: 영상 첨부
 ### 🖥 AI
 |역할|종류|
 |-|-|
-|**Query**|![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white)
+|**Image Detection**| TODO: YOLO LOGO 추가 ![YOLO](https://img.shields.io/badge/YOLO-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white)
+|**TextReID**| ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white)
+|**Image Similarity Search** | ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white) ![FAISS](https://img.shields.io/badge/Faiss-0467DF?style=for-the-badge&logo=Meta&logoColor=white)
 
 <br />
 
@@ -199,7 +191,7 @@ TODO: 영상 첨부
 |역할|종류|
 |-|-|
 |**Web Service**| ![AWSElasticLoadBalancing](https://img.shields.io/badge/Amazon_ALB-8C4FFF?style=for-the-badge&logo=AWSElasticLoadBalancing&logoColor=white) ![AmazonRoute53](https://img.shields.io/badge/Amazon_Route53-8C4FFF?style=for-the-badge&logo=AmazonRoute53&logoColor=white) ![AmazonEC2](https://img.shields.io/badge/Amazon_EC2-FF9900?style=for-the-badge&logo=AmazonEC2&logoColor=white)
-|**CI/CD**| ![Docker](https://img.shields.io/badge/Docker-2088FF?style=for-the-badge&logo=Docker&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2496ED?style=for-the-badge&logo=GitHubActions&logoColor=white) ![DockerCompose](https://img.shields.io/badge/Docker_Compose-2F93E0?style=for-the-badge&logo=OctopusDeploy&logoColor=white)
+|**CI/CD**| ![Docker](https://img.shields.io/badge/Docker-2088FF?style=for-the-badge&logo=Docker&logoColor=white) ![DockerCompose](https://img.shields.io/badge/Docker_Compose-2F93E0?style=for-the-badge&logo=OctopusDeploy&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2496ED?style=for-the-badge&logo=GitHubActions&logoColor=white)
 
 <br/>
 

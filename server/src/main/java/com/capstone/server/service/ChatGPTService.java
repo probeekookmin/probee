@@ -144,6 +144,7 @@ public class ChatGPTService {
             1. Please translate 'short sleeved shirt' into '반팔' and 'long sleeved shirt' into '긴팔'.
             2. Please translate ‘red’ into ‘빨간색’, ‘orange’ into ‘주황색’, ‘yellow’ into ‘노란색’, ‘green’ into ‘초록색’, ‘khaki' into '카키색', 'light blue' into '하늘색', ‘blue’ into ‘파란색’, ‘dark blue' into '남색', ‘purple’ into ‘보라색’, ‘pink' into '분홍색', 'maroon' into '자주색', ‘white’ into ‘흰색’, ‘beige' into '베이지색’, ‘black’ into ‘검은색’
             3. Please translate 'backpack' into '백팩', 'bag' into '가방'
+            4. Excluding hair information, Please translate the last ending of a sentence to "있음." instead of "있습니다.".
 
             An example is as follows.
 
