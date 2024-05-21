@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Steps, Typography } from "antd";
 
-export const StepProgress = ({ step }) => {
+export const StepProgress = ({ step, stepDetail }) => {
   const [current, setCurrent] = useState(0);
+  const [detail, setDetail] = useState("");
   const description = "This is a description.";
   const onChange = (value) => {
     console.log("onChange:", value);
@@ -12,6 +13,9 @@ export const StepProgress = ({ step }) => {
   useEffect(() => {
     console.log("step", step);
     setCurrent(step);
+    if (step === 1 || step === 3) {
+      setDetail(stepDetail);
+    }
   }, [step]);
 
   return (
@@ -21,20 +25,21 @@ export const StepProgress = ({ step }) => {
         className="custom-steps"
         direction="vertical"
         current={current}
-        onChange={onChange}
+        // onChange={onChange}
         items={[
           {
             title: "정보 등록",
           },
           {
             title: "1차 탐색",
+            description: current === 1 ? detail : "",
           },
           {
             title: "이미지 선별",
-            description,
           },
           {
             title: "2차 탐색",
+            description: current === 3 ? detail : "",
           },
           {
             title: "수색",
@@ -90,7 +95,7 @@ const Step = styled(Steps)`
       font-size: 1.6rem;
     }
     &.ant-steps .ant-steps-item-description {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -107,7 +112,7 @@ const Step = styled(Steps)`
       font-size: 1.4rem;
     }
     &.ant-steps .ant-steps-item-description {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     &.ant-steps.ant-steps-vertical > .ant-steps-item > .ant-steps-item-container > .ant-steps-item-tail {
       left: 1rem;
