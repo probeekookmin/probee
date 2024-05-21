@@ -1,8 +1,9 @@
 # 지능형 실종자 탐색 시스템, PROBEE
-TODO : 수정
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/95959567/4908a921-997c-433c-a9ee-56238ef01525" width = "30%"/>
+        <a href="https://probee.co.kr">
+            <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/6e0d2476-00d8-4e0e-bd3e-59d899a0af87" width = "30%"/>
+        </a>
     </p>
 </div>
 
@@ -44,7 +45,7 @@ AI 프로세스를 통한 자동 CCTV 분석이 시작되면, 각 단계별 탐�
 ### 👨‍👩‍👧‍👦 보호자가 직접 참여하는 탐색 과정  
 1차 탐색 이후, 보호자가 실종자와 닮은 인물을 직접 선별하고, 2차 탐색을 진행하여 정확한 탐색 결과 제공 가능합니다.
 
-### 상업적 확장 가능성
+### 📊 상업적 확장 가능성
 실종자 탐색, 도난 추적, 범죄 용의자 동선 추적, 유실동물 탐색 시스템을 통해 상업적 확장 가능합니다.
 
 <br/>
@@ -139,12 +140,13 @@ TODO: 영상 첨부
         </td>
     </tr>
 </table>
+
 <br/>
 
 
 ## 🌐 시스템 구조
-TODO : 변경
-<img width="918" alt="시스템구조" src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/39d53248-266e-41c8-a90d-7d3ce1389f7e">
+
+<img width="900" alt="시스템구조" src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274">
 
 <br/>
 
@@ -180,7 +182,8 @@ TODO : 변경
 ### 🖥 AI
 |역할|종류|
 |-|-|
-|**Image Detection**| TODO: YOLO LOGO 추가 ![YOLO](https://img.shields.io/badge/YOLO-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white)
+|**Framework**| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white)
+|**Image Detection**|  ![YOLO](https://custom-icon-badges.demolab.com/badge/-YOLO-gold?style=for-the-badge&logo=yolo&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white)
 |**TextReID**| ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white)
 |**Image Similarity Search** | ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white) ![FAISS](https://img.shields.io/badge/Faiss-0467DF?style=for-the-badge&logo=Meta&logoColor=white)
 
