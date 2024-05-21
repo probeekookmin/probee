@@ -27,6 +27,13 @@
 <br/> 
 
 ## 💡 프로젝트 소개
+
+<div align="center"> 
+    <p align = "center">
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/64cb90a0-e556-4262-b190-7ec070ad4b59" width = "70%"/>
+    </p>
+</div>
+
 ### | 인공지능을 활용한 실종자 탐색 서비스
 ✅ **PROBEE**는 코로나 이후 재난 문자 발송 건수가 급증하며 국민 피로도가 높아진 문제를 해결하기 위해, 실종자 경보 문자를 대체하기 위한 프로세스 구축을 시작했습니다.
 
@@ -37,6 +44,15 @@
 <br/>
 
 ## 💡 Project Introduction
+
+TODO : 영어버전 사진 수정 
+
+<div align="center"> 
+    <p align = "center">
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/64cb90a0-e556-4262-b190-7ec070ad4b59" width = "70%"/>
+    </p>
+</div>
+
 ### | Missing Person Search Service Utilizing Artificial Intelligence
 ✅ **PROBEE** started building a process to replace missing person alert messages to address the issue of increased public fatigue due to the surge in emergency text messages after the COVID-19 pandemic.
 
@@ -162,8 +178,11 @@ TODO: 영상 첨부
 <br/>
 
 ## 🌐 시스템 구조
-
-<img width="900" alt="시스템구조" src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274">
+<div align="center"> 
+    <p align = "center">
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274" width = 900/>
+    </p>
+</div>
 
 <br/>
 
