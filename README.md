@@ -7,7 +7,7 @@
     </p>
 </div>
 
-## 목차 
+## 🔗 목차 
 1️⃣ [💡 프로젝트 소개](#-프로젝트-소개) & [💡 Project Introduction](#-project-introduction)
 
 2️⃣ [🦾 프로젝트 기능](#-프로젝트-기능)
