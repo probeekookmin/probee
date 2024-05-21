@@ -1,7 +1,7 @@
 /*global kakao*/
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Col, Form, Row } from "antd";
+import { Col, Form, Row, message } from "antd";
 import { IntelligentSearchOption } from "./IntelligentSearchOption";
 import { IntelligentBasicInfo } from "./IntelligentBasicInfo";
 import { IntelligentMap } from "./IntelligentMap";
@@ -11,6 +11,7 @@ import moment from "moment";
 
 export const ReportIntelligent = ({ data, clickData, clickId }) => {
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const [latlng, setLatlng] = useState({});
   const [location, setLocation] = useState("");
   const [cctvData, setCCTVData] = useState([]);
@@ -61,6 +62,14 @@ export const ReportIntelligent = ({ data, clickData, clickId }) => {
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "탐색 결과는 지능형 탐색 이력에서 확인 가능합니다.",
+      duration: 10,
+    });
+  };
+
   const onFinish = (fieldsValue) => {
     const values = {
       startTime:
@@ -72,34 +81,44 @@ export const ReportIntelligent = ({ data, clickData, clickId }) => {
       locationAddress: fieldsValue["searchLocation"],
     };
     console.log("Received values of form: ", values);
-    // postIntelligentSearch(data.id, values);
+    postIntelligentSearch(data.id, values).then((res) => {
+      if (res.success) {
+        success();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    });
   };
   return (
-    <StReportIntelligent id="intelligent">
-      <ContainerTop>
-        <ContainerLeft>
-          <InputForm form={form} onFinish={onFinish}>
-            <IntelligentSearchOption
-              form={form}
-              name={data.missingPeopleName}
-              getLocation={getLocation}
-              location={location}
-            />
-          </InputForm>
-        </ContainerLeft>
-        <ContainerRight>
-          <IntelligentBasicInfo data={data} />
-        </ContainerRight>
-      </ContainerTop>
-      <ContainerBottom>
-        <ContainerLeft>
-          <IntelligentMap searchRange={latlng} location={location} cctvData={cctvData} />
-        </ContainerLeft>
-        <ContainerRight>
-          <IntelligentSearchResult userId={data.id} resultData={clickData} resultId={clickId} />
-        </ContainerRight>
-      </ContainerBottom>
-    </StReportIntelligent>
+    <>
+      {contextHolder}
+      <StReportIntelligent id="intelligent">
+        <ContainerTop>
+          <ContainerLeft>
+            <InputForm form={form} onFinish={onFinish}>
+              <IntelligentSearchOption
+                form={form}
+                name={data.missingPeopleName}
+                getLocation={getLocation}
+                location={location}
+              />
+            </InputForm>
+          </ContainerLeft>
+          <ContainerRight>
+            <IntelligentBasicInfo data={data} />
+          </ContainerRight>
+        </ContainerTop>
+        <ContainerBottom>
+          <ContainerLeft>
+            <IntelligentMap searchRange={latlng} location={location} cctvData={cctvData} />
+          </ContainerLeft>
+          <ContainerRight>
+            <IntelligentSearchResult userId={data.id} resultData={clickData} resultId={clickId} />
+          </ContainerRight>
+        </ContainerBottom>
+      </StReportIntelligent>
+    </>
   );
 };
 
