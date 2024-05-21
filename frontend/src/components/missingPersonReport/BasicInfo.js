@@ -13,7 +13,7 @@ export const BasicInfo = ({ data }) => {
     form.setFieldsValue({
       name: data.missingPeopleName,
       birth: data.birthdate,
-      gender: data.gender,
+      gender: data.gender == "man" ? "남성" : "여성",
       missingTime:
         String(data.missingAt).split("T")[0] +
         " " +
