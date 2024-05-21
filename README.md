@@ -294,7 +294,7 @@ TODO: 영상 첨부
 
 ├── 📂frontend 🗂 프론트엔드 레포지토리(React)
 
-├── 📂ai       🗂 ai 레포지토리(TODO: AI팀에게 문의, pytorch? )
+├── 📂ai       🗂 ai 레포지토리(FastAPI)
 
 ├── 📂server   🗂 백엔드 레포지토리(Spring Boot)
 
