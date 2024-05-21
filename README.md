@@ -38,7 +38,6 @@
 
 <br/>
 
-
 ## 💡 Project Introduction
 ### | Missing Person Search Service Utilizing Artificial Intelligence
 ✅ **PROBEE** started building a process to replace missing person alert messages to address the issue of increased public fatigue due to the surge in emergency text messages after the COVID-19 pandemic.
@@ -164,7 +163,6 @@ TODO: 영상 첨부
 
 <br/>
 
-
 ## 🌐 시스템 구조
 
 <img width="900" alt="시스템구조" src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274">
@@ -187,7 +185,6 @@ TODO: 영상 첨부
 <br />
 
 ### 🖥 Backend
-
 |역할|종류|
 |-|-|
 |**Programming Language**| ![JAVA](https://img.shields.io/badge/JAVA-004027?style=for-the-badge&logo=Jameson&logoColor=white) 
@@ -227,7 +224,6 @@ TODO: 영상 첨부
 |**Version Control**|![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)
 
 <br />
-
 
 ## 🚀 사용 환경 설정 및 시작하기
 
@@ -272,6 +268,8 @@ TODO: 영상 첨부
         docker-compose down
         ```
 
+<br/>
+
 ## 📂 폴더 구조
 ```
 ├── 📂.github
@@ -289,7 +287,7 @@ TODO: 영상 첨부
 └── 📕 Readme.md
 ```
 
-## 📝 소개 자료
----
+<br/>
 
+## 📝 소개 자료
 TODO : 각종 문서들, 중간 자료, 최종 자료 등등 추가
