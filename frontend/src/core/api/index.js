@@ -152,11 +152,14 @@ export const getBetweenResultImg = async (page, id) => {
 };
 
 /* 탐색 결과에 대한 cctv 위치 (Get)*/
-export const getCCTVResult = async (id, step) => {
+export const getCCTVResult = async (id, step, search_id) => {
   const data = axios
-    .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/mapposition?step=${step}`, {
-      headers: { "Content-Type": "application/json" },
-    })
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/mapposition?${step ? `step=${step}` : `search-id=${search_id}`}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
     .then(function (response) {
       return response.data;
     })

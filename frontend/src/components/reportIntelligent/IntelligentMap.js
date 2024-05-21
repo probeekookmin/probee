@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { Circle, CustomOverlayMap, Map, MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Divider, Tooltip } from "antd";
+import { Button, Divider, List, Tooltip } from "antd";
 import Icon, { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import CenterMarker from "../../assets/icons/centerMarker.svg";
 import ActivateRangeMarker from "../../assets/icons/rangeMarker_activate.svg";
@@ -10,7 +10,7 @@ import DisabledRangeMarker from "../../assets/icons/rangeMarker_disabled.svg";
 import LocationMarker from "../../assets/icons/locationMarker.svg";
 import CCTVMarker from "../../assets/icons/cctvMarker_yy.svg";
 
-export const IntelligentMap = ({ searchRange, location }) => {
+export const IntelligentMap = ({ searchRange, location, cctvData }) => {
   const mapRef = useRef();
   const [showRange, setShowRange] = useState(false);
   const [active, setActive] = useState(false);
@@ -50,6 +50,66 @@ export const IntelligentMap = ({ searchRange, location }) => {
       map.setLevel(map.getLevel() - 1);
     }
   };
+
+  const Item = ({ item }) => {
+    return (
+      <ItemContainer>
+        <ItemImage src={item.imgUrl} alt="Image" />
+      </ItemContainer>
+    );
+  };
+
+  const EventMarkerContainer = ({ position, images, markerStyle }) => {
+    const map = useMap();
+    const [isVisible, setIsVisible] = useState(false);
+
+    return (
+      <>
+        <MapMarker
+          position={position} // 마커를 표시할 위치
+          onClick={(marker) => {
+            map.panTo(marker.getPosition());
+            setIsVisible(true);
+          }}
+          image={{
+            src: markerStyle, // 마커이미지의 주소입니다
+            size: {
+              width: 30,
+              height: 40,
+            }, // 마커이미지의 크기입니다
+          }}
+        />
+        {isVisible && (
+          <CustomOverlayMap position={position}>
+            <ContentsContainer>
+              <TopContainer>
+                <p>이미지 목록</p>
+                <Button type="link" icon={<CloseOutlined />} onClick={() => setIsVisible(false)}></Button>
+              </TopContainer>
+              <ExplainText>탐색 결과는 최신순으로 정렬됩니다.</ExplainText>
+
+              <ImageList
+                grid={{
+                  gutter: 8,
+                }}
+                pagination={{
+                  onChange: (page) => {
+                    console.log(page);
+                  },
+                  pageSize: 3,
+                  size: "small",
+                  position: "bottom",
+                }}
+                dataSource={images}
+                renderItem={(item) => <Item key={item.resultId} item={item} />}
+              />
+            </ContentsContainer>
+          </CustomOverlayMap>
+        )}
+      </>
+    );
+  };
+
   return (
     <StIntelligentMap>
       <Map
@@ -83,7 +143,22 @@ export const IntelligentMap = ({ searchRange, location }) => {
             />
           </>
         )}
-      </Map>{" "}
+        {active &&
+          cctvData &&
+          cctvData.map(
+            (position) => (
+              console.log("position", position),
+              (
+                <EventMarkerContainer
+                  key={`history-${position.id}`}
+                  position={position.latlng}
+                  images={position.images}
+                  markerStyle={CCTVMarker}
+                />
+              )
+            ),
+          )}
+      </Map>
       <OverlaySideContainer>
         {active ? (
           <OverlayTooltip placement="left" title={"탐색범위"} color="rgba(1, 1, 1, 0.6)">
@@ -124,6 +199,71 @@ const StIntelligentMap = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 37.3rem;
+  height: 30rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 1rem;
+
+  overflow-y: hidden;
+  cursor: pointer;
+`;
+
+const TopContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  p {
+    font-size: 1.5rem;
+  }
+`;
+const ExplainText = styled.div`
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  font-size: 1.2rem;
+  color: #8b8b8b;
+`;
+
+const ImageList = styled(List)`
+  width: 100%;
+  height: 100%;
+`;
+
+const ItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.9rem;
+
+  p {
+    @media all and (max-width: 1537px) {
+      font-size: 1rem;
+    }
+    font-size: 1.3rem;
+  }
+`;
+
+const ItemImage = styled.img`
+  /* width: 14.4rem;
+  height: 23.8rem; */
+  width: 11.52rem;
+  height: 19.04rem;
+  margin-right: 0.5rem;
+  @media all and (max-width: 1537px) {
+    width: 7.2rem;
+    height: 11.9rem;
+  }
+`;
+
 const OverlaySideContainer = styled.div`
   display: flex;
   flex-direction: column;

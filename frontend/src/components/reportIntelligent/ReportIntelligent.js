@@ -6,13 +6,14 @@ import { IntelligentSearchOption } from "./IntelligentSearchOption";
 import { IntelligentBasicInfo } from "./IntelligentBasicInfo";
 import { IntelligentMap } from "./IntelligentMap";
 import { IntelligentSearchResult } from "./IntelligentSearchResult";
-import { postIntelligentSearch } from "../../core/api";
+import { getCCTVResult, postIntelligentSearch } from "../../core/api";
 import moment from "moment";
 
 export const ReportIntelligent = ({ data, clickData, clickId }) => {
   const [form] = Form.useForm();
   const [latlng, setLatlng] = useState({});
   const [location, setLocation] = useState("");
+  const [cctvData, setCCTVData] = useState([]);
 
   useEffect(() => {
     if (clickData && Object.keys(clickData).length > 0) {
@@ -20,7 +21,7 @@ export const ReportIntelligent = ({ data, clickData, clickId }) => {
       const start = moment(clickData.startTime, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm");
       const end = moment(clickData.endTime, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm");
       setLatlng({ lat: clickData.searchRange.latitude, lng: clickData.searchRange.longitude });
-
+      fetchCCTVData();
       form.setFieldsValue({
         searchPeriod: [moment(start, "YYYY-MM-DD HH:mm"), moment(end, "YYYY-MM-DD HH:mm")],
         searchLocation: location,
@@ -31,6 +32,13 @@ export const ReportIntelligent = ({ data, clickData, clickId }) => {
   useEffect(() => {
     handleLocation();
   }, [latlng]);
+
+  const fetchCCTVData = () => {
+    getCCTVResult(data.id, "", clickId).then((res) => {
+      console.log("firstCCTVData", res.data);
+      setCCTVData(res.data);
+    });
+  };
 
   const getLocation = (latlng) => {
     setLatlng(latlng);
@@ -85,7 +93,7 @@ export const ReportIntelligent = ({ data, clickData, clickId }) => {
       </ContainerTop>
       <ContainerBottom>
         <ContainerLeft>
-          <IntelligentMap searchRange={latlng} location={location} />
+          <IntelligentMap searchRange={latlng} location={location} cctvData={cctvData} />
         </ContainerLeft>
         <ContainerRight>
           <IntelligentSearchResult userId={data.id} resultData={clickData} resultId={clickId} />
