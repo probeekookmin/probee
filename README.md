@@ -1,9 +1,7 @@
-# 지능형 실종자 탐색 시스템, PROBEE
+# 지능형 실종자 탐색 시스템, [PROBEE](https://probee.co.kr) 
 <div align="center"> 
     <p align = "center">
-        <a href="https://probee.co.kr">
-            <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/6e0d2476-00d8-4e0e-bd3e-59d899a0af87" width = "30%"/>
-        </a>
+        <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/6e0d2476-00d8-4e0e-bd3e-59d899a0af87" width = "30%"/>
     </p>
 </div>
 
