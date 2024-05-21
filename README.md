@@ -191,10 +191,10 @@ TODO: 영상 첨부
 ### 🖥 Frontend
 |역할|종류|
 |-|-|
+|**Programming Language**| ![Javascript](https://img.shields.io/badge/Javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=white)
 |**Library**| ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white)
 |**UI Component Library**| ![Ant Design](https://img.shields.io/badge/Ant_Design-0170FE?style=for-the-badge&logo=AntDesign&logoColor=white)
 |**Styling**| ![styled-components](https://img.shields.io/badge/styled_components-DB7093.svg?style=for-the-badge&logo=styledcomponents&logoColor=white)
-|**Programming Language**| ![Javascript](https://img.shields.io/badge/Javascript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=white)
 |**Formatting**| ![ESLint](https://img.shields.io/badge/ESLint-4B32C3.svg?style=for-the-badge&logo=ESLint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E.svg?style=for-the-badge&logo=Prettier&logoColor=white)
 |**Package Manager**|![Yarn](https://img.shields.io/badge/Yarn-2C8EBB.svg?style=for-the-badge&logo=Yarn&logoColor=white)                             
 |**Web Server**|![Nginx](https://img.shields.io/badge/Nginx-009639.svg?style=for-the-badge&logo=Nginx&logoColor=white)
@@ -205,7 +205,8 @@ TODO: 영상 첨부
 |역할|종류|
 |-|-|
 |**Programming Language**| ![JAVA](https://img.shields.io/badge/JAVA-004027?style=for-the-badge&logo=Jameson&logoColor=white) 
-|**Framework**| ![SpringBoot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white) 
+|**Framework**| ![SpringBoot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white)
+|**Build Tool**| ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white) 
 |**API**| ![Rest](https://img.shields.io/badge/Rest_API-000000?style=for-the-badge&logo=iRobot&logoColor=white)
 |**Database**| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white) ![PostGIS](https://img.shields.io/badge/PostGIS-885630?style=for-the-badge&logo=Packagist&logoColor=white)
 |**Database Service**| ![AmazonRDS](https://img.shields.io/badge/Amazon_RDS-527FFF?style=for-the-badge&logo=AmazonRDS&logoColor=white) ![AmazonS3](https://img.shields.io/badge/Amazon_S3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white)
