@@ -6,6 +6,7 @@ import { AllResultList } from "../components/guardianSelect/AllResultList";
 import { Button, Modal } from "antd";
 import { getGuardianSelectImage, postGuardianSelectImage } from "../core/api";
 import Icon from "@ant-design/icons/lib/components/Icon";
+import { useNavigate } from "react-router-dom";
 
 // 더미 데이터
 const dummyData = [
@@ -82,6 +83,7 @@ const dummyData = [
 ];
 
 function GuardianSelectImgPage() {
+  const navigate = useNavigate();
   const [selectedImg, setSelectedImg] = useState([]);
   const [selctedImgId, setSelectedImgId] = useState([]);
   const [data, setData] = useState([]);
@@ -112,6 +114,7 @@ function GuardianSelectImgPage() {
 
     selectOK: () => {
       setIsCancelModalOpen(false);
+      navigate("/m");
     },
     selectCancel: () => {
       setIsCancelModalOpen(false);
@@ -126,6 +129,7 @@ function GuardianSelectImgPage() {
 
     selectOK: () => {
       setIsSubmitModalOpen(false);
+      onFinish();
     },
     selectCancel: () => {
       setIsSubmitModalOpen(false);
@@ -156,7 +160,6 @@ function GuardianSelectImgPage() {
       <BottomContainer>
         <BottomButton onClick={() => handleSubmit.showModal()}>제출</BottomButton>
       </BottomContainer>
-
       <ModalContainer
         className="custom-modal"
         title="이미지 선별을 그만 두시겠습니까?"
