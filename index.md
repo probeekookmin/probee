@@ -1,6 +1,7 @@
 ---
 layout: default
 description: "introduction"
+nav_exclude: true
 permalink: /
 ---
 
