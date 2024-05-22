@@ -22,7 +22,13 @@ export const StepContents = ({ index, current }) => {
       title: "1차 탐색",
       wait: { content: "지능형 탐색을 시작합니다." },
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
-      finish: { content: "탐색 완료했습니다.", buttonText: "탐색 결과 확인하기", callBack: () => {} },
+      finish: {
+        content: "탐색 완료했습니다.",
+        buttonText: "탐색 결과 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "1차 탐색 결과", step: "first" } });
+        },
+      },
     },
     {
       step: 1,
@@ -39,14 +45,26 @@ export const StepContents = ({ index, current }) => {
           navigate("/select");
         },
       },
-      finish: { content: "이미지 선택 완료했습니다.", buttonText: "선별 이미지 확인하기", callBack: () => {} },
+      finish: {
+        content: "이미지 선택 완료했습니다.",
+        buttonText: "선별 이미지 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "선별 이미지 확인", step: "between" } });
+        },
+      },
     },
     {
       step: 2,
       title: "2차 탐색",
       wait: { content: "선별된 이미지를 바탕으로 지능형 탐색을 시작합니다." },
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
-      finish: { content: "탐색 완료했습니다.", buttonText: "탐색 결과 확인하기", callBack: () => {} },
+      finish: {
+        content: "탐색 완료했습니다.",
+        buttonText: "탐색 결과 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "2차 탐색 결과", step: "second" } });
+        },
+      },
     },
     {
       step: 3,
