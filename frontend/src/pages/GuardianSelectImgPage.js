@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { SelectImgList } from "../components/guardianSelect/SelectImgList";
 import { useEffect, useState } from "react";
+import { CloseOutlined } from "@ant-design/icons";
 import { AllResultList } from "../components/guardianSelect/AllResultList";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import { getGuardianSelectImage, postGuardianSelectImage } from "../core/api";
+import Icon from "@ant-design/icons/lib/components/Icon";
 
 // 더미 데이터
 const dummyData = [
@@ -83,6 +85,8 @@ function GuardianSelectImgPage() {
   const [selectedImg, setSelectedImg] = useState([]);
   const [selctedImgId, setSelectedImgId] = useState([]);
   const [data, setData] = useState([]);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
   useEffect(() => {
     getGuardianSelectImage().then((data) => {
@@ -100,6 +104,34 @@ function GuardianSelectImgPage() {
     });
   };
 
+  const handleClose = {
+    // 버튼 클릭 이벤트
+    showModal: () => {
+      setIsCancelModalOpen(true);
+    },
+
+    selectOK: () => {
+      setIsCancelModalOpen(false);
+    },
+    selectCancel: () => {
+      setIsCancelModalOpen(false);
+    },
+  };
+
+  const handleSubmit = {
+    // 버튼 클릭 이벤트
+    showModal: () => {
+      setIsSubmitModalOpen(true);
+    },
+
+    selectOK: () => {
+      setIsSubmitModalOpen(false);
+    },
+    selectCancel: () => {
+      setIsSubmitModalOpen(false);
+    },
+  };
+
   const onFinish = () => {
     const value = [
       selectedImg.map((item) => {
@@ -113,11 +145,39 @@ function GuardianSelectImgPage() {
 
   return (
     <StGuardianSelectImgPage>
+      <HeaderContainer>
+        <CloseButton onClick={() => handleClose.showModal()}>
+          <CloseIcon component={CloseOutlined} />
+        </CloseButton>
+        <Title>탐색 이미지 선별</Title>
+      </HeaderContainer>
       <SelectImgList onSelect={onSelect} data={selectedImg} />
       <AllResultList onSelect={onSelect} data={data} selectedList={selectedImg} />
       <BottomContainer>
-        <BottomButton onClick={() => onFinish()}>제출</BottomButton>
+        <BottomButton onClick={() => handleSubmit.showModal()}>제출</BottomButton>
       </BottomContainer>
+
+      <ModalContainer
+        className="custom-modal"
+        title="이미지 선별을 그만 두시겠습니까?"
+        open={isCancelModalOpen}
+        onOk={handleClose.selectOK}
+        onCancel={handleClose.selectCancel}
+        okText="예"
+        cancelText="아니오">
+        <p>중단하면 선택했던 이미지 정보는 삭제됩니다.</p>
+      </ModalContainer>
+      <ModalContainer
+        className="custom-modal"
+        title="선택한 이미지를
+        제출하시겠습니까?"
+        open={isSubmitModalOpen}
+        onOk={handleSubmit.selectOK}
+        onCancel={handleSubmit.selectCancel}
+        okText="예"
+        cancelText="아니오">
+        <p>제출 후에는 선택한 이미지를 변경할 수 없어요.</p>
+      </ModalContainer>
     </StGuardianSelectImgPage>
   );
 }
@@ -130,6 +190,48 @@ const StGuardianSelectImgPage = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100vh;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 12.5rem;
+  top: 0;
+
+  padding: 0 5rem;
+
+  background-color: white;
+`;
+
+const CloseButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 11rem;
+  height: 11rem;
+
+  &:hover {
+    background-color: #f2f2f2;
+    border-radius: 2rem;
+  }
+`;
+
+const CloseIcon = styled(Icon)`
+  font-size: 5rem;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 5.5rem;
+  font-weight: 600;
+  color: black;
+  margin-right: 5rem;
 `;
 
 const BottomContainer = styled.div`
@@ -155,4 +257,82 @@ const BottomButton = styled(Button)`
   font-style: normal;
   font-weight: 500;
   line-height: 5.5rem;
+`;
+
+const ModalContainer = styled(Modal)`
+  &.custom-modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  &.ant-modal .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 57.5rem;
+    min-width: 86.5rem;
+    max-width: 125rem;
+    min-height: 57.5rem;
+    max-height: 75rem;
+
+    margin-bottom: 60rem;
+    padding: 4rem 4.5rem;
+
+    box-shadow: none;
+    border-radius: 5rem;
+  }
+
+  &.ant-modal .ant-modal-body {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 48rem;
+    margin-bottom: 7rem;
+    p {
+      font-size: 3.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 140%;
+      text-align: center;
+      word-break: keep-all;
+    }
+  }
+
+  &.ant-modal .ant-modal-title {
+    width: 45rem;
+    margin-bottom: 2.5rem;
+    font-size: 5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%;
+    text-align: center;
+    word-break: keep-all;
+  }
+
+  &.ant-modal .ant-modal-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+  }
+  &.ant-modal .ant-modal-footer .ant-btn {
+    width: 35rem;
+    height: 12.5rem;
+    border-radius: 2.5rem;
+    span {
+      font-size: 4rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 5.5rem;
+    }
+  }
+
+  &.ant-modal .ant-modal-footer .ant-btn-default {
+    background: #dedede;
+  }
 `;
