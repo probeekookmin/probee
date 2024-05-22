@@ -26,7 +26,7 @@ function GuardianMainPage() {
 
     //실종자 진행현황 가져오기
     getGuardianMissingPersonStep().then((data) => {
-      console.log("step:", data.step);
+      console.log("getGuardianMissingPersonStep:", data.step);
       switch (data.step) {
         case "FIRST":
           setStep(0);
@@ -41,7 +41,7 @@ function GuardianMainPage() {
           setStep(3);
           break;
         default:
-          setStep(1);
+          setStep(0);
       }
     });
   }, []);

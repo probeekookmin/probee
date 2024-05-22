@@ -21,7 +21,7 @@ export const CustomSteps = ({ currentStep }) => {
   useEffect(() => {
     setCurrent(currentStep);
     setView(currentStep);
-  }, []);
+  }, [currentStep]);
 
   const clickItem = (idx) => {
     console.log("clickItem:", idx);
