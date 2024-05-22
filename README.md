@@ -246,20 +246,20 @@ TODO: 영상 첨부
 ### 🐳 Docker 및 Docker Compose 설치 가이드
 
 1. **Docker Desktop 다운로드 📥**:
-    - **Windows 🪟**
+    - **Windows**
         - [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop) 페이지로 이동합니다.
         - **Download for Windows** 버튼을 클릭하여 다운로드합니다.
 
-    - **Mac 🍎**
+    - **Mac**
         - [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop) 페이지로 이동합니다.
         - **Download for Mac** 버튼을 클릭하여 다운로드합니다.
 
 2. **Docker Desktop 설치 💻**:
-    - **Windows 🪟**
+    - **Windows**
         - 다운로드한 `.exe` 파일을 실행합니다.
         - 설치 과정에 따라 진행합니다.
 
-    - **Mac 🍎**
+    - **Mac**
         - 다운로드한 `.dmg` 파일을 실행합니다.
         - Docker 아이콘을 Applications 폴더로 드래그합니다.
 
