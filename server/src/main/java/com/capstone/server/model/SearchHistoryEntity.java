@@ -46,7 +46,7 @@ public class SearchHistoryEntity {
     private Step step;
 
     @Builder.Default
-    private Double searchRadius = 1.0; // 1km
+    private Double searchRadius = 0.5; // 1km
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
