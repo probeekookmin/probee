@@ -89,7 +89,9 @@ function AddMissingPersonPage() {
               </Typography.Title>
               <Divider />
               <MissingPersonInfo form={form} />
+              <ContentsDivider />
               <WearingInfo form={form} />
+              <ContentsDivider />
               <GuardianInfo />
             </Container>
             <Container>
@@ -154,4 +156,9 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
+`;
+
+const ContentsDivider = styled(Divider)`
+  margin-top: 0;
+  margin-bottom: 3rem;
 `;

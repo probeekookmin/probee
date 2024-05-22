@@ -63,7 +63,7 @@ export const MissingPersonInfo = ({ form }) => {
         }}>
         실종자
       </Typography.Title>
-      <Row gutter={[9, 2]}>
+      <Row gutter={[20, 2]}>
         <Col span={9}>
           <Form.Item
             name={["user", "name"]}
@@ -109,7 +109,7 @@ export const MissingPersonInfo = ({ form }) => {
             />
           </Form.Item>
         </Col>
-        <Col span={13}>
+        <Col span={16}>
           <Form.Item name={["user", "introduction"]} label="특이사항">
             <TextArea placeholder="내용을 입력해주세요." />
           </Form.Item>
@@ -123,10 +123,11 @@ export const MissingPersonInfo = ({ form }) => {
                 required: true,
               },
             ]}>
-            <Select
+            <SelectItem
+              className="custom-select"
               options={typeOptions}
               placeholder="실종자 유형 선택"
-              onChange={(value) => typeChange(value, ["user", "type"])}></Select>
+              onChange={(value) => typeChange(value, ["user", "type"])}></SelectItem>
           </Form.Item>
         </Col>
       </Row>
@@ -160,4 +161,13 @@ const NameInput = styled(Input)`
 
 const TextArea = styled(Input.TextArea)`
   width: 42rem;
+`;
+
+const SelectItem = styled(Select)`
+  &.custom-select .ant-select {
+    width: 18.5rem;
+  }
+  &.custom-select.ant-select.ant-select-in-form-item {
+    width: 18.5rem;
+  }
 `;
