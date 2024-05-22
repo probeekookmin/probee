@@ -1,18 +1,8 @@
 import styled from "styled-components";
 import { Form, Typography, Select, Row, Col } from "antd";
-//import { DownOutlined } from "@ant-design/icons";
-import { bagItems, bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
-const { Option } = Select;
-// const onChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
-const onSearch = (value) => {
-  console.log("search:", value);
-};
+import { bagItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
 
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
+/*실종정보 등록 - 착장 정보 */
 export const WearingInfo = ({ form }) => {
   const onChange = (value, name) => {
     form.setFieldsValue({
@@ -23,21 +13,13 @@ export const WearingInfo = ({ form }) => {
     return (
       <Select
         showSearch
+        allowClear={true}
         placeholder={placeholder}
         optionFilterProp="children"
         onChange={(value) => onChange(value, name)}
-        onSearch={onSearch}
-        filterOption={filterOption}
         options={items}
         style={{ width: "14rem" }}
       />
-      // <Select style={{ width: "14rem" }} name={name}>
-      //   {items.map((item) => (
-      //     <Option key={item.key} value={item.value}>
-      //       {item.label}
-      //     </Option>
-      //   ))}
-      // </Select>
     );
   };
 
