@@ -213,10 +213,22 @@ TODO: 영상 첨부
 
 <br />
 
+### 🖥 AI Server
+|역할|종류|
+|-|-|
+|**Operating System**| ![Ubuntu](https://img.shields.io/badge/ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) 
+|**Programming Language**| ![Python](https://img.shields.io/badge/Python_3.10-3776AB?style=for-the-badge&logo=python&logoColor=white) 
+|**Framework**| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white)
+|**AI Env**| ![Nvida](https://img.shields.io/badge/CuDnn_8.6-76B900?style=for-the-badge&logo=nvidia&logoColor=white) ![Nvida](https://img.shields.io/badge/CuDa_11.8-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
+|**Remote Env**| ![ssh](https://img.shields.io/badge/ssh-5391FE?style=for-the-badge&logo=powershell&logoColor=white) ![wol](https://img.shields.io/badge/wol-F2C811?style=for-the-badge&logoColor=white) ![vnc](https://img.shields.io/badge/vnc-E74536?style=for-the-badge&logoColor=white)
+
+
+
+<br />
+
 ### 🖥 AI
 |역할|종류|
 |-|-|
-|**Framework**| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white)
 |**Image Detection**|  ![YOLO](https://custom-icon-badges.demolab.com/badge/-YOLO-gold?style=for-the-badge&logo=yolo&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white)
 |**TextReID**| ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white)
 |**Image Similarity Search** | ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=PyTorch&logoColor=white) ![FAISS](https://img.shields.io/badge/Faiss-0467DF?style=for-the-badge&logo=Meta&logoColor=white)
