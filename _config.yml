@@ -16,10 +16,9 @@
 title: Pro_bee
 description: Capstone Team 14
 theme: just-the-docs
-remote_theme: pdmosses/just-the-docs@rec-nav
 baseurl: "" # the subpath of your site, e.g. /blog
-# url: "https://kookmin-sw.github.io/capstone-2024-14/" # the base hostname & protocol for your site, e.g. http://example.com
-url: http://localhost:4000
+url: "https://kookmin-sw.github.io/capstone-2024-14/" # the base hostname & protocol for your site, e.g. http://example.com
+# url: http://localhost:4000
 repository: just-the-docs/just-the-docs # for github-metadata
 
 permalink: pretty
