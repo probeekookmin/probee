@@ -7,12 +7,25 @@ import { IntelligentReportList } from "./IntelligentReportList";
 import { ReportTabs } from "./ReportTabs";
 import { ReportResultImages } from "./ReportResultImages";
 
-export const ReportMain = ({ data, step, history, step1data, onClick }) => {
+export const ReportMain = ({
+  data,
+  step,
+  stepDetail,
+  history,
+  firstdata,
+  betweenData,
+  secondData,
+  onClick,
+  handleClickList,
+  firstCCTVData,
+  betweenCCTVData,
+  secondCCTVData,
+}) => {
   //console.log("ReportMain_id: " + id.id);
   console.log("ReportMain_data: ", data);
   console.log("ReportMain_step: ", step);
   console.log("ReportMain_history: ", history);
-  console.log("ReportMain_step1data: ", step1data);
+  console.log("ReportMain_step1data: ", firstdata);
   return (
     <StReportMain>
       <TitleContainer>
@@ -31,16 +44,24 @@ export const ReportMain = ({ data, step, history, step1data, onClick }) => {
             <BasicInfo data={data} />
           </Container1>
           <Container2>
-            <IntelligentReportList history={history} onClick={onClick} />
+            <IntelligentReportList history={history} onClick={onClick} handleClickList={handleClickList} />
           </Container2>
         </ContainerLeft>
         <ContainerRight>
           <Container1>
-            <ReportMap />
-            <StepProgress step={step} />
+            <ReportMap
+              start={firstdata.startTime}
+              end={firstdata.endTime}
+              searchRange={firstdata.searchRange}
+              step={step}
+              firstData={firstCCTVData}
+              betweenData={betweenCCTVData}
+              secondData={secondCCTVData}
+            />
+            <StepProgress step={step} stepDetail={stepDetail} />
           </Container1>
           <Container2>
-            <ReportTabs id={data.id} step1data={step1data} />
+            <ReportTabs id={data.id} firstdata={firstdata} betweenData={betweenData} secondData={secondData} />
           </Container2>
         </ContainerRight>
       </ContentsContainer>

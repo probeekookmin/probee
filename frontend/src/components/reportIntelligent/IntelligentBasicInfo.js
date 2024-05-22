@@ -26,63 +26,6 @@ export const IntelligentBasicInfo = ({ data }) => {
   }, [data]);
 
   return (
-    // <StIntelligentBasicInfo>
-    //   <Form form={form} layout="vertical">
-    //     <Row gutter={15}>
-    //       <Col span={12}>
-    //         <Row>
-    //           <Col span={24}>
-    //             <Typography.Title level={5}> </Typography.Title>
-    //           </Col>
-    //           <Col span={11}>
-    //             <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
-    //           </Col>
-    //           <Col span={13}>
-    //             <Row>
-    //               <Col span={24}>
-    //                 <InputForm label={"성명"} name={"name"} />
-    //               </Col>
-    //               <Col span={17}>
-    //                 <InputForm label={"생년월일"} name={"birth"} />
-    //               </Col>
-    //               <Col span={7}>
-    //                 <InputForm label={"성별"} name={"gender"} />
-    //               </Col>
-    //               <Col span={24}>
-    //                 <InputForm label={"실종일시"} name={"missingTime"} />
-    //               </Col>
-    //               <Col span={24}>
-    //                 <InputForm label={"실종장소"} name={"missingLocation"} />
-    //               </Col>
-    //             </Row>
-    //           </Col>
-    //         </Row>
-    //       </Col>
-    //       <Col span={1}>
-    //         <Divider type="vertical" style={{ height: "100%" }} />
-    //       </Col>
-
-    //       <Col span={10}>
-    //         <Col>
-    //           <Typography.Title level={5}>착장정보</Typography.Title>
-    //         </Col>
-    //         <Col>
-    //           <Skeleton title={false} />
-    //         </Col>
-    //       </Col>
-    //     </Row>
-
-    //     {/* <Col span={11}>
-    //       <Typography.Title
-    //         level={5}
-    //         style={{
-    //           margin: 0,
-    //         }}>
-    //         착장정보
-    //       </Typography.Title>
-    //     </Col> */}
-    //   </Form>
-    // </StIntelligentBasicInfo>
     <StIntelligentBasicInfo>
       <InfoForm form={form}>
         <ImageContainer>

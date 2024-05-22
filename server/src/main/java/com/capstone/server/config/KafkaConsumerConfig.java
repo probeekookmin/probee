@@ -29,7 +29,7 @@ public class KafkaConsumerConfig {
     private String secondGroupId;
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String offsetReset;
-    
+
 
     @Bean
     public ConsumerFactory<String, Long> longConsumerFactory() {
@@ -40,7 +40,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 12000000); // 200분
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new LongDeserializer());
     }
-    
+
     // Kafka Listener Container Factory for Long
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Long> kafkaLongListenerContainerFactory() {
@@ -48,12 +48,12 @@ public class KafkaConsumerConfig {
         factory.setConsumerFactory(longConsumerFactory());
         return factory;
     }
-    
+
     @Bean
     public ConsumerFactory<String, KafkaDto> jsonConsumerFactory() {
         JsonDeserializer<KafkaDto> jsonDeserializer = new JsonDeserializer<>(KafkaDto.class);
         jsonDeserializer.addTrustedPackages("com.capstone.server.dto");
-    
+
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, secondGroupId);
@@ -61,7 +61,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 12000000); // 200분
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(KafkaDto.class));
     }
-    
+
     // Kafka Listener Container Factory for Long
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, KafkaDto> kafkaJsonListenerContainerFactory() {

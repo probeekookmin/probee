@@ -110,13 +110,13 @@ export const getSearchHistoryList = async (id) => {
   return data;
 };
 
-/* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색 (Get)*/
-export const getSearchResultImg = async (page, id, step, search_id) => {
+/* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색, 추가 탐색 (Get)*/
+export const getSearchResultImg = async (page, id, step, search_id, size) => {
   console.log("getSearchResultImg", id, step, search_id);
 
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=6${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=${size ? size : 6}${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
       {
         headers: { "Content-Type": "application/json" },
       },
@@ -147,6 +147,53 @@ export const getBetweenResultImg = async (page, id) => {
       console.error(e);
       console.log(e.response.data);
       alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/* 탐색 결과에 대한 cctv 위치 (Get)*/
+export const getCCTVResult = async (id, step, search_id) => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/mapposition?${step ? `step=${step}` : `search-id=${search_id}`}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("cctv 위치 가져오기 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/*실종자 리포트 - 지능형 탐색 추가 (Post) */
+export const postIntelligentSearch = async (id, values) => {
+  const data = axios
+    .post(
+      `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search`,
+      {
+        ...values,
+      },
+
+      {
+        headers: { "Content-Type": "application/json" },
+      },
+    )
+    .then(function (response) {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("탐색 실패. 재시도해주세요.");
     });
   return data;
 };

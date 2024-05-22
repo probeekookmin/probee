@@ -90,11 +90,11 @@ public class GuardianController {
         //2차탐색기록 생성
         Step step = Step.fromValue("second");
         Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);
-        
+
         //2차탐색 시작
         KafkaDto kafkaDto = KafkaDto.toKafkaDto(id, betweenRequestDto, searchId);
-        kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
-
+         kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
+         
         //사진을 업로드하면 바로 2차탐색하게 구현하기
         return ResponseEntity.ok().body(new SuccessResponse("success"));
     }

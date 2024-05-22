@@ -10,7 +10,7 @@ const data = [
   "2024-03-14 10:03:12",
 ];
 
-export const ReportList = ({ history }) => {
+export const ReportList = ({ history, handleClickList }) => {
   // const [data, setData] = useState([]);
   // useEffect(() => {
   //   console.log("history data", listData);
@@ -18,6 +18,7 @@ export const ReportList = ({ history }) => {
   // }, []);
   console.log("history", history);
   const ListItems = ({ item }) => {
+    console.log("item", item);
     return (
       // <ListItemContainer>
       //   <Row gutter={8} justify="space-around">
@@ -32,7 +33,10 @@ export const ReportList = ({ history }) => {
       //     </Col>
       //   </Row>
       // </ListItemContainer>
-      <ListItemContainer>
+      <ListItemContainer
+        onClick={() => {
+          handleClickList(item.searchId);
+        }}>
         <ItemLeft>
           <FileSearchOutlined /> <p>{item.createdAt}</p>
         </ItemLeft>
@@ -106,6 +110,10 @@ const ListItemContainer = styled.div`
   border-radius: 0.5rem;
   background-color: white;
   font-size: 1.4rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #f5f5f5;
+  }
   @media all and (max-width: 1536px) {
     padding: 0.6rem 0.5rem;
 

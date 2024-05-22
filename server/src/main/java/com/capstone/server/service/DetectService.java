@@ -70,7 +70,7 @@ public class DetectService {
             return restTemplate.postForObject(url + "/run", request, FirstDetectionDataDto.class);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
-                throw new CustomException(ErrorCode.INVALID_REQUEST_DATA, e);
+                throw new CustomException(ErrorCode.INVALID_REQUEST_DATA);
             } else {
                 // 그 외의 서버 오류에 대한 처리
                 throw new CustomException(ErrorCode.AI_SERVER_ERROR, e);
@@ -91,7 +91,9 @@ public class DetectService {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
             //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
-            missingPeople.setStep(Step.valueOf("BETWEEN"));
+            if (missingPeople.getStep().equals(Step.fromValue("first"))) {
+                missingPeople.setStep(Step.valueOf("BETWEEN"));
+            }
             missingPeopleRepository.save(missingPeople);
 
             //과정 3 : 응답으로오는 searchId를 통해 search result 업데이트
@@ -111,8 +113,14 @@ public class DetectService {
         }
     }
 
+    @Transactional
     public FirstDetectionDataDto callSecondDetectApi(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
         try {
+            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
+            missingPeople.setStep(Step.valueOf("EXIT"));
+            missingPeopleRepository.save(missingPeople);
             //과정1 : ai server요청에 쓸 dto를 생성
             SecondDetectionRequestDto secondDetectionRequestDto = new SecondDetectionRequestDto();
             secondDetectionRequestDto.setTopK(20);

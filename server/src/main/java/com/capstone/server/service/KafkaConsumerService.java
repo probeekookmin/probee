@@ -25,7 +25,6 @@ public class KafkaConsumerService {
     private KafkaProducerService kafkaProducerService;
 
     // 사용 중 
-    @Transactional
     @KafkaListener(topics = "start-call-first-detection-api", groupId = "consumer_group01", containerFactory = "kafkaLongListenerContainerFactory")
     public void consumeStartCallFirstDetectionApi(Long id) {
         System.out.println("************** Consumer01 FIRST Start *************");
@@ -35,10 +34,10 @@ public class KafkaConsumerService {
         System.out.println("************** Consumer01 THIRD Start *************");
     }
 
-    // TODO : 2차 모델 로직 추가 
-    @Transactional
     @KafkaListener(topics = "start-call-second-detection-api", groupId = "consumer_group02",  containerFactory = "kafkaJsonListenerContainerFactory")
     public void consumeStartCallSecondDetectionApi(KafkaDto kafkaDto) {
-        detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
+        FirstDetectionDataDto firstDetectionDataDto = detectService.callSecondDetectApi(kafkaDto.getId(), kafkaDto.getBetweenRequestDto(), kafkaDto.getSearchId());
+        detectService.postSecondDetectionResult(firstDetectionDataDto);
+
     }
 }

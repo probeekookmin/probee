@@ -21,9 +21,9 @@ public class KafkaProducerService {
 
     /* Kafka Template 을 이용해 Kafka Broker 전송 */
     private final KafkaTemplate<String, Long> kafkaLongTemplate;
-    private final KafkaTemplate<String, KafkaDto> kafkaDtoTemplate;
+     private final KafkaTemplate<String, KafkaDto> kafkaDtoTemplate;
 
-    // Detection 하는 Producer.
+    // Detection 하는 Producer
     public void startCallFirstDetectApiToKafka(Long id) {
         System.out.println("************** PRODUCER 01 Start *************");
         this.kafkaLongTemplate.send(startCallFirstDetectApiTopicName, id);

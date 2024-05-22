@@ -219,8 +219,6 @@ public class MissingPeopleService {
 
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
         missingPeopleEntity.setQuery(querys.get(0));
-        // // missingPeopleEntity.setKoQuery(querys.get(1));
-        // missingPeopleRepository.save(missingPeopleEntity);
     }
 
     // public List<S3UploadResponseDto> uploadSearchHistoryImageToS3(Long id, Long searchHistoryId ,List<MultipartFile> images, String setUploadImageName) {

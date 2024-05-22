@@ -7,6 +7,7 @@ import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 import { postMissingPerson } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { AnnotationInfo } from "../components/addMisingPerson/AnnotationInfo";
+import { useState } from "react";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -21,7 +22,15 @@ const validateMessages = {
 
 function AddMissingPersonPage() {
   const [form] = Form.useForm();
+  const [latlng, setLatlng] = useState({});
+
   const navigate = useNavigate();
+
+  const getLocation = (latlng) => {
+    setLatlng(latlng);
+    console.log("latlng", latlng);
+  };
+
   const onFinish = (fieldsValue) => {
     console.log("gender", fieldsValue["user"]["gender"]);
     const values = {
@@ -34,13 +43,13 @@ function AddMissingPersonPage() {
             "T" +
             fieldsValue["user"]["missingTime"].format("HH:mm")) ||
         "",
-      missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
-      description: fieldsValue["user"]["introduction"] || "특이사항 없음",
-      hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "긴 머리",
-      topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "반팔",
-      topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "흰색",
-      bottomType: (fieldsValue["bottomType"] != "" && fieldsValue["bottomType"]) || "반바지",
-      bottomColor: (fieldsValue["bottomColor"] != "" && fieldsValue["bottomColor"]) || "분홍",
+      missingLocation: fieldsValue["missingLocation"] || "-",
+      description: fieldsValue["user"]["introduction"] || "없음.",
+      hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "없음",
+      topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "없음",
+      topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "없음",
+      bottomType: (fieldsValue["bottomType"] != "" && fieldsValue["bottomType"]) || "없음",
+      bottomColor: (fieldsValue["bottomColor"] != "" && fieldsValue["bottomColor"]) || "없음",
       bagType: (fieldsValue["bag"] != "" && fieldsValue["bag"]) || "없음",
       guardianName: fieldsValue["guardian"]["name"],
       relationship: fieldsValue["guardian"]["relation"],
@@ -49,11 +58,10 @@ function AddMissingPersonPage() {
         fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
       endTime:
         fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
-      latitude: 37.610767,
-      longitude: 126.996967,
-      locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
-      shoesColor: "빨강",
-      missingPeopleType: "아동",
+      latitude: latlng["lat"],
+      longitude: latlng["lng"],
+      locationAddress: fieldsValue["searchLocation"],
+      missingPeopleType: fieldsValue["user"]["type"],
     };
     console.log("Received values of form: ", values);
     postMissingPerson(values);
@@ -80,7 +88,9 @@ function AddMissingPersonPage() {
               </Typography.Title>
               <Divider />
               <MissingPersonInfo form={form} />
+              <ContentsDivider />
               <WearingInfo form={form} />
+              <ContentsDivider />
               <GuardianInfo />
             </Container>
             <Container>
@@ -92,7 +102,7 @@ function AddMissingPersonPage() {
                 지능형 탐색 초기 정보 등록
               </Typography.Title>
               <Divider />
-              <IntelligentSearchInfo form={form} />
+              <IntelligentSearchInfo form={form} getLocation={getLocation} />
             </Container>
             <ButtonContainer>
               <Form.Item wrapperCol={{}}>
@@ -145,4 +155,9 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
+`;
+
+const ContentsDivider = styled(Divider)`
+  margin-top: 0;
+  margin-bottom: 3rem;
 `;

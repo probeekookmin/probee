@@ -6,13 +6,14 @@ import { InputForm } from "../common/InputForm";
 export const BasicInfo = ({ data }) => {
   const [form] = Form.useForm();
   console.log("BasicInfo", data);
+
   // 실종자 정보 적용
   useEffect(() => {
     console.log("BasicInfo-useEffect", data);
     form.setFieldsValue({
       name: data.missingPeopleName,
       birth: data.birthdate,
-      gender: data.gender,
+      gender: data.gender == "man" ? "남성" : "여성",
       missingTime:
         String(data.missingAt).split("T")[0] +
         " " +
@@ -26,54 +27,9 @@ export const BasicInfo = ({ data }) => {
     });
   }, [data]);
 
-  // 실종자 정보 적용
-  // useEffect(() => {
-  //   form.setFieldsValue({
-  //     name: "홍길동",
-  //     birth: "1999.01.01",
-  //     gender: "남성",
-  //     missingTime: "2021.08.01 12:00" + "경",
-  //     missingLocation: "서울시 강남구",
-  //     guardianName: "김영희",
-  //     relation: "부",
-  //     guardianContact: "010-1234-5678",
-  //     profileImage:
-  //       "https://spring-server-image-storage.s3.ap-northeast-2.amazonaws.com/missingPeopleId=1/profile/001.PNG",
-  //   });
-  // }, []);
-
   /* 실종자 정보 영역 */
   const MissingPersonInfo = () => {
     return (
-      // <InfoContainer>
-      //   <Typography.Title level={5}>실종자 정보</Typography.Title>
-      //   <MissingPersonForm form={form} layout="vertical">
-      //     <Row>
-      //       <Col span={11}>
-      //         {/* <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} /> */}
-      //         {data.profileImage ? (
-      //           <img src={data.profileImage} alt="Profile" style={{ width: "13rem", height: "16rem" }} />
-      //         ) : (
-      //           <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
-      //         )}
-      //       </Col>
-      //       <Col span={13}>
-      //         <InputForm label={"성명"} name={"name"} />
-      //         <Row>
-      //           <Col span={16}>
-      //             <InputForm label={"생년월일"} name={"birth"} />
-      //           </Col>
-      //           <Col span={8}>
-      //             <InputForm label={"성별"} name={"gender"} />
-      //           </Col>
-      //         </Row>
-      //         <InputForm label={"실종일시"} name={"missingTime"} />
-      //         <InputForm label={"실종장소"} name={"missingLocation"} />
-      //       </Col>
-      //     </Row>
-      //   </MissingPersonForm>
-      // </InfoContainer>
-
       <InfoContainer>
         <Title>실종자 정보</Title>
         <MissingPersonForm form={form} layout="vertical">
@@ -111,22 +67,6 @@ export const BasicInfo = ({ data }) => {
   /* 보호자 정보 영역 */
   const GuardianInfo = () => {
     return (
-      // <InfoContainer>
-      //   <Typography.Title level={5}>보호자 정보</Typography.Title>
-      //   <InfoForm form={form} layout="vertical">
-      //     <Row>
-      //       <Col span={7}>
-      //         <InputForm label={"보호자명"} name={"guardianName"} />
-      //       </Col>
-      //       <Col span={4}>
-      //         <InputForm label={"관계"} name={"relation"} />
-      //       </Col>
-      //       <Col span={13}>
-      //         <InputForm label={"보호자 연락처"} name={"guardianContact"} />
-      //       </Col>
-      //     </Row>
-      //   </InfoForm>
-      // </InfoContainer>
       <InfoContainer>
         <Title>보호자 정보</Title>
         <InfoForm form={form} layout="vertical">
@@ -143,16 +83,6 @@ export const BasicInfo = ({ data }) => {
   /* 착장정보 영역 */
   const WearingInfo = () => {
     return (
-      // <InfoContainer>
-      //   <Typography.Title level={5}>착장 정보</Typography.Title>
-      //   <InfoForm form={form} layout="vertical">
-      //     <Row>
-      //       <Col span={24}>
-      //         <StyledParagraph>{data.koQuery}</StyledParagraph>
-      //       </Col>
-      //     </Row>
-      //   </InfoForm>
-      // </InfoContainer>
       <InfoContainer>
         <Title>착장 정보</Title>
         <InfoForm form={form} layout="vertical">
@@ -165,16 +95,6 @@ export const BasicInfo = ({ data }) => {
   /* 특이사항 영역 */
   const DescInfo = () => {
     return (
-      // <InfoContainer>
-      //   <Typography.Title level={5}>착장 정보</Typography.Title>
-      //   <InfoForm form={form} layout="vertical">
-      //     <Row>
-      //       <Col span={24}>
-      //         <StyledParagraph>{data.koQuery}</StyledParagraph>
-      //       </Col>
-      //     </Row>
-      //   </InfoForm>
-      // </InfoContainer>
       <InfoContainer>
         <Title>특이사항</Title>
         <InfoForm form={form} layout="vertical">
@@ -269,12 +189,6 @@ const StyledParagraph = styled.p`
   @media (max-width: 1280px) and (min-width: 0px) {
     font-size: 0.9rem;
   }
-`;
-
-const PersonInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `;
 
 const ImageContainer = styled.div`

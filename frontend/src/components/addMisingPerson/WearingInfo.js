@@ -1,18 +1,8 @@
 import styled from "styled-components";
 import { Form, Typography, Select, Row, Col } from "antd";
-//import { DownOutlined } from "@ant-design/icons";
-import { bagItems, bodyItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
-const { Option } = Select;
-// const onChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
-const onSearch = (value) => {
-  console.log("search:", value);
-};
+import { bagItems, bottomItems, colorItems, hairItems, topItems } from "../../data/WearingItemMenu";
 
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
+/*실종정보 등록 - 착장 정보 */
 export const WearingInfo = ({ form }) => {
   const onChange = (value, name) => {
     form.setFieldsValue({
@@ -23,21 +13,13 @@ export const WearingInfo = ({ form }) => {
     return (
       <Select
         showSearch
+        allowClear={true}
         placeholder={placeholder}
         optionFilterProp="children"
         onChange={(value) => onChange(value, name)}
-        onSearch={onSearch}
-        filterOption={filterOption}
         options={items}
         style={{ width: "14rem" }}
       />
-      // <Select style={{ width: "14rem" }} name={name}>
-      //   {items.map((item) => (
-      //     <Option key={item.key} value={item.value}>
-      //       {item.label}
-      //     </Option>
-      //   ))}
-      // </Select>
     );
   };
 
@@ -51,19 +33,14 @@ export const WearingInfo = ({ form }) => {
         실종자 착장 정보
       </Typography.Title>
 
-      <Row gutter={[8, 1]}>
+      <Row gutter={[12, 1]}>
+        <Col span={9}>
+          <Form.Item name="hair" label="머리스타일">
+            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} name="hair" />
+          </Form.Item>
+        </Col>
         <Col span={12}>
-          {" "}
           <SetContainer>
-            {/* <Form.Item label="상의">
-              <Form.Item name={["wearing", "topType"]}>
-                <SelectItem items={topItems} placeholder={"유형 선택"} name={["wearing", "topType"]} />
-              </Form.Item>
-              <Form.Item name={["wearing", "topColor"]} initialValue="">
-                <SelectItem items={colorItems} placeholder={"색상 선택"} name={["wearing", "topColor"]} />
-              </Form.Item>
-            </Form.Item> */}
-
             <Form.Item name="topType" label="상의">
               <SelectItem items={topItems} placeholder={"유형 선택"} name="topType" />
             </Form.Item>
@@ -71,6 +48,11 @@ export const WearingInfo = ({ form }) => {
               <SelectItem items={colorItems} placeholder={"색상 선택"} name="topColor" />
             </Form.Item>
           </SetContainer>
+        </Col>{" "}
+        <Col span={9}>
+          <Form.Item name="bag" label="가방">
+            <SelectItem items={bagItems} placeholder={"가방 선택"} name="bag" />
+          </Form.Item>
         </Col>
         <Col span={12}>
           <SetContainer>
@@ -81,16 +63,6 @@ export const WearingInfo = ({ form }) => {
               <SelectItem items={colorItems} placeholder={"색상 선택"} name="bottomColor" />
             </Form.Item>
           </SetContainer>
-        </Col>
-        <Col span={8}>
-          <Form.Item name="hair" label="머리스타일">
-            <SelectItem items={hairItems} placeholder={"머리스타일 선택"} name="hair" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item name="bag" label="가방">
-            <SelectItem items={bagItems} placeholder={"가방 선택"} name="bag" />
-          </Form.Item>
         </Col>
       </Row>
     </Wrapper>

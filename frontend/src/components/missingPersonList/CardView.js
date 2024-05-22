@@ -17,7 +17,7 @@ export const CardView = ({ data }) => {
     form.setFieldsValue({
       name: data.name,
       birth: data.birthdate,
-      gender: data.gender === "남성" ? "남" : "여",
+      gender: data.gender === "man" ? "남" : "여",
       missingTime: dateForm(data.missingAt),
       missingLocation: data.missingLocation,
     });

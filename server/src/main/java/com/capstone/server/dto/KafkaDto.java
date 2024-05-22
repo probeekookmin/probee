@@ -15,14 +15,14 @@ import lombok.Setter;
 @Setter
 public class KafkaDto {
     private Long id;
-    private BetweenRequestDto betweenRequestDto;
-    private Long searchId;
+     private BetweenRequestDto betweenRequestDto;
+     private Long searchId;
 
-    public static KafkaDto toKafkaDto(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
-        KafkaDto kafkaDto = new KafkaDto();
-        kafkaDto.setId(id);
-        kafkaDto.setBetweenRequestDto(betweenRequestDto);
-        kafkaDto.setSearchId(searchId);
-        return kafkaDto;
-    }
+     public static KafkaDto toKafkaDto(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
+         KafkaDto kafkaDto = new KafkaDto();
+         kafkaDto.setId(id);
+         kafkaDto.setBetweenRequestDto(betweenRequestDto);
+         kafkaDto.setSearchId(searchId);
+         return kafkaDto;
+     }
 }

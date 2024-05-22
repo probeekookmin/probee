@@ -50,4 +50,6 @@ public class BetweenService {
 
         return new MapCCTV(cctvId, imgUrl, latlng);
     }
+
+
 }
