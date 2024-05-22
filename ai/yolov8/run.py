@@ -39,6 +39,8 @@ def run_Yolo(cctvIds,save_path,startTime):
     annotations = []
     for cctv_id in cctvIds:
         source_path = f'/home/jongbin/Desktop/cctv/{cctv_id.id}/{startTime.split("T")[0]}' #todo 세부적인 시 분 초 시간까지 골라서 돌리기 기능 추가
+        if not os.path.exists(source_path):
+            continue  # source_path가 존재하지 않으면 다음 반복으로 넘어감
         for filename in os.listdir(source_path):
             source = os.path.join(source_path, filename)
             start_time = extract_video_info(filename)
