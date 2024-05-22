@@ -30,7 +30,7 @@
 
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/64cb90a0-e556-4262-b190-7ec070ad4b59" width = "70%"/>
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b9d379c4-5730-474f-8b94-bba33a640862" width = "70%"/>
     </p>
 </div>
 
@@ -45,11 +45,9 @@
 
 ## 💡 Project Introduction
 
-TODO : 영어버전 사진 수정 
-
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/64cb90a0-e556-4262-b190-7ec070ad4b59" width = "70%"/>
+    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b9d379c4-5730-474f-8b94-bba33a640862" width = "70%"/>
     </p>
 </div>
 
