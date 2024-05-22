@@ -20,7 +20,9 @@ permalink: /
 ---
 
 ## 💡 프로젝트 소개
+{: .fw-700 .text-blue-000}
 ### | 인공지능을 활용한 실종자 탐색 서비스
+{: .fw-700}
 ✅ **PROBEE**는 코로나 이후 재난 문자 발송 건수가 급증하며 국민 피로도가 높아진 문제를 해결하기 위해, 실종자 경보 문자를 대체하기 위한 프로세스 구축을 시작했습니다.
 
 ✅ **PROBEE**는 지능형 실종자 탐색 시스템으로써 실종자 경보 문자에서 활용되던 인상착의 정보를 활용해 AI 탐색을 진행합니다. 또한, 보호자와의 직접적인 상호작용 과정을 추가해 탐색 과정에서 보호자의 불안감이 감소할 수 있도록 하였습니다.
@@ -30,7 +32,9 @@ permalink: /
 <br/>
 
 ## 💡 Project Introduction
+{: .fw-700 .text-blue-000}
 ### | Missing Person Search Service Utilizing Artificial Intelligence
+{: .fw-700}
 ✅ **PROBEE** started building a process to replace missing person alert messages to address the issue of increased public fatigue due to the surge in emergency text messages after the COVID-19 pandemic.
 
 ✅ **PROBEE** is an intelligent missing person search system that uses AI to search based on the physical descriptions utilized in missing person alert messages. Additionally, it includes direct interaction with guardians to reduce their anxiety during the search process.
@@ -40,33 +44,122 @@ permalink: /
 <br/>
 
 ## 🦾 프로젝트 기능
+{: .fw-700 .text-blue-000}
 
 ### 🧐 AI를 활용한 인상착의 기반 CCTV 분석
+{: .fw-700}
 텍스트 기반으로 AI를 활용해 CCTV 영상 분석을 통해 한정된 경찰 인력의 효율적 활용 가능합니다.
 
 ### 🗺️ 한 눈에 보는 실종자 리포트
+{: .fw-700}
 AI 프로세스를 통한 자동 CCTV 분석이 시작되면, 각 단계별 탐색 결과를 하단 탭과 지도 마커를 통해 확인 가능합니다. 
 
 ### 🚨 상태 카드를 통한 실종자 현황 확인
+{: .fw-700}
 실종자 유형은 색 배지로, 탐색 중인 실종자는 프로필 카드 색으로 구분하여 실종자 리스트에서 모든 실종자의 현황을 확인 가능합니다. 
 
 ### 🔍 실시간 탐색 진행 현황 제공
+{: .fw-700}
 실시간 탐색 진행 현황을 제공하여 보호자의 불안감을 감소시킬 수 있습니다. 
 
 ### 👨‍👩‍👧‍👦 보호자가 직접 참여하는 탐색 과정  
+{: .fw-700}
 1차 탐색 이후, 보호자가 실종자와 닮은 인물을 직접 선별하고, 2차 탐색을 진행하여 정확한 탐색 결과 제공 가능합니다.
 
 ### 📊 상업적 확장 가능성
+{: .fw-700}
 실종자 탐색, 도난 추적, 범죄 용의자 동선 추적, 유실동물 탐색 시스템을 통해 상업적 확장 가능합니다.
 
 <br/>
 
 ## 🎬 소개 영상
+{: .fw-700 .text-blue-000}
 TODO: 영상 첨부
 
 <br/>
 
+## 🔎 페이지 안내
+{: .fw-700 .text-blue-000}
+
+### 💻 경찰 측 화면
+{: .fw-700}
+<table>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/18fd90f9-7e4b-4092-b994-f88356499cab">
+    </td>
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/a6533a08-b3da-46f9-8fd0-57e3dbf59b91">
+    </td>
+  </tr>
+  <tr align="center">
+    <td>
+      <b>실종자 정보 등록</b>
+    </td>
+    <td>
+      <b>실종자 현황</b>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/0c293977-bf79-4360-84af-962b2f5b24e0">
+    </td>
+    <td>
+      <img src="">
+    </td>
+  </tr>
+  <tr align="center">
+    <td>
+      <b>실종자 리포트</b>
+    </td>
+    <td>
+      <b>지능형 탐색</b>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+### 📱 보호자 측 화면
+{: .fw-700}
+<table>
+  <tr align="center">
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/38607729-f2f0-4231-8cc2-27f0514336d2">
+    </td>
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/513e8cdc-df8f-4ef1-b484-9dc45e4e9c84">
+    </td>
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/96fe09aa-602b-4d22-b59e-3fa4213689ac">
+    </td>
+    <td>
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/7904d00a-c473-40c3-be33-9433d3f779d0">
+    </td>
+  </tr>
+  <tr align="center">
+    <td>
+      진행 단계 확인
+    </td>
+    <td>
+      이미지 선택
+    </td>
+    <td>
+      이미지 확인
+    </td>
+    <td>
+      이미지 제출
+    </td>
+  </tr>
+</table>
+
+<br/>
+
 ## 👋 팀원 소개
+{: .fw-700 .text-blue-000}
 
 <table>
     <tr align="center">
@@ -155,6 +248,7 @@ TODO: 영상 첨부
 <br/>
 
 ## 🌐 시스템 구조
+{: .fw-700 .text-blue-000}
 <div align="center"> 
     <p align = "center">
     <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274" width = 900/>
@@ -163,7 +257,17 @@ TODO: 영상 첨부
 
 <br/>
 
+## 🎯 작업 방식
+{: .fw-700 .text-blue-000}
+Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습니다.
+<div align="center">
+    <img width="70%" alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b7eebea4-8fbd-40b8-84d8-fdb5f401d3b2">
+</div>
+
+<br/>
+
 ## 🛠 기술 스택
+{: .fw-700 .text-blue-000}
 
 ### 🖥 Frontend
 <table>
@@ -333,6 +437,7 @@ TODO: 영상 첨부
 <br />
 
 ## 📝 소개 자료
+{: .fw-700 .text-blue-000}
 ### [중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
 ### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
 ### 시연 동영상
