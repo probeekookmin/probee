@@ -26,6 +26,7 @@ function GuardianMainPage() {
 
     //실종자 진행현황 가져오기
     getGuardianMissingPersonStep().then((data) => {
+      console.log("step:", data.step);
       switch (data.step) {
         case "FIRST":
           setStep(0);
@@ -47,9 +48,9 @@ function GuardianMainPage() {
 
   return (
     <StGuardianMainPage>
-      <MainHeader>
+      {/* <MainHeader>
         <DemoLogo />
-      </MainHeader>
+      </MainHeader> */}
       <Row align={"middle"} gutter={[8, 20]}>
         <Col span={24}>
           <ProfileSection form={form}>
@@ -74,6 +75,7 @@ function GuardianMainPage() {
 export default GuardianMainPage;
 
 const StGuardianMainPage = styled(Layout)`
+  padding-top: 3rem;
   background-color: white;
 `;
 const MainHeader = styled(Header)`
@@ -97,6 +99,7 @@ const ProfileSection = styled(Form)`
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-bottom: 5rem;
 `;
 
 const FloatButtonContainer = styled(FloatButton)`
