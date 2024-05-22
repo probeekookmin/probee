@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDateTime;
 
 
 @Slf4j
@@ -87,10 +86,7 @@ public class GuardianController {
         //상화작용 단계 결과 db저장
         guardianService.postBetween(id, betweenRequestDto);
 
-        SearchRequestDto searchRequestDto = new SearchRequestDto(
-                LocalDateTime.parse("2021-09-06T01:01:01")
-                , LocalDateTime.parse("2021-09-06T01:01:01"),
-                37.6100, 126.9967, "도로명 주소"); //todo : 기능추가;
+        SearchRequestDto searchRequestDto = searchHistoryService.createSearchRequestDto(betweenRequestDto);
         //2차탐색기록 생성
         Step step = Step.fromValue("second");
         Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);

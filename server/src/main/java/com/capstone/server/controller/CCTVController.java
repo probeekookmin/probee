@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import com.capstone.server.dto.CCTVDto;
 import com.capstone.server.model.CCTVEntity;
-import com.capstone.server.model.CCTVEntity;
 import com.capstone.server.repository.CCTVRepository;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.CCTVService;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.transaction.Transactional;
 
@@ -30,10 +33,10 @@ public class CCTVController {
 
     @GetMapping
     public ResponseEntity<?> getAllCCTV(
-        @RequestParam(required = true, value = "longitude") double longitude,
-        @RequestParam(required = true, value = "latitude") double latitude,
-        @RequestParam(required = false, defaultValue = "1000", value = "distance") double distance) {
-        
+            @RequestParam(required = true, value = "longitude") double longitude,
+            @RequestParam(required = true, value = "latitude") double latitude,
+            @RequestParam(required = false, defaultValue = "1000", value = "distance") double distance) {
+
         List<CCTVDto> CCTVList = cctvService.findCCTVsNearbyLocationWithinDistance(longitude, latitude);
         return ResponseEntity.ok().body(CCTVList);
     }

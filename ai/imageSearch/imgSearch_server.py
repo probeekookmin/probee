@@ -61,13 +61,13 @@ def run_Image_to_Image(data_path:str,topk:int,query:str):
     dataset.add_faiss_index(column='embeddings')
     # ===== 결과 저장
     scores, retrieved_examples = get_neighbors(query, dataset, topk)
-
+    sorted_indices = np.argsort(scores)[::]
     
     sec = time.time() - start_time
     times = str(datetime.timedelta(seconds=sec))
     short = times.split(".")[0]
     print(f"The 2nd search has ended. \nThe time required: {short} sec\n")
-    return save_results(query, scores, retrieved_examples)
+    return save_results(query, scores, retrieved_examples,sorted_indices)
 
 # ===== 사전학습 모델 세팅 및 특징 추출기 세팅
 def load_image_paths(data_dir):
@@ -96,12 +96,12 @@ def default(o):
     if isinstance(o, np.float32):
         return float(o)
 
-def save_results(query_image_path, scores, retrieved_examples):
+def save_results(query_image_path, scores, retrieved_examples,sorted_indices):
     data_to_save = {
         "query_dir": query_image_path,
         "output": [
             {"output_dir": retrieved_examples['image_path'][i], "score": float(scores[i])}
-            for i in range(len(scores))
+            for i in sorted_indices
         ]
     }
     return data_to_save

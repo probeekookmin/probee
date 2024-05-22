@@ -14,6 +14,9 @@ public interface CCTVRepository extends JpaRepository<CCTVEntity, Long> {
     @Query(value = "SELECT * FROM cctv WHERE ST_DWithin(gps, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), 1000, true)", nativeQuery = true)
     List<CCTVEntity> findCCTVsByDistance(@Param("longitude") double longitude, @Param("latitude") double latitude);
 
+    @Query(value = "SELECT * FROM cctv WHERE ST_DWithin(gps, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :distance, true)", nativeQuery = true)
+    List<CCTVEntity> findCCTVsByDistance(@Param("longitude") double longitude, @Param("latitude") double latitude, @Param("distance") double distance);
+
     @Query(value = "SELECT count(*) FROM cctv WHERE ST_DWithin(gps, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), 1000, true)", nativeQuery = true)
     long countCCTVsByDistance(@Param("longitude") double longitude, @Param("latitude") double latitude);
 }

@@ -12,4 +12,6 @@ aiServer/crowdhuman_yolov5m.pt
 ai/.env
 frontend/.env 
 server/src/main/java/com/capstone/server/dataInitializer/CCTVInitializer.java
-
+/ai/TextReID/datasets/imgs
+ai/imageSearch/results.json
+ai/imageSearch/search_result_grid.jpg
