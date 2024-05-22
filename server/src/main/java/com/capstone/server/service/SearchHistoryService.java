@@ -4,12 +4,15 @@ import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.SearchHistoryListDto;
 import com.capstone.server.dto.SearchRangeDto;
 import com.capstone.server.dto.SearchRequestDto;
+import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.MissingPeopleEntity;
 import com.capstone.server.model.SearchHistoryEntity;
+import com.capstone.server.model.SearchResultEntity;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.repository.MissingPeopleRepository;
 import com.capstone.server.repository.SearchHistoryRepository;
+import com.capstone.server.repository.SearchResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,8 @@ public class SearchHistoryService {
     private SearchHistoryRepository searchHistoryRepository;
     @Autowired
     private MissingPeopleRepository missingPeopleRepository;
+    @Autowired
+    private SearchResultRepository searchResultRepository;
 
     public SearchRangeDto getSearchHistoryBySearchId(Long searchId) {
         try {
@@ -83,5 +88,11 @@ public class SearchHistoryService {
         missingPeopleEntity.setStep(step);
         return searchHistoryRepository.save(searchHistoryEntity).getId();
     }
+
+    public SearchRequestDto createSearchRequestDto(BetweenRequestDto betweenRequestDto) {
+        SearchResultEntity searchResultEntities = searchResultRepository.findFirstByIdInOrderByTimeDesc(betweenRequestDto.getResultIds());
+        return new SearchRequestDto(searchResultEntities.getTime(), searchResultEntities.getTime(), searchResultEntities.getCctvEntity().getGps().getY(), searchResultEntities.getCctvEntity().getGps().getX(), "도로명주소");
+    }
+
 
 }
