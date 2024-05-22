@@ -44,7 +44,7 @@ function AddMissingPersonPage() {
             fieldsValue["user"]["missingTime"].format("HH:mm")) ||
         "",
       missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
-      description: fieldsValue["user"]["introduction"] || "특이사항 없음",
+      description: fieldsValue["user"]["introduction"] || "없음.",
       hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "긴 머리",
       topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "반팔",
       topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "흰색",
@@ -62,7 +62,7 @@ function AddMissingPersonPage() {
       longitude: latlng["lng"],
       locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
       shoesColor: "빨강",
-      missingPeopleType: "아동",
+      missingPeopleType: fieldsValue["user"]["type"],
     };
     console.log("Received values of form: ", values);
     postMissingPerson(values);

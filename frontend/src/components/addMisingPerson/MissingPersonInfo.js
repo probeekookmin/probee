@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col } from "antd";
+import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col, Select } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
 import moment from "moment";
 
@@ -12,6 +12,16 @@ const options = [
   {
     label: "여성",
     value: "여성",
+  },
+];
+const typeOptions = [
+  {
+    value: "아동",
+    label: "아동",
+  },
+  {
+    value: "지적장애",
+    label: "지적장애",
   },
 ];
 const config = {
@@ -38,6 +48,11 @@ export const MissingPersonInfo = ({ form }) => {
   const genderChange = ({ target: { value } }) => {
     console.log("gender checked", value);
     setUserGender(value);
+  };
+  const typeChange = (value, name) => {
+    form.setFieldsValue({
+      [name]: value,
+    });
   };
   return (
     <Wrapper>
@@ -99,6 +114,21 @@ export const MissingPersonInfo = ({ form }) => {
             <TextArea placeholder="내용을 입력해주세요." />
           </Form.Item>
         </Col>
+        <Col span={8}>
+          <Form.Item
+            name={["user", "type"]}
+            label="실종자 유형"
+            rules={[
+              {
+                required: true,
+              },
+            ]}>
+            <Select
+              options={typeOptions}
+              placeholder="실종자 유형 선택"
+              onChange={(value) => typeChange(value, ["user", "type"])}></Select>
+          </Form.Item>
+        </Col>
       </Row>
     </Wrapper>
   );
@@ -129,5 +159,5 @@ const NameInput = styled(Input)`
 `;
 
 const TextArea = styled(Input.TextArea)`
-  //width: 40rem;
+  width: 42rem;
 `;
