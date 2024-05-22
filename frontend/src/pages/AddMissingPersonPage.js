@@ -43,13 +43,13 @@ function AddMissingPersonPage() {
             "T" +
             fieldsValue["user"]["missingTime"].format("HH:mm")) ||
         "",
-      missingLocation: fieldsValue["missingLocation"] || "서울 성북구 정릉로 77",
-      description: fieldsValue["user"]["introduction"] || "특이사항 없음",
-      hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "긴 머리",
-      topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "반팔",
-      topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "흰색",
-      bottomType: (fieldsValue["bottomType"] != "" && fieldsValue["bottomType"]) || "반바지",
-      bottomColor: (fieldsValue["bottomColor"] != "" && fieldsValue["bottomColor"]) || "분홍",
+      missingLocation: fieldsValue["missingLocation"] || "-",
+      description: fieldsValue["user"]["introduction"] || "없음.",
+      hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "없음",
+      topType: (fieldsValue["topType"] != "" && fieldsValue["topType"]) || "없음",
+      topColor: (fieldsValue["topColor"] != "" && fieldsValue["topColor"]) || "없음",
+      bottomType: (fieldsValue["bottomType"] != "" && fieldsValue["bottomType"]) || "없음",
+      bottomColor: (fieldsValue["bottomColor"] != "" && fieldsValue["bottomColor"]) || "없음",
       bagType: (fieldsValue["bag"] != "" && fieldsValue["bag"]) || "없음",
       guardianName: fieldsValue["guardian"]["name"],
       relationship: fieldsValue["guardian"]["relation"],
@@ -60,9 +60,8 @@ function AddMissingPersonPage() {
         fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
       latitude: latlng["lat"],
       longitude: latlng["lng"],
-      locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
-      shoesColor: "빨강",
-      missingPeopleType: "아동",
+      locationAddress: fieldsValue["searchLocation"],
+      missingPeopleType: fieldsValue["user"]["type"],
     };
     console.log("Received values of form: ", values);
     postMissingPerson(values);
@@ -89,7 +88,9 @@ function AddMissingPersonPage() {
               </Typography.Title>
               <Divider />
               <MissingPersonInfo form={form} />
+              <ContentsDivider />
               <WearingInfo form={form} />
+              <ContentsDivider />
               <GuardianInfo />
             </Container>
             <Container>
@@ -154,4 +155,9 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
+`;
+
+const ContentsDivider = styled(Divider)`
+  margin-top: 0;
+  margin-bottom: 3rem;
 `;
