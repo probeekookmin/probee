@@ -61,7 +61,6 @@ function AddMissingPersonPage() {
       latitude: latlng["lat"],
       longitude: latlng["lng"],
       locationAddress: fieldsValue["searchLocation"] || "서울 성북구 정릉로 77",
-      shoesColor: "빨강",
       missingPeopleType: fieldsValue["user"]["type"],
     };
     console.log("Received values of form: ", values);
