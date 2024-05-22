@@ -20,10 +20,9 @@ python train_net.py \
 python3 test_net.py \
 --config-file configs/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048.yaml \
 --checkpoint-file output/cuhkpedes/moco_gru_cliprn50_ls_bs128_2048/best.pth \
---data-dir /home/jongbin/Desktop/yolo/44
---query "a man wearing a white top and black pants"
---load-result true
---top-k 200
+--data-dir /home/jongbin/Desktop/yolo/58 \
+--query "a boy has short hair. he wearing a white short sleeve and a khaki a long pants" 
+
 # 코드 안에서 QUERY를 받게 바꿨음
 ```
 

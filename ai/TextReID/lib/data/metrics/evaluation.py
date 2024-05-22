@@ -85,7 +85,7 @@ def evaluation(
     save_data=True,
     rerank=True,
     search_num=0,
-    save_folder = "./output/output.json"
+    save_folder="./output/output.json"
 ):
     logger = logging.getLogger("PersonSearch.inference")
     data_dir = os.path.join(output_folder, "inference_data.npz")
@@ -103,20 +103,26 @@ def evaluation(
         image_ids, pids = [], []
         image_global, text_global = [], []
 
-        # FIXME: need optimization
         for idx, prediction in predictions.items():
             image_id, pid = dataset.get_id_info(idx)
             image_ids.append(image_id)
             pids.append(pid)
             image_global.append(prediction[0])
             if len(prediction) == 2:
-                # text query를 하나만 넣었으므로, text emgedding은 배치의 제일 처음 이미지에만 들어감
-                # 왜냐하면 유사도 검사 시 배치 별로 검사를 했으니까
                 text_global.append(prediction[1])
 
-        pids = list(map(int, pids))
-        image_pid = torch.tensor(pids)
-        text_pid = torch.tensor(pids)
+        # Convert pids to string representation and then to tensor of ASCII values
+        pids = list(map(str, pids))
+        pids = [torch.tensor([ord(char) for char in pid]) for pid in pids]
+
+        # Find the maximum length of pids
+        max_length = max(len(pid) for pid in pids)
+
+        # Pad all pids to the same length
+        pids = [F.pad(pid, (0, max_length - len(pid)), value=0) for pid in pids]
+
+        image_pid = torch.stack(pids)
+        text_pid = torch.stack(pids)
         image_global = torch.stack(image_global, dim=0)
         text_global = torch.stack(text_global, dim=0)
 
@@ -129,21 +135,16 @@ def evaluation(
 
         similarity = torch.matmul(text_global, image_global.t())
 
-        # top 10 results 반환
         sorted_indices = torch.argsort(similarity[0], descending=True)
         sorted_values = similarity[0][sorted_indices]
         top_k = cfg.TEST.TOP_K
-        write = [cap[0]] # 저장할 output
+        write = [cap[0]]
         for index, value in zip(sorted_indices[:top_k], sorted_values[:top_k]):
-            # image_id, pid = dataset.get_id_info(idx)
             img, caption, idx, query = dataset.__getitem__(index)
             img_path = caption.get_field("img_path")
-            # print(f"Index: {index}, Similarity: {value}, pid: {pid}")
             dict = {"img_path": img_path, "Similarity": value.item()}
             write.append(dict)
 
-        
-        #저장 폴더 생성
         if not os.path.exists(os.path.dirname(save_folder)):
             os.makedirs(os.path.dirname(save_folder), exist_ok=True)
 
