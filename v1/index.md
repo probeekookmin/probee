@@ -13,7 +13,7 @@ permalink: /
     </p>
 
     <p align = "center">
-      <a href = "https://probee.co.kr" class="btn btn-primary fs-5 mb-4 mb-md-0 mr-2">Get started now</a>
+      <a href = "https://probee.co.kr" class="btn btn-primary fs-5 mb-4 mb-md-0 mr-2">Start PROBEE</a>
     </p>
 </div>
 
@@ -108,7 +108,7 @@ TODO: 영상 첨부
       <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/0c293977-bf79-4360-84af-962b2f5b24e0">
     </td>
     <td>
-      <img src="">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/0c293977-bf79-4360-84af-962b2f5b24e0">
     </td>
   </tr>
   <tr align="center">
@@ -121,7 +121,7 @@ TODO: 영상 첨부
   </tr>
 </table>
 
-<br>
+<br/>
 
 ### 📱 보호자 측 화면
 {: .fw-700}
@@ -141,17 +141,8 @@ TODO: 영상 첨부
     </td>
   </tr>
   <tr align="center">
-    <td>
-      진행 단계 확인
-    </td>
-    <td>
-      이미지 선택
-    </td>
-    <td>
-      이미지 확인
-    </td>
-    <td>
-      이미지 제출
+    <td colspan="4">
+      <b>진행 단계 확인 &emsp; ▶ &emsp; 이미지 선택 &emsp; ▶ &emsp; 이미지 확인 &emsp; ▶ &emsp; 이미지 제출</b>
     </td>
   </tr>
 </table>
@@ -169,7 +160,7 @@ TODO: 영상 첨부
               <br />
               <b>노종빈</b>
             </a> 
-            <br/>
+              <br/>
               ****0891
         </td>
         <td style="min-width: 150px;">
@@ -178,7 +169,7 @@ TODO: 영상 첨부
               <br />
               <b>김지원</b>
             </a>
-                       <br/>
+              <br/>
               ****0812
         </td>
         <td style="min-width: 150px;">
@@ -187,7 +178,7 @@ TODO: 영상 첨부
               <br />
               <b>정수환 </b>
             </a> 
-                       <br/>
+              <br/>
               ****1663
         </td>
         <td style="min-width: 150px;">
@@ -196,16 +187,16 @@ TODO: 영상 첨부
               <br />
               <b>신채원</b>
             </a> 
-                       <br/>
+              <br/>
               ****3021
         </td>
-                <td style="min-width: 150px;">
+          <td style="min-width: 150px;">
             <a href="https://github.com/ancy0">
               <img src="https://avatars.githubusercontent.com/u/84322890?v=4" width="80">
               <br />
               <b>안채영</b>
             </a> 
-                       <br/>
+              <br/>
               ****3024 
         </td>
     </tr>
@@ -219,10 +210,10 @@ TODO: 영상 첨부
         <td>
             Backend
         </td>
-                <td>
+        <td>
             AI
         </td>
-                <td>
+        <td>
             Frontend
         </td>
     </tr>
@@ -236,10 +227,10 @@ TODO: 영상 첨부
         <td>
             <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
-                <td>
+        <td>
             <span style="font-size: 12px;">mirageciel@kookmin.ac.kr</span>
         </td>
-                <td>
+        <td>
             <span style="font-size: 12px;">tory912@gmail.com</span>
         </td>
     </tr>
@@ -259,10 +250,10 @@ TODO: 영상 첨부
 
 ## 🎯 작업 방식
 {: .fw-700 .text-blue-000}
-Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습니다.
 <div align="center">
-    <img width="70%" alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b7eebea4-8fbd-40b8-84d8-fdb5f401d3b2">
+    <img alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b7eebea4-8fbd-40b8-84d8-fdb5f401d3b2">
 </div>
+Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습니다.
 
 <br/>
 
