@@ -29,11 +29,11 @@ export const StepContents = ({ index, current }) => {
       title: "탐색 이미지 선별",
       wait: {
         content:
-          "1차 탐색 결과 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중하고 빠른 선택 부탁드립니다.",
+          "1차 탐색 결과 이미지 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중한 선택 부탁드립니다.",
       },
       process: {
         content:
-          "1차 탐색 결과 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중하고 빠른 선택 부탁드립니다.",
+          "1차 탐색 결과 이미지 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중한 선택 부탁드립니다.",
         buttonText: "이미지 선별하기",
         callBack: () => {
           navigate("/select");
@@ -101,7 +101,7 @@ const StStepContents = styled.div`
   align-items: center;
   gap: 3.5rem;
   margin-top: 4.75rem;
-  width: 75.5rem;
+  width: 77.5rem;
 `;
 const Title = styled.p`
   font-size: 5rem;
