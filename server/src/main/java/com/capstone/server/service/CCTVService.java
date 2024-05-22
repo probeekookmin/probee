@@ -26,7 +26,7 @@ public class CCTVService {
 
     public List<CCTVDto> findCCTVsNearbyLocationWithinDistance(double longitude, double latitude, double radius) {
 
-        List<CCTVEntity> cctvEntities = cctvRepository.findCCTVsByDistance(longitude, latitude, radius); // distance 기준: m(미터)
+        List<CCTVEntity> cctvEntities = cctvRepository.findCCTVsByDistance(longitude, latitude, radius * 1000); // distance 기준: m(미터)
 
         return cctvEntities.stream()
                 .map(CCTVDto::fromEntity) // 엔티티를 DTO로 변환
