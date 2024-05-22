@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons";
+import SearchStepIcon from "../../assets/icons/searchStepIcon.svg";
+import BetweenStepIcon from "../../assets/icons/betweenStepIcon.svg";
+import FindStepIcon from "../../assets/icons/findStepIcon.svg";
 import { StepContents } from "./StepContents";
 export const CustomSteps = ({ currentStep }) => {
   const [current, setCurrent] = useState(0);
@@ -9,10 +12,10 @@ export const CustomSteps = ({ currentStep }) => {
   const [state, setState] = useState("current");
 
   const iconList = [
-    { title: "1차 탐색", icon: <SmileOutlined /> },
-    { title: "이미지 선별", icon: <SmileOutlined /> },
-    { title: "2차 탐색", icon: <SmileOutlined /> },
-    { title: "실종자 수색", icon: <SmileOutlined /> },
+    { title: "1차 탐색", icon: SearchStepIcon },
+    { title: "이미지 선별", icon: BetweenStepIcon },
+    { title: "2차 탐색", icon: SearchStepIcon },
+    { title: "실종자 수색", icon: FindStepIcon },
   ];
 
   useEffect(() => {
@@ -34,7 +37,9 @@ export const CustomSteps = ({ currentStep }) => {
         {idx != 3 && <StepTail color={idx >= current ? "#E7E7E7" : view == current ? "#1890FF" : "#A9D6FF"}></StepTail>}
         {idx == view ? (
           <IconContainer>
-            <IconWrapper color={idx > current ? "#E7E7E7" : "#1890FF"}></IconWrapper>
+            <IconWrapper color={idx > current ? "#E7E7E7" : "#1890FF"}>
+              <img src={iconList[idx].icon} />
+            </IconWrapper>
           </IconContainer>
         ) : (
           <IconContainer>
@@ -96,11 +101,17 @@ const IconContainer = styled.div`
 const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 11.5rem;
   height: 11.5rem;
   margin-top: 1.5rem;
   border-radius: 50%;
   background-color: ${(props) => props.color || "#1890FF"};
+
+  img {
+    width: 6rem;
+    height: 6rem;
+  }
 `;
 const DotWrapper = styled.div`
   width: 4rem;
