@@ -10,8 +10,10 @@
     display: none;
 }
 
-img {
+.img-slideshow {
     vertical-align: middle;
+    height: 500px; /* 고정 높이 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 슬라이드에 맞춤 */
 }
 
 /* 이전, 다음 버튼 */
@@ -48,6 +50,7 @@ img {
     bottom: 8px;
     width: 100%;
     text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* 숫자 텍스트 (1/3 등) */
@@ -78,9 +81,9 @@ img {
 /* 페이드 애니메이션 */
 .fade {
     -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
+    -webkit-animation-duration: 1.0s;
     animation-name: fade;
-    animation-duration: 1.5s;
+    animation-duration: 1.0s;
 }
 
 @-webkit-keyframes fade {

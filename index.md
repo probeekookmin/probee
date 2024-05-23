@@ -473,7 +473,8 @@ Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
 </div>
-<br>
+
+<br/>
 
 <!-- 현재 이미지를 알려주는 하단의 점 -->
 <div style="text-align:center">
