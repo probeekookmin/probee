@@ -207,6 +207,7 @@ export const getGuardianMissingPerson = async () => {
       {
         headers: {
           Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -233,6 +234,7 @@ export const getGuardianMissingPersonStep = async () => {
       {
         headers: {
           Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -260,6 +262,7 @@ export const postProfileImg = async (value) => {
       {
         headers: {
           Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "multipart/form-data",
         },
       },
@@ -286,6 +289,7 @@ export const getGuardianSelectImage = async () => {
       {
         headers: {
           Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -312,6 +316,7 @@ export const postGuardianSelectImage = async (value) => {
       {
         headers: {
           Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -325,6 +330,60 @@ export const postGuardianSelectImage = async (value) => {
       console.error(e);
       console.log(e.response.data);
       alert("등록 실패. 재시도해주세요.");
+    });
+  return data;
+};
+
+/*의뢰인용 탐색 결과 보여주기 - 선별된 이미지 (Get) */
+export const getGuardianSelectedResult = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/between-result`,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("선별된 이미지 가져오기 실패.");
+    });
+  return data;
+};
+
+/*의뢰인용 탐색 결과 보여주기 - 2차 탐색 이미지 (Get) */
+export const getGuardianSecondResult = async () => {
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_API_ROOT}/api/guardian/second`,
+
+      {
+        headers: {
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .then(function (response) {
+      console.log("response:", response.data);
+      return response.data.data;
+    })
+    .catch(function (e) {
+      // 실패 시 처리
+      console.error(e);
+      console.log(e.response.data);
+      alert("2차 탐색 결과 가져오기 실패.");
     });
   return data;
 };
