@@ -10,7 +10,7 @@ permalink: /
 
 <div align="center"> 
     <p align = "center">
-      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b21a72b3-c63e-4c28-91ca-937be5e5e88d" width = "90%"/>
+      <img src = "/assets/images/main-image.png" width = "90%"/>
     </p>
 
     <p align = "center">
@@ -84,13 +84,14 @@ TODO: 영상 첨부
 
 ### 💻 경찰 측 화면
 {: .fw-700}
+
 <table>
   <tr align="center">
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/18fd90f9-7e4b-4092-b994-f88356499cab">
+      <img src="/assets/images/screen-경찰/figma-실종정보등록.png" alt="실종정보등록">
     </td>
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/a6533a08-b3da-46f9-8fd0-57e3dbf59b91">
+      <img src="/assets/images/screen-경찰/figma-실종자 현황.png" alt="실종자현황">
     </td>
   </tr>
   <tr align="center">
@@ -106,10 +107,10 @@ TODO: 영상 첨부
 <table>
   <tr align="center">
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/0c293977-bf79-4360-84af-962b2f5b24e0">
+      <img src="/assets/images/screen-경찰/figma-실종자 리포트 메인.png" alt="실종자 리포트 메인">
     </td>
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/0c293977-bf79-4360-84af-962b2f5b24e0">
+      <img src="/assets/images/screen-경찰/figma-실종자 리포트 메인.png" alt="실종자 리포트 메인">
     </td>
   </tr>
   <tr align="center">
@@ -129,16 +130,16 @@ TODO: 영상 첨부
 <table>
   <tr align="center">
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/38607729-f2f0-4231-8cc2-27f0514336d2">
+      <img src="/assets/images/screen-보호자/figma-보호자 메인.png" alt="보호자메인">
     </td>
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/513e8cdc-df8f-4ef1-b484-9dc45e4e9c84">
+      <img src="/assets/images/screen-보호자/figma-보호자 이미지 선별.png" alt="보호자이미지선별">
     </td>
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/96fe09aa-602b-4d22-b59e-3fa4213689ac">
+      <img src="/assets/images/screen-보호자/figma-보호자 이미지 확대.png" alt="보호자이미지확대">
     </td>
     <td>
-      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/7904d00a-c473-40c3-be33-9433d3f779d0">
+      <img src="/assets/images/screen-보호자/figma-보호자 팝업.png" alt="보호자팝업">
     </td>
   </tr>
   <tr align="center">
@@ -243,7 +244,7 @@ TODO: 영상 첨부
 {: .fw-700 .text-blue-000}
 <div align="center"> 
     <p align = "center">
-    <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bc66d3a4-f9fa-4f1b-a4ee-d279cd93b274" width = 900/>
+      <img src="/assets/images/시스템-구조도.png" alt="시스템구조도">
     </p>
 </div>
 
