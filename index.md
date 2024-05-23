@@ -203,7 +203,7 @@ TODO: 영상 첨부
               ****1663
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/mirageciel">
+            <a href="https://github.com/chaews0327">
               <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
               <br />
               <b>신채원</b>
@@ -249,7 +249,7 @@ TODO: 영상 첨부
             <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
         <td>
-            <span style="font-size: 12px;">mirageciel@kookmin.ac.kr</span>
+            <span style="font-size: 12px;">chaews0327@gmail.com</span>
         </td>
         <td>
             <span style="font-size: 12px;">tory912@gmail.com</span>
@@ -272,7 +272,7 @@ TODO: 영상 첨부
 ## 🎯 작업 방식
 {: .fw-700 .text-blue-000}
 <div align="center">
-    <img alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/b7eebea4-8fbd-40b8-84d8-fdb5f401d3b2">
+    <img alt="작업 방식" src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/2aaed577-8f04-4558-b8bc-aa64a69d00b7">
 </div>
 Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습니다.
 
