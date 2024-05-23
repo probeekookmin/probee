@@ -133,35 +133,35 @@ TODO: 영상 첨부
 <!-- 슬라이드쇼 컨테이너 -->
 <div class="slideshow-container">
     <!-- 숫자와 캡션이 있는 이미지 -->
-    <div class="mySlides fade">
+    <div class="mySlidesGuardian fade">
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:100%">
         <div class="text">[1] 진행 단계 확인</div>
     </div>
-    <div class="mySlides fade">
+    <div class="mySlidesGuardian fade">
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:100%">
         <div class="text">[2] 이미지 선택</div>
     </div>
-    <div class="mySlides fade">
+    <div class="mySlidesGuardian fade">
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:100%">
         <div class="text">[3] 이미지 확인</div>
     </div>
-    <div class="mySlides fade">
+    <div class="mySlidesGuardian fade">
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:100%">
         <div class="text">[4] 이미지 제출</div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <a class="prev" onclick="plusSlidesGuardian(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlidesGuardian(1)">&#10095;</a>
 </div>
 
 <br/>
 
 <!-- 현재 이미지를 알려주는 하단의 점 -->
 <div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span> 
-    <span class="dot" onclick="currentSlide(2)"></span> 
-    <span class="dot" onclick="currentSlide(3)"></span> 
-    <span class="dot" onclick="currentSlide(4)"></span> 
+    <span class="dotGuardian" onclick="currentSlideGuardian(1)"></span> 
+    <span class="dotGuardian" onclick="currentSlideGuardian(2)"></span> 
+    <span class="dotGuardian" onclick="currentSlideGuardian(3)"></span> 
+    <span class="dotGuardian" onclick="currentSlideGuardian(4)"></span> 
 </div>
 
 <br/>
