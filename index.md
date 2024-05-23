@@ -92,7 +92,7 @@ TODO: 영상 첨부
 <div class="slideshow-container" style="text-align: center">
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/ce963af8-cef7-4c48-a75d-7510fa51203f" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/27f1da3b-1f1e-431c-908a-f2d07157501c" style="width:100%">
         <div class="text">[1] 실종자 정보 등록</div>
     </div>
     <div class="mySlides fade">
