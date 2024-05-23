@@ -18,6 +18,7 @@ export const WearingInfo = ({ form }) => {
         optionFilterProp="children"
         onChange={(value) => onChange(value, name)}
         options={items}
+        value={form.getFieldValue(name)}
         style={{ width: "14rem" }}
       />
     );
