@@ -89,7 +89,7 @@ TODO: 영상 첨부
 <script src="scriptPolice.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
-<div class="slideshow-container">
+<div class="slideshow-container" style="text-align: center">
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlides fade">
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/ce963af8-cef7-4c48-a75d-7510fa51203f" style="width:100%">
@@ -131,22 +131,22 @@ TODO: 영상 첨부
 <script src="scriptGuardian.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
-<div class="slideshow-container">
+<div class="slideshow-container" style="text-align: center">
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:30%; height:30%;">
         <div class="text">[1] 진행 단계 확인</div>
     </div>
     <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;"">
         <div class="text">[2] 이미지 선택</div>
     </div>
     <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:30%; height:30%;">
         <div class="text">[3] 이미지 확인</div>
     </div>
     <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:30%; height:30%;">
         <div class="text">[4] 이미지 제출</div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
