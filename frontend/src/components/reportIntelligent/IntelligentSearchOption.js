@@ -41,8 +41,7 @@ export const IntelligentSearchOption = ({ form, name, getLocation, location }) =
 
   return (
     <StIntelligentSearchOption>
-      <>
-        {" "}
+      <ContentsContainer>
         <TitleContainer>{name}님의 지능형 탐색</TitleContainer>
         {/* <InputForm form={form}> */}
         <InputItem name="searchPeriod" label="기간" {...rangeConfig} colon={false} className="form-custom">
@@ -65,12 +64,12 @@ export const IntelligentSearchOption = ({ form, name, getLocation, location }) =
           />
         </InputItem>
         <InputItem>
-          <ButtonWrapper type="primary" htmlType="submit">
+          <ButtonWrapper className="custom-button" type="primary" htmlType="submit">
             시작하기
           </ButtonWrapper>
         </InputItem>
         {/* </InputForm> */}
-      </>
+      </ContentsContainer>
       <ImageContainer>
         <IntelligentImageContainer>
           <img src={IntelligentFloatImg} />
@@ -85,8 +84,9 @@ export const IntelligentSearchOption = ({ form, name, getLocation, location }) =
 
 const StIntelligentSearchOption = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
   width: 100%;
   height: 100%;
@@ -98,20 +98,54 @@ const StIntelligentSearchOption = styled.div`
   //box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 `;
 
+const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+`;
+
 const ButtonWrapper = styled(Button)`
-  margin-top: 2rem;
-  margin-bottom: 0;
-  border-radius: 1rem;
-  width: 12rem;
-  height: 4rem;
-  &.ant-btn > span {
+  &.custom-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    border-radius: 1rem;
+    width: 12rem;
+    height: 4rem;
+
+    @media (max-width: 1900px) and (min-width: 1601px) {
+      margin-top: 0rem;
+      width: 10rem;
+      height: 4rem;
+    }
+
+    @media (max-width: 1600px) and (min-width: 1301px) {
+      /* height: 3rem; */
+      margin-top: 0rem;
+      width: 8.5rem;
+      height: 3.5rem;
+      border-radius: 0.8rem;
+    }
+    @media (max-width: 1300px) and (min-width: 1280px) {
+      /* height: 2.8rem; */
+      margin-top: 0rem;
+      width: 8rem;
+      height: 3rem;
+    }
+  }
+  &.custom-button.ant-btn > span {
     font-size: 1.5rem;
-  }
-  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
-    margin-top: 1rem;
-  }
-  @media (max-width: 1280px) and (min-width: 0px) {
-    margin-top: 1rem;
+    @media (max-width: 1900px) and (min-width: 1601px) {
+      font-size: 1.5rem;
+    }
+    @media (max-width: 1600px) and (min-width: 1301px) {
+      font-size: 1.4rem;
+    }
+    @media (max-width: 1300px) and (min-width: 1280px) {
+      font-size: 1.3rem;
+    }
   }
 `;
 
@@ -121,14 +155,18 @@ const TitleContainer = styled.div`
 
   margin-top: 1rem;
   margin-bottom: 3rem;
-  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
-    margin-top: 0.8rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.8rem;
+
+  @media (max-width: 1900px) and (min-width: 1601px) {
+    margin: 0.8rem 0 2rem 0;
+    font-size: 2.3rem;
   }
-  @media (max-width: 1280px) and (min-width: 0px) {
-    margin: 0.6rem 0;
-    font-size: 1.6rem;
+  @media (max-width: 1600px) and (min-width: 1301px) {
+    margin: 0.6rem 0 1.5rem 0;
+    font-size: 2.1rem;
+  }
+  @media (max-width: 1300px) and (min-width: 1280px) {
+    margin: 0.5rem 0 1.4rem 0;
+    font-size: 1.8rem;
   }
 `;
 
@@ -161,13 +199,31 @@ const InputItem = styled(Form.Item)`
 `;
 
 const RangePickerWrapper = styled(RangePicker)`
-  &.ant-picker .ant-picker-input > input {
-    font-size: 1.4rem;
-    @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
-      font-size: 1.2rem;
+  &.custom-range-picker {
+    width: 42.5rem;
+    height: 4.2rem;
+    @media (max-width: 1900px) and (min-width: 1601px) {
+      width: 36rem;
+      height: 3.5rem;
     }
-    @media (max-width: 1280px) and (min-width: 0px) {
-      font-size: 1.2rem;
+
+    @media (max-width: 1600px) and (min-width: 1301px) {
+      width: 32.5rem;
+      height: 3.5rem;
+    }
+  }
+  &.ant-picker .ant-picker-input > input {
+    font-size: 1.5rem;
+
+    @media (max-width: 1900px) and (min-width: 1601px) {
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 1600px) and (min-width: 1301px) {
+      font-size: 1.3rem;
+    }
+    @media (max-width: 1300px) and (min-width: 1280px) {
+      font-size: 1.3rem;
     }
   }
 `;
@@ -190,29 +246,13 @@ const IntelligentImageFrameContainer = styled.div`
   display: flex;
   flex-direction: row;
   position: absolute;
-  right: 2rem;
-  bottom: 4rem;
+  bottom: 2rem;
+  width: 100%;
+  height: 100%;
 
   img {
-    width: 51.75rem;
-    height: 29.1rem;
-    /* width: 62.1rem;
-    height: 34.8rem; */
-    @media (max-width: 1900px) and (min-width: 1601px) {
-      bottom: 0;
-      width: 44.85rem;
-      height: 25.2rem;
-    }
-    @media (max-width: 1600px) and (min-width: 1421px) {
-      bottom: 0rem;
-      width: 33.6rem;
-      height: 18.9rem;
-    }
-    @media (max-width: 1420px) {
-      bottom: -1rem;
-      width: 20rem;
-      height: 12.6rem;
-    }
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -220,32 +260,16 @@ const IntelligentImageContainer = styled.div`
   display: flex;
   flex-direction: row;
   position: absolute;
-  right: 2rem;
-  bottom: 4rem;
+  /* right: 2rem;
+  bottom: 4rem; */
+  bottom: 2rem;
+  width: 100%;
+  height: 100%;
 
   img {
-    /* width: 34.5rem;
-    height: 19.4rem; */
-    /* width: 44.85rem;
-    height: 25.2rem; */
-    width: 51.75rem;
-    height: 29.1rem;
+    width: 100%;
+    height: 100%;
     animation: float 4s ease-in-out infinite;
-    @media (max-width: 1900px) and (min-width: 1601px) {
-      bottom: 0;
-      width: 44.85rem;
-      height: 25.2rem;
-    }
-    @media (max-width: 1600px) and (min-width: 1421px) {
-      bottom: 0rem;
-      width: 33.6rem;
-      height: 18.9rem;
-    }
-    @media (max-width: 1420px) {
-      bottom: -1rem;
-      width: 22.4rem;
-      height: 12.6rem;
-    }
   }
   ${floatAnimation}
 `;
@@ -253,7 +277,7 @@ const IntelligentImageContainer = styled.div`
 const ImageContainer = styled.div`
   display: flex;
   flex-direction: row;
-  z-index: 1;
+  width: 45%;
   height: 100%;
-  margin: 0;
+  position: relative;
 `;
