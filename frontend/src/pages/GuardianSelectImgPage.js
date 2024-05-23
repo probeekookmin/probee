@@ -96,6 +96,15 @@ function GuardianSelectImgPage() {
     });
   }, []);
 
+  // JavaScript로 화면 캡처 방지 설정
+  document.addEventListener("contextmenu", (e) => e.preventDefault());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "PrintScreen" || (e.ctrlKey && e.key === "p")) {
+      e.preventDefault();
+      alert("Screen capture is disabled");
+    }
+  });
+
   const onSelect = (select) => {
     setSelectedImg((prev) => {
       if (prev.includes(select)) {
