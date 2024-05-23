@@ -219,7 +219,7 @@ TODO: 영상 첨부
 |**Operating System**| ![Ubuntu](https://img.shields.io/badge/ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) 
 |**Programming Language**| ![Python](https://img.shields.io/badge/Python_3.10-3776AB?style=for-the-badge&logo=python&logoColor=white) 
 |**Framework**| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white)
-|**AI Env**| ![Nvida](https://img.shields.io/badge/CuDnn_8.6-76B900?style=for-the-badge&logo=nvidia&logoColor=white) ![Nvida](https://img.shields.io/badge/CuDa_11.8-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
+|**AI Env**| ![CuDnn](https://img.shields.io/badge/CuDnn_8.6-76B900?style=for-the-badge&logo=nvidia&logoColor=white) ![CudDa](https://img.shields.io/badge/CuDa_11.8-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
 |**Remote Env**| ![ssh](https://img.shields.io/badge/ssh-5391FE?style=for-the-badge&logo=powershell&logoColor=white) ![wol](https://img.shields.io/badge/wol-F2C811?style=for-the-badge&logoColor=white) ![vnc](https://img.shields.io/badge/vnc-E74536?style=for-the-badge&logoColor=white)
 
 
