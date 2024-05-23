@@ -12,7 +12,7 @@
 
 .mySlides img {
     width: 100%;
-    height: 550px; /* 고정 높이 설정 */
+    height: 50%; /* 고정 높이 설정 */
     object-fit: cover; /* 이미지 비율 유지하면서 슬라이드에 맞춤 */
 }
 
