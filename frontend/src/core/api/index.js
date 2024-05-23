@@ -206,9 +206,8 @@ export const getGuardianMissingPerson = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
-
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -234,9 +233,8 @@ export const getGuardianMissingPersonStep = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
-
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -263,8 +261,8 @@ export const postProfileImg = async (value) => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "multipart/form-data",
         },
       },
@@ -290,8 +288,8 @@ export const getGuardianSelectImage = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -317,8 +315,8 @@ export const postGuardianSelectImage = async (value) => {
       { resultIds: value[0] },
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -344,8 +342,8 @@ export const getGuardianSelectedResult = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
@@ -371,8 +369,8 @@ export const getGuardianSecondResult = async () => {
 
       {
         headers: {
-          // Authorization: `${getCookie("authToken")}`,
-          Authorization: `${process.env.REACT_APP_TOKEN}`,
+          Authorization: `${getCookie("authToken")}`,
+          // Authorization: `${process.env.REACT_APP_TOKEN}`,
           "Content-Type": "application/json",
         },
       },
