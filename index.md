@@ -134,19 +134,19 @@ TODO: 영상 첨부
 <div class="slideshow-container">
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/7b0bb410-f0ac-4a89-b13e-6c3da92877c3" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:100%">
         <div class="text">[1] 진행 단계 확인</div>
     </div>
     <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/4b5a822c-5a0e-478b-a0ac-91fd1c13256d" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:100%">
         <div class="text">[2] 이미지 선택</div>
     </div>
     <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/7eb5673a-61ef-4c86-8a6a-c33016ce7a98" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:100%">
         <div class="text">[3] 이미지 확인</div>
     </div>
     <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bd30a7b0-dd87-4e61-9d8f-f6d1cba50b08" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:100%">
         <div class="text">[4] 이미지 제출</div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
@@ -259,7 +259,7 @@ TODO: 영상 첨부
 {: .fw-700 .text-blue-000}
 <div align="center"> 
     <p align = "center">
-      <img src="/assets/images/시스템-구조도.png" alt="시스템구조도">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/a850af51-bdde-4a01-9897-65c6775b9bd9" alt="시스템구조도">
     </p>
 </div>
 
