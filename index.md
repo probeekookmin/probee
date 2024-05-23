@@ -89,23 +89,25 @@ TODO: 영상 첨부
 <script src="scriptPolice.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
-<div class="slideshow-container" style="text-align: center">
-    <!-- 숫자와 캡션이 있는 이미지 -->
-    <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/27f1da3b-1f1e-431c-908a-f2d07157501c" style="width:100%">
-        <div class="text">[1] 실종자 정보 등록</div>
-    </div>
-    <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f60df61a-bce0-4e8a-aaea-a406188b9f72" style="width:100%">
-        <div class="text">[2] 실종자 현황</div>
-    </div>
-    <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
-        <div class="text">[3] 실종자 리포트</div>
-    </div>
-    <div class="mySlides fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
-        <div class="text">[4] 지능형 탐색</div>
+<div class="slideshow-container">
+    <div style="text-align: center">
+        <!-- 숫자와 캡션이 있는 이미지 -->
+        <div class="mySlides fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/27f1da3b-1f1e-431c-908a-f2d07157501c" style="width:100%">
+            <div class="text">[1] 실종자 정보 등록</div>
+        </div>
+        <div class="mySlides fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f60df61a-bce0-4e8a-aaea-a406188b9f72" style="width:100%">
+            <div class="text">[2] 실종자 현황</div>
+        </div>
+        <div class="mySlides fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
+            <div class="text">[3] 실종자 리포트</div>
+        </div>
+        <div class="mySlides fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
+            <div class="text">[4] 지능형 탐색</div>
+        </div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -131,23 +133,25 @@ TODO: 영상 첨부
 <script src="scriptGuardian.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
-<div class="slideshow-container" style="text-align: center">
-    <!-- 숫자와 캡션이 있는 이미지 -->
-    <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:30%; height:30%;">
-        <div class="text">[1] 진행 단계 확인</div>
-    </div>
-    <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;"">
-        <div class="text">[2] 이미지 선택</div>
-    </div>
-    <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:30%; height:30%;">
-        <div class="text">[3] 이미지 확인</div>
-    </div>
-    <div class="mySlidesGuardian fade">
-        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:30%; height:30%;">
-        <div class="text">[4] 이미지 제출</div>
+<div class="slideshow-container">
+    <div style="text-align: center">
+        <!-- 숫자와 캡션이 있는 이미지 -->
+        <div class="mySlidesGuardian fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:30%; height:30%;">
+            <div class="text">[1] 진행 단계 확인</div>
+        </div>
+        <div class="mySlidesGuardian fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;"">
+            <div class="text">[2] 이미지 선택</div>
+        </div>
+        <div class="mySlidesGuardian fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:30%; height:30%;">
+            <div class="text">[3] 이미지 확인</div>
+        </div>
+        <div class="mySlidesGuardian fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:30%; height:30%;">
+            <div class="text">[4] 이미지 제출</div>
+        </div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
     <a class="prev" onclick="plusSlidesGuardian(-1)">&#10094;</a>
