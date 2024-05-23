@@ -62,6 +62,7 @@ function GuardianMainPage() {
         </Col>
       </Row>
       <FloatButtonContainer
+        className="custom-float-btn"
         icon={<QuestionCircleOutlined style={{ fontSize: "2rem" }} />}
         style={{
           width: "12.5rem",
@@ -103,8 +104,13 @@ const ProfileSection = styled(Form)`
 `;
 
 const FloatButtonContainer = styled(FloatButton)`
-  &.ant-float-btn .ant-float-btn-body .ant-float-btn-content {
-    width: 12.5rem;
-    height: 12.5rem;
+  &.custom-float-btn.ant-float-btn .ant-float-btn-body .ant-float-btn-content .ant-float-btn-icon {
+    width: 6rem;
+    height: 6rem;
+    margin: 0;
+    svg {
+      font-size: 6rem;
+      color: #848484;
+    }
   }
 `;
