@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
-import { Typography, Image, Skeleton, Form, Input, Row, Col } from "antd";
+import { Typography, Image, Skeleton, Form, Input, Row, Col, Divider } from "antd";
 import { InputForm } from "../common/InputForm";
 
 export const BasicInfo = ({ data }) => {
@@ -24,6 +24,7 @@ export const BasicInfo = ({ data }) => {
       relation: data.relationship,
       guardianContact: data.phoneNumber,
       koQuery: data.koQuery, //착장정보 한국어
+      description: data.description, //특이사항
     });
   }, [data]);
 
@@ -98,7 +99,7 @@ export const BasicInfo = ({ data }) => {
       <InfoContainer>
         <Title>특이사항</Title>
         <InfoForm form={form} layout="vertical">
-          <StyledParagraph>{data.koQuery}</StyledParagraph>
+          <StyledParagraph>{data.description}</StyledParagraph>
         </InfoForm>
       </InfoContainer>
     );
@@ -107,9 +108,10 @@ export const BasicInfo = ({ data }) => {
   return (
     <StBasicInfo>
       <MissingPersonInfo />
-      <GuardianInfo />
       <WearingInfo />
       <DescInfo />
+      <CustomDevider />
+      <GuardianInfo />
     </StBasicInfo>
   );
 };
@@ -234,4 +236,9 @@ const GuardianContentsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+const CustomDevider = styled(Divider)`
+  margin: 1rem 0;
+  color: #cacaca;
 `;
