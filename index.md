@@ -86,7 +86,7 @@ TODO: 영상 첨부
 {: .fw-700}
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="script.js" defer></script>
+<script src="scriptPolice.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
 <div class="slideshow-container">
@@ -128,7 +128,7 @@ TODO: 영상 첨부
 {: .fw-700}
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="script.js" defer></script>
+<script src="scriptGuardian.js" defer></script>
 
 <!-- 슬라이드쇼 컨테이너 -->
 <div class="slideshow-container">
