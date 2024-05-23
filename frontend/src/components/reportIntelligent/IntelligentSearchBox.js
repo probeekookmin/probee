@@ -130,13 +130,13 @@ const SearchBoxContainer = styled.div`
   border: 0.1rem solid #d9d9d9;
   border-radius: 0.5rem;
 
-  @media (max-width: 1600px) and (min-width: 1401px) {
+  @media (max-width: 1900px) and (min-width: 1601px) {
     width: 36rem;
     height: 3.5rem;
   }
 
-  @media (max-width: 1400px) and (min-width: 1301px) {
-    width: 30.5rem;
+  @media (max-width: 1600px) and (min-width: 1301px) {
+    width: 32.5rem;
     height: 3.5rem;
   }
   @media (max-width: 1300px) and (min-width: 1280px) {
