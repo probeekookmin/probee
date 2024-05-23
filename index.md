@@ -141,7 +141,7 @@ TODO: 영상 첨부
             <div class="text">[1] 진행 단계 확인</div>
         </div>
         <div class="mySlidesGuardian fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;"">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;">
             <div class="text">[2] 이미지 선택</div>
         </div>
         <div class="mySlidesGuardian fade">
