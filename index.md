@@ -10,7 +10,7 @@ permalink: /
 
 <div align="center"> 
     <p align = "center">
-      <img src = "/assets/images/main-image.png" width = "90%"/>
+      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/c59e4deb-5141-49f3-9ce9-42c7b5f2c64f" width = "90%"/>
     </p>
 
     <p align = "center">
@@ -93,22 +93,22 @@ TODO: 영상 첨부
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlides fade">
         <div class="numbertext">1 / 4</div>
-        <img src="/assets/images/screen-경찰/figma-실종정보등록.png" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/ce963af8-cef7-4c48-a75d-7510fa51203f" style="width:100%">
         <div class="text">실종자 정보 등록</div>
     </div>
     <div class="mySlides fade">
         <div class="numbertext">2 / 4</div>
-        <img src="/assets/images/screen-경찰/figma-실종자 현황.png" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f60df61a-bce0-4e8a-aaea-a406188b9f72" style="width:100%">
         <div class="text">실종자 현황</div>
     </div>
     <div class="mySlides fade">
         <div class="numbertext">3 / 4</div>
-        <img src="/assets/images/screen-경찰/figma-실종자 리포트 메인.png" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
         <div class="text">실종자 리포트</div>
     </div>
     <div class="mySlides fade">
         <div class="numbertext">4 / 4</div>
-        <img src="/assets/images/screen-경찰/figma-실종자 리포트 메인.png" style="width:100%">
+        <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
         <div class="text">지능형 탐색</div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
@@ -133,16 +133,16 @@ TODO: 영상 첨부
 <table>
   <tr align="center">
     <td>
-      <img src="/assets/images/screen-보호자/figma-보호자 메인.png" alt="보호자메인">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/7b0bb410-f0ac-4a89-b13e-6c3da92877c3" alt="보호자메인">
     </td>
     <td>
-      <img src="/assets/images/screen-보호자/figma-보호자 이미지 선별.png" alt="보호자이미지선별">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/4b5a822c-5a0e-478b-a0ac-91fd1c13256d" alt="보호자이미지선별">
     </td>
     <td>
-      <img src="/assets/images/screen-보호자/figma-보호자 이미지 확대.png" alt="보호자이미지확대">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/7eb5673a-61ef-4c86-8a6a-c33016ce7a98" alt="보호자이미지확대">
     </td>
     <td>
-      <img src="/assets/images/screen-보호자/figma-보호자 팝업.png" alt="보호자팝업">
+      <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/bd30a7b0-dd87-4e61-9d8f-f6d1cba50b08" alt="보호자팝업">
     </td>
   </tr>
   <tr align="center">
