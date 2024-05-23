@@ -10,8 +10,8 @@
     display: none;
 }
 
-.img-slideshow {
-    vertical-align: middle;
+.mySlides img {
+    width: 100%;
     height: 500px; /* 고정 높이 설정 */
     object-fit: cover; /* 이미지 비율 유지하면서 슬라이드에 맞춤 */
 }
