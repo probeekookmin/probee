@@ -64,8 +64,9 @@ function AddMissingPersonPage() {
       missingPeopleType: fieldsValue["user"]["type"],
     };
     console.log("Received values of form: ", values);
-    postMissingPerson(values);
-    navigate("/list");
+    postMissingPerson(values).then((res) => {
+      navigate("/report", { state: { userId: res.id } });
+    });
   };
 
   return (
