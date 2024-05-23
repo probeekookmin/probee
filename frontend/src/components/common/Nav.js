@@ -1,9 +1,12 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import { DesktopOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
-const { Sider } = Layout;
+import React, { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
+import { Layout, Menu } from "antd";
+import { DesktopOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import Logo from "../../assets/icons/logo_w.svg";
+import LogoSmall from "../../assets/icons/logo_bee_w.svg";
+const { Sider } = Layout;
+
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -21,6 +24,7 @@ const items = [
 
 const Nav = () => {
   const [collapsed, setCollapsed] = useState(false);
+
   const selectedKey = useLocation().pathname;
 
   const currentKey = () => {
@@ -44,7 +48,7 @@ const Nav = () => {
         minHeight: "100vh",
       }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <DemoLogo />
+        <LogoContainer>{collapsed ? <LogoSmallWrapper src={LogoSmall} /> : <LogoWrapper src={Logo} />} </LogoContainer>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline" items={items} selectedKeys={currentKey()} />
       </Sider>
       <Layout>
@@ -55,8 +59,15 @@ const Nav = () => {
 };
 export default Nav;
 
-const DemoLogo = styled.div`
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1.6rem;
+`;
+const LogoWrapper = styled.img`
+  width: 15rem;
+`;
+const LogoSmallWrapper = styled.img`
+  width: 2rem;
+  height: 2rem;
 `;

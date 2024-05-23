@@ -43,6 +43,7 @@ function MissingPersonReportPage() {
 
   /*지능형 탐색 시작하기 스크롤 이벤트 */
   const scrollToIntelligent = () => {
+    console.log("scrollToIntelligent");
     const element = document.getElementById("intelligent");
     if (element) {
       element.scrollIntoView({

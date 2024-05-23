@@ -125,15 +125,23 @@ const SearchBoxContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 40.5rem;
-  height: 3.2rem;
+  width: 42.5rem;
+  height: 4.2rem;
   border: 0.1rem solid #d9d9d9;
   border-radius: 0.5rem;
-  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
-    width: 32.5rem;
+
+  @media (max-width: 1600px) and (min-width: 1401px) {
+    width: 36rem;
+    height: 3.5rem;
   }
-  @media (max-width: 1280px) and (min-width: 0px) {
-    width: 32.5rem;
+
+  @media (max-width: 1400px) and (min-width: 1301px) {
+    width: 30.5rem;
+    height: 3.5rem;
+  }
+  @media (max-width: 1300px) and (min-width: 1280px) {
+    width: 28.5rem;
+    height: 3rem;
   }
 `;
 
@@ -141,12 +149,29 @@ const SearchInput = styled(Input)`
   display: flex;
   width: 34rem;
   font-size: 1.6rem;
-  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+  /* @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
     width: 30rem;
     font-size: 1.2rem;
   }
   @media (max-width: 1280px) and (min-width: 0px) {
     width: 30rem;
+    font-size: 1.2rem;
+  } */
+
+  @media (max-width: 1600px) and (min-width: 1401px) {
+    width: 27rem;
+    height: 3.5rem;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 1400px) and (min-width: 1301px) {
+    width: 27rem;
+    height: 3.5rem;
+    font-size: 1.2rem;
+  }
+  @media (max-width: 1300px) and (min-width: 1280px) {
+    width: 26rem;
+    height: 3rem;
     font-size: 1.2rem;
   }
 `;
