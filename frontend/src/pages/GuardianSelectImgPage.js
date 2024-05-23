@@ -130,6 +130,7 @@ function GuardianSelectImgPage() {
     selectOK: () => {
       setIsSubmitModalOpen(false);
       onFinish();
+      window.location.replace("/m");
     },
     selectCancel: () => {
       setIsSubmitModalOpen(false);
