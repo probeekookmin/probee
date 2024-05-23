@@ -92,24 +92,20 @@ TODO: 영상 첨부
 <div class="slideshow-container">
     <!-- 숫자와 캡션이 있는 이미지 -->
     <div class="mySlides fade">
-        <div class="numbertext">1 / 4</div>
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/ce963af8-cef7-4c48-a75d-7510fa51203f" style="width:100%">
-        <div class="text">실종자 정보 등록</div>
+        <div class="text">[1] 실종자 정보 등록</div>
     </div>
     <div class="mySlides fade">
-        <div class="numbertext">2 / 4</div>
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f60df61a-bce0-4e8a-aaea-a406188b9f72" style="width:100%">
-        <div class="text">실종자 현황</div>
+        <div class="text">[2] 실종자 현황</div>
     </div>
     <div class="mySlides fade">
-        <div class="numbertext">3 / 4</div>
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
-        <div class="text">실종자 리포트</div>
+        <div class="text">[3] 실종자 리포트</div>
     </div>
     <div class="mySlides fade">
-        <div class="numbertext">4 / 4</div>
         <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
-        <div class="text">지능형 탐색</div>
+        <div class="text">[4] 지능형 탐색</div>
     </div>
     <!-- 다음, 이전 이미지 버튼 -->
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
