@@ -321,7 +321,7 @@ TODO: 영상 첨부
 ### [중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
 ### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
 ### 시연 동영상
-### [포스터](https://drive.google.com/file/d/1GfLHDQGLD1HVCc9pTJ5NJ6obwO7EBe5w/view?usp=sharing)
-### [최종 발표 자료](https://drive.google.com/file/d/1I8HmE1aMYNbLfLaEbPr7uFxRoojRXT7d/view?usp=sharing)
-### [결과 보고서](https://drive.google.com/file/d/12mt2NSkWAXJMRSHTAxqgblGhvBBRsjKw/view?usp=sharing)
+### [포스터](https://drive.google.com/file/d/1StCJsF0r9Wyg5kibQ5R-JZYuOR_6q9mT/view?usp=sharing)
+### [최종 발표 자료](https://drive.google.com/file/d/1zkOBo8MYf-3WMqMQWRmrLLuOn4h7nYl9/view?usp=drive_link)
+### [결과 보고서](https://drive.google.com/file/d/1u8D1udpXldKMDjaGjXWQBjbJcLJv2Sls/view?usp=drive_link)
 ### [회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
