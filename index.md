@@ -97,15 +97,15 @@ TODO: 영상 첨부
             <div class="text">[1] 실종자 정보 등록</div>
         </div>
         <div class="mySlides fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/f60df61a-bce0-4e8a-aaea-a406188b9f72" style="width:100%">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/719123e3-09f7-4b1d-8e6f-dac86a5a84c1" style="width:100%">
             <div class="text">[2] 실종자 현황</div>
         </div>
         <div class="mySlides fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/1fef3d71-b3ff-4506-9346-4c41dccd50e9" style="width:100%">
             <div class="text">[3] 실종자 리포트</div>
         </div>
         <div class="mySlides fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/6395308d-d2bc-4698-a2a8-a95f55d5a389" style="width:100%">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/71ba1239-9725-4b0d-af9a-158c1f77111f" style="width:100%">
             <div class="text">[4] 지능형 탐색</div>
         </div>
     </div>
@@ -137,19 +137,19 @@ TODO: 영상 첨부
     <div style="text-align: center">
         <!-- 숫자와 캡션이 있는 이미지 -->
         <div class="mySlidesGuardian fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/40174bc1-dad7-4fbe-b8e8-9b01bb43530c" style="width:30%; height:30%;">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/00cd2f43-95e4-42bc-9b20-9a4f1d8e5056" style="width:30%; height:30%;">
             <div class="text">[1] 진행 단계 확인</div>
         </div>
         <div class="mySlidesGuardian fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/0bf8f4ee-bb6e-4b3b-9eef-56d1b81908d5" style="width:30%; height:30%;">
-            <div class="text">[2] 이미지 선택</div>
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/d5129590-a8b8-41f5-9856-9eeee8b16a8b" style="width:30%; height:30%;">
+            <div class="text">[2] 이미지 선별</div>
         </div>
         <div class="mySlidesGuardian fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/b5220a9b-df9b-43b4-86d0-45a058b8abc0" style="width:30%; height:30%;">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/d1fa8627-16ed-47c0-b5eb-50f937fe36cd" style="width:30%; height:30%;">
             <div class="text">[3] 이미지 확인</div>
         </div>
         <div class="mySlidesGuardian fade">
-            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/391d96d0-9e6e-4f93-9518-d7d63ee04121" style="width:30%; height:30%;">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/4656cb02-b674-4af7-af0e-27c676fbe872" style="width:30%; height:30%;">
             <div class="text">[4] 이미지 제출</div>
         </div>
     </div>
