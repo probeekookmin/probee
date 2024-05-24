@@ -8,9 +8,9 @@
 ## 🔗 목차 
 1️⃣ [💡 프로젝트 소개](#-프로젝트-소개) & [💡 Project Introduction](#-project-introduction)
 
-2️⃣ [🦾 프로젝트 기능](#-프로젝트-기능)
+2️⃣ [🦾 주요 기능](#-주요-기능)
 
-3️⃣ [🎬 소개영상](#-소개-영상)
+3️⃣ [🎬 소개 영상](#-소개-영상)
 
 4️⃣ [👋 팀원 소개](#-팀원-소개)
 
@@ -60,7 +60,7 @@
 
 <br/>
 
-## 🦾 프로젝트 기능
+## 🦾 주요 기능
 
 ### 🧐 AI를 활용한 인상착의 기반 CCTV 분석
 인상착의 텍스트 정보를 기반으로 인공지능을 활용해 CCTV 영상 분석을 진행하여 실종자 경보 문자를 대체하고 경찰 인력을 효율적으로 활용합니다.
@@ -119,7 +119,7 @@ TODO: 영상 첨부
               ****1663
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/mirageciel">
+            <a href="https://github.com/chaews0327">
               <img src="https://avatars.githubusercontent.com/u/84088060?v=4" width="80">
               <br />
               <b>신채원</b>
@@ -165,7 +165,7 @@ TODO: 영상 첨부
             <span style="font-size: 12px;">wjdtnghks123@kookmin.ac.kr</span>
         </td>
                 <td>
-            <span style="font-size: 12px;">mirageciel@kookmin.ac.kr</span>
+            <span style="font-size: 12px;">chaews0327@gmail.com</span>
         </td>
                 <td>
             <span style="font-size: 12px;">tory912@gmail.com</span>
@@ -318,4 +318,10 @@ TODO: 영상 첨부
 <br/>
 
 ## 📝 소개 자료
-TODO : 각종 문서들, 중간 자료, 최종 자료 등등 추가
+### [중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
+### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
+### 시연 동영상
+### [포스터](https://drive.google.com/file/d/1GfLHDQGLD1HVCc9pTJ5NJ6obwO7EBe5w/view?usp=sharing)
+### [최종 발표 자료](https://drive.google.com/file/d/1I8HmE1aMYNbLfLaEbPr7uFxRoojRXT7d/view?usp=sharing)
+### [결과 보고서](https://drive.google.com/file/d/12mt2NSkWAXJMRSHTAxqgblGhvBBRsjKw/view?usp=sharing)
+### [회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
