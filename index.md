@@ -369,7 +369,7 @@ Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습
 
 <br />
 
-### 🖥 AI
+### 🖥 AI Server
 <table>
   <thead>
     <tr>
@@ -379,9 +379,39 @@ Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습
   </thead>
   <tbody>
     <tr>
+      <td><strong>Operating System</strong></td>
+      <td><img src="https://img.shields.io/badge/ubuntu_22.04-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="ubuntu"></td>
+    </tr>
+    <tr>
+      <td><strong>Programming Language</strong></td>
+      <td><img src="https://img.shields.io/badge/Python_3.10-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></td>
+    </tr>
+    <tr>
       <td><strong>Framework</strong></td>
       <td><img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white" alt="FastAPI"></td>
     </tr>
+    <tr>
+      <td><strong>AI Env</strong></td>
+      <td><img src="https://img.shields.io/badge/CuDnn_8.6-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="Nvidia"> <img src="https://img.shields.io/badge/CuDa_11.8-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="Cuda">
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Remote Env</strong></td>
+      <td><img src="https://img.shields.io/badge/ssh-5391FE?style=for-the-badge&logo=powershell&logoColor=white" alt="ssh"> <img src="https://img.shields.io/badge/wol-F2C811?style=for-the-badge&logoColor=white" alt="wol"> <img src="https://img.shields.io/badge/vnc-E74536?style=for-the-badge&logoColor=white" alt="vnc">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### 🖥 AI
+<table>
+  <thead>
+    <tr>
+      <th>역할</th>
+      <th>종류</th>
+    </tr>
+  </thead>
+  <tbody>
     <tr>
       <td><strong>Image Detection</strong></td>
       <td><img src="https://custom-icon-badges.demolab.com/badge/-YOLO-gold?style=for-the-badge&logo=yolo&logoColor=white" alt="YOLO"> <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white" alt="OpenAI"> <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white" alt="OpenCV"></td>
