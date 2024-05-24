@@ -46,7 +46,7 @@ public class SearchHistoryEntity {
     private Step step;
 
     @Builder.Default
-    private Integer searchRadius = 1; // 1km
+    private Double searchRadius = 0.5;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "missing_people_id")
@@ -63,7 +63,6 @@ public class SearchHistoryEntity {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-//        startTime = LocalDateTime.now(); #검색시작시간 아닌가요???
     }
 
     @PreUpdate

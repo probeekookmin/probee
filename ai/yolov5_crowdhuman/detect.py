@@ -121,6 +121,7 @@ def detect(opt,save_img=False):
                 date_obj += nfps * timedelta(seconds=10)
             else:
                 date_obj += nfps * timedelta(seconds=2)
+            opt.cctv_id = "1"
             img_name = opt.cctv_id+"_"+date_obj.strftime('%Y-%m-%d_%H-%M-%S ')
 
             if len(det):

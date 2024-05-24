@@ -26,6 +26,7 @@ public class MissingPeopleDetailResponseDto {
     private String relationship;
     //착장정보
     private final String koQuery;
+    private final String description;
 
     protected MissingPeopleDetailResponseDto(MissingPeopleEntity missingPeopleEntity) {
         this.id = missingPeopleEntity.getId();
@@ -39,6 +40,7 @@ public class MissingPeopleDetailResponseDto {
         this.missingPeopleType = missingPeopleEntity.getMissingPeopleType().getKor();
         this.profileImage = missingPeopleEntity.getProfileImage();
         this.koQuery = missingPeopleEntity.getKoQuery();
+        this.description = missingPeopleEntity.getDescription();
     }
 
     public static MissingPeopleDetailResponseDto fromEntity(MissingPeopleEntity missingPeopleEntity) {

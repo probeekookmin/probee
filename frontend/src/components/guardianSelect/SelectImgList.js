@@ -1,5 +1,5 @@
-import { List, Image, Button, Modal } from "antd";
-import { useState } from "react";
+import { List, Image, Button, Modal, Empty } from "antd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export const SelectImgList = ({ onSelect, data }) => {
@@ -11,47 +11,35 @@ export const SelectImgList = ({ onSelect, data }) => {
   const handleClose = () => {
     setOpenPreview(false);
   };
+  useEffect(() => {}, [data]);
 
   return (
     <StSelectImgList>
       <CountText>선택한 이미지({data.length})</CountText>
       <ScrollContainer>
-        {data.map((item) => (
-          <>
+        {data && data.length > 0 ? (
+          data.map((item) => (
             <ImageItem
               key={`select-${item.resultId}`}
               className="custom-image"
               src={item.imgUrl}
               onClick={() => setOpenPreview(true)}
-              preview={false}
-              // preview={{
-              //   width: 900,
-              //   toolbarRender: () => (
-              //     <BottomContainer>
-              //       <BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>
-              //     </BottomContainer>
-              //   ),
-              // }}
-            />{" "}
-            <PreviewModal
-              key={`preview-${item.resultId}`}
-              className="custom-modal"
-              open={openPreview}
-              centered
-              onCancel={handleClose}
-              footer={<BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>}
-              closeIcon={null}
-              width={1000}>
-              <PreviewItem
-                key={`preview-i-${item.resultId}`}
-                className="custom-image"
-                src={item.imgUrl}
-                onClick={() => setOpenPreview(true)}
-                preview={false}
-              />{" "}
-            </PreviewModal>
-          </>
-        ))}
+              // preview={false}
+              preview={{
+                width: 900,
+                toolbarRender: () => (
+                  <BottomContainer>
+                    <BottomButton onClick={() => onSelect(item)}>선택해제</BottomButton>
+                  </BottomContainer>
+                ),
+              }}
+            />
+          ))
+        ) : (
+          <EmptyContainer>
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </EmptyContainer>
+        )}
       </ScrollContainer>
     </StSelectImgList>
   );
@@ -165,4 +153,12 @@ const BottomButton = styled(Button)`
   font-weight: 500;
   line-height: 5.5rem;
   right: 0;
+`;
+const EmptyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
 `;

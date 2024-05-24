@@ -22,7 +22,7 @@ const rangeConfig = {
     },
   ],
 };
-export const IntelligentSearchInfo = ({ form }) => {
+export const IntelligentSearchInfo = ({ form, getLocation }) => {
   return (
     <StIntelligentSearchInfo>
       <Form.Item name="searchPeriod" label="탐색 기간" {...rangeConfig}>
@@ -35,7 +35,7 @@ export const IntelligentSearchInfo = ({ form }) => {
         />
       </Form.Item>
       <Form.Item name="searchLocation" label="탐색 위치" {...config}>
-        <SeacrchBox title={"탐색 위치"} form={form} name="searchLocation" />
+        <SeacrchBox title={"탐색 위치"} form={form} name="searchLocation" getLocation={getLocation} />
       </Form.Item>
     </StIntelligentSearchInfo>
   );

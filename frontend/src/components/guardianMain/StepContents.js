@@ -22,31 +22,49 @@ export const StepContents = ({ index, current }) => {
       title: "1차 탐색",
       wait: { content: "지능형 탐색을 시작합니다." },
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
-      finish: { content: "탐색 완료했습니다.", buttonText: "탐색 결과 확인하기", callBack: () => {} },
+      finish: {
+        content: "탐색 완료했습니다.",
+        buttonText: "탐색 결과 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "1차 탐색 결과", step: "first" } });
+        },
+      },
     },
     {
       step: 1,
       title: "탐색 이미지 선별",
       wait: {
         content:
-          "1차 탐색 결과 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중하고 빠른 선택 부탁드립니다.",
+          "1차 탐색 결과 이미지 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중한 선택 부탁드립니다.",
       },
       process: {
         content:
-          "1차 탐색 결과 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중하고 빠른 선택 부탁드립니다.",
+          "1차 탐색 결과 이미지 중 실종자와 유사한 이미지를 선택해주세요. 선택된 이미지는 2차 탐색에 활용되니 신중한 선택 부탁드립니다.",
         buttonText: "이미지 선별하기",
         callBack: () => {
           navigate("/select");
         },
       },
-      finish: { content: "이미지 선택 완료했습니다.", buttonText: "선별 이미지 확인하기", callBack: () => {} },
+      finish: {
+        content: "이미지 선택 완료했습니다.",
+        buttonText: "선별 이미지 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "선별 이미지 확인", step: "between" } });
+        },
+      },
     },
     {
       step: 2,
       title: "2차 탐색",
       wait: { content: "선별된 이미지를 바탕으로 지능형 탐색을 시작합니다." },
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
-      finish: { content: "탐색 완료했습니다.", buttonText: "탐색 결과 확인하기", callBack: () => {} },
+      finish: {
+        content: "탐색 완료했습니다.",
+        buttonText: "탐색 결과 확인하기",
+        callBack: () => {
+          navigate("/result", { state: { title: "2차 탐색 결과", step: "second" } });
+        },
+      },
     },
     {
       step: 3,
@@ -101,7 +119,7 @@ const StStepContents = styled.div`
   align-items: center;
   gap: 3.5rem;
   margin-top: 4.75rem;
-  width: 75.5rem;
+  width: 77.5rem;
 `;
 const Title = styled.p`
   font-size: 5rem;

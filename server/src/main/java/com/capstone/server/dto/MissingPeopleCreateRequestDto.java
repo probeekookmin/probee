@@ -41,6 +41,10 @@ public class MissingPeopleCreateRequestDto {
     @NotNull
     private String missingPeopleType; //실종자 타입
 
+    private String query;
+
+    private String ko_query;
+
     // MissingPeopleDetail
     @NotBlank
     private String hairStyle;
@@ -59,8 +63,6 @@ public class MissingPeopleCreateRequestDto {
 
     @NotBlank
     private String bagType;
-
-    private String shoesColor;// 신발 필요없음.
 
     // Guardian
     @NotBlank
@@ -102,6 +104,8 @@ public class MissingPeopleCreateRequestDto {
                 .description(description)
                 .status(Status.getDefault())
                 .missingPeopleType(MissingPeopleType.fromKor(missingPeopleType))
+                .query(query)
+                .koQuery(ko_query)
                 .build();
     }
 
@@ -114,7 +118,6 @@ public class MissingPeopleCreateRequestDto {
                 .bottomType(BottomType.fromKor(bottomType))
                 .bottomColor(Color.fromKor(bottomColor))
                 .bagType(BagType.fromKor(bagType))
-                .shoesColor(Color.fromKor(shoesColor))
                 .build();
     }
 
@@ -136,5 +139,9 @@ public class MissingPeopleCreateRequestDto {
                 .longitude(longitude)
                 .locationAddress(locationAddress)
                 .build();
+    }
+
+    public Integer getAgeWhenMissing() {
+        return this.missingAt.getYear() - this.birthdate.getYear();
     }
 }

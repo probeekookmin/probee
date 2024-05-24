@@ -6,7 +6,7 @@ import MissingPersonReportPage from "../pages/MissingPersonReportPage";
 import MissingPersonListPage from "../pages/MissingPersonListPage";
 import GuardianMainPage from "../pages/GuardianMainPage";
 import GuardianSelectImgPage from "../pages/GuardianSelectImgPage";
-
+import GuardianShowResultPage from "../pages/GuardianShowResultPage";
 
 function Router() {
   return (
@@ -20,6 +20,7 @@ function Router() {
         </Route>
         <Route path="/m" element={<GuardianMainPage />} />
         <Route path="/select" element={<GuardianSelectImgPage />} />
+        <Route path="/result" element={<GuardianShowResultPage />} />
       </Routes>
     </BrowserRouter>
   );

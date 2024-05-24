@@ -20,16 +20,6 @@ public class CCTVEntity {
     @Column(name = "cctv_id")
     private Long id;
 
-    // @NotBlank
-    // private BigDecimal latitude;
-
-    // @NotBlank
-    // private BigDecimal longitude;
-
-    // @NotBlank
-    // private String locationAddress;
-
-    // @NotBlank
     @Column(columnDefinition = "geometry(Point, 4326)")
     private Point gps;
 
