@@ -8,9 +8,10 @@ permalink: /
 # 지능형 실종자 탐색 시스템, PROBEE
 {: .fw-700 .text-blue-000}
 
+<br>
 <div align="center"> 
     <p align = "center">
-      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/54920289/c59e4deb-5141-49f3-9ce9-42c7b5f2c64f" width = "90%"/>
+      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8a908edc-3842-412c-aeec-8f1a3188c5e1" width = "80%"/>
     </p>
 
     <p align = "center">
