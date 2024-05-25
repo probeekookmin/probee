@@ -75,7 +75,7 @@ AI를 통한 자동 CCTV 분석 프로세스 시작 후, 하단 탭과 지도 �
 
 ## 🎬 소개 영상
 {: .fw-700 .text-blue-000}
-TODO: 영상 첨부
+[![Video Label](https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/016fb2f1-f0be-46ba-825c-c9072ebe2995)](https://youtu.be/gr7nkRsNOck)
 
 <br/>
 
