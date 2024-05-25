@@ -48,6 +48,35 @@ permalink: /
 ## 🦾 주요 기능
 {: .fw-700 .text-blue-000}
 
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="scriptScenario.js" defer></script>
+
+<!-- 슬라이드쇼 컨테이너 -->
+<div class="slideshow-container">
+    <div style="text-align: center">
+        <!-- 숫자와 캡션이 있는 이미지 -->
+        <div class="mySlidesScenario fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/075b9abd-ffef-463a-888b-3d1d8f5e7e5c" style="width:100%">
+            <div class="text">전체 시나리오 소개</div>
+        </div>
+        <div class="mySlidesScenario fade">
+            <img src="https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/44dda61f-2bac-4b2d-8312-97df1a073c98" style="width:100%">
+            <div class="text">시나리오 소개 (경찰-보호자)</div>
+        </div>
+    </div>
+    <!-- 다음, 이전 이미지 버튼 -->
+    <a class="prev" onclick="plusSlidesScenario(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlidesScenario(1)">&#10095;</a>
+</div>
+
+<br/>
+
+<!-- 현재 이미지를 알려주는 하단의 점 -->
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlideScenario(1)"></span> 
+    <span class="dot" onclick="currentSlideScenario(2)"></span> 
+</div>
+
 ### 🧐 AI를 활용한 인상착의 기반 CCTV 분석
 {: .fw-700}
 인상착의 텍스트 정보를 기반으로 인공지능을 활용해 CCTV 영상 분석을 진행하여 실종자 경보 문자를 대체하고 경찰 인력을 효율적으로 활용합니다.
