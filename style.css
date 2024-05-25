@@ -63,7 +63,7 @@
 }
 
 /* 하단의 점 (dot) */
-.dot {
+.dot, .dotGuardian, .dotScenario {
     cursor: pointer;
     height: 15px;
     width: 15px;

@@ -73,8 +73,8 @@ permalink: /
 
 <!-- 현재 이미지를 알려주는 하단의 점 -->
 <div style="text-align:center">
-    <span class="dot" onclick="currentSlideScenario(1)"></span> 
-    <span class="dot" onclick="currentSlideScenario(2)"></span> 
+    <span class="dotScenario" onclick="currentSlideScenario(1)"></span> 
+    <span class="dotScenario" onclick="currentSlideScenario(2)"></span> 
 </div>
 
 ### 🧐 AI를 활용한 인상착의 기반 CCTV 분석
@@ -193,9 +193,9 @@ AI를 통한 자동 CCTV 분석 프로세스 시작 후, 하단 탭과 지도 �
 <!-- 현재 이미지를 알려주는 하단의 점 -->
 <div style="text-align:center">
     <span class="dotGuardian" onclick="currentSlideGuardian(1)"></span> 
-    <span class="dotGuardian" onclick="currentSlideGuardian(2)"></span> 
-    <span class="dotGuardian" onclick="currentSlideGuardian(3)"></span> 
-    <span class="dotGuardian" onclick="currentSlideGuardian(4)"></span> 
+    <span class="dotGuardian" onclick="currentSlideGuardian(2)"></span>
+    <span class="dotGuardian" onclick="currentSlideGuardian(3)"></span>
+    <span class="dotGuardian" onclick="currentSlideGuardian(4)"></span>
 </div>
 
 <br/>

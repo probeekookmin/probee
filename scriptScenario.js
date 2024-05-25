@@ -14,7 +14,7 @@ function currentSlideScenario(n) {
 function showSlidesScenario(n) {
     let i;
     let slidesScenario = document.getElementsByClassName("mySlidesScenario");
-    let dotsScenario = document.getElementsByClassName("dot");
+    let dotsScenario = document.getElementsByClassName("dotScenario");
     if (n > slidesScenario.length) {slideIndexScenario = 1}
     if (n < 1) {slideIndexScenario = slidesScenario.length}
     for (i = 0; i < slidesScenario.length; i++) {
