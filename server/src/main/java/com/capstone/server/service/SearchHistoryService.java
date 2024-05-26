@@ -84,8 +84,6 @@ public class SearchHistoryService {
         SearchHistoryEntity searchHistoryEntity = searchRequestDto.toSearchHistoryEntity();
         searchHistoryEntity.setMissingPeopleEntity(missingPeopleEntity);
         searchHistoryEntity.setStep(step);
-        //실종자 step을 First로 설정
-        missingPeopleEntity.setStep(step);
         return searchHistoryRepository.save(searchHistoryEntity).getId();
     }
 
