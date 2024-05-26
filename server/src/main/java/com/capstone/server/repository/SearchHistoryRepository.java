@@ -13,5 +13,7 @@ public interface SearchHistoryRepository extends JpaRepository<SearchHistoryEnti
 
     SearchHistoryEntity findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(Long missingPeopleEntityId, Step step);
 
+    SearchHistoryEntity findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(Long missingPeopleEntityId, Step step);
+
     SearchHistoryEntity findFirstByMissingPeopleEntityIdOrderByCreatedAtAsc(Long missingPeopleEntityId);
 }
