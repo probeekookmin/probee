@@ -1,9 +1,11 @@
 package com.capstone.server.controller;
 
+import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.KafkaDto;
 import com.capstone.server.dto.SearchRequestDto;
 import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
+import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.SearchResultSortBy;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
@@ -79,10 +81,10 @@ public class GuardianController {
             @RequestBody BetweenRequestDto betweenRequestDto) {
         Long id = encryptionService.extractIdFromToken(authorization);
 //        between 단계가 아니면 요청을 보낼 수 없음. 현재 테스트를 위해 빼놓은 상태
-//        Step step = guardianService.getStep(id).getStep();
-//        if (step.equals(Step.fromValue("between"))) {
-//            throw new CustomException(ErrorCode.BAD_REQUEST, "invalid step", "can't request step");
-//        }
+        Step stepCheck = missingPeopleService.getStep(id, false).getStep();
+        if (stepCheck.equals(Step.fromValue("between"))) {
+            throw new CustomException(ErrorCode.BAD_REQUEST, "invalid step", "can't request step");
+        }
         //상화작용 단계 결과 db저장
         guardianService.postBetween(id, betweenRequestDto);
 
@@ -93,8 +95,8 @@ public class GuardianController {
 
         //2차탐색 시작
         KafkaDto kafkaDto = KafkaDto.toKafkaDto(id, betweenRequestDto, searchId);
-         kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
-         
+        kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
+
         //사진을 업로드하면 바로 2차탐색하게 구현하기
         return ResponseEntity.ok().body(new SuccessResponse("success"));
     }
