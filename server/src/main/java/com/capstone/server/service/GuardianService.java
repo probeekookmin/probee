@@ -40,7 +40,7 @@ public class GuardianService {
     public void postBetween(Long id, BetweenRequestDto betweenRequestDto) {
         try {
             MissingPeopleEntity missingPeopleEntity = missingPeopleRepository.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID " ));
             SearchResultEntity searchResultEntity = null;
             for (Long resultId : betweenRequestDto.getResultIds()) { //TODO : 반복문을 돌며 저장해 db호출이 너무많음. //유효성검사도 더 해야될듯
                 searchResultEntity = searchResultRepository.findById(resultId)

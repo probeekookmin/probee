@@ -82,7 +82,7 @@ public class GuardianController {
         Long id = encryptionService.extractIdFromToken(authorization);
 //        between 단계가 아니면 요청을 보낼 수 없음. 현재 테스트를 위해 빼놓은 상태
         Step stepCheck = missingPeopleService.getStep(id, false).getStep();
-        if (stepCheck.equals(Step.fromValue("between"))) {
+        if (!stepCheck.equals(Step.fromValue("between"))) {
             throw new CustomException(ErrorCode.BAD_REQUEST, "invalid step", "can't request step");
         }
         //상화작용 단계 결과 db저장
