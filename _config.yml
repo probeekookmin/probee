@@ -127,7 +127,7 @@ nav_external_links:
     url: https://github.com/kookmin-sw/capstone-2024-14
     opens_in_new_tab: true # set to true to open this link in a new tab - defaults to false
   - title: AI 기술 문서 확인하기
-    url: http://github.com/kookmin-sw/capstone-2024-14/docs/AI%20%EA%B8%B0%EC%88%A0%20%EB%AC%B8%EC%84%9C/
+    url: http://http://localhost:4000/docs/AI
 
 liquid:
    error_mode: strict
