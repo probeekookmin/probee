@@ -11,7 +11,7 @@ permalink: /
 <br>
 <div align="center"> 
     <p align = "center">
-      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8a908edc-3842-412c-aeec-8f1a3188c5e1">
+      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8a908edc-3842-412c-aeec-8f1a3188c5e1" style="max-width: 100%; height: auto;">
     </p>
 
     <p align = "center">
