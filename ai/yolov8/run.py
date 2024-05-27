@@ -35,8 +35,7 @@ def run_Yolo(cctvIds,save_path,startTime):
     # 테스트 할 소스 디렉토리   
     save_path = Path(save_path)
     save_path.mkdir(parents=True, exist_ok=True)
-    categories = []
-    annotations = []
+    
     for cctv_id in cctvIds:
         source_path = f'/home/jongbin/Desktop/cctv/{cctv_id.id}/{startTime.split("T")[0]}' #todo 세부적인 시 분 초 시간까지 골라서 돌리기 기능 추가
         if not os.path.exists(source_path):
@@ -46,7 +45,7 @@ def run_Yolo(cctvIds,save_path,startTime):
             start_time = extract_video_info(filename)
             cap = cv2.VideoCapture(source)  # 비디오 파일
             fps = get_video_fps(source)  # FPS
-            stride = int(fps * 7)  # 현재는 10초당 한 번 탐색 진행, 수정 필요할 경우 fps * __ 수정하면 됨
+            stride = int(fps * 7)  #  수정 필요할 경우 fps * __ 수정하면 됨
 
             """
             NOTE 결과 저장 옵션
@@ -58,8 +57,9 @@ def run_Yolo(cctvIds,save_path,startTime):
             show_conf: 정확도 표시
             show_labels: 라벨 표시
             """
+            
             results = model.predict(source, save_crop=True, stream=True, show_conf=False, vid_stride = stride, device = device)
-            frame_num = 1   
+            frame_num = 0   
             for i, r in enumerate(results):
                 frame_num += stride
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_num)  # 현재 탐색 중인 프레임으로 이동
@@ -126,6 +126,8 @@ def run_Yolo(cctvIds,save_path,startTime):
 
     # ==== 2-stage 모델을 위한 annotation Json 파일 생성 ==== #
     annotation_idx = 0
+    categories = []
+    annotations = []
     for filename in os.listdir(save_path):
         id = re.sub(r'\D', '', filename)
         annotation = {
