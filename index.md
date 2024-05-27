@@ -11,7 +11,7 @@ permalink: /
 <br>
 <div align="center"> 
     <p align = "center">
-      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8a908edc-3842-412c-aeec-8f1a3188c5e1" width = "80%"/>
+      <img src = "https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/8a908edc-3842-412c-aeec-8f1a3188c5e1" style="max-width: 100%; height: auto;">
     </p>
 
     <p align = "center">
@@ -105,7 +105,9 @@ AI를 통한 자동 CCTV 분석 프로세스 시작 후, 하단 탭과 지도 �
 
 ## 🎬 소개 영상
 {: .fw-700 .text-blue-000}
-[![Video Label](https://github.com/kookmin-sw/capstone-2024-14/assets/84088060/016fb2f1-f0be-46ba-825c-c9072ebe2995)](https://youtu.be/gr7nkRsNOck)
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/gr7nkRsNOck" frameborder="0" allowfullscreen></iframe>
+</div>
 
 <br/>
 
