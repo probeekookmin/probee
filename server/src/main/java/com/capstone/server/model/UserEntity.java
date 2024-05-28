@@ -1,5 +1,6 @@
 package com.capstone.server.model;
 
+import com.capstone.server.model.enums.UserRole;
 import com.capstone.server.model.enums.userEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,50 +18,35 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "test_user")
+@Entity(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "login_id", nullable = false)
+    private String loginId;
 
-    private String name;
+    @Column(nullable = false)
+    private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 
-    private Integer age;
-
-
-    private String email;
-
-    private BigDecimal latitude;
-
-    private BigDecimal longitude;
-
-    private userEnum userEnum;
-
-
-    private Date createdAt;
-
-
-    private Date updatedAt;
-
-    @CreatedDate
-    private LocalDateTime localDate;
-
-
-    private LocalDateTime whenCreatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = new Date();
-        updatedAt = new Date();
-        localDate = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate // 업데이트가 발생할 때 호출되는 메소드
+    @PreUpdate 
     protected void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = LocalDateTime.now();
     }
-
 }
