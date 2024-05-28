@@ -105,8 +105,19 @@ AI를 통한 자동 CCTV 분석 프로세스 시작 후, 하단 탭과 지도 �
 
 ## 🎬 소개 영상
 {: .fw-700 .text-blue-000}
+
+### 🎥 발표 자료
+{: .fw-700}
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
     <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/gr7nkRsNOck" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<br/>
+
+### 🎥 시연 영상
+{: .fw-700}
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/YwIj5zPsL8M" frameborder="0" allowfullscreen></iframe>
 </div>
 
 <br/>
