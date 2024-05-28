@@ -320,7 +320,7 @@ AI를 통한 자동 CCTV 분석 프로세스 시작 후, 하단 탭과 지도 �
 ## 📝 소개 자료
 ### [중간 발표 자료](https://kookmin-my.sharepoint.com/:p:/g/personal/nobin313_kookmin_kr/EZ_YMHrscrpDqi5o711oQ9QBP5tPv9sapmubxHwY3E2wrg?e=dj1BnF)
 ### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
-### 시연 동영상
+### [시연 동영상](https://youtu.be/YwIj5zPsL8M)
 ### [포스터](https://drive.google.com/file/d/1StCJsF0r9Wyg5kibQ5R-JZYuOR_6q9mT/view?usp=sharing)
 ### [최종 발표 자료](https://drive.google.com/file/d/1zkOBo8MYf-3WMqMQWRmrLLuOn4h7nYl9/view?usp=drive_link)
 ### [결과 보고서](https://drive.google.com/file/d/1u8D1udpXldKMDjaGjXWQBjbJcLJv2Sls/view?usp=drive_link)
