@@ -49,10 +49,10 @@ def run_Yolo_webcam(save_path):
         
         results = model.predict(frame)
         for i, r in enumerate(results):
-            timestamp = start_time + timedelta(seconds=frame_num / fps)
-            img_name = timestamp.strftime('%Y-%m-%d_%H-%M-%S ')
+            timestamp =  start_time + timedelta(seconds=frame_num / fps)
+            img_name = str(100) + "_" +timestamp.strftime('%Y-%m-%d_%H-%M-%S ')
 
-            for box in r.boxes:
+            for  box_index, box in enumerate(r.boxes):
                 xyxy = box.xyxy
                 for j in range(xyxy.size(0)):  # 바운딩 박스의 개수에 맞게 루프를 돌며 전처리 및 저장
                     # === 바운딩 박스 비율 조정 === #
@@ -85,7 +85,7 @@ def run_Yolo_webcam(save_path):
                     im0 = frame
 
                     # 파일 경로 생성 및 이름 지정
-                    file_path = save_path / f"{img_name}.jpg"
+                    file_path = save_path / f"{img_name} {box_index}.jpg"
 
                     # 디렉토리가 존재하지 않는 경우 생성 후 저장
                     save_one_box(modified_xyxy, im0, file=file_path, BGR=True)
