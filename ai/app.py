@@ -20,11 +20,12 @@ sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
 sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
 sys.path.append(str(Path(__file__).parent)+"/imageSearch")
+sys.path.append(str(Path(__file__).parent)+"/imageSearch/deep-person-reid/torchreid")
 import shutil
 from TextReID.test_net import findByText 
 from yolov5_crowdhuman.detect import run_detection
 from yolov8.run import run_Yolo
-from imageSearch.imgSearch_server import run_Image_to_Image
+from imageSearch.torch_re_id import run_Image_to_Image
 
 app = FastAPI(port = 8080)
 
@@ -103,7 +104,7 @@ async def firstDetection(input :TotalInput):
 async def secondDetection(input:SecondInput):
     print(input)
     img_download_url = "/home/jongbin/Desktop/imgDown"
-    data_path = f"/home/jongbin/Desktop/firstResult/{input.firstSearchId}"
+    data_path = f"/home/jongbin/Desktop/yolo/{input.firstSearchId}"
     result = []
     check = set()
     for img_path in input.queryImagePath:
@@ -245,12 +246,9 @@ async def friyday(input:FridayInput):
     await copy_image(new_file_path,input.startTime,input.endTime)
     makeJsonData(new_file_path)
     result_dir = await runTextReID(input.searchId,input.query, new_file_path) #text-re-id돌리고 결과 json파일 받아오기
-    with open(result_dir, 'r') as json_file:
-        data = json.load(json_file)
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, "FIRST",30) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
-    
     # 이미지 경로 리스트
     return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:30])
 
