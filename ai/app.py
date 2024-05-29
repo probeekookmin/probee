@@ -73,7 +73,7 @@ class FridayInput(BaseModel):
     query: str
     missingPeopleId : int
 
-@app.post('/run', response_model=DetectResult)
+@app.post('/run1', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
     print(input.cctvId)
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
@@ -91,7 +91,7 @@ async def firstDetection(input :TotalInput):
         if os.path.exists(img_path):
             shutil.copy(img_path, destination_folder)
 
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step,15) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
@@ -141,7 +141,7 @@ async def runTextReID(searchId : int, query : str, yolo_save_path:str):
     return result_dir
 
 
-async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:str):
+async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:str, lastInt:int):
     try:
         with open(json_file_path, 'r') as file:
             data = json.load(file)
@@ -151,7 +151,7 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
     # 이미지 파일을 S3에 업로드하고 URL 업데이트
     errors = []
     # 리스트의 첫 번째 요소는 무시하고 나머지에서 작업 수행
-    for item in data[1:16]:
+    for item in data[1:lastInt]:
         img_path = item['img_path']
         similarity = item['Similarity']
         new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{similarity}{os.path.splitext(img_path)[-1]}"
@@ -237,22 +237,22 @@ async def upload_images(files: List[UploadFile] = File(...)):
 
     return JSONResponse(content={"message": "Files successfully uploaded", "files": saved_files})
 
-@app.post('/friday')
+@app.post('/run')
 async def friyday(input:FridayInput):
     new_file_path = f"/home/jongbin/Desktop/yolo/{input.searchId}"
     if not os.path.exists(new_file_path):
         os.makedirs(new_file_path)
-    copy_image(new_file_path,input.startTime,input.endTime)
+    await copy_image(new_file_path,input.startTime,input.endTime)
     makeJsonData(new_file_path)
     result_dir = await runTextReID(input.searchId,input.query, new_file_path) #text-re-id돌리고 결과 json파일 받아오기
     with open(result_dir, 'r') as json_file:
         data = json.load(json_file)
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, "FIRST") #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, "FIRST",30) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     
     # 이미지 경로 리스트
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:16])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:30])
 
 
 
@@ -283,10 +283,10 @@ def makeJsonData(save_path):
     print("Save Json file.")
     return jsonfiledir
 
-def copy_image(new_file_path,start_time,end_time):
+async def copy_image(new_file_path,start_time,end_time):
     source_dir ="/home/jongbin/Desktop/uploads"
-    start_time = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
-    end_time = datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S")
+    start_time = datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S")
+    end_time = datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S")
     for filename in os.listdir(source_dir):
         if filename.endswith(".jpg") or filename.endswith(".png"):  # 필요한 경우 파일 확장자를 조정하세요
             # 파일 이름에서 날짜와 시간을 추출
