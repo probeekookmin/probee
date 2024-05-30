@@ -1,16 +1,5 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
-import { Row, Col, Typography } from "antd";
-import { ReconciliationOutlined } from "@ant-design/icons";
-import { BasicInfo } from "../components/missingPersonReport/BasicInfo";
-import { StepProgress } from "../components/missingPersonReport/StepProgress";
-import { ReportList } from "../components/missingPersonReport/ReportList";
-import { ReportMap } from "../components/missingPersonReport/ReportMap";
-import { ReportTabs } from "../components/missingPersonReport/ReportTabs";
-import { IntelligentSearchOption } from "../components/reportIntelligent/IntelligentSearchOption";
-import { IntelligentBasicInfo } from "../components/reportIntelligent/IntelligentBasicInfo";
-import { IntelligentMap } from "../components/reportIntelligent/IntelligentMap";
-import { IntelligentSearchResult } from "../components/reportIntelligent/IntelligentSearchResult";
 import {
   getMissingPerson,
   getMissingPeopleStep,
@@ -22,6 +11,8 @@ import {
 import { useLocation } from "react-router-dom";
 import { ReportMain } from "../components/missingPersonReport/ReportMain";
 import { ReportIntelligent } from "../components/reportIntelligent/ReportIntelligent";
+
+/*실종자 리포트 화면 */
 function MissingPersonReportPage() {
   const [missingPerson, setMissingPerson] = useState([]);
   const [step, setStep] = useState([]);

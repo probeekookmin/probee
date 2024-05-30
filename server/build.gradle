@@ -36,6 +36,11 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.hibernate:hibernate-spatial:6.4.4.Final'
     implementation 'net.nurigo:sdk:4.2.7' //sms 발송 관련 sdk
+    implementation 'org.springframework.boot:spring-boot-starter-security' // login
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' // JWT 
+	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1' // com.sun.xml.bind
+	implementation 'com.sun.xml.bind:jaxb-core:4.0.1' // com.sun.xml.bind
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359' // javax.xml.bind
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
