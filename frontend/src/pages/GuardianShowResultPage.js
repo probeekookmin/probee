@@ -17,7 +17,31 @@ function GuardianShowResultPage() {
 
   useEffect(() => {
     fetchData();
+    // 우클릭 방지
+    document.addEventListener("contextmenu", preventContextMenu);
+    // 화면 캡쳐 방지 키 조합
+    document.addEventListener("keydown", preventScreenshot);
+    // 모바일 화면 캡쳐 방지
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      document.removeEventListener("contextmenu", preventContextMenu);
+      document.removeEventListener("keydown", preventScreenshot);
+      window.removeEventListener("blur", handleBlur);
+    };
   }, []);
+  const preventContextMenu = (e) => e.preventDefault();
+
+  const preventScreenshot = (e) => {
+    if (e.key === "PrintScreen" || (e.ctrlKey && e.key === "p")) {
+      e.preventDefault();
+      alert("화면 캡쳐가 금지되어 있습니다.");
+    }
+  };
+
+  const handleBlur = () => {
+    alert("화면 캡쳐가 감지되었습니다.");
+  };
 
   useEffect(() => {}, [data]);
 
