@@ -254,7 +254,7 @@ async def friyday(input:FridayInput):
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     # 이미지 경로 리스트
-    for entry in result[1:15]:
+    for entry in result[1:30]:
         if entry.get('Similarity', 0) <= 0.1:
             entry['Similarity'] = 0.0
     return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:30])
