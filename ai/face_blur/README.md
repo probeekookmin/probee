@@ -15,14 +15,16 @@ pip install -r requirements_gpu.txt # using GPU
 !python detect.py \
 --weights "/yolov7-face-blur/weights/yolov7-w6-face.pt" \
 --blurratio 50 --hidedetarea --device 0 --project "output" --name "" \
---source "/yolov7-face-blur/dataset"
+--source "/yolov7-face-blur/dataset" \
+--watermark 0.5
 ```
 ```bash
 # using CPU
 !python detect.py \
 --weights "/yolov7-face-blur/weights/yolov7-w6-face.pt" \
 --blurratio 50 --hidedetarea --project "output" --name "" \
---source "/yolov7-face-blur/dataset"
+--source "/yolov7-face-blur/dataset" \
+--watermark 0.5
 ```
 ---
 <img src="https://pjreddie.com/media/image/yologo_2.png" width="100"/>
