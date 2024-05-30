@@ -8,7 +8,7 @@ pip install -r requirements_gpu.txt # using GPU
 **pretrain된 weight는 아래의 주소에서 다운로드** <br>
 [Google Drive Download](https://drive.google.com/file/d/1tV-IKgbfpFe7ivsSWtN6v6ac2KxV2Xvt/view?usp=sharing): `/yolov7-face-blur/weights/yolov7-w6-face.pt` <br>
 
-**실행 코드**
+**실행 코드** <br>
 결과 이미지는 (--project)/(--name)에 저장
 ```bash
 # using GPU
