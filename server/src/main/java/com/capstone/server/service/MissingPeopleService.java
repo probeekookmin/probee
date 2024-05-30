@@ -191,7 +191,7 @@ public class MissingPeopleService {
         StepDto stepDto = StepDto.fromEntity(missingPeopleEntity);
         SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(missingPeopleId, stepDto.getStep());
         if (police && (stepDto.getStep().equals(Step.FIRST) || stepDto.getStep().equals(Step.SECOND))) {
-            int count = cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()).size();
+            int count = cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude(), searchHistoryEntity.getSearchRadius()).size();
             stepDto = new StepDetailDto(stepDto, String.format("CCTV %s개 탐색중", count));
         }
 

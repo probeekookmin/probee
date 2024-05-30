@@ -80,7 +80,7 @@ def main():
     )
     parser.add_argument(
         "--top-k",
-        default=10,
+        default=400,
         type=int,
     )
 

@@ -26,64 +26,8 @@ export const IntelligentBasicInfo = ({ data }) => {
   }, [data]);
 
   return (
-    // <StIntelligentBasicInfo>
-    //   <Form form={form} layout="vertical">
-    //     <Row gutter={15}>
-    //       <Col span={12}>
-    //         <Row>
-    //           <Col span={24}>
-    //             <Typography.Title level={5}> </Typography.Title>
-    //           </Col>
-    //           <Col span={11}>
-    //             <Skeleton.Image active={false} style={{ width: "13rem", height: "16rem" }} />
-    //           </Col>
-    //           <Col span={13}>
-    //             <Row>
-    //               <Col span={24}>
-    //                 <InputForm label={"성명"} name={"name"} />
-    //               </Col>
-    //               <Col span={17}>
-    //                 <InputForm label={"생년월일"} name={"birth"} />
-    //               </Col>
-    //               <Col span={7}>
-    //                 <InputForm label={"성별"} name={"gender"} />
-    //               </Col>
-    //               <Col span={24}>
-    //                 <InputForm label={"실종일시"} name={"missingTime"} />
-    //               </Col>
-    //               <Col span={24}>
-    //                 <InputForm label={"실종장소"} name={"missingLocation"} />
-    //               </Col>
-    //             </Row>
-    //           </Col>
-    //         </Row>
-    //       </Col>
-    //       <Col span={1}>
-    //         <Divider type="vertical" style={{ height: "100%" }} />
-    //       </Col>
-
-    //       <Col span={10}>
-    //         <Col>
-    //           <Typography.Title level={5}>착장정보</Typography.Title>
-    //         </Col>
-    //         <Col>
-    //           <Skeleton title={false} />
-    //         </Col>
-    //       </Col>
-    //     </Row>
-
-    //     {/* <Col span={11}>
-    //       <Typography.Title
-    //         level={5}
-    //         style={{
-    //           margin: 0,
-    //         }}>
-    //         착장정보
-    //       </Typography.Title>
-    //     </Col> */}
-    //   </Form>
-    // </StIntelligentBasicInfo>
     <StIntelligentBasicInfo>
+      <Title>실종자 정보</Title>
       <InfoForm form={form}>
         <ImageContainer>
           {data.profileImage ? (
@@ -126,8 +70,19 @@ const StIntelligentBasicInfo = styled.div`
   padding: 2rem;
   border-radius: 1.5rem;
   background-color: white;
+  @media all and (max-width: 1536px) {
+    padding: 1rem 2rem;
+  }
 `;
-
+const Title = styled.p`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  @media all and (max-width: 1500px) {
+    font-size: 1.3rem;
+  }
+`;
 const InfoForm = styled(Form)`
   display: flex;
   flex-direction: row;
@@ -153,19 +108,26 @@ const ImageWrapper = styled(Image)`
     height: 17rem;
     object-fit: cover;
 
-    @media all and (max-width: 1536px) {
-      width: 12rem;
-      height: 15rem;
-      object-fit: cover;
+    @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+      width: 11.2rem;
+      height: 13.6rem;
+    }
+    @media (max-width: 1280px) and (min-width: 0px) {
+      width: 9.8rem;
+      height: 11.8rem;
     }
   }
-  &.custom-image.ant-imag {
+  &.custom-image.ant-image {
     width: 14rem;
     height: 17rem;
-    @media all and (max-width: 1536px) {
-      width: 12rem;
-      height: 15rem;
-      object-fit: cover;
+
+    @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+      width: 11.2rem;
+      height: 13.6rem;
+    }
+    @media (max-width: 1280px) and (min-width: 0px) {
+      width: 9.8rem;
+      height: 11.8rem;
     }
   }
 `;

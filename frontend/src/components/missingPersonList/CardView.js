@@ -17,7 +17,7 @@ export const CardView = ({ data }) => {
     form.setFieldsValue({
       name: data.name,
       birth: data.birthdate,
-      gender: data.gender === "남성" ? "남" : "여",
+      gender: data.gender === "man" ? "남" : "여",
       missingTime: dateForm(data.missingAt),
       missingLocation: data.missingLocation,
     });
@@ -131,6 +131,7 @@ const StCardItem = styled(Form)`
   background: ${(props) => (props.process === "searching" ? "#E5F3FF" : "#F9FCFF")};
   border: ${(props) => (props.process === "searching" ? "0.1rem solid #E5F3FF" : "0.1rem solid #dfe9f3")};
   border-radius: 1rem;
+  cursor: pointer;
   /* &:hover {
     width: 32.1rem;
     height: 20.1rem;

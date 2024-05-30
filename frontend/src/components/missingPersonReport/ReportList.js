@@ -1,38 +1,17 @@
 import styled from "styled-components";
-import { Typography, List, Skeleton, Flex, Row, Col } from "antd";
+import { List } from "antd";
 import { FileSearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-const data = [
-  "2024-03-26 10:03:12",
-  "2024-03-24 10:03:12",
-  "2024-03-22 10:03:12",
-  "2024-03-20 10:03:12",
-  "2024-03-14 10:03:12",
-];
 
-export const ReportList = ({ history }) => {
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   console.log("history data", listData);
-  //   setData(listData.map(item => new Date(item.createdAt).toLocaleString()));
-  // }, []);
+/*지능형 탐색 이력 컴포넌트 */
+export const ReportList = ({ history, handleClickList }) => {
   console.log("history", history);
   const ListItems = ({ item }) => {
+    console.log("item", item);
     return (
-      // <ListItemContainer>
-      //   <Row gutter={8} justify="space-around">
-      //     <Col span={2}>
-      //       <FileSearchOutlined />
-      //     </Col>
-      //     <Col span={19}>
-      //       <p>{item}</p>
-      //     </Col>
-      //     <Col span={3}>
-      //       <a>view</a>
-      //     </Col>
-      //   </Row>
-      // </ListItemContainer>
-      <ListItemContainer>
+      <ListItemContainer
+        onClick={() => {
+          handleClickList(item.searchId);
+        }}>
         <ItemLeft>
           <FileSearchOutlined /> <p>{item.createdAt}</p>
         </ItemLeft>
@@ -44,7 +23,7 @@ export const ReportList = ({ history }) => {
   };
   return (
     <StReportList>
-      <Title>지능형 탐색 결과</Title>
+      <Title>지능형 탐색 이력</Title>
       <ListContainer
         size="small"
         itemLayout="horizontal"
@@ -106,6 +85,10 @@ const ListItemContainer = styled.div`
   border-radius: 0.5rem;
   background-color: white;
   font-size: 1.4rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #f5f5f5;
+  }
   @media all and (max-width: 1536px) {
     padding: 0.6rem 0.5rem;
 

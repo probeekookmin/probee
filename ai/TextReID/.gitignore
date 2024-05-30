@@ -4,7 +4,6 @@
 *.npy
 
 output/
-datasets/
 pretrained/
 __pycache__/
 condor_log/

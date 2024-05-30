@@ -53,15 +53,14 @@ public class DetectService {
     //수정 완료.
     public FirstDetectionDataDto callFirstDetectAPI(Long id) throws CustomException {
         try {
-
             //과정1 : 실종자 id가 db에 있는지 확인합니다. (이건 수정해야될듯 (불필요한 db요청이 너무 많아지는거 같기도 함) todo : 리팩토링. 현재 너무 과도하게 데이터를 불러오고있음.
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
             //해당 Id의 가장 최신 탐색기록을 가져와 요청 보낼 dto생성
-            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtAsc(id, Step.fromValue("first"));
+            SearchHistoryEntity searchHistoryEntity = searchHistoryRepository.findFirstByMissingPeopleEntityIdAndStepOrderByCreatedAtDesc(id, Step.fromValue("first"));
             //과정2 : ai server요청에 쓸 dto를생성합니다
             FirstDetectionRequestDto firstDetectionRequestDto = FirstDetectionRequestDto.fromEntity(missingPeople, searchHistoryEntity);
-            firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude()));
+            firstDetectionRequestDto.setCctvId(cctvService.findCCTVsNearbyLocationWithinDistance(searchHistoryEntity.getLongitude(), searchHistoryEntity.getLatitude(), searchHistoryEntity.getSearchRadius()));
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             //HttpEntity 생성
@@ -91,7 +90,9 @@ public class DetectService {
             MissingPeopleEntity missingPeople = missingPeopleRepository.findById(missingPeopleId)
                     .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + missingPeopleId));
             //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
-            missingPeople.setStep(Step.valueOf("BETWEEN"));
+            if (missingPeople.getStep().equals(Step.fromValue("first"))) {
+                missingPeople.setStep(Step.valueOf("BETWEEN"));
+            }
             missingPeopleRepository.save(missingPeople);
 
             //과정 3 : 응답으로오는 searchId를 통해 search result 업데이트
@@ -111,8 +112,14 @@ public class DetectService {
         }
     }
 
+    @Transactional
     public FirstDetectionDataDto callSecondDetectApi(Long id, BetweenRequestDto betweenRequestDto, Long searchId) {
         try {
+            MissingPeopleEntity missingPeople = missingPeopleRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Missing person not found with ID: " + id));
+            //과정 2 : 해당 실종자의 탐색단계 수정 => 따로 함수 빼야됨
+            missingPeople.setStep(Step.valueOf("EXIT"));
+            missingPeopleRepository.save(missingPeople);
             //과정1 : ai server요청에 쓸 dto를 생성
             SecondDetectionRequestDto secondDetectionRequestDto = new SecondDetectionRequestDto();
             secondDetectionRequestDto.setTopK(20);

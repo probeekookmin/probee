@@ -107,6 +107,12 @@ const StHorizontalInputForm = styled(Form.Item)`
     margin: 0;
     color: #8b8b8b;
     font-size: 1.5rem;
+    @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+      font-size: 1.2rem;
+    }
+    @media (max-width: 1280px) and (min-width: 0px) {
+      font-size: 1rem;
+    }
   }
   &.form-custom .ant-form-item-label > label::after {
     margin: 0;
@@ -118,8 +124,20 @@ const HorizontalInputText = styled(Input)`
   padding-right: 0;
   font-size: 1.5rem;
   font-weight: 500;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    font-size: 1rem;
+  }
 `;
 const MultiLineInputField = styled(Input.TextArea)`
   padding: 0;
   font-size: 1.5rem;
+  @media (max-width: 1440px) and (min-width: 1367px), (max-width: 1366px) and (min-width: 1281px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 1280px) and (min-width: 0px) {
+    font-size: 1rem;
+  }
 `;

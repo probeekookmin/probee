@@ -1,6 +1,6 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col } from "antd";
+import { useState } from "react";
+import { Form, Input, DatePicker, TimePicker, Radio, Typography, Row, Col, Select } from "antd";
 import { SeacrchBox } from "../common/SearchBox";
 import moment from "moment";
 
@@ -12,6 +12,16 @@ const options = [
   {
     label: "여성",
     value: "여성",
+  },
+];
+const typeOptions = [
+  {
+    value: "아동",
+    label: "아동",
+  },
+  {
+    value: "지적장애",
+    label: "지적장애",
   },
 ];
 const config = {
@@ -39,6 +49,11 @@ export const MissingPersonInfo = ({ form }) => {
     console.log("gender checked", value);
     setUserGender(value);
   };
+  const typeChange = (value, name) => {
+    form.setFieldsValue({
+      [name]: value,
+    });
+  };
   return (
     <Wrapper>
       <Typography.Title
@@ -48,7 +63,7 @@ export const MissingPersonInfo = ({ form }) => {
         }}>
         실종자
       </Typography.Title>
-      <Row gutter={[9, 2]}>
+      <Row gutter={[20, 2]}>
         <Col span={9}>
           <Form.Item
             name={["user", "name"]}
@@ -94,9 +109,25 @@ export const MissingPersonInfo = ({ form }) => {
             />
           </Form.Item>
         </Col>
-        <Col span={13}>
+        <Col span={16}>
           <Form.Item name={["user", "introduction"]} label="특이사항">
             <TextArea placeholder="내용을 입력해주세요." />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            name={["user", "type"]}
+            label="실종자 유형"
+            rules={[
+              {
+                required: true,
+              },
+            ]}>
+            <SelectItem
+              className="custom-select"
+              options={typeOptions}
+              placeholder="실종자 유형 선택"
+              onChange={(value) => typeChange(value, ["user", "type"])}></SelectItem>
           </Form.Item>
         </Col>
       </Row>
@@ -129,5 +160,14 @@ const NameInput = styled(Input)`
 `;
 
 const TextArea = styled(Input.TextArea)`
-  //width: 40rem;
+  width: 42rem;
+`;
+
+const SelectItem = styled(Select)`
+  &.custom-select .ant-select {
+    width: 18.5rem;
+  }
+  &.custom-select.ant-select.ant-select-in-form-item {
+    width: 18.5rem;
+  }
 `;

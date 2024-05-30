@@ -119,7 +119,7 @@ def save_results(query_image_path, scores, retrieved_examples, sorted_indices):
 
 # ===== 결과 저장
 scores, retrieved_examples = get_neighbors(args.query, args.topk)
-sorted_indices = np.argsort(scores)[::-1]
+sorted_indices = np.argsort(scores)[::]
 
 images = [Image.open(args.query)]
 images.extend([Image.open(retrieved_examples["image_path"][i]) for i in sorted_indices])

@@ -20,7 +20,8 @@ public enum Color {
     WHITE("흰색", "white"),
     BEIGE("베이지", "beige"),
     BLACK("검정", "black"),
-    BROWN("갈색", "brown");
+    BROWN("갈색", "brown"),
+    GRAY("회색", "gray");
 
     private final String kor;
     private final String value;
