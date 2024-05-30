@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "missing_people")
+@Entity(name = "dis_missing_people")
 public class MissingPeopleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

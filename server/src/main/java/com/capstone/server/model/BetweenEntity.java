@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "between")
+@Entity(name = "dis_between")
 public class BetweenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

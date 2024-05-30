@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// 시연용 수정
 @Repository
 public interface BetweenRepository extends JpaRepository<BetweenEntity, Long> {
-    @Query("SELECT sr FROM between bt JOIN bt.searchResult sr WHERE sr.searchHistoryEntity = :searchHistoryEntity ORDER BY sr.similarity DESC, sr.time DESC")
+    @Query("SELECT sr FROM dis_between bt JOIN bt.searchResult sr WHERE sr.searchHistoryEntity = :searchHistoryEntity ORDER BY sr.similarity DESC, sr.time DESC")
     Page<SearchResultEntity> findAllBySearchHistoryEntity(Pageable pageable, SearchHistoryEntity searchHistoryEntity);
 
     List<BetweenEntity> findByMissingPeopleId(Long missingPeopleId);

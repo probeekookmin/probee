@@ -18,7 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "users")
+@Entity(name = "dis_users")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
     @Id
