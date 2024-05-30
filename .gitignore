@@ -22,3 +22,4 @@ ai/yolov8/.env
 ai/TextReID/lib/data/encode/word_dict/annotations.json
 ai/search_result_grid.jpg
 
+ai/face_blur/yolov7-face-blur/weights/yolov7-w6-face.pt

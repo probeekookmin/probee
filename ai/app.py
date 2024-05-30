@@ -16,16 +16,16 @@ from typing import List
 import re
 
 sys.path.append(str(Path(__file__).parent))
-sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
 sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
 sys.path.append(str(Path(__file__).parent)+"/imageSearch")
+sys.path.append(str(Path(__file__).parent)+"/face_blur")
 sys.path.append(str(Path(__file__).parent)+"/imageSearch/deep-person-reid/torchreid")
 import shutil
 from TextReID.test_net import findByText 
-from yolov5_crowdhuman.detect import run_detection
 from yolov8.run import run_Yolo
 from imageSearch.torch_re_id import run_Image_to_Image
+from face_blur.detect import doBlur
 
 app = FastAPI(port = 8080)
 
@@ -126,7 +126,7 @@ async def secondDetection(input:SecondInput):
             new_file_name = f"{os.path.basename(local_output_path).split('.')[0]}"
             new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
             s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{new_file_name}"
-            s3_url = upload_image_to_s3(local_output_path, s3_key)
+            s3_url = upload_image_to_s3(local_output_path, new_file_name, s3_key,input.secondSearchId)
             a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :(10000-output['score'])/10000 }
             # a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :output['score']}
             result.append(a)
@@ -158,12 +158,16 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
     # 리스트의 첫 번째 요소는 무시하고 나머지에서 작업 수행
     for item in data[1:lastInt]:
         img_path = item['img_path']
+        imgSrc = f"/home/jongbin/Desktop/bluring/{searchId}"
         similarity = item['Similarity']
         new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{similarity}{os.path.splitext(img_path)[-1]}"
         new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
+        doBlur(source =img_path,project = imgSrc, name = new_file_name)
         s3_key = f"missingPeopleId={missingPeopleId}/searchHistoryId={searchId}/step={step}/{new_file_name}"
         try:
-            with open(img_path, 'rb') as img_file:
+            full_path = os.path.join(imgSrc, new_file_name, os.path.basename(img_path))
+            print("Sdfasdfasd",full_path)
+            with open(full_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
                     Fileobj=img_file,
                     Bucket=bucket_name,
@@ -214,11 +218,15 @@ def parse_s3_url(s3_url):
     
     return s3_bucket, s3_key
 
-def upload_image_to_s3(local_path, s3_key):
+def upload_image_to_s3(local_path,new_file_name, s3_key,search_id):
     """
     로컬 경로의 이미지를 S3 버킷의 지정된 키에 업로드합니다.
     """
-    with open(local_path, 'rb') as img_file:
+    imgSrc = f"/home/jongbin/Desktop/bluring/{search_id}"
+    doBlur(source =local_path,project = imgSrc, name = new_file_name)
+    full_path = os.path.join(imgSrc,new_file_name, os.path.basename(local_path))
+    print(full_path)
+    with open(full_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
                     Fileobj=img_file,
                     Bucket=bucket_name,
