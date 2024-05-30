@@ -13,6 +13,8 @@ import java.util.List;
 public interface SearchResultRepository extends JpaRepository<SearchResultEntity, Long> {
     List<SearchResultEntity> findByIdIn(List<Long> ids);
 
+    List<SearchResultEntity> findAllBySearchHistoryEntity(SearchHistoryEntity searchHistoryEntity);
+
     SearchResultEntity findFirstByIdInOrderByTimeDesc(List<Long> ids);
 
     Page<SearchResultEntity> findAllBySearchHistoryEntity(Pageable pageable, SearchHistoryEntity searchHistoryEntity);
