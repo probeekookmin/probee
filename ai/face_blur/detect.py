@@ -15,6 +15,9 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
+from PIL import Image, ImageEnhance
+import numpy as np
+
 
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz, trace, blurratio,hidedetarea = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace, opt.blurratio,opt.hidedetarea
@@ -141,6 +144,10 @@ def detect(save_img=False):
             # Print time (inference + NMS)
             print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
 
+            # Add watermark
+            w_mark = "./logo_w.png"
+            im0 = add_watermark(im0, w_mark, transparency=opt.watermark)
+
             # Stream results
             if view_img:
                 cv2.imshow(str(p), im0)
@@ -173,6 +180,37 @@ def detect(save_img=False):
     print(f'Done. ({time.time() - t0:.3f}s)')
 
 
+def add_watermark(base_image, watermark_image_path, transparency=0.3):
+    # 원본 이미지와 워터마크 이미지 로드
+    base_image = Image.fromarray(cv2.cvtColor(base_image, cv2.COLOR_BGR2RGB)).convert("RGBA")
+    watermark = Image.open(watermark_image_path).convert("RGBA")
+
+    # 워터마크 이미지를 반투명하게 조정
+    alpha = watermark.split()[3]
+    alpha = alpha.point(lambda p: p * transparency)
+    watermark.putalpha(alpha)
+
+    # 워터마크 이미지를 원본 이미지 내에 모두 들어오도록 크기 조정
+    watermark_width, watermark_height = watermark.size
+    base_width, base_height = base_image.size
+    max_width = int(base_width)
+    max_height = int(base_height)
+    # 가로 길이가 더 길거나 세로 길이가 더 긴 경우에 맞춰서 크기 조정
+    if watermark_width > watermark_height:
+        watermark_resized = watermark.resize((max_width, int(max_width * watermark_height / watermark_width)), Image.ANTIALIAS)
+    else:
+        watermark_resized = watermark.resize((int(max_height * watermark_width / watermark_height), max_height), Image.ANTIALIAS)
+    
+    # 워터마크 이미지를 45도 회전
+    watermark_rotated = watermark_resized.rotate(45, expand=True)
+    
+    # 회전한 워터마크 이미지를 이미지 중앙에 배치
+    position = ((base_width - watermark_rotated.width) // 2, (base_height - watermark_rotated.height) // 2)
+    base_image.paste(watermark_rotated, position, watermark_rotated)
+
+    return cv2.cvtColor(np.array(base_image), cv2.COLOR_RGB2BGR)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
@@ -195,6 +233,7 @@ if __name__ == '__main__':
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     parser.add_argument('--blurratio',type=int,default=20, required=True, help='blur opacity')
     parser.add_argument('--hidedetarea',action='store_true', help='Hide Detected Area')
+    parser.add_argument('--watermark', type=float, default=0.5, help='watermark transparency')
     opt = parser.parse_args()
     print(opt)
     #check_requirements(exclude=('pycocotools', 'thop'))
