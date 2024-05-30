@@ -19,7 +19,7 @@ function HelpPage() {
           <p>메인화면 설명 확인하기</p>
           <IconWrapper component={RightOutlined} color="#9D9D9D" />
         </ItemContainer>
-        <ItemContainer>
+        <ItemContainer onClick={() => navigate("/help/select", { state: "help" })}>
           <p>이미지 선별 설명 확인하기</p>
           <IconWrapper component={RightOutlined} color="#9D9D9D" />
         </ItemContainer>
