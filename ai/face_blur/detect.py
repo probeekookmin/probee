@@ -7,7 +7,7 @@ import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-
+from argparse import Namespace
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
@@ -19,7 +19,7 @@ from PIL import Image, ImageEnhance
 import numpy as np
 
 
-def detect(save_img=False):
+def detect(opt,save_img=False):
     source, weights, view_img, save_txt, imgsz, trace, blurratio,hidedetarea = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace, opt.blurratio,opt.hidedetarea
     save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
@@ -145,7 +145,7 @@ def detect(save_img=False):
             print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
 
             # Add watermark
-            w_mark = "./logo_w.png"
+            w_mark = "/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/face_blur/logo_w.png"
             im0 = add_watermark(im0, w_mark, transparency=opt.watermark)
 
             # Stream results
@@ -197,9 +197,9 @@ def add_watermark(base_image, watermark_image_path, transparency=0.3):
     max_height = int(base_height)
     # 가로 길이가 더 길거나 세로 길이가 더 긴 경우에 맞춰서 크기 조정
     if watermark_width > watermark_height:
-        watermark_resized = watermark.resize((max_width, int(max_width * watermark_height / watermark_width)), Image.ANTIALIAS)
+        watermark_resized = watermark.resize((max_width, int(max_width * watermark_height / watermark_width)), Image.LANCZOS)
     else:
-        watermark_resized = watermark.resize((int(max_height * watermark_width / watermark_height), max_height), Image.ANTIALIAS)
+        watermark_resized = watermark.resize((int(max_height * watermark_width / watermark_height), max_height), Image.LANCZOS)
     
     # 워터마크 이미지를 45도 회전
     watermark_rotated = watermark_resized.rotate(45, expand=True)
@@ -245,3 +245,43 @@ if __name__ == '__main__':
                 strip_optimizer(opt.weights)
         else:
             detect()
+
+def doBlur(weights="/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/face_blur/yolov7-face-blur/weights/yolov7-w6-face.pt", 
+            source='inference/images', img_size=640, conf_thres=0.25, iou_thres=0.45,
+            device='', view_img=False, save_txt=False, save_conf=False, nosave=False, classes=None,
+            agnostic_nms=False, augment=False, update=False, project='runs/detect', name='exp',
+            exist_ok=False, no_trace=False, blurratio=50, hidedetarea=True, watermark=0.5):
+    
+    # 매개변수를 Namespace 객체로 묶기
+    args = Namespace(
+        weights=weights,
+        source=source,
+        img_size=img_size,
+        conf_thres=conf_thres,
+        iou_thres=iou_thres,
+        device=device,
+        view_img=view_img,
+        save_txt=save_txt,
+        save_conf=save_conf,
+        nosave=nosave,
+        classes=classes,
+        agnostic_nms=agnostic_nms,
+        augment=augment,
+        update=update,
+        project=project,
+        name=name,
+        exist_ok=exist_ok,
+        no_trace=no_trace,
+        blurratio=blurratio,
+        hidedetarea=hidedetarea,
+        watermark=watermark
+    )
+
+    with torch.no_grad():
+        if args.update:  # update all models (to fix SourceChangeWarning)
+            for weight in ['yolov7.pt']:
+                args.weights = [weight]
+                detect(args)
+                strip_optimizer(args.weights)
+        else:
+            detect(args)

@@ -4,16 +4,11 @@ package com.capstone.server.service;
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.*;
 import com.capstone.server.exception.CustomException;
-import com.capstone.server.model.GuardianEntity;
-import com.capstone.server.model.MissingPeopleDetailEntity;
-import com.capstone.server.model.MissingPeopleEntity;
-import com.capstone.server.model.SearchHistoryEntity;
+import com.capstone.server.model.*;
 import com.capstone.server.model.enums.MissingPeopleSortBy;
 import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
-import com.capstone.server.repository.GuardianRepository;
-import com.capstone.server.repository.MissingPeopleRepository;
-import com.capstone.server.repository.SearchHistoryRepository;
+import com.capstone.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -45,7 +40,12 @@ public class MissingPeopleService {
     public SearchHistoryService searchHistoryService;
     @Autowired
     private CCTVService cctvService;
-
+    @Autowired
+    private MissingPeopleDetailRepository missingPeopleDetailRepository;
+    @Autowired
+    private BetweenRepository betweenRepository;
+    @Autowired
+    private SearchResultRepository searchResultRepository;
 
     @Transactional
     public MissingPeopleCreateResponseDto createMissingPeople(MissingPeopleCreateRequestDto missingPeopleCreateRequestDto) throws CustomException {
@@ -146,8 +146,43 @@ public class MissingPeopleService {
     @Transactional
     public void modifyStatus(Long missingPeopleId, Status status) {
         MissingPeopleEntity missingPeopleEntity = getMissingPeopleEntity(missingPeopleId);
-        missingPeopleEntity.setStatus(status);
+
+        // 상태가 EXIT로 변경될 때 관련 엔티티를 삭제
+        if (status == Status.EXIT) {
+            // 외래 키 제약 조건 위반을 피하기 위해 관련 엔티티를 먼저 삭제
+            deleteRelatedEntities(missingPeopleEntity);
+
+            // MissingPeopleEntity 자체를 삭제
+            missingPeopleRepository.delete(missingPeopleEntity);
+        } else {
+            missingPeopleEntity.setStatus(status);
+        }
     }
+
+    // 관련 엔티티를 삭제하는 메서드
+    private void deleteRelatedEntities(MissingPeopleEntity missingPeopleEntity) {
+        if (missingPeopleEntity.getGuardianEntity() != null) {
+            guardianRepository.delete(missingPeopleEntity.getGuardianEntity());
+        }
+        if (missingPeopleEntity.getMissingPeopleDetailEntity() != null) {
+            missingPeopleDetailRepository.delete(missingPeopleEntity.getMissingPeopleDetailEntity());
+        }
+        if (missingPeopleEntity.getSearchHistoryEntities() != null) {
+            for (SearchHistoryEntity searchHistoryEntity : missingPeopleEntity.getSearchHistoryEntities()) {
+                deleteSearchHistoryRelatedEntities(searchHistoryEntity);
+                searchHistoryRepository.delete(searchHistoryEntity);
+            }
+        }
+
+        List<BetweenEntity> betweenEntities = betweenRepository.findAllByMissingPeople(missingPeopleEntity);
+        betweenRepository.deleteAll(betweenEntities);
+    }
+
+    private void deleteSearchHistoryRelatedEntities(SearchHistoryEntity searchHistoryEntity) {
+        List<SearchResultEntity> searchResultEntities = searchResultRepository.findAllBySearchHistoryEntity(searchHistoryEntity);
+        searchResultRepository.deleteAll(searchResultEntities);
+    }
+
 
     public S3UploadResponseDto uploadImageToS3(MultipartFile image, String imagePath, Long id) {
         this.getMissingPeopleById(id);

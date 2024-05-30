@@ -15,6 +15,11 @@ server/src/main/java/com/capstone/server/dataInitializer/CCTVInitializer.java
 /ai/TextReID/datasets/imgs
 ai/imageSearch/results.json
 ai/imageSearch/search_result_grid.jpg
+/runs
 /myenv
 /test
 ai/yolov8/.env
+ai/TextReID/lib/data/encode/word_dict/annotations.json
+ai/search_result_grid.jpg
+
+ai/face_blur/yolov7-face-blur/weights/yolov7-w6-face.pt
