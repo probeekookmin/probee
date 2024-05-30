@@ -14,6 +14,15 @@ export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
   const [location, setLocation] = useState("");
   const [markerPosition, setMarkerPosition] = useState({});
 
+  //시연을 위한 코드 추가
+  useEffect(() => {
+    if (name === "searchLocation") {
+      setLocation("서울 성북구 정릉로 77");
+      form.setFieldsValue({ [name]: "서울 성북구 정릉로 77" });
+      getLocation(markerPosition);
+    }
+  }, []);
+
   useEffect(() => {
     console.log("selectAddress", location);
     if (location) {
@@ -24,7 +33,11 @@ export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
   const handle = {
     // 버튼 클릭 이벤트
     clickButton: () => {
-      setOpenPostcode((current) => !current);
+      //시연을 위한 코드 추가 및 주석처리
+      if (name === "missingLocation") {
+        setOpenPostcode((current) => !current);
+      }
+      // setOpenPostcode((current) => !current);
     },
 
     // 주소 선택 이벤트
@@ -57,7 +70,7 @@ export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
         if (map) {
           console.log("markerPosition", markerPosition);
           map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
-          map.setLevel(6);
+          map.setLevel(5);
         }
       }
     };
@@ -67,7 +80,7 @@ export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
   return (
     <StSearchBox>
       <SearchBoxContainer onClick={handle.clickButton}>
-        <SearchInput placeholder="도로명주소" variant="borderless" value={location ?? location} />
+        <SearchInput placeholder="도로명주소" variant="borderless" value={location ?? location} readOnly={true} />
         <SearchIconWrapper>
           <SearchOutlined style={{ color: "#00000060" }} />
         </SearchIconWrapper>
