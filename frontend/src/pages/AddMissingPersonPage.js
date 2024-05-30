@@ -1,13 +1,13 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Divider, Button, Form, Typography, Row, Col } from "antd";
 import { MissingPersonInfo } from "../components/addMisingPerson/MissingPersonInfo";
 import { GuardianInfo } from "../components/addMisingPerson/GuardianInfo";
 import { IntelligentSearchInfo } from "../components/addMisingPerson/IntelligentSearchInfo";
 import { WearingInfo } from "../components/addMisingPerson/WearingInfo";
 import { postMissingPerson } from "../core/api";
-import { useNavigate } from "react-router-dom";
 import { AnnotationInfo } from "../components/addMisingPerson/AnnotationInfo";
-import { useState } from "react";
 import moment from "moment";
 
 const validateMessages = {

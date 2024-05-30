@@ -24,32 +24,6 @@ export const postLogin = async (values) => {
 };
 
 /*실종정보 등록 (Post)*/
-// export const postMissingPerson = async (values) => {
-//   const data = axios
-//     .post(
-//       //   `${process.env.REACT_APP_API_ROOT}/api/missing-people`,
-//       // + 문자전송 및 연산 테스트
-//       `${process.env.REACT_APP_API_ROOT}/api/missing-people/totalCreateTest`,
-//       {
-//         ...values,
-//       },
-
-//       {
-//         headers: { "Content-Type": "application/json" },
-//       },
-//     )
-//     .then(function (response) {
-//       console.log(response.data);
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 export const postMissingPerson = async (values) => {
   try {
     console.log("Value", values);
@@ -100,23 +74,6 @@ export const getMissingPerson = async (id) => {
   }
 };
 
-// export const getMissingPerson = async (id) => {
-//   const data = axios
-//     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}`, {
-//       headers: { "Content-Type": "application/json" },
-//     })
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
-
 /*탐색 단계 가져오기 (실종자 리포트 화면)*/
 export const getMissingPeopleStep = async (id) => {
   try {
@@ -128,23 +85,6 @@ export const getMissingPeopleStep = async (id) => {
     return null;
   }
 };
-// export const getMissingPeopleStep = async (id) => {
-//   console.log("getMissingPeopleStep", id);
-//   const data = axios
-//     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/step`, {
-//       headers: { "Content-Type": "application/json" },
-//     })
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /* 지능형 탐색 기록 리스트 가져오기*/
 export const getSearchHistoryList = async (id) => {
@@ -157,23 +97,6 @@ export const getSearchHistoryList = async (id) => {
     return null;
   }
 };
-// export const getSearchHistoryList = async (id) => {
-//   console.log("getSearchHistoryList", id);
-//   const data = axios
-//     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-history`, {
-//       headers: { "Content-Type": "application/json" },
-//     })
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /* 지능형 탐색결과 사진 가져오기 -1차,2차 탐색, 추가 탐색 (Get)*/
 export const getSearchResultImg = async (page, id, step, search_id, size) => {
@@ -188,27 +111,6 @@ export const getSearchResultImg = async (page, id, step, search_id, size) => {
     return null;
   }
 };
-// export const getSearchResultImg = async (page, id, step, search_id, size) => {
-//   console.log("getSearchResultImg", id, step, search_id);
-
-//   const data = axios
-//     .get(
-//       `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search-result?page=${page}&size=${size ? size : 6}${step ? `&step=${step}` : ""}${search_id ? `&search-id=${search_id}` : ""}`,
-//       {
-//         headers: { "Content-Type": "application/json" },
-//       },
-//     )
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /* 이미지 선별 결과 가져오기 (Get)*/
 export const getBetweenResultImg = async (page, id) => {
@@ -221,22 +123,6 @@ export const getBetweenResultImg = async (page, id) => {
     return null;
   }
 };
-// export const getBetweenResultImg = async (page, id) => {
-//   const data = axios
-//     .get(`${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/between-result?page=${page}&size=6`, {
-//       headers: { "Content-Type": "application/json" },
-//     })
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("등록 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /* 탐색 결과에 대한 cctv 위치 (Get)*/
 export const getCCTVResult = async (id, step, search_id) => {
@@ -251,25 +137,6 @@ export const getCCTVResult = async (id, step, search_id) => {
     return null;
   }
 };
-// export const getCCTVResult = async (id, step, search_id) => {
-//   const data = axios
-//     .get(
-//       `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/mapposition?${step ? `step=${step}` : `search-id=${search_id}`}`,
-//       {
-//         headers: { "Content-Type": "application/json" },
-//       },
-//     )
-//     .then(function (response) {
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("cctv 위치 가져오기 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /*실종자 리포트 - 지능형 탐색 추가 (Post) */
 export const postIntelligentSearch = async (id, values) => {
@@ -283,30 +150,6 @@ export const postIntelligentSearch = async (id, values) => {
     return null;
   }
 };
-// export const postIntelligentSearch = async (id, values) => {
-//   const data = axios
-//     .post(
-//       `${process.env.REACT_APP_API_ROOT}/api/missing-people/${id}/search`,
-//       {
-//         ...values,
-//       },
-
-//       {
-//         headers: { "Content-Type": "application/json" },
-//       },
-//     )
-//     .then(function (response) {
-//       console.log(response.data);
-//       return response.data;
-//     })
-//     .catch(function (e) {
-//       // 실패 시 처리
-//       console.error(e);
-//       console.log(e.response.data);
-//       alert("탐색 실패. 재시도해주세요.");
-//     });
-//   return data;
-// };
 
 /*의뢰인용 메인 - 실종자 정보 (Get) */
 export const getGuardianMissingPerson = async () => {

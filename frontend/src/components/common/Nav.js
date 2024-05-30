@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { DesktopOutlined, TeamOutlined, UserOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
+import { DesktopOutlined, FileAddOutlined, UserOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
 import Logo from "../../assets/icons/logo_w.svg";
 import LogoSmall from "../../assets/icons/logo_bee_w.svg";
 
@@ -18,9 +18,9 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem(<Link to="/list">실종자 리스트</Link>, "2", <DesktopOutlined />),
+  getItem(<Link to="/list">실종자 현황</Link>, "2", <DesktopOutlined />),
   getItem(<Link to="/report">실종자 리포트</Link>, "3", <UserOutlined />),
-  getItem(<Link to="/add">실종정보 등록</Link>, "4", <TeamOutlined />),
+  getItem(<Link to="/add">실종정보 등록</Link>, "4", <FileAddOutlined />),
 ];
 
 const logOutItem = [getItem(<Link to="/login">로그아웃</Link>, "1", <LogoutOutlined />)];

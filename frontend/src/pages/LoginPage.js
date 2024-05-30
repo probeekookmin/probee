@@ -4,7 +4,6 @@ import Logo from "../assets/icons/logo_b.svg";
 import Frame from "../assets/images/login_frame.svg";
 import Float1 from "../assets/images/login_float1.svg";
 import Float2 from "../assets/images/login_float2.svg";
-import api from "../core/api/api";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../core/api";
 import { useEffect } from "react";
@@ -30,7 +29,7 @@ function LoginPage() {
       const token = res.data.jwtToken;
       console.log("token", token);
       localStorage.setItem("jwtToken", token);
-      navigate("/"); // 로그인 후 메인 페이지로 이동
+      navigate("/"); // 로그인 후 실종자 현황로 이동
     });
   };
   return (
