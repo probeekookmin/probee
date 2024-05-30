@@ -8,7 +8,7 @@ import api from "../core/api/api";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../core/api";
 import { useEffect } from "react";
-import { GithubOutlined } from "@ant-design/icons";
+import { GithubOutlined, HomeOutlined } from "@ant-design/icons";
 const { Link } = Typography;
 
 function LoginPage() {
@@ -47,7 +47,11 @@ function LoginPage() {
 
       <ContentsContainer>
         <TitleContainer>
-          <img src={Logo} />
+          <LogoContainer onClick={() => navigate("/")}>
+            <img src={Logo} />
+            <HomeButton type="link" icon={<HomeOutlined />}></HomeButton>
+          </LogoContainer>
+
           <p>Welecome back to PROBEE.</p>
           <Typography>
             프로비 이용을 위해서는 권한이 필요합니다.
@@ -209,6 +213,16 @@ const TitleContainer = styled.div`
     line-height: normal;
     letter-spacing: 0.24rem;
   }
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const HomeButton = styled(Button)`
+  margin-bottom: 2rem;
 `;
 
 const FormContainer = styled(Form)`
