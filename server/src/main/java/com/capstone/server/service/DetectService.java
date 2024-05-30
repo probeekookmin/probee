@@ -66,7 +66,7 @@ public class DetectService {
             //HttpEntity 생성
             HttpEntity<FirstDetectionRequestDto> request = new HttpEntity<>(firstDetectionRequestDto, headers);
             // 요청 및 응답 반환
-            return restTemplate.postForObject(url + "/run", request, FirstDetectionDataDto.class);
+            return restTemplate.postForObject(url + "/run1", request, FirstDetectionDataDto.class);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
                 throw new CustomException(ErrorCode.INVALID_REQUEST_DATA);
