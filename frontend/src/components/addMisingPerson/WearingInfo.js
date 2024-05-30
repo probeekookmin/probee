@@ -36,13 +36,27 @@ export const WearingInfo = ({ form }) => {
 
       <Row gutter={[12, 1]}>
         <Col span={9}>
-          <Form.Item name="hair" label="머리스타일">
+          <Form.Item
+            name="hair"
+            label="머리스타일"
+            rules={[
+              {
+                required: true,
+              },
+            ]}>
             <SelectItem items={hairItems} placeholder={"머리스타일 선택"} name="hair" />
           </Form.Item>
         </Col>
         <Col span={12}>
           <SetContainer>
-            <Form.Item name="topType" label="상의">
+            <Form.Item
+              name="topType"
+              label="상의"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
               <SelectItem items={topItems} placeholder={"유형 선택"} name="topType" />
             </Form.Item>
             <Form.Item name="topColor" label="  ">
@@ -57,7 +71,14 @@ export const WearingInfo = ({ form }) => {
         </Col>
         <Col span={12}>
           <SetContainer>
-            <Form.Item name="bottomType" label="하의">
+            <Form.Item
+              name="bottomType"
+              label="하의"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}>
               <SelectItem items={bottomItems} placeholder={"유형 선택"} name="bottomType" />
             </Form.Item>
             <Form.Item name="bottomColor" label="  ">

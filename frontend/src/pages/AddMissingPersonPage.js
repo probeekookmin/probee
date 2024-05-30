@@ -8,6 +8,7 @@ import { postMissingPerson } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { AnnotationInfo } from "../components/addMisingPerson/AnnotationInfo";
 import { useState } from "react";
+import moment from "moment";
 
 const validateMessages = {
   required: "필수 항목입니다!",
@@ -32,17 +33,20 @@ function AddMissingPersonPage() {
   };
 
   const onFinish = (fieldsValue) => {
-    console.log("gender", fieldsValue["user"]["gender"]);
+    console.log("Received values of form: ", moment().format("YYYY-MM-DDTHH:mm"));
+    console.log("gender", fieldsValue["user"]["missingTime"]);
+    const today = moment().subtract(1, "minute").format("YYYY-MM-DDTHH:mm");
+
     const values = {
       missingPeopleName: fieldsValue["user"]["name"],
       birthdate: fieldsValue["user"]["birth"].format("YYYY-MM-DD"),
       gender: fieldsValue["user"]["gender"],
       missingAt:
-        (fieldsValue["user"]["missingTime"] &&
+        (fieldsValue["user"]["missingTime"] != undefined &&
           fieldsValue["user"]["missingTime"].format("YYYY-MM-DD") +
             "T" +
             fieldsValue["user"]["missingTime"].format("HH:mm")) ||
-        "",
+        today,
       missingLocation: fieldsValue["missingLocation"] || "-",
       description: fieldsValue["user"]["introduction"] || "없음.",
       hairStyle: (fieldsValue["hair"] != "" && fieldsValue["hair"]) || "없음",
