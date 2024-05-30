@@ -2,6 +2,8 @@ version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
+    environment:
+      - TZ=Asia/Seoul
     container_name: zookeeper
     ports:
       - "2181:2181"
@@ -14,12 +16,13 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_LISTENERS: PLAINTEXT://:9092
+      - TZ=Asia/Seoul
+      - KAFKA_LISTENERS: PLAINTEXT://:9092
       #      KAFKA_ADVERTISED_HOST_NAME: localhost # TODO : 환경에 맞게 ip 변경 ex) 127.0.0.1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # kafka가 zookeeper에 커넥션하기 위한 대상을 지정
-      KAFKA_CREATE_TOPICS: |
-      "start-searching":
-        replication-factor :1
+      - KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # kafka가 zookeeper에 커넥션하기 위한 대상을 지정
+      - KAFKA_CREATE_TOPICS: |
+        "start-searching":
+          replication-factor :1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -29,6 +32,8 @@ services:
       - zookeeper
       - kafka
     image: suhwani/capstone:latest
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "8080:8080"
     build: .
@@ -38,6 +43,8 @@ services:
     depends_on:
       - spring-server
     image: suhwani/capstone_frontend:latest
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "80:80"
     build: .
