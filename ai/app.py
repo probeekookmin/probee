@@ -86,12 +86,13 @@ class SecondDetectResult(BaseModel):
 
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
-    if input.query == None:
-        raise HTTPException(status_code=400, detail="Query cannot be None")
-    if input.cctvId[0]==None:
-        raise HTTPException(status_code=400, detail="cctv is undefined")
-    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
-    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    # if input.query == None:
+    #     raise HTTPException(status_code=400, detail="Query cannot be None")
+    # if input.cctvId[0]==None:
+    #     raise HTTPException(status_code=400, detail="cctv is undefined")
+    # yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/174" #경로는 각자 환경에 맞게 조장하시오
+    # run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
     # run_Yolo(input.cctvId,yolo_save_path,"2024-05-24T01:01:01") #todo start time 따라 input다르게 만들기
     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
     with open(result_dir, 'r') as json_file:

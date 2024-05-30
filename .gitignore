@@ -5,10 +5,6 @@ ai/.DS_Store
 *.pyc
 /ai/runs
 ai/crowdhuman_yolov5m.pt
-aiServer/runs/detect/exp/2021-08-05 13-11-50 .jpg
-/aiServer/runs
-/aiServer/TextReID/runs
-aiServer/crowdhuman_yolov5m.pt
 ai/.env
 frontend/.env 
 server/src/main/java/com/capstone/server/dataInitializer/CCTVInitializer.java

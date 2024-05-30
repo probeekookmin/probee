@@ -31,9 +31,9 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         """
         Args:
-            index(int): Index
+              index(int): Index
         Returns:
-            tuple: (images, labels, captions)
+              tuple: (images, labels, captions)
         """
         data = self.dataset[index]
 
@@ -51,15 +51,15 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
         caption.add_field("img_path", img_path)
 
         label = int(data["id"])
-
-        # Convert label to string representation and then to tensor of ASCII values
-        label_str = str(label)
-        label_tensor = torch.tensor([ord(char) for char in label_str])
-        caption.add_field("id", label_tensor)
+        
+        
+        # label 값을 int64 타입으로 변환
+        label = torch.tensor(label, dtype=torch.int64)
+        caption.add_field("id", label)
 
         if self.transforms is not None:
             img = self.transforms(img)
-        
+            
         query = data["sentence"]
 
         return img, caption, index, query
