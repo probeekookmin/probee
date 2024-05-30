@@ -24,10 +24,12 @@ export const StepContents = ({ index, current }) => {
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
       finish: {
         content: "탐색 완료했습니다.",
-        buttonText: "탐색 결과 확인하기",
-        callBack: () => {
-          navigate("/result", { state: { title: "1차 탐색 결과", step: "first" } });
-        },
+        buttonText: "",
+        callBack: () => {},
+        // buttonText: "탐색 결과 확인하기",
+        // callBack: () => {
+        //   navigate("/result", { state: { title: "1차 탐색 결과", step: "first" } });
+        // },
       },
     },
     {
@@ -47,10 +49,12 @@ export const StepContents = ({ index, current }) => {
       },
       finish: {
         content: "이미지 선택 완료했습니다.",
-        buttonText: "선별 이미지 확인하기",
-        callBack: () => {
-          navigate("/result", { state: { title: "선별 이미지 확인", step: "between" } });
-        },
+        buttonText: "",
+        callBack: () => {},
+        // buttonText: "선별 이미지 확인하기",
+        // callBack: () => {
+        //   navigate("/result", { state: { title: "선별 이미지 확인", step: "between" } });
+        // },
       },
     },
     {
@@ -60,10 +64,12 @@ export const StepContents = ({ index, current }) => {
       process: { content: "등록된 정보로 지능형 탐색 중입니다." },
       finish: {
         content: "탐색 완료했습니다.",
-        buttonText: "탐색 결과 확인하기",
-        callBack: () => {
-          navigate("/result", { state: { title: "2차 탐색 결과", step: "second" } });
-        },
+        buttonText: "",
+        callBack: () => {},
+        // buttonText: "탐색 결과 확인하기",
+        // callBack: () => {
+        //   navigate("/result", { state: { title: "2차 탐색 결과", step: "second" } });
+        // },
       },
     },
     {
@@ -95,7 +101,7 @@ export const StepContents = ({ index, current }) => {
         <ContentsItem value={StepContentsList[index].wait} color={"#a7a7a7"} />
       )}
       {index == 1 && (
-        <ExplainLink>
+        <ExplainLink onClick={() => navigate("/help/select", { state: "main" })}>
           이미지 선별 설명보기
           <RightOutlined />
         </ExplainLink>

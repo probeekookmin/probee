@@ -94,16 +94,33 @@ function GuardianSelectImgPage() {
     getGuardianSelectImage().then((data) => {
       setData(data);
     });
+
+    // 우클릭 방지
+    document.addEventListener("contextmenu", preventContextMenu);
+    // 화면 캡쳐 방지 키 조합
+    document.addEventListener("keydown", preventScreenshot);
+    // 모바일 화면 캡쳐 방지
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      document.removeEventListener("contextmenu", preventContextMenu);
+      document.removeEventListener("keydown", preventScreenshot);
+      window.removeEventListener("blur", handleBlur);
+    };
   }, []);
 
-  // JavaScript로 화면 캡처 방지 설정
-  document.addEventListener("contextmenu", (e) => e.preventDefault());
-  document.addEventListener("keydown", (e) => {
+  const preventContextMenu = (e) => e.preventDefault();
+
+  const preventScreenshot = (e) => {
     if (e.key === "PrintScreen" || (e.ctrlKey && e.key === "p")) {
       e.preventDefault();
-      alert("Screen capture is disabled");
+      alert("화면 캡쳐가 금지되어 있습니다.");
     }
-  });
+  };
+
+  const handleBlur = () => {
+    alert("화면 캡쳐가 감지되었습니다.");
+  };
 
   const onSelect = (select) => {
     setSelectedImg((prev) => {

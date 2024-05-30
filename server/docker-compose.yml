@@ -2,6 +2,8 @@ version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
+    environment:
+      - TZ=Asia/Seoul
     container_name: zookeeper
     ports:
       - "2181:2181"
@@ -29,6 +31,8 @@ services:
       - zookeeper
       - kafka
     image: suhwani/capstone:latest
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "8080:8080"
     build: .
@@ -38,6 +42,8 @@ services:
     depends_on:
       - spring-server
     image: suhwani/capstone_frontend:latest
+    environment:
+      - TZ=Asia/Seoul
     ports:
       - "80:80"
     build: .

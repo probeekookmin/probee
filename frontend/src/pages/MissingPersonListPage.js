@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
-import { Button, Form, Input, List, Radio, Typography } from "antd";
-import { SearchOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Button, Form, Input, List, Radio, Typography, notification } from "antd";
+import { SearchOutlined, ReloadOutlined, LoginOutlined } from "@ant-design/icons";
 import { CardView } from "../components/missingPersonList/CardView";
 import { getAllMissingPerson } from "../core/api";
+import { useNavigate } from "react-router-dom";
 const { Text } = Typography;
 
 /*실종자 현황(리스트)*/
 function MissingPersonListPage() {
+  const navigate = useNavigate();
+
   const [form] = Form.useForm();
   const [filter, setFilter] = useState(""); // ["", "searching", "exit"]
   const [search, setSearch] = useState("");
@@ -18,6 +21,15 @@ function MissingPersonListPage() {
   const [hasMore, setHasMore] = useState(true);
   const containerRef = useRef(null);
 
+  const isAuthenticated = !!localStorage.getItem("jwtToken");
+  const [api, contextHolder] = notification.useNotification();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      openNotification();
+    }
+  }, []);
+
   useEffect(() => {
     if (!loading) {
       fetchData();
@@ -26,6 +38,30 @@ function MissingPersonListPage() {
       });
     }
   }, [pageNum, filter, search]);
+
+  const openNotification = () => {
+    api.info({
+      message: "PROBEE의 더 많은 기능을 사용하려면?",
+      description: "관계자 로그인 시 실종자 등록 및 지능형 탐색 \n기능을 사용할 수 있습니다.",
+      duration: 0,
+      placement: "bottomRight",
+      btn: (
+        <Button
+          type="link"
+          size="small"
+          icon={<LoginOutlined />}
+          onClick={() => {
+            navigate("/login");
+          }}>
+          로그인 하러가기
+        </Button>
+      ),
+      style: {
+        width: 395,
+        whiteSpace: "pre-wrap",
+      },
+    });
+  };
 
   const onFilterChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -119,29 +155,32 @@ function MissingPersonListPage() {
 
   /*실종자 현황 페이지*/
   return (
-    <StMissingPersonListPage>
-      <Typography.Title level={3}>실종자 현황</Typography.Title>
-      <TopContainer>
-        <Filter />
-        <SearchBox />
-      </TopContainer>
-      <ContentsContainer>
+    <>
+      {contextHolder}{" "}
+      <StMissingPersonListPage>
+        <Typography.Title level={3}>실종자 현황</Typography.Title>
         <TopContainer>
-          <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
-          <Button type="link" icon={<ReloadOutlined />} disabled={init} onClick={() => onReset()}>
-            검색 초기화
-          </Button>
+          <Filter />
+          <SearchBox />
         </TopContainer>
-        <CardContainer ref={containerRef} onScroll={handleScroll}>
-          <List
-            grid={{ gutter: [0, 26] }}
-            dataSource={missingPersonList}
-            renderItem={(item) => <CardView key={item.id} data={item} />}
-            loading={loading}
-          />
-        </CardContainer>
-      </ContentsContainer>
-    </StMissingPersonListPage>
+        <ContentsContainer>
+          <TopContainer>
+            <ExplainText>클릭하면 실종자 리포트 화면으로 이동합니다.</ExplainText>
+            <Button type="link" icon={<ReloadOutlined />} disabled={init} onClick={() => onReset()}>
+              검색 초기화
+            </Button>
+          </TopContainer>
+          <CardContainer ref={containerRef} onScroll={handleScroll}>
+            <List
+              grid={{ gutter: [0, 26] }}
+              dataSource={missingPersonList}
+              renderItem={(item) => <CardView key={item.id} data={item} />}
+              loading={loading}
+            />
+          </CardContainer>
+        </ContentsContainer>
+      </StMissingPersonListPage>
+    </>
   );
 }
 export default MissingPersonListPage;
