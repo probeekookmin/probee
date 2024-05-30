@@ -77,9 +77,9 @@ class FridayInput(BaseModel):
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
     print(input.cctvId)
-    # yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
-    # run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
-    yolo_save_path = f"/home/jongbin/Desktop/yolo/174" #경로는 각자 환경에 맞게 조장하시오
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
+    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    # yolo_save_path = f"/home/jongbin/Desktop/yolo/174" #경로는 각자 환경에 맞게 조장하시오
     # run_Yolo(input.cctvId,yolo_save_path,"2024-05-24T01:01:01") #todo start time 따라 input다르게 만들기
     print(input.searchId)
     result_dir = await runTextReID(input.searchId,input.query, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
@@ -114,6 +114,7 @@ async def secondDetection(input:SecondInput):
         download_image_from_s3(img_path, local_image_path)
         print("dfasdfsad",local_image_path)
         data_to_save = run_Image_to_Image(data_path,10, local_image_path)
+        # data_to_save = run_Image_to_Image("/home/jongbin/Desktop/firstResult/1",20, "/home/jongbin/Desktop/firstResult/12_2024-05-11_15-43-12 112.jpg")
         for output in data_to_save['output']:
             #해당 주소에 있는 이미지 s3업로드하고 이미지 주소 result에 넣기
             local_output_path = output['output_dir']

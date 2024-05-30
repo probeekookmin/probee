@@ -21,3 +21,4 @@ ai/imageSearch/search_result_grid.jpg
 ai/yolov8/.env
 /ai/imageSearch/deep_person_reid
 ai/TextReID/lib/data/encode/word_dict/annotations.json
+ai/search_result_grid.jpg
