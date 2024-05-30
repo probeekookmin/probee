@@ -77,10 +77,11 @@ class FridayInput(BaseModel):
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
     print(input.cctvId)
-    yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
-    run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    # yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
+    # run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    yolo_save_path = f"/home/jongbin/Desktop/yolo/174" #경로는 각자 환경에 맞게 조장하시오
     # run_Yolo(input.cctvId,yolo_save_path,"2024-05-24T01:01:01") #todo start time 따라 input다르게 만들기
-    
+    print(input.searchId)
     result_dir = await runTextReID(input.searchId,input.query, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
     with open(result_dir, 'r') as json_file:
         data = json.load(json_file)
@@ -95,7 +96,7 @@ async def firstDetection(input :TotalInput):
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step,15) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
-    
+    print(result[1:16])
     # 이미지 경로 리스트
     return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:16])
 

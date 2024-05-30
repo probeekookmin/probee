@@ -101,3 +101,5 @@ def image_grid(imgs, rows, cols):
     for i, img in enumerate(imgs):
         grid.paste(img, box=(i % cols * w, i // cols * h))
     return grid
+
+run_Image_to_Image("/home/jongbin/Desktop/firstResult/76",20, "/home/jongbin/Desktop/yolo/174/18_2024-05-12_16-10-10 488.jpg")
