@@ -65,6 +65,7 @@ function AddMissingPersonPage() {
     };
     console.log("Received values of form: ", values);
     postMissingPerson(values).then((res) => {
+      console.log("postMissingPerson", res);
       navigate("/report", { state: { userId: res.id } });
     });
   };

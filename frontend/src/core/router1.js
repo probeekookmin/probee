@@ -7,11 +7,13 @@ import MissingPersonListPage from "../pages/MissingPersonListPage";
 import GuardianMainPage from "../pages/GuardianMainPage";
 import GuardianSelectImgPage from "../pages/GuardianSelectImgPage";
 import GuardianShowResultPage from "../pages/GuardianShowResultPage";
+import LoginPage from "../pages/LoginPage";
 
-function Router() {
+function Router1() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route element={<Nav />}>
           <Route path="/" element={<MissingPersonListPage />} />
           <Route path="/list" element={<MissingPersonListPage />} />
@@ -25,4 +27,4 @@ function Router() {
     </BrowserRouter>
   );
 }
-export default Router;
+export default Router1;
