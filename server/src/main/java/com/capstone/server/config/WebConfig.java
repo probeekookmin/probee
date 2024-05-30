@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addMapping("/**")
                 .allowedHeaders("*")
                 .allowedOrigins("https://suhwani.me", "https://probee.co.kr", "http://localhost:3000") // TODO: url 수정
-                .allowedMethods("*");
+                .allowedMethods("*")
+                .allowCredentials(true);
     }
 }
