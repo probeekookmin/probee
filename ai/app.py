@@ -74,7 +74,7 @@ class FridayInput(BaseModel):
     query: str
     missingPeopleId : int
 
-@app.post('/run1', response_model=DetectResult)
+@app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
     print(input.cctvId)
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
@@ -238,7 +238,7 @@ async def upload_images(files: List[UploadFile] = File(...)):
 
     return JSONResponse(content={"message": "Files successfully uploaded", "files": saved_files})
 
-@app.post('/run')
+@app.post('/run1')
 async def friyday(input:FridayInput):
     new_file_path = f"/home/jongbin/Desktop/yolo/{input.searchId}"
     if not os.path.exists(new_file_path):

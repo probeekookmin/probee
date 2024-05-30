@@ -1,12 +1,3 @@
-"""
-TODO
-[x] 이미지 저장명 수정
-[x] 객체 탐지 프레임 조정 
-[x] save_crop 시에 bbox 비율 조정해주기 (3:5)
-[x] 2-stage 모델을 위한 annotation Json 파일 생성
-"""
-
-
 import os
 import cv2
 from PIL import Image  
@@ -19,7 +10,6 @@ import json
 import re
 import time
 
-
 # source video FPS 계산 함수
 def get_video_fps(video_path):
     video = cv2.VideoCapture(video_path)
@@ -30,12 +20,17 @@ def get_video_fps(video_path):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = YOLO('/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/yolov8/best.pt').to(device)
 
-def run_Yolo(cctvIds,save_path,startTime):
+def run_Yolo(cctvIds, save_path, startTime):
     start_total_time = time.time()  # 전체 실행 시간 측정을 위한 시작 시간 기록
     # 테스트 할 소스 디렉토리   
     save_path = Path(save_path)
     save_path.mkdir(parents=True, exist_ok=True)
     
+    total_yolo_time = 0
+    total_capture_time = 0
+    total_frame_processing_time = 0
+    total_frame_move_time = 0
+
     for cctv_id in cctvIds:
         source_path = f'/home/jongbin/Desktop/cctv/{cctv_id.id}/{startTime.split("T")[0]}' #todo 세부적인 시 분 초 시간까지 골라서 돌리기 기능 추가
         if not os.path.exists(source_path):
@@ -45,34 +40,33 @@ def run_Yolo(cctvIds,save_path,startTime):
             start_time = extract_video_info(filename)
             cap = cv2.VideoCapture(source)  # 비디오 파일
             fps = get_video_fps(source)  # FPS
-            stride = int(fps * 7)  #  수정 필요할 경우 fps * __ 수정하면 됨
+            stride = int(fps * 7)  # 수정 필요할 경우 fps * __ 수정하면 됨
 
-            """
-            NOTE 결과 저장 옵션
-            iou: Intersection Over Union 조정
-            vid_stride: 프레임 조절
-
-            save_crop: bbox 저장
-            save: 소스 탐색 내역 저장(예: bbox 표시된 영상)
-            show_conf: 정확도 표시
-            show_labels: 라벨 표시
-            """
-            
-            results = model.predict(source, save_crop=True, stream=True, show_conf=False, vid_stride = stride, device = device)
-            frame_num = 0   
+            start_frame_time = time.time()  # 프레임 처리 시작 시간
+            start_capture_time = time.time()  # 프레임 읽기 시작 시간
+            results = model.predict(source, save_crop=True, stream=True, show_conf=False, vid_stride=stride, device=device)
+            end_capture_time = time.time()  # 프레임 읽기 종료 시간
+            capture_time = end_capture_time - start_capture_time  # 프레임 읽기 시간 계산
+            total_capture_time += capture_time
+            frame_num = 0  # 프레임 번호 초기화
             for i, r in enumerate(results):
                 frame_num += stride
+                frame_move_time = time.time()  # 프레임 이동 시간
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_num)  # 현재 탐색 중인 프레임으로 이동
                 ret, frame = cap.read()  # 프레임을 읽어옴
                 #이미지 이름 저장
-                timestamp = start_time+timedelta(seconds=10)
+                timestamp = start_time + timedelta(seconds=10)
                 img_name = str(cctv_id.id) + "_" + timestamp.strftime('%Y-%m-%d_%H-%M-%S ')
-
+                frame_move_end_time = time.time()
+                move_time = frame_move_end_time - frame_move_time
+                total_frame_move_time += move_time
+                print(f"Frame move time for {filename}: {move_time} seconds")
                 if ret:  # 프레임을 성공적으로 읽어온 경우 bbox 저장을 수행
+                    start_yolo_time = time.time()
                     for box in r.boxes:
                         xyxy = box.xyxy
                         for j in range(xyxy.size(0)):  # 바운딩 박스의 개수에 맞게 루프를 돌며 전처리 및 저장
-                        # === 바운딩 박스 비율 조정 === #
+                            # === 바운딩 박스 비율 조정 === #
                             target_ratio = 3/5
 
                             x1, y1, x2, y2 = xyxy[j]
@@ -98,7 +92,6 @@ def run_Yolo(cctvIds,save_path,startTime):
                             modified_xyxy = [x1, y1, x2, y2]
 
                             # 검출된 이미지 저장
-                            
                             # 해당 프레임을 컬러 이미지 input으로 변환
                             im0 = frame
 
@@ -107,7 +100,20 @@ def run_Yolo(cctvIds,save_path,startTime):
 
                             # 디렉토리가 존재하지 않는 경우 생성 후 저장
                             save_one_box(modified_xyxy, im0, file=file_path, BGR=True)
+                    end_yolo_time = time.time()  # YOLO 실행 종료 시간
+                    yolo_processing_time = end_yolo_time - start_yolo_time  # YOLO 실행 시간 계산
+                    total_yolo_time += yolo_processing_time  # YOLO 실행 시간 누적
+                    
+            end_frame_time = time.time()  # 프레임 처리 종료 시간
+            frame_processing_time = end_frame_time - start_frame_time  # 프레임 처리 시간 계산
+            total_frame_processing_time += frame_processing_time
+            print(f"Frame processing time for {filename}: {frame_processing_time} seconds")
 
+    print(f"Total YOLO processing time: {total_yolo_time} seconds")
+    print(f"Total frame capture time: {total_capture_time} seconds")
+    print(f"Total frame processing time: {total_frame_processing_time} seconds")
+    print(f"Total frame move time: {total_frame_move_time} seconds")
+    print(f"Total preprocessing time: {total_preprocessing_time} seconds")  # 추가: 전처리 시간 출력
 
     # ==== 마지막 필터링 ==== #
     for filename in os.listdir(save_path):
@@ -142,7 +148,7 @@ def run_Yolo(cctvIds,save_path,startTime):
         annotation_idx += 1
 
     data = {"categories": categories, "annotations": annotations}
-    (save_path/'annotations').mkdir(parents=True, exist_ok=True)  # annotations folder 생성성
+    (save_path/'annotations').mkdir(parents=True, exist_ok=True)  # annotations folder 생성
     jsonfiledir = f"{save_path}/annotations/annotations.json" # TextReId모델에 맞게 구조 수정
     with open(jsonfiledir, "w") as f:
         json.dump(data, f)
