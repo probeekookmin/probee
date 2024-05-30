@@ -8,6 +8,9 @@ import MissingPersonListPage from "../../pages/MissingPersonListPage";
 import AddMissingPersonPage from "../../pages/AddMissingPersonPage";
 import MissingPersonReportPage from "../../pages/MissingPersonReportPage";
 import Nav from "../../components/common/Nav";
+import HelpPage from "../../pages/HelpPage";
+import HelpMainPage from "../../pages/HelpMainPage";
+import HelpSelectPage from "../../pages/HelpSelectPage";
 
 function Router() {
   return (
@@ -18,6 +21,10 @@ function Router() {
         <Route path="/m" element={<GuardianMainPage />} />
         <Route path="/select" element={<GuardianSelectImgPage />} />
         <Route path="/result" element={<GuardianShowResultPage />} />
+        <Route path="/help" element={<HelpPage />} />
+        <Route path="/help/main" element={<HelpMainPage />} />
+        <Route path="/help/select" element={<HelpSelectPage />} />
+
         <Route element={<Nav />}>
           <Route path="/list" element={<MissingPersonListPage />} />
           <Route path="/add" element={<PrivateRoute element={<AddMissingPersonPage />} />} />

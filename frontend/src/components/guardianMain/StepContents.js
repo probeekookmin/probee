@@ -101,7 +101,7 @@ export const StepContents = ({ index, current }) => {
         <ContentsItem value={StepContentsList[index].wait} color={"#a7a7a7"} />
       )}
       {index == 1 && (
-        <ExplainLink>
+        <ExplainLink onClick={() => navigate("/help/select", { state: "main" })}>
           이미지 선별 설명보기
           <RightOutlined />
         </ExplainLink>
