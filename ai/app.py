@@ -96,9 +96,11 @@ async def firstDetection(input :TotalInput):
     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step,15) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
-    print(result[1:16])
+    for entry in result[1:15]:
+        if entry.get('Similarity', 0) <= 0.1:
+            entry['Similarity'] = 0.0
     # 이미지 경로 리스트
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:16])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:15])
 
 #2차탐색
 @app.post("/second", response_model=DetectResult)
@@ -252,6 +254,9 @@ async def friyday(input:FridayInput):
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
     # 이미지 경로 리스트
+    for entry in result[1:15]:
+        if entry.get('Similarity', 0) <= 0.1:
+            entry['Similarity'] = 0.0
     return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:30])
 
 

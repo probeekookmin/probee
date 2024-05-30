@@ -113,7 +113,7 @@ def run_Yolo(cctvIds, save_path, startTime):
     print(f"Total frame capture time: {total_capture_time} seconds")
     print(f"Total frame processing time: {total_frame_processing_time} seconds")
     print(f"Total frame move time: {total_frame_move_time} seconds")
-    print(f"Total preprocessing time: {total_preprocessing_time} seconds")  # 추가: 전처리 시간 출력
+
 
     # ==== 마지막 필터링 ==== #
     for filename in os.listdir(save_path):
