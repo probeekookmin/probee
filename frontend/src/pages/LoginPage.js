@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Typography } from "antd";
 import Logo from "../assets/icons/logo_b.svg";
 import Frame from "../assets/images/login_frame.svg";
 import Float1 from "../assets/images/login_float1.svg";
@@ -8,8 +8,12 @@ import api from "../core/api/api";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../core/api";
 import { useEffect } from "react";
+import { GithubOutlined } from "@ant-design/icons";
+const { Link } = Typography;
 
 function LoginPage() {
+  const url = "https://kookmin-sw.github.io/capstone-2024-14/";
+
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.removeItem("jwtToken");
@@ -45,6 +49,12 @@ function LoginPage() {
         <TitleContainer>
           <img src={Logo} />
           <p>Welecome back to PROBEE.</p>
+          <Typography>
+            프로비 이용을 위해서는 권한이 필요합니다.
+            <Link href="https://github.com/kookmin-sw/capstone-2024-14" target="_blank">
+              Contact Us
+            </Link>
+          </Typography>
         </TitleContainer>
         <FormContainer className="custom-form" layout="vertical" requiredMark={false} colon={false} onFinish={onFinish}>
           <Form.Item
@@ -75,6 +85,14 @@ function LoginPage() {
             </ButtonWrapper>
           </Form.Item>
         </FormContainer>
+        <Button
+          type="text"
+          icon={<GithubOutlined />}
+          onClick={() => {
+            window.open(url);
+          }}>
+          PROBEE
+        </Button>
       </ContentsContainer>
     </StLoginPage>
   );
