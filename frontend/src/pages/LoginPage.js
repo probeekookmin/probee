@@ -7,9 +7,13 @@ import Float2 from "../assets/images/login_float2.svg";
 import api from "../core/api/api";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../core/api";
+import { useEffect } from "react";
 
 function LoginPage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    localStorage.removeItem("jwtToken");
+  }, []);
 
   const onFinish = (fieldsValue) => {
     const values = {
