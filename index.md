@@ -527,6 +527,6 @@ Github의 Issue와 Pull Request 기능을 사용하여 작업을 진행하였습
 ### [중간 보고서](https://kookmin-my.sharepoint.com/:w:/g/personal/zw0831_kookmin_kr/ERG14OVbsiJMmz-SfXfTwdYBdc5kyoi-3pCWefmoeRXrlQ?e=AIOAVe)
 ### [시연 동영상](https://youtu.be/YwIj5zPsL8M)
 ### [포스터](https://drive.google.com/file/d/1StCJsF0r9Wyg5kibQ5R-JZYuOR_6q9mT/view?usp=sharing)
-### [최종 발표 자료](https://drive.google.com/file/d/1zkOBo8MYf-3WMqMQWRmrLLuOn4h7nYl9/view?usp=drive_link)
+### [최종 발표 자료](https://drive.google.com/file/d/1hFW4beDWVr5lqs9e4GzxnzhLbYWrHXYm/view?usp=sharing)
 ### [결과 보고서](https://drive.google.com/file/d/1u8D1udpXldKMDjaGjXWQBjbJcLJv2Sls/view?usp=drive_link)
 ### [회의록](https://outrageous-drain-ebf.notion.site/e42ffda04f7247c18e11fde61b708b2d?v=a912ec3c266b4c2ea34b87394df1c945&pvs=74)
