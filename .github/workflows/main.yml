@@ -42,8 +42,8 @@ jobs:
       run: |
           cd server
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}:latest .
-          docker push ${{ secrets.DOCKER_REPO }}:latest
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_SERVER_REPO }}:latest .
+          docker push ${{ secrets.DOCKER_SERVER_REPO }}:latest
 
   frontend-build-and-push:
     runs-on: ubuntu-latest 
