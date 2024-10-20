@@ -58,7 +58,7 @@ jobs:
       run: |
           rm -f ./frontend/.env
           touch ./frontend/.env
-          echo "${{ secrets.ENV }}" >> ./frontend/.env 
+          echo "${{ secrets.FRONTEND_ENV }}" >> ./frontend/.env 
       
     - name: Yarn install dependencies 
       run: |
