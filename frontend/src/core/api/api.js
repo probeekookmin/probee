@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios 인스턴스 생성
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_API_ROOT}/api`,
+  baseURL: `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api`,
   withCredentials: true, // withCredentials 설정
 });
 
