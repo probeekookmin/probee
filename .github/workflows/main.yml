@@ -29,8 +29,8 @@ jobs:
     - name: Make application.properties
       run: |
           cd ./server/src/main/resources
-          touch ./application_dev.properties
-          echo "${{ secrets.SERVER_ENV }}" > ./application_dev.properties
+          touch ./application-dev.properties
+          echo "${{ secrets.SERVER_ENV }}" > ./application-dev.properties
     
     - name: Build with gradle
       run: |
