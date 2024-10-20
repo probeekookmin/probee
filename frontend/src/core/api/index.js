@@ -4,9 +4,10 @@ import { getCookie } from "../cookie";
 
 /*로그인 */
 export const postLogin = async (values) => {
+  console.log("LOGIN URL:" + `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/user/login`)
   const data = axios
     .post(
-      `${process.env.REACT_APP_API_ROOT}/api/user/login`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/user/login`,
       { ...values },
       { headers: { "Content-Type": "application/json" } },
     )
@@ -42,7 +43,7 @@ export const getAllMissingPerson = async (pageNum, filter, search) => {
   console.log("props", pageNum, filter, search);
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people?page=${pageNum}${filter ? `&status=${filter}` : ""}${search ? `&name=${search}` : ""}`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/missing-people?page=${pageNum}${filter ? `&status=${filter}` : ""}${search ? `&name=${search}` : ""}`,
       {},
 
       {
@@ -155,7 +156,7 @@ export const postIntelligentSearch = async (id, values) => {
 export const getGuardianMissingPerson = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian`,
 
       {
         headers: {
@@ -182,7 +183,7 @@ export const getGuardianMissingPerson = async () => {
 export const getGuardianMissingPersonStep = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/step`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian/step`,
 
       {
         headers: {
@@ -209,7 +210,7 @@ export const getGuardianMissingPersonStep = async () => {
 export const postProfileImg = async (value) => {
   const data = axios
     .post(
-      `${process.env.REACT_APP_API_ROOT}/api/missing-people/profile`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/missing-people/profile`,
       value.profile,
 
       {
@@ -237,7 +238,7 @@ export const postProfileImg = async (value) => {
 export const getGuardianSelectImage = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/between`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian/between`,
 
       {
         headers: {
@@ -264,7 +265,7 @@ export const getGuardianSelectImage = async () => {
 export const postGuardianSelectImage = async (value) => {
   const data = axios
     .post(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/between`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian/between`,
       { resultIds: value[0] },
       {
         headers: {
@@ -291,7 +292,7 @@ export const postGuardianSelectImage = async (value) => {
 export const getGuardianSelectedResult = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/between-result`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian/between-result`,
 
       {
         headers: {
@@ -318,7 +319,7 @@ export const getGuardianSelectedResult = async () => {
 export const getGuardianSecondResult = async () => {
   const data = axios
     .get(
-      `${process.env.REACT_APP_API_ROOT}/api/guardian/second`,
+      `${process.env.REACT_APP_API_ROOT}:${process.env.REACT_APP_API_PORT}/api/guardian/second`,
 
       {
         headers: {
