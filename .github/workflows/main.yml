@@ -20,17 +20,17 @@ jobs:
         java-version: '17'
         distribution: "adopt"
     
-    - name: Make folder resources
-      run: |
-          cd ./server/src/main
-          mkdir resources
-          cd resources
+    # - name: Make folder resources
+    #   run: |
+    #       cd ./server/src/main
+    #       mkdir resources
+    #       cd resources
     
     - name: Make application.properties
       run: |
           cd ./server/src/main/resources
-          touch ./application.properties
-          echo "${{ secrets.PROPERTIES }}" > ./application.properties
+          touch ./application_dev.properties
+          echo "${{ secrets.SERVER_ENV }}" > ./application_dev.properties
     
     - name: Build with gradle
       run: |
