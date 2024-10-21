@@ -35,6 +35,9 @@ export const ReportTabs = ({ id, firstdata, betweenData, secondData }) => {
   useEffect(() => {
     setData1(firstdata);
   }, [firstdata]);
+  useEffect(() => {
+    setData2(secondData);
+  }, [secondData]);
   console.log("data1", data1);
   console.log("data2", data2);
   const items = [
