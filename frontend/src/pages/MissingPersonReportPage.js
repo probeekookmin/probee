@@ -28,9 +28,8 @@ function MissingPersonReportPage() {
   const [clickId, setClickId] = useState(); //클릭한 리스트 아이디
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  console.log("sssdfsadfsad location", location);
 
-  const { userId } = location.state || { userId: 89 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
+  const { userId } = location.state || { userId: 0 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
 
   /*지능형 탐색 시작하기 스크롤 이벤트 */
   const scrollToIntelligent = () => {
