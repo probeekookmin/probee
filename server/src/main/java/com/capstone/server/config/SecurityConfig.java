@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/guardian/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/missing-people").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/missing-people/profile").permitAll()
                     .requestMatchers("/api/user/info/**").authenticated()
                     .requestMatchers("/api/user/**").permitAll()
                     .anyRequest().hasAuthority(UserRole.ADMIN.name())
