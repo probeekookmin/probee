@@ -82,7 +82,7 @@ public class MissingPeopleEntity {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         registrationAt = LocalDateTime.now();
-        profileImage = "https://spring-server-image-storage.s3.ap-northeast-2.amazonaws.com/emptyProfile.svg";
+        profileImage = "https://probees3.s3.ap-northeast-2.amazonaws.com/emptyProfile.svg";
     }
 
     @PreUpdate
