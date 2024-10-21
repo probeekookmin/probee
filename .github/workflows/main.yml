@@ -165,7 +165,7 @@ jobs:
               done
           fi
 
-          sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
+          sudo docker pull ${{ secrets.DOCKER_SERVER_REPO }}:latest
           sudo docker pull ${{ secrets.DOCKER_FRONTEND_REPO }}:latest
           
           sudo docker image prune -f
