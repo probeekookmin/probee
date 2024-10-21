@@ -2,52 +2,29 @@ package com.capstone.server.service;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import com.capstone.server.code.ErrorCode;
 import com.capstone.server.dto.S3DownloadResponseDto;
 import com.capstone.server.dto.S3UploadResponseDto;
 import com.capstone.server.exception.CustomException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage.Error;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -64,7 +41,7 @@ public class S3Service {
 
         for (int i = 0; i < images.size(); i++) {
             MultipartFile image = images.get(i);
-            String index = String.format("%03d", i+1); // 3자리로 패딩된 숫자 포맷
+            String index = String.format("%03d", i + 1); // 3자리로 패딩된 숫자 포맷
             String originalFileName = image.getOriginalFilename();
             String imageNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
             String imageName = imagePath + index + "-" + imageNameWithoutExtension;
@@ -73,9 +50,9 @@ public class S3Service {
 
         return s3UploadResponseDtos;
     }
- 
+
     public S3UploadResponseDto upload(MultipartFile image, String imageName) {
-        if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())) {
+        if (image.isEmpty() || Objects.isNull(image.getOriginalFilename())) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
@@ -87,7 +64,7 @@ public class S3Service {
 
         List<S3ObjectSummary> s3ObjectSummaries = this.getFilesInFolder(imagePath);
 
-        if(s3ObjectSummaries.isEmpty() || Objects.isNull(s3ObjectSummaries.get(0))) {
+        if (s3ObjectSummaries.isEmpty() || Objects.isNull(s3ObjectSummaries.get(0))) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
@@ -111,7 +88,7 @@ public class S3Service {
 
     public String getPresignedUrl(String fileName) {
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, fileName)
-            .withMethod(HttpMethod.GET); // GET 메서드를 사용하는 서명 URL 생성
+                .withMethod(HttpMethod.GET); // GET 메서드를 사용하는 서명 URL 생성
 
         URL url = amazonS3.generatePresignedUrl(request);
 
@@ -127,7 +104,7 @@ public class S3Service {
         return objectSummaries;
     }
 
-    public void deleteImageFromS3(String imageAddress){
+    public void deleteImageFromS3(String imageAddress) {
         String key = getKeyFromImageAddress(imageAddress);
         try {
             amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));
@@ -136,7 +113,7 @@ public class S3Service {
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
     }
-     
+
     private String uploadImage(MultipartFile image, String imageName) {
         this.validateImageFileExtention(image.getOriginalFilename()); // 확장자 검사
         try {
@@ -146,23 +123,23 @@ public class S3Service {
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
     }
-    
+
     private void validateImageFileExtention(String filename) {
         int lastDotIndex = filename.lastIndexOf(".");
         if (lastDotIndex == -1) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
-    
+
         String extension = filename.substring(lastDotIndex + 1).toLowerCase();
         List<String> allowedExtentionList = Arrays.asList("jpg", "jpeg", "png", "gif");
-    
+
         if (!allowedExtentionList.contains(extension)) {
             // TODO : 에러 수정
             throw new CustomException(ErrorCode.USER_EXISTS);
         }
     }
-    
+
     private String uploadImageToS3(MultipartFile image, String imageName) throws IOException {
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".")); //확장자 명
@@ -180,8 +157,7 @@ public class S3Service {
 
         try {
             PutObjectRequest putObjectRequest =
-                new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead);
+                    new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata);
             amazonS3.putObject(putObjectRequest); // put image to S3
         } catch (Exception e) {
             // TODO : 에러 수정
@@ -195,7 +171,7 @@ public class S3Service {
         return this.getPresignedUrl(s3FileName);
     }
 
-    private String getKeyFromImageAddress(String imageAddress){
+    private String getKeyFromImageAddress(String imageAddress) {
         try {
             URL url = new URL(imageAddress);
             String decodingKey = URLDecoder.decode(url.getPath(), "UTF-8");
