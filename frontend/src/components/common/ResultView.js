@@ -25,11 +25,13 @@ export const ResultView = ({ count, dataList, type, id }) => {
       getBetweenResultImg(1, id).then((res) => {
         console.log("between", res.data);
         setData(res.data.list);
+        setDataCount(count);
       });
     } else {
       getSearchResultImg(1, id, type).then((res) => {
         console.log("step2data", res.data);
         setData(res.data.list);
+        setDataCount(count);
       });
     }
   };
