@@ -62,8 +62,8 @@ function AddMissingPersonPage() {
         fieldsValue["searchPeriod"][0].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][0].format("HH:mm"),
       endTime:
         fieldsValue["searchPeriod"][1].format("YYYY-MM-DD") + "T" + fieldsValue["searchPeriod"][1].format("HH:mm"),
-      latitude: latlng["lat"],
-      longitude: latlng["lng"],
+      latitude: 37.610763,
+      longitude: 126.994437,
       locationAddress: fieldsValue["searchLocation"],
       missingPeopleType: fieldsValue["user"]["type"],
     };

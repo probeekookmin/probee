@@ -29,7 +29,7 @@ function MissingPersonReportPage() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
-  const { userId } = location.state || { userId: 0 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
+  const { userId } = location.state || { userId: 1 }; //예외처리 필요 (id가 없을 경우 전에 봤던 것으로 이동 등으로 처리)
 
   /*지능형 탐색 시작하기 스크롤 이벤트 */
   const scrollToIntelligent = () => {
