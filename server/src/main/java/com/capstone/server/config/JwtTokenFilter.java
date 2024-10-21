@@ -21,9 +21,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 // OncePerRequestFilter : 매번 들어갈 때 마다 체크 해주는 필터
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenFilter extends OncePerRequestFilter {
     
     private final JwtTokenService jwtTokenService;
@@ -32,16 +34,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("@@@ENTER FILTER@@@");
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info("AUTHORIZATIONHEADER: " + authorizationHeader);
 
         // Header의 Authorization 값이 비어있으면 => Jwt Token을 전송하지 않음 => 로그인 하지 않음
         if(authorizationHeader == null) {
             filterChain.doFilter(request, response);
             return;
         }
-
+        
+        
         // Header의 Authorization 값이 'Bearer '로 시작하지 않으면 => 잘못된 토큰
         if(!authorizationHeader.startsWith("Bearer ")) {
+            log.info("NOT BEARER TOKEN!!!");
             filterChain.doFilter(request, response);
             return;
         }
