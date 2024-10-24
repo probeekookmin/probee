@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.github.jk1.dependency-license-report' version '2.4'
 }
 
 group = 'com.capstone'
@@ -35,12 +36,12 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.hibernate:hibernate-spatial:6.4.4.Final'
-    implementation 'net.nurigo:sdk:4.2.7' //sms 발송 관련 sdk
-    implementation 'org.springframework.boot:spring-boot-starter-security' // login
+    implementation 'net.nurigo:sdk:4.2.7' // SMS 발송 관련 SDK
+    implementation 'org.springframework.boot:spring-boot-starter-security' // Login
     implementation 'io.jsonwebtoken:jjwt:0.9.1' // JWT 
-	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1' // com.sun.xml.bind
-	implementation 'com.sun.xml.bind:jaxb-core:4.0.1' // com.sun.xml.bind
-	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359' // javax.xml.bind
+    implementation 'com.sun.xml.bind:jaxb-impl:4.0.1' // com.sun.xml.bind
+    implementation 'com.sun.xml.bind:jaxb-core:4.0.1' // com.sun.xml.bind
+    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359' // javax.xml.bind
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -56,4 +57,7 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+licenseReport {
 }
