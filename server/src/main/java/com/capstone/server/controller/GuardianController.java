@@ -1,12 +1,11 @@
 package com.capstone.server.controller;
 
 import com.capstone.server.code.ErrorCode;
-import com.capstone.server.dto.KafkaDto;
-import com.capstone.server.dto.SearchRequestDto;
 import com.capstone.server.dto.detection.DetectionResultDto;
 import com.capstone.server.dto.guardian.BetweenRequestDto;
 import com.capstone.server.exception.CustomException;
 import com.capstone.server.model.enums.SearchResultSortBy;
+import com.capstone.server.model.enums.Status;
 import com.capstone.server.model.enums.Step;
 import com.capstone.server.response.SuccessResponse;
 import com.capstone.server.service.*;
@@ -87,15 +86,16 @@ public class GuardianController {
         }
         //상화작용 단계 결과 db저장
         guardianService.postBetween(id, betweenRequestDto);
+        missingPeopleService.modifyStatus(id, Status.EXIT);
 
-        SearchRequestDto searchRequestDto = searchHistoryService.createSearchRequestDto(betweenRequestDto);
         //2차탐색기록 생성
-        Step step = Step.fromValue("second");
-        Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);
+//        Step step = Step.fromValue("second");
+//        SearchRequestDto searchRequestDto = searchHistoryService.createSearchRequestDto(betweenRequestDto);
+//        Long searchId = searchHistoryService.createSearchHistory(searchRequestDto, id, step);
 
         //2차탐색 시작
-        KafkaDto kafkaDto = KafkaDto.toKafkaDto(id, betweenRequestDto, searchId);
-        kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
+//        KafkaDto kafkaDto = KafkaDto.toKafkaDto(id, betweenRequestDto, searchId);
+//        kafkaProducerService.startCallSecondDetectApiToKafka(kafkaDto);
 
         //사진을 업로드하면 바로 2차탐색하게 구현하기
         return ResponseEntity.ok().body(new SuccessResponse("success"));

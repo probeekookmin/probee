@@ -15,7 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "guardian")
+@Entity(name = "dis_guardian")
 public class GuardianEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks , File, UploadFile
 from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel
 from typing import List
@@ -9,20 +9,23 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import boto3
-import datetime
+import shutil
+from datetime import datetime
 import requests
 from typing import List
+import re
 
 sys.path.append(str(Path(__file__).parent))
-sys.path.append(str(Path(__file__).parent)+"/yolov5_crowdhuman")
 sys.path.append(str(Path(__file__).parent)+"/yolov8")
 sys.path.append(str(Path(__file__).parent)+"/TextReID")
 sys.path.append(str(Path(__file__).parent)+"/imageSearch")
+sys.path.append(str(Path(__file__).parent)+"/face_blur")
+sys.path.append(str(Path(__file__).parent)+"/imageSearch/deep-person-reid/torchreid")
 import shutil
 from TextReID.test_net import findByText 
-from yolov5_crowdhuman.detect import run_detection
 from yolov8.run import run_Yolo
-from imageSearch.imgSearch_server import run_Image_to_Image
+from imageSearch.torch_re_id import run_Image_to_Image
+from face_blur.detect import doBlur
 
 app = FastAPI(port = 8080)
 
@@ -63,37 +66,23 @@ class SecondInput(BaseModel):
 class SecondDetectResult(BaseModel):
     data : list
     secondSearchId : int
-# @app.get('/')
-# async def root():
-#     input = TotalInput(cctvId = [CCTVInfo(id=1,longitude=1,latitude=1)],startTime='2021-09-01T000000',endTime='2021-09-01T000000',searchId=2222,missingPeopleId=2222,step="first",query="a woman wearinga red shirt and black pants. she has a long hair")
-#     yolo_save_path= '/home/jongbin/Desktop/yolo/2222'
-#     run_Yolo(input.cctvId,yolo_save_path,input.startTime)
-#     result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
-#     result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
-#     with open(result_json_dir, 'r') as file:
-#         imgurl = json.load(file)
-    
-#     print(imgurl[1:][0]["img_path"])
-#     aa=SecondInput(missingPeopleId=input.missingPeopleId,firstSearchId=input.searchId,secondSearchId="2221", topK=20,queryImagePath = [imgurl[1:][0]["img_path"]]) 
-#     print(aa)
-#     await secondDetection(aa)
-    # run_Yolo(input.cctvId,yolo_save_path,input.startTime)
-    # result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
-    # await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step)
 
-# @app.post("/test")
-# async def test(input : TotalInput):
+class FridayInput(BaseModel):
+    startTime : str
+    endTime : str
+    searchId : int
+    query: str
+    missingPeopleId : int
 
 @app.post('/run', response_model=DetectResult)
 async def firstDetection(input :TotalInput):
-    if input.query == None:
-        raise HTTPException(status_code=400, detail="Query cannot be None")
-    if input.cctvId[0]==None:
-        raise HTTPException(status_code=400, detail="cctv is undefined")
+    print(input.cctvId)
     yolo_save_path = f"/home/jongbin/Desktop/yolo/{input.searchId}" #경로는 각자 환경에 맞게 조장하시오
     run_Yolo(input.cctvId,yolo_save_path,input.startTime) #todo start time 따라 input다르게 만들기
+    # yolo_save_path = f"/home/jongbin/Desktop/yolo/174" #경로는 각자 환경에 맞게 조장하시오
     # run_Yolo(input.cctvId,yolo_save_path,"2024-05-24T01:01:01") #todo start time 따라 input다르게 만들기
-    result_dir = await runTextReID(input, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
+    print(input.searchId)
+    result_dir = await runTextReID(input.searchId,input.query, yolo_save_path) #text-re-id돌리고 결과 json파일 받아오기
     with open(result_dir, 'r') as json_file:
         data = json.load(json_file)
     image_paths = [entry['img_path'] for entry in data if 'img_path' in entry]
@@ -104,21 +93,21 @@ async def firstDetection(input :TotalInput):
         if os.path.exists(img_path):
             shutil.copy(img_path, destination_folder)
 
-    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, input.step,15) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
     with open(result_json_dir, 'r') as file:
         result = json.load(file)
-    
+    for entry in result[1:15]:
+        if entry.get('Similarity', 0) <= 0.1:
+            entry['Similarity'] = 0.0
     # 이미지 경로 리스트
-    
-    
-    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:16])
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:15])
 
 #2차탐색
 @app.post("/second", response_model=DetectResult)
 async def secondDetection(input:SecondInput):
     print(input)
     img_download_url = "/home/jongbin/Desktop/imgDown"
-    data_path = f"/home/jongbin/Desktop/firstResult/{input.firstSearchId}"
+    data_path = f"/home/jongbin/Desktop/yolo/{input.firstSearchId}"
     result = []
     check = set()
     for img_path in input.queryImagePath:
@@ -127,6 +116,7 @@ async def secondDetection(input:SecondInput):
         download_image_from_s3(img_path, local_image_path)
         print("dfasdfsad",local_image_path)
         data_to_save = run_Image_to_Image(data_path,10, local_image_path)
+        # data_to_save = run_Image_to_Image("/home/jongbin/Desktop/firstResult/1",20, "/home/jongbin/Desktop/firstResult/12_2024-05-11_15-43-12 112.jpg")
         for output in data_to_save['output']:
             #해당 주소에 있는 이미지 s3업로드하고 이미지 주소 result에 넣기
             local_output_path = output['output_dir']
@@ -136,7 +126,7 @@ async def secondDetection(input:SecondInput):
             new_file_name = f"{os.path.basename(local_output_path).split('.')[0]}"
             new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
             s3_key = f"missingPeopleId={input.missingPeopleId}/searchHistoryId={input.secondSearchId}/step=second/{new_file_name}"
-            s3_url = upload_image_to_s3(local_output_path, s3_key)
+            s3_url = upload_image_to_s3(local_output_path, new_file_name, s3_key,input.secondSearchId)
             a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :(10000-output['score'])/10000 }
             # a = {"img_path" : s3_url, "cctvId" : new_file_name.split('_')[0], "similarity" :output['score']}
             result.append(a)
@@ -145,18 +135,18 @@ async def secondDetection(input:SecondInput):
         print(result)
     return DetectResult(searchId= input.secondSearchId, missingPeopleId= 1, data = result)
 
-async def runTextReID(input : TotalInput, yolo_save_path:str):
+async def runTextReID(searchId : int, query : str, yolo_save_path:str):
     root_path =  os.getcwd() + "/TextReID"
     print(root_path)
     ## 저장경로 지정
     home_path = os.path.expanduser("~")
-    result_dir = os.path.join(home_path, "Desktop", "result", str(input.searchId) ,"output.json")
-    # findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir)
-    findByText(root_path, search_num=input.searchId, query = input.query, data_dir = yolo_save_path, save_folder = result_dir,result_num=200)
+    result_dir = os.path.join(home_path, "Desktop", "result", str(searchId) ,"output.json")
+    # findByText(root_path, search_num=searchId, query = query, data_dir = yolo_save_path, save_folder = result_dir)
+    findByText(root_path, search_num=searchId, query = query, data_dir = yolo_save_path, save_folder = result_dir,result_num=200)
     return result_dir
 
 
-async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:str):
+async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:str, lastInt:int):
     try:
         with open(json_file_path, 'r') as file:
             data = json.load(file)
@@ -166,14 +156,18 @@ async def uploadS3(json_file_path:str, missingPeopleId:int, searchId:int, step:s
     # 이미지 파일을 S3에 업로드하고 URL 업데이트
     errors = []
     # 리스트의 첫 번째 요소는 무시하고 나머지에서 작업 수행
-    for item in data[1:16]:
+    for item in data[1:lastInt]:
         img_path = item['img_path']
+        imgSrc = f"/home/jongbin/Desktop/bluring/{searchId}"
         similarity = item['Similarity']
         new_file_name = f"{os.path.basename(img_path).split('.')[0]}_{similarity}{os.path.splitext(img_path)[-1]}"
         new_file_name = new_file_name.replace(' ', '-').replace(':', '').replace('/', '+')
+        doBlur(source =img_path,project = imgSrc, name = new_file_name)
         s3_key = f"missingPeopleId={missingPeopleId}/searchHistoryId={searchId}/step={step}/{new_file_name}"
         try:
-            with open(img_path, 'rb') as img_file:
+            full_path = os.path.join(imgSrc, new_file_name, os.path.basename(img_path))
+            print("Sdfasdfasd",full_path)
+            with open(full_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
                     Fileobj=img_file,
                     Bucket=bucket_name,
@@ -224,11 +218,15 @@ def parse_s3_url(s3_url):
     
     return s3_bucket, s3_key
 
-def upload_image_to_s3(local_path, s3_key):
+def upload_image_to_s3(local_path,new_file_name, s3_key,search_id):
     """
     로컬 경로의 이미지를 S3 버킷의 지정된 키에 업로드합니다.
     """
-    with open(local_path, 'rb') as img_file:
+    imgSrc = f"/home/jongbin/Desktop/bluring/{search_id}"
+    doBlur(source =local_path,project = imgSrc, name = new_file_name)
+    full_path = os.path.join(imgSrc,new_file_name, os.path.basename(local_path))
+    print(full_path)
+    with open(full_path, 'rb') as img_file:
                 s3_client.upload_fileobj(
                     Fileobj=img_file,
                     Bucket=bucket_name,
@@ -238,3 +236,80 @@ def upload_image_to_s3(local_path, s3_key):
             })
 
     return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+
+
+@app.post("/upload_images")
+async def upload_images(files: List[UploadFile] = File(...)):
+    saved_files = []
+    UPLOAD_FOLDER = "/home/jongbin/Desktop/uploads"
+    for file in files:
+        file_location = os.path.join(UPLOAD_FOLDER, file.filename)
+        with open(file_location, "wb") as file_object:
+            file_object.write(file.file.read())
+        saved_files.append(file_location)
+
+    return JSONResponse(content={"message": "Files successfully uploaded", "files": saved_files})
+
+@app.post('/run1')
+async def friyday(input:FridayInput):
+    new_file_path = f"/home/jongbin/Desktop/yolo/{input.searchId}"
+    if not os.path.exists(new_file_path):
+        os.makedirs(new_file_path)
+    await copy_image(new_file_path,input.startTime,input.endTime)
+    makeJsonData(new_file_path)
+    result_dir = await runTextReID(input.searchId,input.query, new_file_path) #text-re-id돌리고 결과 json파일 받아오기
+    result_json_dir = await uploadS3(result_dir,input.missingPeopleId, input.searchId, "FIRST",30) #json파일로 결과들 s3업로드하고 서버로 보낼 데이터 모음 json받아오기
+    with open(result_json_dir, 'r') as file:
+        result = json.load(file)
+    # 이미지 경로 리스트
+    for entry in result[1:30]:
+        if entry.get('Similarity', 0) <= 0.1:
+            entry['Similarity'] = 0.0
+    return DetectResult(searchId= input.searchId, missingPeopleId= input.missingPeopleId, data = result[1:30])
+
+
+
+
+def makeJsonData(save_path):
+    save_path = Path(save_path)
+    annotation_idx = 0
+    categories = []
+    annotations = []
+    for filename in os.listdir(save_path):
+        id = re.sub(r'\D', '', filename)
+        annotation = {
+            "image_id": annotation_idx,
+            "id": id,
+            "file_path": f"{save_path}/{filename}",
+            "sentence": "",
+            "onehot": []
+            }
+        categories.append(id)
+        annotations.append(annotation)
+        annotation_idx += 1
+
+    data = {"categories": categories, "annotations": annotations}
+    (save_path/'annotations').mkdir(parents=True, exist_ok=True)  # annotations folder 생성성
+    jsonfiledir = f"{save_path}/annotations/annotations.json" # TextReId모델에 맞게 구조 수정
+    with open(jsonfiledir, "w") as f:
+        json.dump(data, f)
+    print("Save Json file.")
+    return jsonfiledir
+
+async def copy_image(new_file_path,start_time,end_time):
+    source_dir ="/home/jongbin/Desktop/uploads"
+    start_time = datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S")
+    end_time = datetime.strptime(end_time, "%Y-%m-%dT%H:%M:%S")
+    for filename in os.listdir(source_dir):
+        if filename.endswith(".jpg") or filename.endswith(".png"):  # 필요한 경우 파일 확장자를 조정하세요
+            # 파일 이름에서 날짜와 시간을 추출
+            try:
+                date_str = filename.split('_')[1] + ' ' + filename.split('_')[2].split(" ")[0]
+                file_time = datetime.strptime(date_str, "%Y-%m-%d %H-%M-%S")
+                # 시간 범위 내에 있는지 확인
+                if start_time <= file_time <= end_time:
+                    source_file = os.path.join(source_dir, filename)
+                    target_file = os.path.join(new_file_path, filename)
+                    shutil.copy2(source_file, target_file)
+            except Exception as e:
+                print(e)

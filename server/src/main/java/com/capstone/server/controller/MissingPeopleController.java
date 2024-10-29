@@ -294,4 +294,11 @@ public class MissingPeopleController {
         }
         return ResponseEntity.ok().body(new SuccessResponse(searchResultService.getSearchResultByHistoryId(id, step)));
     }
+
+    @PostMapping("/{id}/status")
+    public ResponseEntity<?> endSearch(@PathVariable Long id
+    ) {
+        missingPeopleService.modifyStatus(id, Status.EXIT);
+        return ResponseEntity.ok().body(new SuccessResponse("success"));
+    }
 }

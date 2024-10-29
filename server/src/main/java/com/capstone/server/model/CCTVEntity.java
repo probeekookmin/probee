@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "cctv")
+@Entity(name = "dis_cctv")
 public class CCTVEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

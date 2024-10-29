@@ -12,10 +12,10 @@ pip install -r requirements_gpu.txt # using GPU
 결과 이미지는 (--project)/(--name)에 저장
 ```bash
 # using GPU
-!python detect.py \
---weights "/yolov7-face-blur/weights/yolov7-w6-face.pt" \
+python3 detect.py \
+--weights "/home/jongbin/Documents/GitHub/capstone-2024-14/capstone-2024-14/ai/face_blur/yolov7-face-blur/weights/yolov7-w6-face.pt" \
 --blurratio 50 --hidedetarea --device 0 --project "output" --name "" \
---source "/yolov7-face-blur/dataset" \
+--source "/home/jongbin/Desktop/firstResult/12_2024-05-11_15-43-12 112.jpg" \
 --watermark 0.5
 ```
 ```bash

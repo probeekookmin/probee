@@ -19,6 +19,7 @@ export const SeacrchBox = ({ title, form, name, getLocation, type }) => {
     if (name === "searchLocation") {
       setLocation("서울 성북구 정릉로 77");
       form.setFieldsValue({ [name]: "서울 성북구 정릉로 77" });
+      setMarkerPosition({ lat: 37.610767, lng: 126.996967 });
       getLocation(markerPosition);
     }
   }, []);

@@ -27,13 +27,15 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
         print("loading annotations into memory...")
         dataset = json.load(open(ann_file, "r"))
         self.dataset = dataset["annotations"]
+        
+        self.id_map = {data['id']: idx for idx, data in enumerate(self.dataset)}  # ID를 작은 숫자로 매핑
 
     def __getitem__(self, index):
         """
         Args:
-            index(int): Index
+              index(int): Index
         Returns:
-            tuple: (images, labels, captions)
+              tuple: (images, labels, captions)
         """
         data = self.dataset[index]
 
@@ -50,16 +52,13 @@ class CUHKPEDESDataset(torch.utils.data.Dataset):
 
         caption.add_field("img_path", img_path)
 
-        label = int(data["id"])
-
-        # Convert label to string representation and then to tensor of ASCII values
-        label_str = str(label)
-        label_tensor = torch.tensor([ord(char) for char in label_str])
+        label = self.id_map[data["id"]]  # 작은 숫자로 매핑된 ID 사용
+        label_tensor = torch.tensor(label, dtype=torch.int64)
         caption.add_field("id", label_tensor)
 
         if self.transforms is not None:
             img = self.transforms(img)
-        
+            
         query = data["sentence"]
 
         return img, caption, index, query

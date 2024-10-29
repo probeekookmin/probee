@@ -8,7 +8,7 @@ pip install -r requirements.txt
 실행 명령어
 
 ```bash
-python3 detect.py --weights crowdhuman_yolov5m.pt --source ./test --person
+python3 detect.py --weights crowdhuman_yolov5m.pt --source /home/jongbin/Desktop/cctv/12/2024-05-11 --person
 ```
 
 도커 빌드 커맨드

@@ -20,7 +20,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "search_history")
+@Entity(name = "dis_search_history")
 public class SearchHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
